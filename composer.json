@@ -2,7 +2,7 @@
     "name":"nafisc/synful",
     "description":"Create simplified custom API's in minutes",
     "license":"MIT",
-    "version":"0.1.21",
+    "version":"0.1.22",
     "authors": [
         {
             "name": "Nathan Fiscaletti",

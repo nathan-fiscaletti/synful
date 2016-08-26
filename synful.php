@@ -3,10 +3,10 @@
 	/**
 	 * Synful API Framework
 	 * @author  Nathan Fiscaletti <nathan.fiscaletti@gmail.com>
-	 * @version 0.1.21 [Alpha Release]
+	 * @version 0.1.22 [Alpha Release]
 	 * 
-	 * Required            : [ PHP 7+, MySQL Server ]
-	 * Optionally Required : [ PHP Sockets, PECL PThreads ]
+	 * Required            : [ PHP 7+, PHP-MySql Extension ]
+	 * Optionally Required : [ PHP Sockets, PECL PThreads, MySQL Server ]
 	 *
 	 * 	Synful API is a framework that allows you to create your own API's simply and quickly.
 	 * 	It supports running in two modes, 'standalone' and 'HTTP'.
