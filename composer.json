@@ -1,0 +1,16 @@
+{
+    "name":"synful",
+    "description":"Create simplified custom API's in minutes",
+    "license":"MIT",
+    "version":"0.1.21",
+    "authors": [
+        {
+            "name": "Nathan Fiscaletti",
+            "email": "nathan.fiscaletti@gmail.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    }
+}
