@@ -1,6 +1,9 @@
 <?php
 
-    include './system/data_management/models/apikey_permissions.class.php';
+    namespace Synful\DataManagement\Models;
+
+    use Synful\Synful;
+    use Synful\DataManagement\Models\APIKeyPermissions;
 
     class APIKey {
         public $id;

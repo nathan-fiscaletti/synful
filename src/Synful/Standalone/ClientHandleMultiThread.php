@@ -1,8 +1,12 @@
 <?php
 	
-	include './system/controller.class.php';
+	namespace Synful\Standalone;
 
-	class ClientHandle {
+	use Synful\Controller;
+	use Synful\IO\IOFunctions;
+	use Synful\IO\LogLevel;
+
+	class ClientHandleMultiThread extends Thread {
 
 		private $client_socket;
 		private $ip;
@@ -17,7 +21,7 @@
 		/**
 		 * Initializes the new handler for the request
 		 */
-		public function start(){
+		public function run(){
 				$input = socket_read($this->client_socket, 2024);
 
 				IOFunctions::out(LogLevel::INFO, 'Client REQ (' . $this->ip . ':' . $this->port . '): ' . $input);

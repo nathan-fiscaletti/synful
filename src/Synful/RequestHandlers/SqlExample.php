@@ -1,6 +1,10 @@
 <?php
 
-	include_once './system/request_handlers/request_handler.interface.php';
+	namespace Synful\RequestHandlers;
+
+	use Synful\RequestHandlers\Interfaces\RequestHandler;
+	use Synful\Response;
+	use Synful\Synful;
 
     class SqlExample implements RequestHandler {
 

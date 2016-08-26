@@ -1,6 +1,12 @@
 <?php
-	include './system/standalone/standalone.class.php';
-	include './system/data_management/sqlconnection.class.php';
+	
+	namespace Synful;
+
+	use Synful\IO\IOFunctions;
+	use Synful\IO\LogLevel;
+	use Synful\Standalone\Standalone;
+	use Synful\DataManagement\SqlConnection;
+	use Synful\Response;
 
 	class Synful {
 
@@ -73,17 +79,17 @@
 		 */
 		private function loadRequestHandlers(){
 			$enabled_request_handler = false;
-			foreach(scandir('./system/request_handlers') as $handler){
-				if($handler != '.' && $handler != '..' && $handler != 'request_handler.interface.php'){
+			foreach(scandir('./src/Synful/RequestHandlers') as $handler){
+				if(substr($handler, 0, 1) !== '.' && $handler != 'Interfaces'){
 					$enabled_request_handler = true;
-					include './system/request_handlers/' . $handler;
 					$class_name = explode('.', $handler)[0];
-					eval('Synful::$request_handlers[] = new ' . $class_name . '();');
+					eval('\\Synful\\Synful::$request_handlers[] = new \\Synful\\RequestHandlers\\' . $class_name . ';');
 					IOFunctions::out(LogLevel::NOTE, '    Loaded Request Handler: ' . $class_name);
 				}
 			}
 			if(!$enabled_request_handler){
-				IOFunctions::out(LogLevel::WARN, 'No request handlers found. Use \'php synful.php createhandler=handlername\' to create a new handler');
+				IOFunctions::out(LogLevel::WARN, 'No request handlers found. Use \'php synful.php createhandler=HandlerName\' to create a new handler.');
+				IOFunctions::out(LogLevel::WARN, 'Note: Request handlers are case sensitive. We recommend using TitleCase for request handler names.');
 			}
 		}
 

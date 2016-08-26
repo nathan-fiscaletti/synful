@@ -1,6 +1,9 @@
 <?php
 	
-	include './system/cli_parser/cli_handlers.class.php';
+	namespace Synful\CLIParser;
+	
+	use Synful\IO\IOFunctions;
+	use Synful\IO\LogLevel;
 
 	class CLIParser {
 
@@ -94,7 +97,7 @@
 			foreach($this->valid_arguments as $valid_argument){
 				$cli_data = explode('=', $argument);
 				if($valid_argument['name'] == $cli_data[0]){
-					call_user_func('CLIHandlers::' . $valid_argument['name'], (sizeof($cli_data) > 1) ? $cli_data[1] : null);
+					call_user_func('\Synful\CLIParser\CLIHandlers::' . $valid_argument['name'], (sizeof($cli_data) > 1) ? $cli_data[1] : null);
 					return;
 				}
 			}

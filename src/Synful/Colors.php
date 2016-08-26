@@ -1,4 +1,7 @@
 <?php
+	
+	namespace Synful;
+
 	class Colors {
 		private static $foreground_colors = array();
 	 	private static $background_colors = array();

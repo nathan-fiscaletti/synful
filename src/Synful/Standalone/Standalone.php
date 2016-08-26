@@ -1,11 +1,10 @@
 <?php
-	
-	if(Synful::$config['system']['multithread']){
-		include './system/standalone/clienthandle_multithread.class.php';
-	}else{
-		include './system/standalone/clienthandle.class.php';
-	}
 
+	namespace Synful\Standalone;
+
+	use Synful\Synful;
+	use Synful\IO\IOFunctions;
+	use Synful\IO\LogLevel;
 
 	class Standalone {
 
@@ -29,9 +28,9 @@
 				$client_port = 0;
 				socket_getpeername($client, $client_ip, $client_port);
 				if(Synful::$config['system']['multithread']){
-					(new ClientHandle_MultiThread($client, $client_ip, $client_port))->start();
+					(new \Synful\Standalone\ClientHandleMultiThread($client, $client_ip, $client_port))->start();
 				}else{
-					(new ClientHandle($client, $client_ip, $client_port))->start();
+					(new \Synful\Standalone\ClientHandle($client, $client_ip, $client_port))->start();
 				}
 			}
 		}

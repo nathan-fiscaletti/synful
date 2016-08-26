@@ -1,4 +1,9 @@
 <?php
+	
+	namespace Synful;
+
+	use JsonSerializable;
+
 	class Response implements JsonSerializable {
 
 		public $request;

@@ -1,6 +1,15 @@
 <?php
-	include './system/data_management/models/apikey.class.php';
-	include './system/response.class.php';
+
+	namespace Synful;
+
+	use Synful\DataManagement\Models\ApiKey;
+	use Synful\Response;
+	use Synful\IO\IOFUnctions;
+	use Synful\IO\LogLevel;
+	
+	use stdClass;
+	use Exception;
+
 
 	class Controller {
 
@@ -103,14 +112,13 @@
 				return $response;
 			}
 
-			if(!file_exists('./system/request_handlers/' . strtolower($data['handler']) . '.handler.php')){
+			if(!file_exists('./src/Synful/RequestHandlers/' . $data['handler'] . '.php')){
 				$response->code = 500;
-				$response->setResponse('error', 'Unknown Handler: ' . strtolower($data['handler']));
+				$response->setResponse('error', 'Unknown Handler: ' . $data['handler'] . '. Handlers are case sensitive.');
 				return $response;
 			}
 
-			include_once './system/request_handlers/' . strtolower($data['handler']) . '.handler.php';
-			eval('$handler = new ' . $data['handler'] . '();');
+			ieval('$handler = new \\Synful\\RequestHandlers\\' . $data['handler'] . '();');
 			$handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
 
 			return $response;

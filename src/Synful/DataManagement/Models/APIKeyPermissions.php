@@ -1,4 +1,9 @@
 <?php
+
+	namespace Synful\DataManagement\Models;
+
+	use Synful\Synful;
+
 	class APIKeyPermissions {
 		public $api_key_id = -1;
 		public $put_data = 0;
@@ -27,4 +32,5 @@
 			Synful::$sql->executeSql('INSERT INTO `api_perms` (`api_key_id`, `put_data`, `get_data`, `mod_data`) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `put_data` = ?, `get_data` = ?, `mod_data` = ?', false, ['iiiiiii', (int)$this->api_key_id, (int)$this->put_data, (int)$this->get_data, (int)$this->mod_data, (int)$this->put_data, (int)$this->get_data, (int)$this->mod_data]);
 		}
 	}
+	
 ?>

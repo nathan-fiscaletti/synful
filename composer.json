@@ -2,7 +2,7 @@
     "name":"nafisc/synful",
     "description":"Create simplified custom API's in minutes",
     "license":"MIT",
-    "version":"0.1.22",
+    "version":"0.2.1",
     "authors": [
         {
             "name": "Nathan Fiscaletti",
@@ -10,6 +10,11 @@
             "role": "Lead Developer"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Synful\\": "src/Synful"
+        }
+    },
     "require": {
         "php": ">=7.0"
     }

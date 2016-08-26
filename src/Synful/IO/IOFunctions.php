@@ -1,6 +1,12 @@
 <?php
 
-	include './system/colors.class.php';
+	namespace Synful\IO;
+
+	use Synful\Colors;
+	use Synful\IO\LogLevel;
+	use Synful\Synful;
+
+	use Exception;
 
 	class IOFunctions {
 
@@ -168,19 +174,6 @@
 			return $return_string;
 		}
 
-	}
-
-
-
-	/**
-	 * Class used to store log level constants
-	 */
-	class LogLevel {
-		const INFO = 0;
-		const WARN = 1;
-		const NOTE = 2;
-		const ERRO = 3;
-		const RESP = 4;
 	}
 
 	

@@ -8,6 +8,6 @@
 	 */
 
 	chdir('../');
-	include './synful.php';\
+	include './synful.php';
 
 ?>

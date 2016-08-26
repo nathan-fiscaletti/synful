@@ -1,4 +1,10 @@
 <?php
+
+	namespace Synful\CLIParser;
+
+	use Synful\Synful;
+	use Synful\IO\IOFunctions;
+	use Synful\IO\LogLevel;
 	
 	/**
 	 * Store handlers for CLI Parameters in this file
@@ -19,10 +25,11 @@
 				IOFunctions::out(LogLevel::ERRO, 'Error: Request Handler names must only contain alphabetic characters and no spaces. Title case recommended -> (ThisIsTitleCase).', true);
 				exit(0);
 			}else{
-				if(!file_exists('./system/request_handlers/' . strtolower($value) . '.handler.php')){
-					file_put_contents('./system/request_handlers/' . strtolower($value) . '.handler.php', "<?php\r\n\r\n	include_once './system/request_handlers/request_handler.interface.php';\r\n\r\n	class " . $value . " implements RequestHandler {\r\n\r\n		/**\r\n		 * Function for handling request and returning data as a Response object\r\n		 * @param  Response " . '$data' . "              The data received by reference\r\n		 * @param  boolean  " . '$is_master_request' . " True if the key being used to access the request is a master key\r\n		 */\r\n		public function handleRequest(Response &" . '$data' . ", " . '$is_master_request' . " = false){\r\n			" . '$request_data =& $data->request;' . "\r\n\r\n			// Insert your code here\r\n\r\n		}\r\n\r\n	}\r\n\r\n?>\r\n");
-						IOFunctions::out(LogLevel::INFO, 'Created Request Handler in \'system/request_handlers\' with name \'' . $value . '\'.', true);
-						chmod('./system/request_handlers/' . strtolower($value) . '.handler.php', 0700);
+				if(!file_exists('./src/Synful/RequestHandlers/' . $value . '.php')){
+					file_put_contents('./src/Synful/RequestHandlers/' . $value . '.php', "<?php\r\n\r\n    namespace Synful\RequestHandlers;\r\n\r\n    use Synful\Synful;\r\n    use Synful\RequestHandlers\Interfaces\RequestHandler;\r\n    use Synful\Response;\r\n\r\n    class " . $value . " implements RequestHandler {\r\n\r\n		/**\r\n		 * Function for handling request and returning data as a Response object\r\n		 * @param  Response " . '$data' . "              The data received by reference\r\n		 * @param  boolean  " . '$is_master_request' . " True if the key being used to access the request is a master key\r\n		 */\r\n		public function handleRequest(Response &" . '$data' . ", " . '$is_master_request' . " = false){\r\n			" . '$request_data =& $data->request;' . "\r\n\r\n			// Insert your code here\r\n\r\n		}\r\n\r\n	}\r\n\r\n?>\r\n");
+						IOFunctions::out(LogLevel::INFO, 'Created Request Handler in \'src/Synful/RequestHandlers\' with name \'' . $value . '\'.', true);
+						chmod('./src/Synful/RequestHandlers/' . $value . '.php', 0700);
+						exec('php composer.phar dumpautoload');
 						exit(0);
 				}else{
 					IOFunctions::out(LogLevel::ERRO, 'Error: A request handler by that name already exists.', true);

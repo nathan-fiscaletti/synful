@@ -6,9 +6,25 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit994c841d1c4d773d66d5f348ea5c204b
 {
+    public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Synful\\' => 7,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'Synful\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Synful',
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit994c841d1c4d773d66d5f348ea5c204b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit994c841d1c4d773d66d5f348ea5c204b::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

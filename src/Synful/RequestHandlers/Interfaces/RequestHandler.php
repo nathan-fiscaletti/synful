@@ -1,5 +1,9 @@
 <?php
 
+	namespace Synful\RequestHandlers\Interfaces;
+
+	use Synful\Response;
+
 	interface RequestHandler {
 
 		/**

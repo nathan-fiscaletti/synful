@@ -3,7 +3,7 @@
 	/**
 	 * Synful API Framework
 	 * @author  Nathan Fiscaletti <nathan.fiscaletti@gmail.com>
-	 * @version 0.1.22 [Alpha Release]
+	 * @version 0.2.1 [Alpha Release]
 	 * 
 	 * Required            : [ PHP 7+, PHP-MySql Extension ]
 	 * Optionally Required : [ PHP Sockets, PECL PThreads, MySQL Server ]
@@ -36,9 +36,13 @@
 	 */
 	
 	// Include initial dependencies 
-	include './system/synful.class.php';
-	include './system/io_functions.class.php';
-	include './system/cli_parser/cli_parser.class.php';
+
+	include './vendor/autoload.php';
+
+	use Synful\Synful;
+	use Synful\IO\IOFunctions;
+	use Synful\CLIParser\CLIParser;
+	use Synful\Colors;
 
 	// Load console color codes
 	Colors::loadColors();
@@ -49,8 +53,8 @@
 	error_reporting(E_ALL);
 
 	// Set error handler and shutdown hook
-	set_error_handler('IOFunctions::catch_error');
-	register_shutdown_function('IOFunctions::on_shut_down');
+	set_error_handler('\Synful\IO\IOFunctions::catch_error');
+	register_shutdown_function('\Synful\IO\IOFunctions::on_shut_down');
 
 	// Load the configuration into system
 	if(!IOFunctions::loadConfig()) exit(2);

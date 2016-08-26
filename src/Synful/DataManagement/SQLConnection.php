@@ -1,4 +1,8 @@
 <?php
+	namespace Synful\DataManagement;
+
+	use MySqli;
+
 	class SqlConnection {
 		private $prepared_statements = array();
 		private $sql = null;
