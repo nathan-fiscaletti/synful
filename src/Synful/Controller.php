@@ -118,6 +118,7 @@
 			}
 
 			$handler = Synful::$request_handlers[$data['handler']];
+			$response->requesting_ip = $ip;
 			$handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
 
 			return $response;

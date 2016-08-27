@@ -9,6 +9,7 @@
 		public $request;
 		public $code;
 		public $response;
+		public $requesting_ip;
 
 		/**
 		 * Create the Response object using the supplied request data
