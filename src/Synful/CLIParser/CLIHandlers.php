@@ -30,6 +30,7 @@
 					file_put_contents('./src/Synful/RequestHandlers/' . $value . '.php', "<?php\r\n\r\n    namespace Synful\RequestHandlers;\r\n\r\n    use Synful\Synful;\r\n    use Synful\RequestHandlers\Abstraction\RequestHandler;\r\n    use Synful\Response;\r\n\r\n    class " . $value . " extends RequestHandler {\r\n\r\n		/**\r\n		 * Function for handling request and returning data as a Response object\r\n		 * @param  Response " . '$data' . "              The data received by reference\r\n		 * @param  boolean  " . '$is_master_request' . " True if the key being used to access the request is a master key\r\n		 */\r\n		public function handleRequest(Response &" . '$data' . ", " . '$is_master_request' . " = false){\r\n			" . '$request_data =& $data->request;' . "\r\n\r\n			// Insert your code here\r\n\r\n		}\r\n\r\n	}\r\n\r\n?>\r\n");
 						IOFunctions::out(LogLevel::INFO, 'Created Request Handler in \'src/Synful/RequestHandlers\' with name \'' . $value . '\'.', true);
 						chmod('./src/Synful/RequestHandlers/' . $value . '.php', 0700);
+						exec('chmod +x ./src/Synful/RequestHandlers/' . $value . '.php');
 						exec('php composer.phar dumpautoload');
 						exit(0);
 				}else{
