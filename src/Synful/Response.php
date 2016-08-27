@@ -15,8 +15,9 @@
 		 * Create the Response object using the supplied request data
 		 * @param String $request_data The request data
 		 */
-		public function __construct($request_data = null){
+		public function __construct($request_data = null, $requesting_ip = null){
 			$this->request = $request_data;
+			$this->requesting_ip = $requesting_ip;
 		}
 
 		/**

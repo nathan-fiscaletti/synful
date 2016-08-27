@@ -43,7 +43,7 @@
 		public function handleRequest($request, $ip){
 
 			$data = (array)json_decode($request);
-			$response = new Response();
+			$response = new Response(null, $ip);
 
 			if(empty($data['request'])){
 				$response->code = 400;
@@ -75,7 +75,21 @@
 
 			$api_key = null;
 
-			if(!Synful::$config['security']['is_api_public']){
+			if(empty($data['handler'])){
+				$response->code = 500;
+				$response->setResponse('error', 'No handler defined.');
+				return $response;
+			}
+
+			if(!file_exists('./src/Synful/RequestHandlers/' . $data['handler'] . '.php')){
+				$response->code = 500;
+				$response->setResponse('error', 'Unknown Handler: ' . $data['handler'] . '. Handlers are case sensitive.');
+				return $response;
+			}
+
+			$handler = Synful::$request_handlers[$data['handler']];
+
+			if(!Synful::$config['security']['allow_public_requests'] || !$handler->is_public){
 				if(empty($data['key'])){
 					$response->code = 400;
 					$response->setResponse('error', 'Bad Request: No key defined');
@@ -105,20 +119,6 @@
 				}
 			}
 
-			if(empty($data['handler'])){
-				$response->code = 500;
-				$response->setResponse('error', 'No handler defined.');
-				return $response;
-			}
-
-			if(!file_exists('./src/Synful/RequestHandlers/' . $data['handler'] . '.php')){
-				$response->code = 500;
-				$response->setResponse('error', 'Unknown Handler: ' . $data['handler'] . '. Handlers are case sensitive.');
-				return $response;
-			}
-
-			$handler = Synful::$request_handlers[$data['handler']];
-			$response->requesting_ip = $ip;
 			$handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
 
 			return $response;

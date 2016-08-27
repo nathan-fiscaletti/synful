@@ -80,11 +80,12 @@
 		private function loadRequestHandlers(){
 			$enabled_request_handler = false;
 			foreach(scandir('./src/Synful/RequestHandlers') as $handler){
-				if(substr($handler, 0, 1) !== '.' && $handler != 'Interfaces'){
+				if(substr($handler, 0, 1) !== '.' && $handler != 'Abstraction'){
 					$enabled_request_handler = true;
 					$class_name = explode('.', $handler)[0];
 					eval('\\Synful\\Synful::$request_handlers[\'' . $class_name . '\'] = new \\Synful\\RequestHandlers\\' . $class_name . '();');
-					IOFunctions::out(LogLevel::NOTE, '    Loaded Request Handler: ' . explode('.', $handler)[0]);
+					$is_public = (Synful::$request_handlers[$class_name])->is_public;
+					IOFunctions::out(LogLevel::NOTE, '    Loaded Request Handler: ' . $class_name . (($is_public) ? Colors::cs(' (Public)', 'light_green') : ''));
 				}
 			}
 			if(!$enabled_request_handler){

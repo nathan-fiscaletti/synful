@@ -2,11 +2,11 @@
 
 	namespace Synful\RequestHandlers;
 
-	use Synful\RequestHandlers\Interfaces\RequestHandler;
+	use Synful\RequestHandlers\Abstraction\RequestHandler;
 	use Synful\Response;
 	use Synful\Synful;
 
-    class SqlExample implements RequestHandler {
+    class SqlExample extends RequestHandler {
 
         public function handleRequest(Response &$data, $is_master_request = false){
 
