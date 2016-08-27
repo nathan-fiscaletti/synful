@@ -87,7 +87,7 @@
 				return $response;
 			}
 
-			$handler = Synful::$request_handlers[$data['handler']];
+			$handler =& Synful::$request_handlers[$data['handler']];
 
 			if(!Synful::$config['security']['allow_public_requests'] || !$handler->is_public){
 				if(empty($data['key'])){

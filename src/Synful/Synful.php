@@ -84,7 +84,7 @@
 					$enabled_request_handler = true;
 					$class_name = explode('.', $handler)[0];
 					eval('\\Synful\\Synful::$request_handlers[\'' . $class_name . '\'] = new \\Synful\\RequestHandlers\\' . $class_name . '();');
-					$is_public = (Synful::$request_handlers[$class_name])->is_public;
+					$is_public = (Synful::$config['security']['allow_public_requests']) ? (Synful::$request_handlers[$class_name])->is_public : false;
 					IOFunctions::out(LogLevel::NOTE, '    Loaded Request Handler: ' . $class_name . (($is_public) ? Colors::cs(' (Public)', 'light_green') : ''));
 				}
 			}
