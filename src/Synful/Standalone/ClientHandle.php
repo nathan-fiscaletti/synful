@@ -2,6 +2,7 @@
 	
 	namespace Synful\Standalone;
 
+	use Synful\Synful;
 	use Synful\Controller;
 	use Synful\IO\IOFunctions;
 	use Synful\IO\LogLevel;

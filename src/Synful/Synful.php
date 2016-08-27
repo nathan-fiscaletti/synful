@@ -83,8 +83,8 @@
 				if(substr($handler, 0, 1) !== '.' && $handler != 'Interfaces'){
 					$enabled_request_handler = true;
 					$class_name = explode('.', $handler)[0];
-					eval('\\Synful\\Synful::$request_handlers[] = new \\Synful\\RequestHandlers\\' . $class_name . ';');
-					IOFunctions::out(LogLevel::NOTE, '    Loaded Request Handler: ' . $class_name);
+					eval('\\Synful\\Synful::$request_handlers[\'' . $class_name . '\'] = new \\Synful\\RequestHandlers\\' . $class_name . '();');
+					IOFunctions::out(LogLevel::NOTE, '    Loaded Request Handler: ' . explode('.', $handler)[0]);
 				}
 			}
 			if(!$enabled_request_handler){

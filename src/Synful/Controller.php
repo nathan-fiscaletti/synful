@@ -16,7 +16,7 @@
 		/**
 		 * Generates a master API Key if one does not already exist
 		 * 
-		 * @return APIKey The generated APIKey instance
+		 * @return APIKey The generated APIKey
 		 */
 		public function generateMasterKey(){
 			if(!APIKey::isMasterSet()){
@@ -25,11 +25,10 @@
 				if($apik == NULL){
 					IOFunctions::out(LogLevel::WARN, 'Failed to get master key.');
 				}
-				$new_key = $apik->key;
-				IOFunctions::out(LogLevel::INFO, 'New master key generated: ' . $new_key);
-				return $new_key;
+				IOFunctions::out(LogLevel::INFO, 'New master key generated: ' . $apik->key);
+				return $apik;
 			}else{
-				return APIKey::getMasterKey()->key;
+				return APIKey::getMasterKey();
 			}
 		}
 
@@ -118,7 +117,7 @@
 				return $response;
 			}
 
-			ieval('$handler = new \\Synful\\RequestHandlers\\' . $data['handler'] . '();');
+			$handler = Synful::$request_handlers[$data['handler']];
 			$handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
 
 			return $response;
