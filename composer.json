@@ -4,6 +4,7 @@
     "homepage":"https://nathan-fiscaletti.github.io/synful/",
     "keywords":["api", "synful"],
     "license":"MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Nathan Fiscaletti",
