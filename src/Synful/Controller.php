@@ -89,7 +89,7 @@
 
 			$handler =& Synful::$request_handlers[$data['handler']];
 
-			if(!Synful::$config['security']['allow_public_requests'] || !$handler->is_public){
+			if(!Synful::$config['security']['allow_public_requests'] || !(property_exists(get_class($handler), 'is_public') && $handler->is_public)){
 				if(empty($data['key'])){
 					$response->code = 400;
 					$response->setResponse('error', 'Bad Request: No key defined');

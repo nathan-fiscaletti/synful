@@ -34,37 +34,11 @@
 	 *
 	 * Request Examples: https://gist.github.com/nathan-fiscaletti/16339c4c1e2f4e8183f3237f2d42d901
 	 */
-	
-	// Include initial dependencies 
 
 	include './vendor/autoload.php';
 
 	use Synful\Synful;
-	use Synful\IO\IOFunctions;
-	use Synful\CLIParser\CLIParser;
-	use Synful\Colors;
 
-	// Load console color codes
-	Colors::loadColors();
-
-	// Enabele error reporting
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-
-	// Set error handler and shutdown hook
-	set_error_handler('\Synful\IO\IOFunctions::catch_error');
-	register_shutdown_function('\Synful\IO\IOFunctions::on_shut_down');
-
-	// Load the configuration into system
-	if(!IOFunctions::loadConfig()) exit(2);
+	Synful::buildNewInstance()->instantiate();
 	
-	// Parse command line
-	(new CLIParser())->parseCLI();
-
-	// Run Pre Start up functions
-	Synful::preStartUp();
-
-	// Initialize Synful API
-	(new Synful())->initialize();
 ?>

@@ -3,10 +3,10 @@
     namespace Synful\RequestHandlers;
 
     use Synful\Synful;
-    use Synful\RequestHandlers\Abstraction\RequestHandler;
+    use Synful\RequestHandlers\Interfaces\RequestHandler;
     use Synful\Response;
 
-    class GetIPExample extends RequestHandler {
+    class GetIPExample implements RequestHandler {
 
 
     	/**
