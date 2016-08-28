@@ -6,8 +6,6 @@
 
 Simplified custom API's in minutes. 
 
-Welcome to the synful wiki!
-
 ### What is Synful?
 Synful is a simple PHP framework that will allow you to create a customized API for any project you want. It allows for access to multiple databases at once, customized request handlers, and much more!
 
