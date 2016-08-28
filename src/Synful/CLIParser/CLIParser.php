@@ -44,7 +44,7 @@
 			'createhandler' => [
 				'name' => 'createhandler',
 				'usage' => 'createhandler=name',
-				'description' => 'Creates a request handler with the specified name in system/request_handlers'
+				'description' => 'Creates a request handler with the specified name in src/Synful/RequestHandlers'
 			]
 
 		];
