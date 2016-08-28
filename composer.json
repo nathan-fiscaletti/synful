@@ -1,7 +1,7 @@
 {
     "name":"nafisc/synful",
     "description":"Create simplified custom API's in minutes",
-    "homepage":"https://nathan-fiscaletti.github.io/synful/",
+    "homepage":"http://synful-api.net/",
     "keywords":["api", "synful"],
     "license":"MIT",
     "minimum-stability": "dev",
