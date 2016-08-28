@@ -3,7 +3,7 @@
 	/**
 	 * Synful API Framework
 	 * @author  Nathan Fiscaletti <nathan.fiscaletti@gmail.com>
-	 * @version 0.2.4 [Alpha Release]
+	 * @version 1.0.0
 	 * 
 	 * Required            : [ PHP 7+, PHP-MySql Extension ]
 	 * Optionally Required : [ PHP Sockets, PECL PThreads, MySQL Server ]
