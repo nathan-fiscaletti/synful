@@ -18,7 +18,11 @@
 			$sock = socket_create(AF_INET, SOCK_STREAM, 0);
 			$bind = socket_bind($sock, Synful::$config['system']['ip'], Synful::$config['system']['port']);
 
-			IOFunctions::out(LogLevel::INFO, 'Listening on ' . Synful::$config['system']['ip'] . ':' . Synful::$config['system']['port']);
+			if($bind){
+				IOFunctions::out(LogLevel::INFO, 'Listening on ' . Synful::$config['system']['ip'] . ':' . Synful::$config['system']['port']);
+			}else{
+				exit(1);
+			}
 			
 			socket_listen($sock);
 

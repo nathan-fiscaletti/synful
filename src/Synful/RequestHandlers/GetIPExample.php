@@ -8,7 +8,6 @@
 
     class GetIPExample implements RequestHandler {
 
-
     	/**
     	 * Construct the request handler as a public request handler (won't require an API key)
     	 * If you disable 'allow_public_requests' in 'config.ini', this will not matter and an API key will always be required.
