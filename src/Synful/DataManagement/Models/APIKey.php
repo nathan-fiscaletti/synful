@@ -4,6 +4,8 @@
 
     use Synful\Synful;
     use Synful\DataManagement\Models\APIKeyPermissions;
+    use Synful\IO\IOFunctions;
+    use Synful\IO\LogLevel;
 
     class APIKey {
         public $id;
@@ -113,31 +115,45 @@
         }
 
         /**
-         * Adds a new APIKey to the database
-         * @param  String $name            The name of the person to associate the APIKey with
-         * @param  String $email           The email address to associate with the APIKey
-         * @param  Int    $whitelist_only  1 to only allow IP's that have been whitelisted with the APIKey to access it
-         * @param  Int    $is_master       1 if the key is to be a master key
-         * @return APIKey                  The APIKey object generated
+         * Try to authenticate with a private key
+         * @param  String  $private_key The private key to try to use for authentication
+         * @return Boolean              True if the private key has been authenticated
          */
-        public static function addNew($name, $email, $whitelist_only, $is_master = 0){
+        public function authenticate($private_key){
+            return password_verify($private_key, $this->key);
+        }
+
+        /**
+         * Adds a new APIKey to the database
+         * @param  String  $name            The name of the person to associate the APIKey with
+         * @param  String  $email           The email address to associate with the APIKey
+         * @param  Int     $whitelist_only  1 to only allow IP's that have been whitelisted with the APIKey to access it
+         * @param  Int     $is_master       1 if the key is to be a master key
+         * @param  Boolean $print_key       If set to true, the new generated private key will be printed to console
+         * @return APIKey                   The APIKey object generated
+         */
+        public static function addNew($name, $email, $whitelist_only, $is_master = 0, $print_key = false){
 
             if(APIKey::keyExists($email)) return NULL;
 
             $new_key = APIKey::generateNew();
             Synful::$sql->executeSql('INSERT INTO `api_keys` (`api_key`, `name`, `email`, `whitelist_only`, `is_master`) VALUES (?, ?, ?, ?, ?)', false, 
-            ['sssss', $new_key, $name, $email, $whitelist_only, $is_master]);
-            return APIKey::getKey($new_key);
+            ['sssss', $new_key['hash'], $name, $email, $whitelist_only, $is_master]);
+
+            if($print_key) 
+                IOFunctions::out(LogLevel::INFO, 'New Private ' . (($is_master) ? 'Master' : '') . ' API Key: ' . $new_key['key'], true, false, false);
+
+            return APIKey::getKey($email);
 
         }
 
         /**
          * Retreieves a key associated with the ID passed
-         * @param  string|int $id The database id of the key, the API Key for the key or the email of the key
+         * @param  string|int $id The database id of the key or the email of the key
          * @return APIKey          An APIKey object
          */
         public static function getKey($id){
-            $keys = Synful::$sql->executeSql('SELECT `id` FROM `api_keys` WHERE `id` = ? OR `api_key` = ? OR `email` = ?', true, ['sss', $id, $id, $id]);
+            $keys = Synful::$sql->executeSql('SELECT `id` FROM `api_keys` WHERE `id` = ? OR `email` = ?', true, ['ss', $id, $id]);
             if(mysqli_num_rows($keys) > 0){
                 return new APIKey(mysqli_fetch_assoc($keys)['id']);
             }else{
@@ -175,17 +191,15 @@
             return (APIKey::getMasterKey() != NULL);
         }
 
+
         /**
          * Generates a new random hex string to use as API Key
-         * @return string the new API key
+         * @return Array An array of three objects -> key, hash, and salt
          */
         public static function generateNew(){
-            $ret = bin2hex(openssl_random_pseudo_bytes(32));;
-
-            while(APIKey::keyExists($ret))
-                $ret = bin2hex(openssl_random_pseudo_bytes(32));;
-
-            return $ret;
+            $key = bin2hex(openssl_random_pseudo_bytes(32));
+            $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 11]);
+            return ['key' => $key, 'hash' => $hash];
         }
     }
 

@@ -21,11 +21,10 @@
 		public function generateMasterKey(){
 			if(!APIKey::isMasterSet()){
 				IOFunctions::out(LogLevel::INFO, 'No master key found. Generating new master key.');
-				$apik = (APIKey::addNew(Synful::$config['security']['name'], Synful::$config['security']['email'], 0, 1));
+				$apik = APIKey::addNew(Synful::$config['security']['name'], Synful::$config['security']['email'], 0, 1, true);
 				if($apik == NULL){
 					IOFunctions::out(LogLevel::WARN, 'Failed to get master key.');
 				}
-				IOFunctions::out(LogLevel::INFO, 'New master key generated: ' . $apik->key);
 				return $apik;
 			}else{
 				return APIKey::getMasterKey();
@@ -90,19 +89,31 @@
 			$handler =& Synful::$request_handlers[$data['handler']];
 
 			if(!Synful::$config['security']['allow_public_requests'] || !(property_exists($handler, 'is_public') && $handler->is_public)){
+				if(empty($data['user'])){
+					$response->code = 400;
+					$response->setResponse('error', 'Bad Request: No user defined');
+					return $response;
+				}
+
 				if(empty($data['key'])){
 					$response->code = 400;
 					$response->setResponse('error', 'Bad Request: No key defined');
 					return $response;
 				}
 
-				if(!APIKey::keyExists($data['key'])){
+				if(!APIKey::keyExists($data['user'])){
 					$response->code = 400;
-					$response->setResponse('error', 'Bad Request: Invalid key');
+					$response->setResponse('error', 'Bad Request: Invalid user or key');
 					return $response;
 				}
 
-				$api_key = APIKey::getkey($data['key']);
+				$api_key = APIKey::getkey($data['user']);
+
+				if(!$api_key->authenticate($data['key'])){
+					$response->code = 400;
+					$response->setResponse('error', 'Bad Request: Invalid user or key');
+					return $response;
+				}
 
 				if($api_key->whitelist_only){
 					if(!$api_key->isFirewallWhiteListed($ip)){

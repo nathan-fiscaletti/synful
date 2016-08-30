@@ -36,8 +36,6 @@
 
 	include './vendor/autoload.php';
 
-	use Synful\Synful;
-
-	Synful::buildNewInstance()->instantiate();
+	\Synful\Synful::initialize();
 	
 ?>

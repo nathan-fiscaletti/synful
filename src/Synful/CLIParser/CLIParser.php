@@ -45,6 +45,12 @@
 				'name' => 'createhandler',
 				'usage' => 'createhandler=name',
 				'description' => 'Creates a request handler with the specified name in src/Synful/RequestHandlers'
+			],
+
+			'createkey' => [
+				'name' => 'createkey',
+				'usage' => 'createkey=<email>,<First_Last>',
+				'description' => 'Creates a new API key with the specified information.'
 			]
 
 		];

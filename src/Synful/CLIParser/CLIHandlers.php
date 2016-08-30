@@ -5,6 +5,7 @@
 	use Synful\Synful;
 	use Synful\IO\IOFunctions;
 	use Synful\IO\LogLevel;
+	use Synful\DataManagement\Models\APIKey;
 	
 	/**
 	 * Store handlers for CLI Parameters in this file
@@ -12,6 +13,42 @@
 	 */
 
 	class CLIHandlers {
+
+		/**
+		 * Handle createkey CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function createkey($value){
+
+			$new_key_data = explode(',', $value);
+			if(sizeof($new_key_data) < 3){
+				IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
+				IOFunctions::out(LogLevel::ERRO, 'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_integer>\'', true, false, false);
+				IOFunctions::out(LogLevel::ERRO, 'Example: php synful.php createkey=jon@acme.com,John_Doe,0', true, false, false);
+				exit(2);
+			}else{
+				$email = $new_key_data[0];
+				$name = str_replace('_', ' ', $new_key_data[1]);
+				$whitelist_only = intval($new_key_data[2]);
+
+				if(APIKey::keyExists($email)){
+					IOFunctions::out(LogLevel::ERRO, 'A key with that email is already defined.', true, false, false);
+					exit(2);
+				}
+
+				IOFunctions::out(LogLevel::INFO, 'Creating new key with data: ', true, false, false);
+				IOFunctions::out(LogLevel::INFO, '    Name: ' . $name, true, false, false);
+				IOFunctions::out(LogLevel::INFO, '    Email: ' . $email, true, false, false);
+
+				IOFunctions::out(LogLevel::INFO, '------------------------------------------------', true, false, false);
+
+				if(APIKey::addNew($name, $email, $whitelist_only, 0, true) == NULL){
+					IOFunctions::out(LogLevel::ERRO, 'There was an error while creating your new API Key.', true, false, false);
+				}
+
+				exit(2);
+			}
+		}
 
 		/**
 		 * Handle createhandler CLI Parameter
