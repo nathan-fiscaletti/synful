@@ -149,11 +149,17 @@
 					if(!empty($data['key'])){
 						if(APIKey::keyExists($data['user'])){
 							$api_key = APIKey::getkey($data['user']);
-							if($api_key->authenticate($data['key'])){
-								return $this->validateFireWall($api_key, $response, $ip);
+							if($api_key->enabled){
+								if($api_key->authenticate($data['key'])){
+									return $this->validateFireWall($api_key, $response, $ip);
+								}else{
+									$response->code = 400;
+									$response->setResponse('error', 'Bad Request: Invalid user or key');
+									$return = false;
+								}
 							}else{
 								$response->code = 400;
-								$response->setResponse('error', 'Bad Request: Invalid user or key');
+								$response->setResponse('error', 'Bad Request: Key has been disabled');
 								$return = false;
 							}
 						}else{
