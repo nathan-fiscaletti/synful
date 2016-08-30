@@ -94,7 +94,7 @@
 			 'firewallip' => [
 			 	'name' => 'firewallip',
 			 	'usage' => 'firewallip=<email/id>,<ip>,<block>',
-			 	'descriptiong' => 'Firewalls an IP Address on the specified key with the specified block value'
+			 	'description' => 'Firewalls an IP Address on the specified key with the specified block value'
 			 ],
 
 			 'unfirewallip' => [
@@ -139,7 +139,7 @@
 		/**
 		 * Retrievs a detailed string containing the CLI usage for the script
 		 */
-		private function getUsage(){
+		public function getUsage(){
 
 			$usage = "\r\n" . '    Usage: php ' . $this->script_name . " [arg1, arg2, ...]\r\n\r\n    Arguments:\r\n";
 			

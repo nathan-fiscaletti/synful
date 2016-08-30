@@ -27,16 +27,6 @@
 		public function __destruct(){
 			$this->closeSQL();
 		}
-
-		/**
-		 * Test the connection to the server
-		 * @return boolean true if connection successul, otherwise false
-		 */
-		public function testConnection(){
-			$ret = $this->openSQL();
-			$this->closeSQL();
-			return $ret;
-		}
 		
 		/**
 		 * Escapes a string for sql injection

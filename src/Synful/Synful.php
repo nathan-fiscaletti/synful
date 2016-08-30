@@ -40,8 +40,14 @@
 
 			Synful::initializeSql();
 			
-			// Parse command line
-			(new CLIParser())->parseCLI();
+			// Parse CLI
+			$cli_parser = new CLIParser();
+			$cli_parser->parseCLI();
+
+			global $argv; if(Synful::isCommandLineInterface() && sizeof($argv) < 1){
+				IOFunctions::out(LogLevel::INFO, $cli_parser->getUsage(), true, false, false);
+				exit(3);
+			}
 
 			// Run Pre Start up functions
 			Synful::preStartUp();
@@ -93,10 +99,8 @@
 					exit(1);
 				}else{
 					$new_sql_connection = new SqlConnection($database[0], $database[1], $database[2], $database[3], $database[4]);
-					if($new_sql_connection->testConnection()){
+					if($new_sql_connection->openSQL()){
 						Synful::$sql_databases[$database[3]] = $new_sql_connection;
-						Synful::$sql_databases[$database[3]]->openSQL();
-						IOFunctions::out(LogLevel::NOTE, '    Connected to database: ' . $database[3]);
 					}else{
 						IOFunctions::out(LogLevel::ERRO, 'Failed on one or more database connections. Please check config.ini.', true);
 						exit(1);
@@ -165,6 +169,14 @@
 		    else $ipaddress = 'UNKNOWN';
 
 		    return $ipaddress;
+		}
+
+		/**
+		 * Check if this is a CLI instance
+		 * @return boolean
+		 */
+		public static function isCommandLineInterface(){
+		    return (php_sapi_name() === 'cli');
 		}
 
 		/**
