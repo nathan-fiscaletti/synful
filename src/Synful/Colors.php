@@ -7,6 +7,7 @@
 	 	private static $background_colors = array();
 	 
 	 	public static function loadColors(){
+	 		Colors::$foreground_colors['reset'] = '0';
 	 		Colors::$foreground_colors['black'] = '0;30';
 		 	Colors::$foreground_colors['dark_gray'] = '1;30';	
 		 	Colors::$foreground_colors['blue'] = '0;34';	
@@ -34,7 +35,7 @@
 	 	}
 	 
 	 	// Returns colored string
-	 	public static function cs($string, $foreground_color = null, $background_color = null) {
+	 	public static function cs($string, $foreground_color = null, $background_color = null, $reset = 'white') {
 	 		if(Synful::$config['system']['color']){
 		 		$colored_string = "";
 		 
@@ -49,7 +50,7 @@
 		 		}
 		 
 		 		// Add string and end coloring
-		 		$colored_string .=  $string . "\033[0m";
+		 		$colored_string .=  $string . "\033[" . Colors::$foreground_colors[$reset] . 'm';	
 	 		}else{
 	 			$colored_string = $string;
 	 		}

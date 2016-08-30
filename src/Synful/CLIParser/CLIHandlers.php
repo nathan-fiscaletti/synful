@@ -6,6 +6,7 @@
 	use Synful\IO\IOFunctions;
 	use Synful\IO\LogLevel;
 	use Synful\DataManagement\Models\APIKey;
+	use Synful\Colors;
 	
 	/**
 	 * Store handlers for CLI Parameters in this file
@@ -13,6 +14,156 @@
 	 */
 
 	class CLIHandlers {
+
+
+		/**
+		 * Handle showfirewall CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function showfirewall($value){
+			if(APIKey::keyExists($value)){
+				$key = APIKey::getKey($value);
+
+				foreach($key->ip_firewall as $firewall_entry){
+					IOFunctions::out(LogLevel::INFO, 'IP: ' . Colors::cs($firewall_entry['ip'], 'yellow') . ' is ' . (($firewall_entry['block']) ? Colors::cs('blocked', 'light_red') : Colors::cs('allowed','light_green')) . ' for key ' . Colors::cs($value, 'light_cyan'), true, false, false);
+				}
+
+				exit(0);
+				
+			}else{
+				IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+				exit(2);
+			}
+		}
+
+		/**
+		 * Handle firewallip CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function firewallip($value){
+			$firewall_data = explode(',', $value);
+			if(sizeof($firewall_data) < 3){
+				IOFunctions::out(LogLevel::ERRO, 'Unable to firewall IP.', true, false, false);
+				IOFunctions::out(LogLevel::ERRO, 'Please provide the key data in the format \'<email/id>,<ip>,<block_value>\'', true, false, false);
+				IOFunctions::out(LogLevel::ERRO, 'Example: php synful.php firewallip=jon@acme.com,192.168.1.1,1', true, false, false);
+				exit(2);
+			}else{
+				$id = $firewall_data[0];
+				$ip = $firewall_data[1];
+				$block  = $firewall_data[2];
+				if(APIKey::keyExists($id)){
+					$key = APIKey::getKey($id);
+					$key->firewallIP($ip, $block);
+					$key->save();
+					IOFunctions::out(LogLevel::INFO, 'Set firewall on key \'' . Colors::cs($id, 'light_blue') . '\' for ip \'' . Colors::cs($ip, 'light_blue') . '\' to \'' . (($block) ? Colors::cs('true', 'light_green') : Colors::cs('false', 'light_red')) . '\'.', true, false, false);
+					exit(0);
+				}else{
+					IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+					exit(2);
+				}
+			}
+		}
+
+		/**
+		 * Handle unfirewallip CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function unfirewallip($value){
+			$firewall_data = explode(',', $value);
+			if(sizeof($firewall_data) < 2){
+				IOFunctions::out(LogLevel::ERRO, 'Unable to unfirewall IP.', true, false, false);
+				IOFunctions::out(LogLevel::ERRO, 'Please provide the key data in the format \'<email/id>,<ip>\'', true, false, false);
+				IOFunctions::out(LogLevel::ERRO, 'Example: php synful.php unfirewallip=jon@acme.com,192.168.1.1', true, false, false);
+				exit(2);
+			}else{
+				$id = $firewall_data[0];
+				$ip = $firewall_data[1];
+				if(APIKey::keyExists($id)){
+					$key = APIKey::getKey($id);
+					if($key->isFirewalled($ip)){
+						$key->unfirewallIP($ip);
+						$key->save();
+						IOFunctions::out(LogLevel::INFO, 'Removed firewall entry on key \'' . Colors::cs($id, 'light_blue') . '\' for ip \'' . Colors::cs($ip, 'light_blue') . '\'.', true, false, false);
+						exit(0);
+					}else{
+						IOFunctions::out(LogLevel::ERRO, 'That IP does not have a firewall entry on that key.', true, false, false);
+						exit(2);
+					}
+				}else{
+					IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+					exit(2);
+				}
+			}
+		}
+
+		/**
+		 * Handle disablekey CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function disablekey($value){
+			if(APIKey::keyExists($value)){
+				$key = APIKey::getKey($value);
+				$key->enabled = false;
+				$key->save();
+				IOFunctions::out(LogLevel::INFO, 'APIKey for ID \'' . Colors::cs($value, 'light_blue') . '\' has been ' . Colors::cs('disabled', 'light_red') . '.', true, false, false);
+				exit(0);
+			}else{
+				IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+				exit(2);
+			}
+		}
+
+		/**
+		 * Handle enablekey CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function enablekey($value){
+			if(APIKey::keyExists($value)){
+				$key = APIKey::getKey($value);
+				$key->enabled = true;
+				$key->save();
+				IOFunctions::out(LogLevel::INFO, 'APIKey for ID \'' . Colors::cs($value, 'light_blue') . '\' has been ' . Colors::cs('enabled', 'light_green') . '.', true, false, false);
+				exit(0);
+			}else{
+				IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+				exit(2);
+			}
+		}
+
+		/**
+		 * Handle removekey CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function removekey($value){
+			if(APIKey::keyExists($value)){
+				$key = APIKey::getKey($value);
+				$key->delete();
+				IOFunctions::out(LogLevel::INFO, 'APIKey for ID \'' . Colors::cs($value, 'light_blue') . '\' has been ' . Colors::cs('removed', 'light_red') . '.', true, false, false);
+				exit(0);
+			}else{
+				IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+				exit(2);
+			}
+		}
+
+		/**
+		 * Handle listkeys CLI Parameter
+		 * @param  String $value The value set in CLI
+		 */
+		public static function listkeys($value){
+			IOFunctions::out(LogLevel::INFO, 'API Key List', true, false, false);
+			IOFunctions::out(LogLevel::INFO, '---------------------------------------------------', true, false, false);
+			$sql_result = Synful::$sql->executeSql('SELECT * FROM `api_keys` ORDER BY `is_master` DESC', true);
+			while($row = mysqli_fetch_assoc($sql_result)){
+				IOFunctions::out(LogLevel::INFO, 'Belongs To: ' . Colors::cs($row['name'], 'light_blue'), true, false, false);
+				IOFunctions::out(LogLevel::INFO, '    EMail / ID     : ' . $row['email'] . ' / ' . $row['id'], true, false, false);
+				IOFunctions::out(LogLevel::INFO, '    Whitelist-Only : ' . (($row['whitelist_only']) ? Colors::cs('true', 'light_green') : Colors::cs('false', 'light_red')), true, false, false);
+				IOFunctions::out(LogLevel::INFO, '    Is-Master      : ' . (($row['is_master']) ? Colors::cs('true', 'light_green') : Colors::cs('false', 'light_red')), true, false, false);
+				IOFunctions::out(LogLevel::INFO, '    Enabled        : ' . (($row['enabled']) ? Colors::cs('true', 'light_green') : Colors::cs('false', 'light_red')), true, false, false);
+				IOFunctions::out(LogLevel::INFO, '', true, false, false);
+			}
+			exit(0);
+		}
 
 		/**
 		 * Handle createkey CLI Parameter
@@ -82,7 +233,8 @@
 		 */
 		public static function standalone($value){
 			Synful::$config['system']['standalone'] = ($value == null) ? true : json_decode($value);
-			IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set standalone mode to \'true\'.');
+			$str = (Synful::$config['system']['standalone']) ? 'true' : 'false';
+			IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set standalone mode to \'' . $str . '\'.');
 		}
 
 		/**
@@ -142,7 +294,18 @@
 		 */
 		public static function multithread($value){
 			Synful::$config['system']['multithread'] = ($value == null) ? true : json_decode($value);
-			IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set multithread mode to \'true\'.');
+			$str = (Synful::$config['system']['multithread']) ? 'true' : 'false';
+			IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set multithread mode to \'' . $str . '\'.');
+		}
+
+		/**
+		 * Handle color CLI Parameter
+		 * @param boolean $value The value set in CLI
+		 */
+		public static function color($value){
+			Synful::$config['system']['color'] = ($value == null) ? true : json_decode($value);
+			$str = (Synful::$config['system']['color']) ? 'true' : 'false';
+			IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set console color to \'' . $str . '\'.');
 		}
 
 		

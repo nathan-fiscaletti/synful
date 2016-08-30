@@ -173,7 +173,7 @@
 		 */
 		private static function createDefaultTables(){
 			return (
-				Synful::$sql->executeSql("CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , `whitelist_only` INT NOT NULL , `is_master` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;")
+				Synful::$sql->executeSql("CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , `whitelist_only` INT NOT NULL , `is_master` INT NOT NULL, `enabled` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;")
 
 				&& Synful::$sql->executeSql("CREATE TABLE IF NOT EXISTS `api_perms` ( `api_key_id` INT UNSIGNED NOT NULL , `put_data` INT NOT NULL , `get_data` INT NOT NULL , `mod_data` INT NOT NULL , PRIMARY KEY (`api_key_id`) ) ENGINE = MyISAM;")
 

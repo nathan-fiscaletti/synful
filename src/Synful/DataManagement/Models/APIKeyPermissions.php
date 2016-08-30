@@ -31,6 +31,10 @@
 		public function save(){
 			Synful::$sql->executeSql('INSERT INTO `api_perms` (`api_key_id`, `put_data`, `get_data`, `mod_data`) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE `put_data` = ?, `get_data` = ?, `mod_data` = ?', false, ['iiiiiii', (int)$this->api_key_id, (int)$this->put_data, (int)$this->get_data, (int)$this->mod_data, (int)$this->put_data, (int)$this->get_data, (int)$this->mod_data]);
 		}
+
+		public function delete(){
+			Synful::$sql->executeSql('DELETE FROM `api_perms` WHERE `api_key_id` = ?', false, ['s', $this->api_key_id]);
+		}
 	}
 	
 ?>
