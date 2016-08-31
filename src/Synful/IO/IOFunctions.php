@@ -39,10 +39,12 @@
 
 			$log_file = Synful::$config['files']['logfile'];
 
-			if(!file_exists(dirname($log_file))){
-				mkdir(dirname($log_file), 0700, true);
-				chown(dirname($log_file), exec('whoami'));
-				chmod(dirname($log_file), 0700);
+			if(Synful::$config['files']['log_to_file'] && $write_to_file){
+				if(!file_exists(dirname($log_file))){
+					mkdir(dirname($log_file), 0700, true);
+					chown(dirname($log_file), exec('whoami'));
+					chmod(dirname($log_file), 0700);
+				}
 			}
 
 			$output = [];
@@ -76,7 +78,7 @@
 				}
 			}
 
-			foreach($output as $line) echo $line . Colors::cs('', 'reset', null, 'reset') . "\r\n";
+			foreach($output as $line) echo $line . ((!$block_header_on_echo) ? Colors::cs('', 'reset', null, 'reset') : '') . "\r\n";
 		}
 
 		/**

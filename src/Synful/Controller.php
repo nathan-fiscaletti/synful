@@ -2,7 +2,7 @@
 
 	namespace Synful;
 
-	use Synful\DataManagement\Models\ApiKey;
+	use Synful\DataManagement\Models\APIKey;
 	use Synful\Response;
 	use Synful\IO\IOFUnctions;
 	use Synful\IO\LogLevel;
