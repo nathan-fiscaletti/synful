@@ -182,6 +182,13 @@
 				$name = str_replace('_', ' ', $new_key_data[1]);
 				$whitelist_only = intval($new_key_data[2]);
 
+				if(!is_int($whitelist_only)){
+					IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
+					IOFunctions::out(LogLevel::ERRO, 'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_integer>\'', true, false, false);
+					IOFunctions::out(LogLevel::ERRO, 'Example: php synful.php createkey=jon@acme.com,John_Doe,0', true, false, false);
+					exit(2);
+				}
+
 				if(APIKey::keyExists($email)){
 					IOFunctions::out(LogLevel::ERRO, 'A key with that email is already defined.', true, false, false);
 					exit(2);
@@ -210,7 +217,7 @@
 			$value = trim($value);
 
 			if(!ctype_alpha($value)){
-				IOFunctions::out(LogLevel::ERRO, 'Error: Request Handler names must only contain alphabetic characters and no spaces. Title case recommended -> (ThisIsTitleCase).', true);
+				IOFunctions::out(LogLevel::ERRO, 'Error: Request Handler names must only contain alphabetic characters and no spaces. TitleCase recommended.', true);
 				exit(0);
 			}else{
 				if(!file_exists('./src/Synful/RequestHandlers/' . $value . '.php')){
