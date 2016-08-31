@@ -5,7 +5,7 @@
 	use Synful\IO\IOFunctions;
 	use Synful\IO\LogLevel;
 	use Synful\Standalone\Standalone;
-	use Synful\DataManagement\SqlConnection;
+	use Synful\DataManagement\SQLConnection;
 	use Synful\Response;
 	use Synful\Colors;
 	use Synful\CLIParser\CLIParser;
