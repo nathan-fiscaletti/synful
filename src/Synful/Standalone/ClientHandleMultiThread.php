@@ -1,41 +1,62 @@
 <?php
-	
-	namespace Synful\Standalone;
+    
+namespace Synful\Standalone;
 
-	use Synful\Synful;
-	use Synful\Controller;
-	use Synful\IO\IOFunctions;
-	use Synful\IO\LogLevel;
+use Synful\Synful;
+use Synful\Controller;
+use Synful\IO\IOFunctions;
+use Synful\IO\LogLevel;
+use Synful\Util\Object;
 
-	class ClientHandleMultiThread extends Thread {
+/**
+ * Class used for handling multithread client socket communication
+ */
+class ClientHandleMultiThread extends Thread
+{
+    use Object;
 
-		private $client_socket;
-		private $ip;
-		private $port;
+    /**
+     * The socket used for the client connection
+     *
+     * @var socket
+     */
+    private $client_socket;
 
-		public function __construct($client_socket, $ip, $port){
-			$this->client_socket = $client_socket;
-			$this->ip = $ip;
-			$this->port = $port;
-		}
+    /**
+     * The ip address of the connecting client
+     *
+     * @var string
+     */
+    private $ip;
 
-		/**
-		 * Initializes the new handler for the request
-		 */
-		public function run(){
-				$input = socket_read($this->client_socket, 2024);
+    /**
+     * The port of the connecting client
+     *
+     * @var integer
+     */
+    private $port;
 
-				IOFunctions::out(LogLevel::INFO, 'Client REQ (' . $this->ip . ':' . $this->port . '): ' . $input);
+    /**
+     * Initializes the new handler for the request
+     */
+    public function run()
+    {
+            $input = socket_read($this->client_socket, 2024);
 
-				$response = Synful::$controller->handleRequest($input, $this->ip);
+            IOFunctions::out(
+                LogLevel::INFO,
+                'Client REQ (' . $this->ip . ':' . $this->port . '): ' . $input
+            );
 
-				socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));	
+            $response = Synful::$controller->handleRequest($input, $this->ip);
+            socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));
 
-				IOFunctions::out(LogLevel::INFO, 'Server RES (' . $this->ip . ':' . $this->port . '): ' . json_encode($response));
+            IOFunctions::out(
+                LogLevel::INFO,
+                'Server RES (' . $this->ip . ':' . $this->port . '): ' . json_encode($response)
+            );
 
-			    socket_close($this->client_socket);
-
-			    unset($this);
-		}
-	}
-?>
+            socket_close($this->client_socket);
+            unset($this);
+    }
+}

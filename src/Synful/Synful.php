@@ -1,211 +1,309 @@
 <?php
-	
-	namespace Synful;
+    
+namespace Synful;
 
-	use Synful\IO\IOFunctions;
-	use Synful\IO\LogLevel;
-	use Synful\Standalone\Standalone;
-	use Synful\DataManagement\SQLConnection;
-	use Synful\Response;
-	use Synful\Colors;
-	use Synful\CLIParser\CLIParser;
+use Synful\IO\IOFunctions;
+use Synful\IO\LogLevel;
+use Synful\Standalone\Standalone;
+use Synful\DataManagement\SQLConnection;
+use Synful\Response;
+use Synful\Colors;
+use Synful\CLIParser\CLIParser;
 
-	class Synful {
+class Synful
+{
 
-		public static $config;
-		public static $sql;
-		public static $controller;
-		public static $sql_databases;
-		static $request_handlers = [];
+    /**
+     * The config for the system pulled from config.ini
+     *
+     * @var array
+     */
+    public static $config;
 
-		/**
-		 * Initialize the Synful API instance using either Standalone Mode or Local Web Server
-		 */
-		public static function initialize(){
+    /**
+     * The primary MySql Connection
+     *
+     * @var Synful\DataManagement\SqlConnection
+     */
+    public static $sql;
 
-			// Load console color codes
-			Colors::loadColors();
+    /**
+     * The primary controller
+     *
+     * @var Synful\Controller
+     */
+    public static $controller;
 
-			// Enabele error reporting
-			ini_set('display_errors', 1);
-			ini_set('display_startup_errors', 1);
-			error_reporting(E_ALL);
+    /**
+     * All SqlConnections based off of database definitions in config
+     *
+     * @var array
+     */
+    public static $sql_databases = [];
 
-			// Set error handler and shutdown hook
-			set_error_handler('\Synful\IO\IOFunctions::catch_error');
-			register_shutdown_function('\Synful\IO\IOFunctions::on_shut_down');
+    /**
+     * All request handlers registered in the system
+     *
+     * @var array
+     */
+    public static $request_handlers = [];
 
-			// Load the configuration into system
-			if(!IOFunctions::loadConfig()) exit(2);
+    /**
+     * Initialize the Synful API instance using either Standalone Mode or Local Web Server
+     */
+    public static function initialize()
+    {
 
-			Synful::initializeSql();
-			
-			// Parse CLI
-			$cli_parser = new CLIParser();
-			$cli_parser->parseCLI();
+        // Load console color codes
+        Colors::loadColors();
 
-			global $argv; if(Synful::isCommandLineInterface() && sizeof($argv) < 1){
-				IOFunctions::out(LogLevel::INFO, $cli_parser->getUsage(), true, false, false);
-				exit(3);
-			}
+        // Enabele error reporting
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
 
-			// Run Pre Start up functions
-			Synful::preStartUp();
+        // Set error handler and shutdown hook
+        set_error_handler('\Synful\IO\IOFunctions::catchError');
+        register_shutdown_function('\Synful\IO\IOFunctions::onShutDown');
 
-			
-			Synful::$controller = new Controller();
+        // Load the configuration into system
+        if (!IOFunctions::loadConfig()) {
+            exit(2);
+        }
 
-			Synful::$controller->generateMasterKey();
+        Synful::initializeSql();
+            
+        // Parse CLI
+        $cli_parser = new CLIParser();
+        $cli_parser->parseCLI();
 
-			IOFunctions::out(LogLevel::NOTE, 'Loading Request Handlers...');
-			Synful::loadRequestHandlers();
+        global $argv; if (Synful::isCommandLineInterface() && sizeof($argv) < 1) {
+            IOFunctions::out(LogLevel::INFO, $cli_parser->getUsage(), true, false, false);
+            exit(3);
+        }
 
-			if(Synful::$config['system']['standalone']){
-				IOFunctions::out(LogLevel::NOTE, 'Running in standalone mode...');
-				Synful::postStartUp();
-				(new Standalone(Synful::$config))->initialize();
-			}else{
-				Synful::listenWeb();
-			}
+        // Run Pre Start up functions
+        Synful::preStartUp();
 
-		}
+            
+        Synful::$controller = new Controller();
 
-		/**
-		 * Initializes MySQL
-		 */
-		public static function initializeSql(){
-			if(sizeof(Synful::$config['sql_databases']) > 0){
-				IOFunctions::out(LogLevel::NOTE, 'Loading databases...');
-				Synful::loadSqlDatabases(Synful::$config['sql_databases']);
-			}else{
-				IOFunctions::out(LogLevel::ERRO, 'Error: Missing Synful database definintion');
-				IOFunctions::out(LogLevel::ERRO, 'Match the \'main_database\' setting in config.ini to the correct database. Default Synful database is for storing API Keys, Users and Permissions.');
-				exit(1);
-			}
+        Synful::$controller->generateMasterKey();
 
-			Synful::$sql =& Synful::$sql_databases[Synful::$config['system']['main_database']];
+        IOFunctions::out(LogLevel::NOTE, 'Loading Request Handlers...');
+        Synful::loadRequestHandlers();
 
-			Synful::createDefaultTables();
-		}
+        if (Synful::$config['system']['standalone']) {
+            IOFunctions::out(LogLevel::NOTE, 'Running in standalone mode...');
+            Synful::postStartUp();
+            (new Standalone(Synful::$config))->initialize();
+        } else {
+            Synful::listenWeb();
+        }
+    }
 
-		/**
-		 * Loads all MySQL Databases into Synful
-		 */
-		private static function loadSqlDatabases($databases){
-			foreach($databases as $database){
-				$database = (Array)json_decode(str_replace('\'', '"', $database));
-				if(sizeof($database) < 5){
-					IOFunctions::out(LogLevel::ERRO, 'Failed one or more custom databases. Please check config.ini.', true);
-					exit(1);
-				}else{
-					$new_sql_connection = new SqlConnection($database[0], $database[1], $database[2], $database[3], $database[4]);
-					if($new_sql_connection->openSQL()){
-						Synful::$sql_databases[$database[3]] = $new_sql_connection;
-					}else{
-						IOFunctions::out(LogLevel::ERRO, 'Failed on one or more database connections. Please check config.ini.', true);
-						exit(1);
-					}
-				}
-			}
-		}
+    /**
+     * Initializes MySQL
+     */
+    public static function initializeSql()
+    {
+        if (sizeof(Synful::$config['sql_databases']) > 0) {
+            IOFunctions::out(LogLevel::NOTE, 'Loading databases...');
+            Synful::loadSqlDatabases(Synful::$config['sql_databases']);
+        } else {
+            IOFunctions::out(LogLevel::ERRO, 'Error: Missing Synful database definintion');
+            IOFunctions::out(
+                LogLevel::ERRO,
+                'Match the \'main_database\' setting in config.ini to the correct database. '.
+                'Default Synful database is for storing API Keys, Users and Permissions.'
+            );
+            exit(1);
+        }
 
-		/**
-		 * Loads all request handlers stored in 'system/request_handlers' into system
-		 */
-		private static function loadRequestHandlers(){
-			$enabled_request_handler = false;
-			foreach(scandir('./src/Synful/RequestHandlers') as $handler){
-				if(substr($handler, 0, 1) !== '.' && $handler != 'Interfaces'){
-					$enabled_request_handler = true;
-					$class_name = explode('.', $handler)[0];
-					eval('\\Synful\\Synful::$request_handlers[\'' . $class_name . '\'] = new \\Synful\\RequestHandlers\\' . $class_name . '();');
-					$is_public = false;
-					if(Synful::$config['security']['allow_public_requests']){
-						if(property_exists(Synful::$request_handlers[$class_name], 'is_public')){
-							$is_public = Synful::$request_handlers[$class_name]->is_public;
-						}
-					}
-					IOFunctions::out(LogLevel::NOTE, '    Loaded Request Handler: ' . $class_name . (($is_public) ? Colors::cs(' (Public)', 'light_green') : ''));
-				}
-			}
-			if(!$enabled_request_handler){
-				IOFunctions::out(LogLevel::WARN, 'No request handlers found. Use \'php synful.php createhandler=HandlerName\' to create a new handler.');
-				IOFunctions::out(LogLevel::WARN, 'Note: Request handlers are case sensitive. We recommend using TitleCase for request handler names.');
-			}
-		}
+        Synful::$sql =& Synful::$sql_databases[Synful::$config['system']['main_database']];
 
-		/**
-		 * Runs the API thread on the local web server and outputs it's response in JSON format
-		 */
-		private static function listenWeb(){
+        Synful::createDefaultTables();
+    }
 
-			if(empty($_POST['request'])){
-				$response = new Response();
-				$response->code = 400;
-				$response->setResponse('message', 'Bad Request');
-			}else{
-				$response = Synful::$controller->handleRequest($_POST['request'], Synful::getClientIP());
-			}
+    /**
+     * Loads all MySQL Databases into Synful
+     */
+    private static function loadSqlDatabases($databases)
+    {
+        foreach ($databases as $database) {
+            $database = (Array)json_decode(str_replace('\'', '"', $database));
+            if (sizeof($database) < 5) {
+                IOFunctions::out(
+                    LogLevel::ERRO,
+                    'Failed one or more custom databases. Please check config.ini.',
+                    true
+                );
+                exit(1);
+            } else {
+                $new_sql_connection = new SqlConnection(
+                    $database[0],
+                    $database[1],
+                    $database[2],
+                    $database[3],
+                    $database[4]
+                );
+                if ($new_sql_connection->openSQL()) {
+                    Synful::$sql_databases[$database[3]] = $new_sql_connection;
+                } else {
+                    IOFunctions::out(
+                        LogLevel::ERRO,
+                        'Failed on one or more database connections. Please check config.ini.',
+                        true
+                    );
+                    exit(1);
+                }
+            }
+        }
+    }
 
-			header("Content-Type: text/json");
-			http_response_code($response->code);
-			IOFunctions::out(LogLevel::RESP, json_encode($response), true, true);
+    /**
+     * Loads all request handlers stored in 'system/request_handlers' into system
+     */
+    private static function loadRequestHandlers()
+    {
+        $enabled_request_handler = false;
+        foreach (scandir('./src/Synful/RequestHandlers') as $handler) {
+            if (substr($handler, 0, 1) !== '.' && $handler != 'Interfaces') {
+                $enabled_request_handler = true;
+                $class_name = explode('.', $handler)[0];
+                eval(
+                    '\\Synful\\Synful::$request_handlers[\'' .
+                    $class_name . '\'] = new \\Synful\\RequestHandlers\\' .
+                    $class_name . '();'
+                );
+                $is_public = false;
+                if (Synful::$config['security']['allow_public_requests']) {
+                    if (property_exists(Synful::$request_handlers[$class_name], 'is_public')) {
+                        $is_public = Synful::$request_handlers[$class_name]->is_public;
+                    }
+                }
+                IOFunctions::out(
+                    LogLevel::NOTE,
+                    '    Loaded Request Handler: ' . $class_name .
+                    (($is_public) ? Colors::cs(' (Public)', 'light_green') : ''),
+                    true
+                );
+            }
+        }
+        if (!$enabled_request_handler) {
+            IOFunctions::out(
+                LogLevel::WARN,
+                'No request handlers found. ' .
+                'Use \'php synful.php createhandler=HandlerName\' to create a new handler.'
+            );
+            IOFunctions::out(
+                LogLevel::WARN,
+                'Note: Request handlers are case sensitive. '.
+                'We recommend using TitleCase for request handler names.'
+            );
+        }
+    }
 
-		}
+    /**
+     * Runs the API thread on the local web server and outputs it's response in JSON format
+     */
+    private static function listenWeb()
+    {
 
-		/**
-		 * Retreives the client IP Address
-		 * @return String The ip of the remote client
-		 */
-		private static function getClientIP(){
-			$ipaddress = '';
+        if (empty($_POST['request'])) {
+            $response = new Response();
+            $response->code = 400;
+            $response->setResponse('message', 'Bad Request');
+        } else {
+            $response = Synful::$controller->handleRequest($_POST['request'], Synful::getClientIP());
+        }
 
-		    if (getenv('HTTP_CLIENT_IP')) $ipaddress = getenv('HTTP_CLIENT_IP');
-		    else if(getenv('HTTP_X_FORWARDED_FOR')) $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-		    else if(getenv('HTTP_X_FORWARDED')) $ipaddress = getenv('HTTP_X_FORWARDED');
-		    else if(getenv('HTTP_FORWARDED_FOR')) $ipaddress = getenv('HTTP_FORWARDED_FOR');
-		    else if(getenv('HTTP_FORWARDED')) $ipaddress = getenv('HTTP_FORWARDED');
-		    else if(getenv('REMOTE_ADDR')) $ipaddress = getenv('REMOTE_ADDR');
-		    else $ipaddress = 'UNKNOWN';
+        header("Content-Type: text/json");
+        http_response_code($response->code);
+        IOFunctions::out(LogLevel::RESP, json_encode($response), true, true);
+    }
 
-		    return $ipaddress;
-		}
+    /**
+     * Retreives the client IP Address
+     *
+     * @return String The ip of the remote client
+     */
+    private static function getClientIP()
+    {
+        $ipaddress = '';
 
-		/**
-		 * Check if this is a CLI instance
-		 * @return boolean
-		 */
-		public static function isCommandLineInterface(){
-		    return (php_sapi_name() === 'cli');
-		}
+        if (getenv('HTTP_CLIENT_IP')) {
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        } elseif (getenv('HTTP_X_FORWARDED_FOR')) {
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        } elseif (getenv('HTTP_X_FORWARDED')) {
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        } elseif (getenv('HTTP_FORWARDED_FOR')) {
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        } elseif (getenv('HTTP_FORWARDED')) {
+            $ipaddress = getenv('HTTP_FORWARDED');
+        } elseif (getenv('REMOTE_ADDR')) {
+            $ipaddress = getenv('REMOTE_ADDR');
+        } else {
+            $ipaddress = 'UNKNOWN';
+        }
 
-		/**
-		 * Create default Synful tables
-		 * @return  True if tables were successfuly created
-		 */
-		private static function createDefaultTables(){
-			return (
-				Synful::$sql->executeSql("CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , `whitelist_only` INT NOT NULL , `is_master` INT NOT NULL, `enabled` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;")
+        return $ipaddress;
+    }
 
-				&& Synful::$sql->executeSql("CREATE TABLE IF NOT EXISTS `api_perms` ( `api_key_id` INT UNSIGNED NOT NULL , `put_data` INT NOT NULL , `get_data` INT NOT NULL , `mod_data` INT NOT NULL , PRIMARY KEY (`api_key_id`) ) ENGINE = MyISAM;")
+    /**
+     * Check if this is a CLI instance
+     *
+     * @return boolean
+     */
+    public static function isCommandLineInterface()
+    {
+        return (php_sapi_name() === 'cli');
+    }
 
-				&& Synful::$sql->executeSql("CREATE TABLE IF NOT EXISTS `ip_firewall` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `api_key_id` INT UNSIGNED NOT NULL , `ip` VARCHAR(255) NOT NULL , `block` INT NOT NULL , PRIMARY KEY (`id`) ) ENGINE = MyISAM;")
-			);
-		}
+    /**
+     * Create default Synful tables
+     *
+     * @return boolean
+     */
+    private static function createDefaultTables()
+    {
+        return (
+            Synful::$sql->executeSql(
+                'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
+                '`name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
+                '`whitelist_only` INT NOT NULL , `is_master` INT NOT NULL, `enabled` INT NOT NULL , '.
+                'PRIMARY KEY (`id`)) ENGINE = MyISAM;'
+            )
 
-		/**
-		 * Function to be called after startup has been completed
-		 */
-		public static function postStartUp(){
-			IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
-		}
+            && Synful::$sql->executeSql(
+                'CREATE TABLE IF NOT EXISTS `api_perms` ( `api_key_id` INT UNSIGNED NOT NULL , '.
+                '`put_data` INT NOT NULL , `get_data` INT NOT NULL , `mod_data` INT NOT NULL , '.
+                'PRIMARY KEY (`api_key_id`) ) ENGINE = MyISAM;'
+            )
 
-		/**
-		 * Function to be called prior to start up running
-		 */
-		public static function preStartUp(){
-			IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
-			IOFunctions::out(LogLevel::NOTE, 'Synful API Initializing...');
-		}
-	}
-?>
+            && Synful::$sql->executeSql(
+                'CREATE TABLE IF NOT EXISTS `ip_firewall` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT '.
+                ', `api_key_id` INT UNSIGNED NOT NULL , `ip` VARCHAR(255) NOT NULL , `block` INT NOT NULL '.
+                ', PRIMARY KEY (`id`) ) ENGINE = MyISAM;'
+            )
+        );
+    }
+
+    /**
+     * Function to be called after startup has been completed
+     */
+    public static function postStartUp()
+    {
+        IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
+    }
+
+    /**
+     * Function to be called prior to start up running
+     */
+    public static function preStartUp()
+    {
+        IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
+        IOFunctions::out(LogLevel::NOTE, 'Synful API Initializing...');
+    }
+}
