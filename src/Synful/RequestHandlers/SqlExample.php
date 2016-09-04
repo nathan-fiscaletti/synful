@@ -49,7 +49,7 @@ class SqlExample implements RequestHandler
             // Query MySql for the user row
             // Parameters: Query String, array containing type definitions and parameter binds,
             // Boolean set to true to return a result set
-            $result = $sql_con->executeSql('select * from mytable where id = ?', ['i', $request['id']], true);
+            $result = $sql_con->executeSql('SELECT * FROM `mytable` WHERE `id`=?', ['i', $request['id']], true);
 
             // Convert the data from SQL to an array
             $db_row = mysqli_fetch_assoc($result);

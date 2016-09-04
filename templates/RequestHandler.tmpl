@@ -1,0 +1,36 @@
+<?php
+
+namespace Synful\RequestHandlers;
+
+use Synful\Synful;
+use Synful\RequestHandlers\Interfaces\RequestHandler;
+use Synful\Response;
+
+/**
+ * New Request Handler Class
+ */
+class RequestHandlerName implements RequestHandler
+{
+
+    /**
+     * Change this to 'true' if you want your request handler to be publically accessible
+     * Note: When set to 'true', this request handler will not require an API Key
+     */
+    public function __construct()
+    {
+        $this->is_public = false;
+    }
+
+    /**
+     * Function for handling request and returning data as a Response object
+     *
+     * @param  Response $data
+     * @param  boolean  $is_master_request
+     */
+    public function handleRequest(Response &$data, $is_master_request = false)
+    {
+        $request_data =& $data->request;
+
+        // Insert your code here
+    }
+}

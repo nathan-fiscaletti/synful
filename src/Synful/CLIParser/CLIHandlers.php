@@ -444,30 +444,18 @@ class CLIHandlers
             if (!file_exists('./src/Synful/RequestHandlers/' . $value . '.php')) {
                 file_put_contents(
                     './src/Synful/RequestHandlers/' . $value . '.php',
-                    "<?php\r\n\r\n    namespace Synful\RequestHandlers;\r\n\r\n    use Synful\Synful;\r\n    ".
-                    "use Synful\RequestHandlers\Interfaces\RequestHandler;\r\n    use Synful\Response;\r\n\r\n    ".
-                    "class " . $value . " implements RequestHandler {\r\n\r\n    	/**\r\n    	 ".
-                    "* Change this to 'true' if you want your request handler to be publically accessible\r\n    	 ".
-                    "* Note: When set to 'true', this request handler will not require an API Key\r\n    	 ".
-                    "*/\r\n    	public function __construct(){\r\n    		". '$this->is_public' . " = false;".
-                    "\r\n    	}\r\n\r\n		/**\r\n		 * Function for handling request and returning data as ".
-                    "a Response object\r\n		 * @param  Response " . '$data' . "              The data received ".
-                    "by reference\r\n		 * @param  boolean  " . '$is_master_request' . " True if the key being ".
-                    "used to access the request is a master key\r\n		 */\r\n		public function handleRequest".
-                    "(Response &" . '$data' . ", " . '$is_master_request' . " = false){\r\n			" .
-                    '$request_data =& $data->request;' . "\r\n\r\n			// Insert your code here\r\n\r\n".
-                    "		}\r\n\r\n	}\r\n\r\n?>\r\n"
+                    str_replace('RequestHandlerName', $value, file_get_contents('./templates/RequestHandler.tmpl'))
                 );
 
-                    IOFunctions::out(
-                        LogLevel::INFO,
-                        'Created Request Handler in \'src/Synful/RequestHandlers\' with name \'' . $value . '\'.',
-                        true
-                    );
-                    chmod('./src/Synful/RequestHandlers/' . $value . '.php', 0700);
-                    exec('chmod +x ./src/Synful/RequestHandlers/' . $value . '.php');
-                    exec('php composer.phar dumpautoload');
-                    exit(0);
+                IOFunctions::out(
+                    LogLevel::INFO,
+                    'Created Request Handler in \'src/Synful/RequestHandlers\' with name \'' . $value . '\'.',
+                    true
+                );
+                chmod('./src/Synful/RequestHandlers/' . $value . '.php', 0700);
+                exec('chmod +x ./src/Synful/RequestHandlers/' . $value . '.php');
+                exec('php composer.phar dumpautoload');
+                exit(0);
             } else {
                 IOFunctions::out(LogLevel::ERRO, 'Error: A request handler by that name already exists.', true);
                 exit(0);
