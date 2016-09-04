@@ -25,7 +25,7 @@ trait Object
     }
 
     /**
-     * Handle function calls as property access
+     * Handle undefined function calls as property access
      *
      * @param  string $name
      * @param  array  $arguments

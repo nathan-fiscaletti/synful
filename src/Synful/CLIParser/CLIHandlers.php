@@ -275,7 +275,7 @@ class CLIHandlers
     {
         IOFunctions::out(LogLevel::INFO, 'API Key List', true, false, false);
         IOFunctions::out(LogLevel::INFO, '---------------------------------------------------', true, false, false);
-        $sql_result = Synful::$sql->executeSql('SELECT * FROM `api_keys` ORDER BY `is_master` DESC', true);
+        $sql_result = Synful::$sql->executeSql('SELECT * FROM `api_keys` ORDER BY `is_master` DESC', [], true);
         while ($row = mysqli_fetch_assoc($sql_result)) {
             IOFunctions::out(
                 LogLevel::INFO,
