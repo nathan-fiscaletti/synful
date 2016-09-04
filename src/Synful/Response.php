@@ -41,6 +41,13 @@ class Response implements JsonSerializable
     public $requesting_ip;
 
     /**
+     * The email associated with the key of the client making the request
+     *
+     * @var string
+     */
+    public $requesting_email;
+
+    /**
      * Overrides full response object with custom array of data
      *
      * @param Array $data

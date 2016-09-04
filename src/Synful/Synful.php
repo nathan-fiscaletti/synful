@@ -177,15 +177,35 @@ class Synful
                     $class_name . '();'
                 );
                 $is_public = false;
+                $is_private = false;
                 if (Synful::$config['security']['allow_public_requests']) {
                     if (property_exists(Synful::$request_handlers[$class_name], 'is_public')) {
                         $is_public = Synful::$request_handlers[$class_name]->is_public;
+                    } elseif (property_exists(Synful::$request_handlers[$class_name], 'white_list_keys')) {
+                        if (is_array(Synful::$request_handlers[$class_name]->white_list_keys)) {
+                            $is_private = true;
+                        }
                     }
                 }
                 IOFunctions::out(
                     LogLevel::NOTE,
                     '    Loaded Request Handler: ' . $class_name .
-                    (($is_public) ? Colors::cs(' (Public)', 'light_green') : ''),
+                    (($is_public)
+                        ? Colors::cs(
+                            ' (Public)',
+                            'light_green'
+                        )
+                        : (($is_private)
+                            ? Colors::cs(
+                                ' (Private)',
+                                'light_red'
+                            )
+                            : Colors::cs(
+                                ' (Standard)',
+                                'light_blue'
+                            )
+                        )
+                    ),
                     true
                 );
             }

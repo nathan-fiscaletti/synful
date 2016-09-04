@@ -29,7 +29,7 @@ class Controller
     {
 
         $data = (array)json_decode($request);
-        $response = new Response(['request' => $data, 'requesting_ip' => $ip]);
+        $response = new Response(['requesting_ip' => $ip]);
 
         if ($this->validateRequest($data, $response) && $this->validateHandler($data, $response)) {
             $handler =& Synful::$request_handlers[$data['handler']];
@@ -158,15 +158,8 @@ class Controller
      * @param  String           $ip
      * @return Boolean
      */
-    private function validateAuthentication(
-        array &$data,
-        Response &$response,
-        &$api_key,
-        RequestHandler &$handler,
-        String &$ip
-    ) {
-    
-
+    private function validateAuthentication(&$data, &$response, &$api_key, &$handler, &$ip)
+    {
         $return = true;
 
         if (!Synful::$config['security']['allow_public_requests'] ||
@@ -176,18 +169,60 @@ class Controller
                 if (!empty($data['key'])) {
                     if (APIKey::keyExists($data['user'])) {
                         $api_key = APIKey::getkey($data['user']);
-                        if ($api_key->enabled) {
-                            if ($api_key->authenticate($data['key'])) {
-                                return $this->validateFireWall($api_key, $response, $ip);
+                        $response->requesting_email = $api_key->email;
+                        if (property_exists($handler, 'white_list_keys')) {
+                            if (is_array($handler->white_list_keys)) {
+                                if (in_array($api_key->email, $handler->white_list_keys)) {
+                                    if ($api_key->enabled) {
+                                        if ($api_key->authenticate($data['key'])) {
+                                            return $this->validateFireWall($api_key, $response, $ip);
+                                        } else {
+                                            $response->code = 400;
+                                            $response->setResponse('error', 'Bad Request: Invalid user or key');
+                                            $return = false;
+                                        }
+                                    } else {
+                                        $response->code = 400;
+                                        $response->setResponse('error', 'Bad Request: Key has been disabled');
+                                        $return = false;
+                                    }
+                                } else {
+                                    $response->code = 400;
+                                    $response->setResponse(
+                                        'error',
+                                        'Bad Request: Key not whitelisted for specified request handler.'
+                                    );
+                                    $return = false;
+                                }
                             } else {
-                                $response->code = 400;
-                                $response->setResponse('error', 'Bad Request: Invalid user or key');
-                                $return = false;
+                                if ($api_key->enabled) {
+                                    if ($api_key->authenticate($data['key'])) {
+                                        return $this->validateFireWall($api_key, $response, $ip);
+                                    } else {
+                                        $response->code = 400;
+                                        $response->setResponse('error', 'Bad Request: Invalid user or key');
+                                        $return = false;
+                                    }
+                                } else {
+                                    $response->code = 400;
+                                    $response->setResponse('error', 'Bad Request: Key has been disabled');
+                                    $return = false;
+                                }
                             }
                         } else {
-                            $response->code = 400;
-                            $response->setResponse('error', 'Bad Request: Key has been disabled');
-                            $return = false;
+                            if ($api_key->enabled) {
+                                if ($api_key->authenticate($data['key'])) {
+                                    return $this->validateFireWall($api_key, $response, $ip);
+                                } else {
+                                    $response->code = 400;
+                                    $response->setResponse('error', 'Bad Request: Invalid user or key');
+                                    $return = false;
+                                }
+                            } else {
+                                $response->code = 400;
+                                $response->setResponse('error', 'Bad Request: Key has been disabled');
+                                $return = false;
+                            }
                         }
                     } else {
                         $response->code = 400;

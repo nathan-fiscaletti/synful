@@ -13,7 +13,73 @@ use Synful\Colors;
  */
 class CLIHandlers
 {
-
+    /**
+     * Handles whitelistonly CLI Parameter
+     *
+     * @param  String $value
+     */
+    public static function whiteListOnly($value)
+    {
+        $param_data = explode(',', $value);
+        if (sizeof($param_data) < 2 || !($param_data[1] === 'true' || $param_data[1] === 'false')) {
+            IOFunctions::out(
+                LogLevel::ERRO,
+                'Unable to set White-List Only.',
+                true,
+                false,
+                false
+            );
+            IOFunctions::out(
+                LogLevel::ERRO,
+                'Please provide the data in the format \'<email/id>,<true/false>\'',
+                true,
+                false,
+                false
+            );
+            IOFunctions::out(
+                LogLevel::ERRO,
+                'Example: php synful.php whitelistonly=jon@acme.com,true',
+                true,
+                false,
+                false
+            );
+            exit(2);
+        } else {
+            if (!APIKey::keyExists($param_data[0])) {
+                IOFunctions::out(
+                    LogLevel::ERRO,
+                    'No key found for email/ID \''. $param_data[0] . '\'.',
+                    true,
+                    false,
+                    false
+                );
+                exit(2);
+            } else {
+                $key = APIKey::getKey($param_data[0]);
+                $key->whitelist_only = ($param_data[1] === 'true') ? 1 : 0;
+                $key->save();
+                IOFunctions::out(
+                    LogLevel::INFO,
+                    'Key \''. Colors::cs($param_data[0], 'light_green') .
+                    '\' updated with new White-List Only value \''.
+                    (($param_data[1] == 'true')
+                        ? Colors::cs(
+                            $param_data[1],
+                            'light_green'
+                        )
+                        : Colors::cs(
+                            $param_data[1],
+                            'light_red'
+                        )
+                    ) . '\'.',
+                    true,
+                    false,
+                    false
+                );
+                exit(0);
+            }
+        }
+    }
 
     /**
      * Handle showfirewall CLI Parameter

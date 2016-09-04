@@ -121,6 +121,13 @@ class CLIParser
             'usage' => 'showfirewall=<email/id>',
             'description' => 'Lists firewall entries for a specific key.',
             'callback' => 'showFireWall'
+         ],
+
+         'whitelistonly' => [
+            'name' => 'whitelistonly',
+            'usage' => 'whitelistonly=<email,ID>,<true/false>',
+            'description' => 'Enables or disables the \'White-List Only\' Option for the specified key.',
+            'callback' => 'whiteListOnly'
          ]
 
     ];
