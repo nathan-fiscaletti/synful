@@ -420,7 +420,6 @@ class CLIHandlers
      */
     public static function createKey($value)
     {
-
         $new_key_data = explode(',', $value);
         if (count($new_key_data) < 3) {
             IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
@@ -548,7 +547,6 @@ class CLIHandlers
      */
     public static function logFile($value)
     {
-
         if ($value != null) {
             Synful::$config['files']['logfile'] = $value;
             IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set logfile to \''.$value.'\'.');
