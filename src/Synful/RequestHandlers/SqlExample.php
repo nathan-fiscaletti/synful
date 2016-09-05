@@ -16,7 +16,7 @@ class SqlExample implements RequestHandler
      * Function for handling request and returning data as a Response object
      *
      * @param  Response $data
-     * @param  boolean  $is_master_request
+     * @param  bool  $is_master_request
      */
     public function handleRequest(Response &$data, $is_master_request = false)
     {
@@ -48,7 +48,7 @@ class SqlExample implements RequestHandler
 
             // Query MySql for the user row
             // Parameters: Query string, array containing type definitions and parameter binds,
-            // Boolean set to true to return a result set
+            // bool set to true to return a result set
             $result = $sql_con->executeSql('SELECT * FROM `mytable` WHERE `id`=?', ['i', $request['id']], true);
 
             // Convert the data from SQL to an array

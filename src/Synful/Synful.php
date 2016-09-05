@@ -274,7 +274,7 @@ class Synful
     /**
      * Check if this is a CLI instance
      *
-     * @return boolean
+     * @return bool
      */
     public static function isCommandLineInterface()
     {
@@ -284,7 +284,7 @@ class Synful
     /**
      * Create default Synful tables
      *
-     * @return boolean
+     * @return bool
      */
     private static function createDefaultTables()
     {

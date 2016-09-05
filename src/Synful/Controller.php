@@ -75,7 +75,7 @@ class Controller
      *
      * @param  Array    $data
      * @param  Response $response
-     * @return Boolean
+     * @return bool
      */
     private function validateHandler(array &$data, Response &$response)
     {
@@ -112,7 +112,7 @@ class Controller
      *
      * @param  Array    $data
      * @param  Response $response
-     * @return Boolean
+     * @return bool
      */
     private function validateRequest(array &$data, Response &$response)
     {
@@ -156,7 +156,7 @@ class Controller
      * @param  Object           $api_key
      * @param  RequestHandler   $handler
      * @param  string           $ip
-     * @return Boolean
+     * @return bool
      */
     private function validateAuthentication(&$data, &$response, &$api_key, &$handler, &$ip)
     {
@@ -250,7 +250,7 @@ class Controller
      * @param  APIKey   $api_key
      * @param  Response $response
      * @param  string   ip
-     * @return Boolean
+     * @return bool
      */
     private function validateFireWall(APIKey &$api_key, Response &$response, string $ip)
     {

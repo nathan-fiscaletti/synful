@@ -16,7 +16,7 @@ class APIKey
     /**
      * The database id of the key
      *
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -44,21 +44,21 @@ class APIKey
     /**
      * The whitelist_only value for the key
      *
-     * @var boolean
+     * @var bool
      */
     public $whitelist_only;
 
     /**
      * The is_master value for the key
      *
-     * @var boolean
+     * @var bool
      */
     public $is_master;
 
     /**
      * The enabled status for the key
      *
-     * @var boolean
+     * @var bool
      */
     public $enabled;
 
@@ -87,7 +87,7 @@ class APIKey
     /**
      * Create a new instance of the APIKey with data from the database
      *
-     * @param integer $id
+     * @param int $id
      */
     public function __construct($id)
     {
@@ -147,7 +147,7 @@ class APIKey
      * Checks if an IP is already firewalled for the key
      *
      * @param  string $ip
-     * @return boolean
+     * @return bool
      */
     public function isFirewalled($ip)
     {
@@ -159,7 +159,7 @@ class APIKey
      * Add an IP to the APIKeys firewall
      *
      * @param string  $ip
-     * @param integer $block
+     * @param int $block
      */
     public function firewallIP($ip, $block = 0)
     {
@@ -195,7 +195,7 @@ class APIKey
      * Checks if an IP is black listed in the API Keys firewall
      *
      * @param  string $ip
-     * @return boolean
+     * @return bool
      */
     public function isFirewallBlackListed($ip)
     {
@@ -216,7 +216,7 @@ class APIKey
      * Checks if an IP is white listed in the API Keys firewall
      *
      * @param  string $ip
-     * @return boolean
+     * @return bool
      */
     public function isFirewallWhiteListed($ip)
     {
@@ -320,7 +320,7 @@ class APIKey
      * Try to authenticate with a private key
      *
      * @param  string $private_key
-     * @return boolean
+     * @return bool
      */
     public function authenticate($private_key)
     {
@@ -333,9 +333,9 @@ class APIKey
      *
      * @param  string  $name
      * @param  string  $email
-     * @param  integer $whitelist_only
-     * @param  integer $is_master
-     * @param  boolean $print_key
+     * @param  int $whitelist_only
+     * @param  int $is_master
+     * @param  bool $print_key
      * @return APIKey
      */
     public static function addNew($name, $email, $whitelist_only, $is_master = 0, $print_key = false)
@@ -410,7 +410,7 @@ class APIKey
      * Check if a key exists in the system
      *
      * @param  mixed $id
-     * @return boolean
+     * @return bool
      */
     public static function keyExists($id)
     {
@@ -443,7 +443,7 @@ class APIKey
     /**
      * Checks if the master key has already been set
      *
-     * @return boolean
+     * @return bool
      */
     public static function isMasterSet()
     {

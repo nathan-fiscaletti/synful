@@ -13,28 +13,28 @@ class APIKeyPermissions
     /**
      * The API Key associated associated with the permissions
      *
-     * @var integer
+     * @var int
      */
     public $api_key_id = -1;
 
     /**
      * Put data permission
      *
-     * @var integer
+     * @var int
      */
     public $put_data = 0;
 
     /**
      * Get data permission
      *
-     * @var integer
+     * @var int
      */
     public $get_data = 0;
 
     /**
      * Modify data permission
      *
-     * @var integer
+     * @var int
      */
     public $mod_data = 0;
 
@@ -42,10 +42,10 @@ class APIKeyPermissions
     /**
      * Create a new instance of APIPermissions
      *
-     * @param integer $id
-     * @param integer $put_data
-     * @param integer $get_data
-     * @param integer $mod_data
+     * @param int $id
+     * @param int $put_data
+     * @param int $get_data
+     * @param int $mod_data
      */
     public function __construct($id, $put_data = 0, $get_data = 0, $mod_data = 0)
     {

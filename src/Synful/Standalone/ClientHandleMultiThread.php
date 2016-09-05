@@ -32,7 +32,7 @@ class ClientHandleMultiThread extends Thread
     /**
      * The port of the connecting client
      *
-     * @var integer
+     * @var int
      */
     private $port;
 

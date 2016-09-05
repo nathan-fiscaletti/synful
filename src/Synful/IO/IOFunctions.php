@@ -17,7 +17,7 @@ class IOFunctions
     /**
      * Loads configuration file into system
      *
-     * @return boolean
+     * @return bool
      */
     public static function loadConfig()
     {
@@ -35,11 +35,11 @@ class IOFunctions
     /**
      * Prints output to the console and logs
      *
-     * @param  integer $level
+     * @param  int $level
      * @param  string  $data
-     * @param  boolean $force
-     * @param  boolean $block_header_on_echo
-     * @param  boolean $write_to_file
+     * @param  bool $force
+     * @param  bool $block_header_on_echo
+     * @param  bool $write_to_file
      */
     public static function out($level, $data, $force = false, $block_header_on_echo = false, $write_to_file = true)
     {

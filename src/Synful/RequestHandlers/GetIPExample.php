@@ -26,7 +26,7 @@ class GetIPExample implements RequestHandler
      * Function for handling request and returning data as a Response object
      *
      * @param  Response $data
-     * @param  boolean  $is_master_request
+     * @param  bool  $is_master_request
      */
     public function handleRequest(Response &$data, $is_master_request = false)
     {

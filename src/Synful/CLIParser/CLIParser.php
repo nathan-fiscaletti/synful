@@ -218,7 +218,7 @@ class CLIParser
     /**
      * Verify that all parameters passed to the script are valid
      *
-     * @return boolean True if all parameters are valid
+     * @return bool True if all parameters are valid
      */
     private function validateCLI()
     {

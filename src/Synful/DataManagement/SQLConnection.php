@@ -27,14 +27,14 @@ final class SqlConnection
     /**
      * The insert id from the last query.
      *
-     * @var integer
+     * @var int
      */
     private $insert_id = -1;
 
     /**
      * The status of the connection.
      *
-     * @var boolean
+     * @var bool
      */
     private $is_open = false;
 
@@ -69,7 +69,7 @@ final class SqlConnection
     /**
      * Connection port.
      *
-     * @var integer
+     * @var int
      */
     private $port;
 
@@ -80,7 +80,7 @@ final class SqlConnection
      * @param string  $username
      * @param string  $password
      * @param string  $database
-     * @param integer $port
+     * @param int $port
      */
     public function __construct(
         string $host = null,
@@ -110,7 +110,7 @@ final class SqlConnection
      *
      * @param string  $query
      * @param array   $binds
-     * @param boolean $return
+     * @param bool $return
      *
      * @return ResultSet
      */
@@ -160,7 +160,7 @@ final class SqlConnection
     /**
      * Returns the auto generated id used in the last query.
      *
-     * @return integer
+     * @return int
      */
     public function getLastInsertID()
     {
@@ -191,7 +191,7 @@ final class SqlConnection
      * Executes prepared statement.
      *
      * @param string  $prepareTitle
-     * @param boolean $return
+     * @param bool $return
      *
      * @return ResultSet
      */

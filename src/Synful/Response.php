@@ -22,7 +22,7 @@ class Response implements JsonSerializable
     /**
      * The HTTP Response Code
      *
-     * @var integer
+     * @var int
      */
     public $code;
 

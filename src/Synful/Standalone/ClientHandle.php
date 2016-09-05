@@ -32,7 +32,7 @@ class ClientHandle
     /**
      * The port of the connecting client
      *
-     * @var integer
+     * @var int
      */
     private $port;
 

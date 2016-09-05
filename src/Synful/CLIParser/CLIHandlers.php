@@ -426,7 +426,7 @@ class CLIHandlers
             IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
             IOFunctions::out(
                 LogLevel::ERRO,
-                'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_integer>\'',
+                'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_int>\'',
                 true,
                 false,
                 false
@@ -444,11 +444,11 @@ class CLIHandlers
             $name = str_replace('_', ' ', $new_key_data[1]);
             $whitelist_only = intval($new_key_data[2]);
 
-            if (!is_int($whitelist_only)) {
+            if (! is_int($whitelist_only)) {
                 IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
                 IOFunctions::out(
                     LogLevel::ERRO,
-                    'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_integer>\'',
+                    'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_int>\'',
                     true,
                     false,
                     false
@@ -498,7 +498,7 @@ class CLIHandlers
         $value = str_replace('_', '', $value);
         $value = trim($value);
 
-        if (!ctype_alpha($value)) {
+        if (! ctype_alpha($value)) {
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Error: Request Handler names must only contain alphabetic characters and no spaces. '.
@@ -507,7 +507,7 @@ class CLIHandlers
             );
             exit(0);
         } else {
-            if (!file_exists('./src/Synful/RequestHandlers/'.$value.'.php')) {
+            if (! file_exists('./src/Synful/RequestHandlers/'.$value.'.php')) {
                 file_put_contents(
                     './src/Synful/RequestHandlers/'.$value.'.php',
                     str_replace('RequestHandlerName', $value, file_get_contents('./templates/RequestHandler.tmpl'))
@@ -532,7 +532,7 @@ class CLIHandlers
     /**
      * Handle standalone CLI Parameter.
      *
-     * @param boolean $value
+     * @param bool $value
      */
     public static function standAlone($value)
     {
@@ -565,7 +565,7 @@ class CLIHandlers
     public static function listenIp($value)
     {
         if ($value != null) {
-            if (!filter_var($ip, FILTER_VALIDATE_IP) === false) {
+            if (! filter_var($ip, FILTER_VALIDATE_IP) === false) {
                 Synful::$config['system']['ip'] = $value;
                 IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set IP to \''.$value.'\'.');
             } else {
@@ -579,7 +579,7 @@ class CLIHandlers
     /**
      * Handle port CLI Parameter.
      *
-     * @param integer $value
+     * @param int $value
      */
     public static function listenPort($value)
     {
@@ -594,7 +594,7 @@ class CLIHandlers
     /**
      * Handle multithread CLI Parameter.
      *
-     * @param boolean $value
+     * @param bool $value
      */
     public static function multiThread($value)
     {
@@ -606,7 +606,7 @@ class CLIHandlers
     /**
      * Handle color CLI Parameter.
      *
-     * @param boolean $value
+     * @param bool $value
      */
     public static function enableColor($value)
     {
