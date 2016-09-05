@@ -85,13 +85,13 @@ class Controller
         $return = false;
 
         if (!empty($data['handler'])) {
-            if (file_exists('./src/Synful/RequestHandlers/' . $data['handler'] . '.php')) {
+            if (file_exists('./src/Synful/RequestHandlers/'.$data['handler'].'.php')) {
                 $return = true;
             } else {
                 $response->code = 500;
                 $response->setResponse(
                     'error',
-                    'Unknown Handler: ' . $data['handler'] . '. Handlers are case sensitive.'
+                    'Unknown Handler: '.$data['handler'].'.Handlers are case sensitive.'
                 );
                 $return = false;
             }

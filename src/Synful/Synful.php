@@ -77,7 +77,7 @@ class Synful
         $cli_parser = new CLIParser();
         $cli_parser->parseCLI();
 
-        global $argv; if (Synful::isCommandLineInterface() && sizeof($argv) < 1) {
+        global $argv; if (Synful::isCommandLineInterface() && count($argv) < 1) {
             IOFunctions::out(LogLevel::INFO, $cli_parser->getUsage(), true, false, false);
             exit(3);
         }
@@ -107,7 +107,7 @@ class Synful
      */
     public static function initializeSql()
     {
-        if (sizeof(Synful::$config['sql_databases']) > 0) {
+        if (count(Synful::$config['sql_databases']) > 0) {
             IOFunctions::out(LogLevel::NOTE, 'Loading databases...');
             Synful::loadSqlDatabases(Synful::$config['sql_databases']);
         } else {
@@ -132,7 +132,7 @@ class Synful
     {
         foreach ($databases as $database) {
             $database = (Array)json_decode(str_replace('\'', '"', $database));
-            if (sizeof($database) < 5) {
+            if (count($database) < 5) {
                 IOFunctions::out(
                     LogLevel::ERRO,
                     'Failed one or more custom databases. Please check config.ini.',
@@ -173,8 +173,8 @@ class Synful
                 $class_name = explode('.', $handler)[0];
                 eval(
                     '\\Synful\\Synful::$request_handlers[\'' .
-                    $class_name . '\'] = new \\Synful\\RequestHandlers\\' .
-                    $class_name . '();'
+                    $class_name.'\'] = new \\Synful\\RequestHandlers\\' .
+                    $class_name.'();'
                 );
                 $is_public = false;
                 $is_private = false;
@@ -189,7 +189,7 @@ class Synful
                 }
                 IOFunctions::out(
                     LogLevel::NOTE,
-                    '    Loaded Request Handler: ' . $class_name .
+                    '    Loaded Request Handler: '.$class_name .
                     (($is_public)
                         ? Colors::cs(
                             ' (Public)',

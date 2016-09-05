@@ -152,7 +152,7 @@ class CLIParser
             array_shift($argv);
                 
             if ($this->validateCLI()) {
-                if (sizeof($argv) > 0) {
+                if (count($argv) > 0) {
                     foreach ($argv as $arg) {
                         $this->parseArgument($arg);
                     }
@@ -173,21 +173,25 @@ class CLIParser
      */
     public function getUsage()
     {
-        $usage = "\r\n".'    Usage: php '.$this->script_name." [arg1, arg2, ...]\r\n\r\n    Arguments:\r\n";
+        $usage =  PHP_EOL.'    Usage: php ';
+        $usage .= $this->script_name." [arg1, arg2, ...]".PHP_EOL;
+        $usage .= '    <> = Denotes a required part of usage.'.PHP_EOL;
+        $usage .= '    [] = Denotes an optional part of usage.'.PHP_EOL;
+        $usage .= PHP_EOL."    Arguments:".PHP_EOL;
 
         $largest_argument = max(array_map('strlen', array_keys($this->valid_arguments)));
 
         foreach ($this->valid_arguments as $argument) {
             $usage .= str_pad('', 8);
             $usage .= Colors::cs(str_pad($argument[name], $largest_argument), 'light_cyan');
-            $usage .= ' : ' . Colors::cs($argument['description'], 'yellow') . "\r\n";
+            $usage .= ' : '.Colors::cs($argument['description'], 'yellow').PHP_EOL;
             $usage .= str_pad('Argument Usage : ', 29, ' ', STR_PAD_LEFT);
-            $usage .= $argument['usage'] . "\r\n\r\n";
+            $usage .= $argument['usage'].PHP_EOL.PHP_EOL;
 
             $spaces = '';
         }
 
-        return $usage."\r\n";
+        return $usage.PHP_EOL;
     }
 
 
@@ -203,7 +207,7 @@ class CLIParser
             if ($valid_argument['name'] == $cli_data[0]) {
                 call_user_func(
                     '\Synful\CLIParser\CLIHandlers::'.$valid_argument['callback'],
-                    (sizeof($cli_data) > 1) ? $cli_data[1] : null
+                    (count($cli_data) > 1) ? $cli_data[1] : null
                 );
                 break;
             }

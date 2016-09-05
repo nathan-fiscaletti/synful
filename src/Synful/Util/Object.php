@@ -19,7 +19,7 @@ trait Object
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;
             } else {
-                throw new Exception('Unknown property \'' . $key . '\' in Object definition.');
+                throw new Exception('Unknown property \''.$key.'\' in Object definition.');
             }
         }
     }
@@ -36,13 +36,13 @@ trait Object
     {
         $ret = $this;
         if (property_exists($this, $name)) {
-            if (sizeof($arguments) < 1) {
+            if (count($arguments) < 1) {
                 $ret = $this->{$name};
             } else {
                 $this->{$name} = $arguments[0];
             }
         } else {
-            throw new Exception('Call to undefined function \'' . $name . '\'.');
+            throw new Exception('Call to undefined function \''.$name.'\'.');
         }
         return $ret;
     }

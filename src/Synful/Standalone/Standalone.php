@@ -24,7 +24,7 @@ class Standalone
         if ($bind) {
             IOFunctions::out(
                 LogLevel::INFO,
-                'Listening on ' . Synful::$config['system']['ip'] . ':' . Synful::$config['system']['port']
+                'Listening on '.Synful::$config['system']['ip'].':'.Synful::$config['system']['port']
             );
         } else {
             exit(1);

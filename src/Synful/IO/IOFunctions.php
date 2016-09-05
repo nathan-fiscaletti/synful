@@ -26,7 +26,7 @@ class IOFunctions
                 Synful::$config = parse_ini_file('./config.ini', true);
                 return true;
             } catch (Exception $ex) {
-                trigger_error('Failed to load config: ' . $ex->message, E_USER_ERROR);
+                trigger_error('Failed to load config: '.$ex->message, E_USER_ERROR);
                 return false;
             }
         }
@@ -71,7 +71,7 @@ class IOFunctions
                 if ($block_header_on_echo) {
                     $output[] = $line;
                 } else {
-                    $out_line  = '[' . Colors::cs('SYNFUL', 'white', null, 'reset') . '] ';
+                    $out_line  = '['.Colors::cs('SYNFUL', 'white', null, 'reset').'] ';
                     $out_line .= IOFunctions::parseLogString($level, $head, $line);
                     $output[] = $out_line;
                 }
@@ -83,7 +83,7 @@ class IOFunctions
                     $max_lines = Synful::$config['files']['max_logfile_lines'];
                     while (file_exists($log_file) && (count(file($log_file)) - 1) > $max_lines) {
                         $log_id++;
-                        $log_file = Synful::$config['files']['logfile'] . '.' . $log_id;
+                        $log_file = Synful::$config['files']['logfile'].'.'.$log_id;
                     }
                 }
 
@@ -96,11 +96,11 @@ class IOFunctions
                 if (is_writable($log_file)) {
                     file_put_contents(
                         $log_file,
-                        '[' . time() . '] [SYNFUL] [' . $head . '] ' . $line . "\r\n",
+                        '['.time().'] [SYNFUL] ['.$head.'] '.$line."\r\n",
                         FILE_APPEND
                     );
                 } else {
-                    $out_line  = '[' . Colors::cs('SYNFUL', 'white') . '] ';
+                    $out_line  = '['.Colors::cs('SYNFUL', 'white').'] ';
                     $out_line .=  IOFunctions::parseLogString(
                         LogLevel::ERRO,
                         'ERRO',
@@ -108,7 +108,7 @@ class IOFunctions
                     );
                     $output[]  = $out_line;
 
-                    $out_line  = '[' . Colors::cs('SYNFUL', 'white') . '] ';
+                    $out_line  = '['.Colors::cs('SYNFUL', 'white').'] ';
                     $out_line .= IOFunctions::parseLogString(
                         LogLevel::ERRO,
                         'ERRO',
@@ -122,7 +122,7 @@ class IOFunctions
         }
 
         foreach ($output as $line) {
-            echo $line . ((!$block_header_on_echo) ? Colors::cs('', 'reset', null, 'reset') : '') . "\r\n";
+            echo $line.((!$block_header_on_echo) ? Colors::cs('', 'reset', null, 'reset') : '')."\r\n";
         }
     }
 
@@ -132,26 +132,26 @@ class IOFunctions
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
             
-        $err = $errstr . ' in ' . $errfile . ' at line ' . $errline;
+        $err = $errstr.' in '.$errfile.' at line '.$errline;
 
         switch ($errno) {
             case E_USER_ERROR : {
-                IOFunctions::out(LogLevel::ERRO, 'Fatal Error: ' . $err);
+                IOFunctions::out(LogLevel::ERRO, 'Fatal Error: '.$err);
                 break;
             }
 
             case E_USER_WARNING : {
-                IOFunctions::out(LogLevel::WARN, 'Warning: ' . $err);
+                IOFunctions::out(LogLevel::WARN, 'Warning: '.$err);
                 break;
             }
 
             case E_USER_NOTICE : {
-                IOFunctions::out(LogLevel::NOTE, 'Notice: ' . $err);
+                IOFunctions::out(LogLevel::NOTE, 'Notice: '.$err);
                 break;
             }
 
             default : {
-                IOFunctions::out(LogLevel::ERRO, 'Unknown Error: ' . $err);
+                IOFunctions::out(LogLevel::ERRO, 'Unknown Error: '.$err);
                 break;
             }
         }
@@ -168,7 +168,7 @@ class IOFunctions
             Synful::$sql->closeSQL();
         }
 
-        if (sizeof(Synful::$sql_databases) > 0) {
+        if (count(Synful::$sql_databases) > 0) {
             foreach (Synful::$sql_databases as $database) {
                 $database->closeSQL();
             }
@@ -192,42 +192,42 @@ class IOFunctions
         if (Synful::$config['system']['color']) {
             switch ($level) {
                 case LogLevel::INFO : {
-                    $return_string  = '[' . Colors::cs($head, 'light_green', null, 'reset') . '] ';
+                    $return_string  = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
                     $return_string .= Colors::cs($message, 'white');
                     break;
                 }
 
                 case LogLevel::WARN : {
-                    $return_string  = '[' . Colors::cs($head, 'light_red', null, 'reset') . '] ';
+                    $return_string  = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
                     $return_string .= Colors::cs($message, 'yellow', null, 'yellow');
                     break;
                 }
 
                 case LogLevel::NOTE : {
-                    $return_string  = '[' . Colors::cs($head, 'light_blue', null, 'reset') . '] ';
+                    $return_string  = '['.Colors::cs($head, 'light_blue', null, 'reset').'] ';
                     $return_string .= Colors::cs($message, 'white');
                     break;
                 }
 
                 case LogLevel::ERRO : {
-                    $return_string  = '[' . Colors::cs($head, 'light_red', null, 'reset') . '] ';
+                    $return_string  = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
                     $return_string .= Colors::cs($message, 'red', null, 'red');
                     break;
                 }
 
                 case LogLevel::RESP : {
-                    $return_string  = '[' . Colors::cs($head, 'light_cyan', null, 'reset') . '] ';
+                    $return_string  = '['.Colors::cs($head, 'light_cyan', null, 'reset').'] ';
                     $return_string .= Colors::cs($message, 'cyan', null, 'cyan');
                     break;
                 }
 
                 default : {
-                    $return_string  = '[' . Colors::cs($head, 'light_green', null, 'reset') . '] ';
+                    $return_string  = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
                     $return_string .= Colors::cs($message, 'white');
                 }
             }
         } else {
-            $return_string = '[' . $head . '] ' . $message;
+            $return_string = '['.$head.'] '.$message;
         }
 
         return $return_string;

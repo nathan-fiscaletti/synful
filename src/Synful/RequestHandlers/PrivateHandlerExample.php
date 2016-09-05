@@ -8,7 +8,7 @@ use Synful\Response;
 use Synful\DataManagement\Models\APIKey;
 
 /**
- * New Request Handler Class
+ * Class used to demonstrate private request handlers
  */
 class PrivateHandlerExample implements RequestHandler
 {

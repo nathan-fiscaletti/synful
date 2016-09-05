@@ -9,19 +9,19 @@ use Synful\DataManagement\Models\APIKey;
 use Synful\Colors;
 
 /**
- * Store handlers for CLI Parameters in this file
+ * Store handlers for CLI Parameters in this file.
  */
 class CLIHandlers
 {
     /**
-     * Handles whitelistonly CLI Parameter
+     * Handles whitelistonly CLI Parameter.
      *
      * @param  String $value
      */
     public static function whiteListOnly($value)
     {
         $param_data = explode(',', $value);
-        if (sizeof($param_data) < 2 || !($param_data[1] === 'true' || $param_data[1] === 'false')) {
+        if (count($param_data) < 2 || ! ($param_data[1] === 'true' || $param_data[1] === 'false')) {
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Unable to set White-List Only.',
@@ -45,10 +45,10 @@ class CLIHandlers
             );
             exit(2);
         } else {
-            if (!APIKey::keyExists($param_data[0])) {
+            if (! APIKey::keyExists($param_data[0])) {
                 IOFunctions::out(
                     LogLevel::ERRO,
-                    'No key found for email/ID \''. $param_data[0] . '\'.',
+                    'No key found for email/ID \''.$param_data[0].'\'.',
                     true,
                     false,
                     false
@@ -60,7 +60,7 @@ class CLIHandlers
                 $key->save();
                 IOFunctions::out(
                     LogLevel::INFO,
-                    'Key \''. Colors::cs($param_data[0], 'light_green') .
+                    'Key \''.Colors::cs($param_data[0], 'light_green') .
                     '\' updated with new White-List Only value \''.
                     (($param_data[1] == 'true')
                         ? Colors::cs(
@@ -71,7 +71,7 @@ class CLIHandlers
                             $param_data[1],
                             'light_red'
                         )
-                    ) . '\'.',
+                    ).'\'.',
                     true,
                     false,
                     false
@@ -82,7 +82,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle showfirewall CLI Parameter
+     * Handle showfirewall CLI Parameter.
      *
      * @param  String $value
      */
@@ -94,7 +94,7 @@ class CLIHandlers
             foreach ($key->ip_firewall as $firewall_entry) {
                 IOFunctions::out(
                     LogLevel::INFO,
-                    'IP: ' . Colors::cs($firewall_entry['ip'], 'yellow') . ' is ' .
+                    'IP: '.Colors::cs($firewall_entry['ip'], 'yellow').' is ' .
                     (($firewall_entry['block'])
                         ? Colors::cs(
                             'blocked',
@@ -105,7 +105,7 @@ class CLIHandlers
                             'light_green'
                         )
                     ) .
-                    ' for key ' . Colors::cs($value, 'light_cyan'),
+                    ' for key '.Colors::cs($value, 'light_cyan'),
                     true,
                     false,
                     false
@@ -120,14 +120,14 @@ class CLIHandlers
     }
 
     /**
-     * Handle firewallip CLI Parameter
+     * Handle firewallip CLI Parameter.
      *
      * @param  String $value
      */
     public static function fireWallIp($value)
     {
         $firewall_data = explode(',', $value);
-        if (sizeof($firewall_data) < 3) {
+        if (count($firewall_data) < 3) {
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Unable to firewall IP.',
@@ -160,8 +160,8 @@ class CLIHandlers
                 $key->save();
                 IOFunctions::out(
                     LogLevel::INFO,
-                    'Set firewall on key \'' . Colors::cs($id, 'light_blue') .
-                    '\' for ip \'' . Colors::cs($ip, 'light_blue') . '\' to \'' .
+                    'Set firewall on key \''.Colors::cs($id, 'light_blue') .
+                    '\' for ip \''.Colors::cs($ip, 'light_blue').'\' to \'' .
                     (($block)
                         ? Colors::cs(
                             'true',
@@ -171,7 +171,7 @@ class CLIHandlers
                             'false',
                             'light_red'
                         )
-                    ) . '\'.',
+                    ).'\'.',
                     true,
                     false,
                     false
@@ -185,14 +185,14 @@ class CLIHandlers
     }
 
     /**
-     * Handle unfirewallip CLI Parameter
+     * Handle unfirewallip CLI Parameter.
      *
      * @param  String $value
      */
     public static function unFireWallIp($value)
     {
         $firewall_data = explode(',', $value);
-        if (sizeof($firewall_data) < 2) {
+        if (count($firewall_data) < 2) {
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Unable to unfirewall IP.',
@@ -225,8 +225,8 @@ class CLIHandlers
                     $key->save();
                     IOFunctions::out(
                         LogLevel::INFO,
-                        'Removed firewall entry on key \'' . Colors::cs($id, 'light_blue') .
-                        '\' for ip \'' . Colors::cs($ip, 'light_blue') . '\'.',
+                        'Removed firewall entry on key \''.Colors::cs($id, 'light_blue') .
+                        '\' for ip \''.Colors::cs($ip, 'light_blue').'\'.',
                         true,
                         false,
                         false
@@ -256,7 +256,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle disablekey CLI Parameter
+     * Handle disablekey CLI Parameter.
      *
      * @param  String $value
      */
@@ -268,8 +268,8 @@ class CLIHandlers
             $key->save();
             IOFunctions::out(
                 LogLevel::INFO,
-                'APIKey for ID \'' . Colors::cs($value, 'light_blue') .
-                '\' has been ' . Colors::cs('disabled', 'light_red') . '.',
+                'APIKey for ID \''.Colors::cs($value, 'light_blue') .
+                '\' has been '.Colors::cs('disabled', 'light_red').'.',
                 true,
                 false,
                 false
@@ -282,7 +282,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle enablekey CLI Parameter
+     * Handle enablekey CLI Parameter.
      *
      * @param  String $value
      */
@@ -294,8 +294,8 @@ class CLIHandlers
             $key->save();
             IOFunctions::out(
                 LogLevel::INFO,
-                'APIKey for ID \'' . Colors::cs($value, 'light_blue') .
-                '\' has been ' . Colors::cs('enabled', 'light_green') . '.',
+                'APIKey for ID \''.Colors::cs($value, 'light_blue') .
+                '\' has been '.Colors::cs('enabled', 'light_green').'.',
                 true,
                 false,
                 false
@@ -308,7 +308,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle removekey CLI Parameter
+     * Handle removekey CLI Parameter.
      *
      * @param  String $value
      */
@@ -319,8 +319,8 @@ class CLIHandlers
             $key->delete();
             IOFunctions::out(
                 LogLevel::INFO,
-                'APIKey for ID \'' . Colors::cs($value, 'light_blue') .
-                '\' has been ' . Colors::cs('removed', 'light_red') . '.',
+                'APIKey for ID \''.Colors::cs($value, 'light_blue') .
+                '\' has been '.Colors::cs('removed', 'light_red').'.',
                 true,
                 false,
                 false
@@ -333,7 +333,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle listkeys CLI Parameter
+     * Handle listkeys CLI Parameter.
      *
      * @param  String $value
      */
@@ -345,14 +345,14 @@ class CLIHandlers
         while ($row = mysqli_fetch_assoc($sql_result)) {
             IOFunctions::out(
                 LogLevel::INFO,
-                'Belongs To: ' . Colors::cs($row['name'], 'light_blue'),
+                'Belongs To: '.Colors::cs($row['name'], 'light_blue'),
                 true,
                 false,
                 false
             );
             IOFunctions::out(
                 LogLevel::INFO,
-                '    EMail / ID     : ' . $row['email'] . ' / ' . $row['id'],
+                '    EMail / ID     : '.$row['email'].' / '.$row['id'],
                 true,
                 false,
                 false
@@ -414,7 +414,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle createkey CLI Parameter
+     * Handle createkey CLI Parameter.
      *
      * @param  String $value
      */
@@ -422,7 +422,7 @@ class CLIHandlers
     {
 
         $new_key_data = explode(',', $value);
-        if (sizeof($new_key_data) < 3) {
+        if (count($new_key_data) < 3) {
             IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
             IOFunctions::out(
                 LogLevel::ERRO,
@@ -469,8 +469,8 @@ class CLIHandlers
             }
 
             IOFunctions::out(LogLevel::INFO, 'Creating new key with data: ', true, false, false);
-            IOFunctions::out(LogLevel::INFO, '    Name: ' . $name, true, false, false);
-            IOFunctions::out(LogLevel::INFO, '    Email: ' . $email, true, false, false);
+            IOFunctions::out(LogLevel::INFO, '    Name: '.$name, true, false, false);
+            IOFunctions::out(LogLevel::INFO, '    Email: '.$email, true, false, false);
 
             IOFunctions::out(LogLevel::INFO, '------------------------------------------------', true, false, false);
 
@@ -489,7 +489,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle createhandler CLI Parameter
+     * Handle createhandler CLI Parameter.
      *
      * @param  String $value
      */
@@ -507,19 +507,19 @@ class CLIHandlers
             );
             exit(0);
         } else {
-            if (!file_exists('./src/Synful/RequestHandlers/' . $value . '.php')) {
+            if (!file_exists('./src/Synful/RequestHandlers/'.$value.'.php')) {
                 file_put_contents(
-                    './src/Synful/RequestHandlers/' . $value . '.php',
+                    './src/Synful/RequestHandlers/'.$value.'.php',
                     str_replace('RequestHandlerName', $value, file_get_contents('./templates/RequestHandler.tmpl'))
                 );
 
                 IOFunctions::out(
                     LogLevel::INFO,
-                    'Created Request Handler in \'src/Synful/RequestHandlers\' with name \'' . $value . '\'.',
+                    'Created Request Handler in \'src/Synful/RequestHandlers\' with name \''.$value.'\'.',
                     true
                 );
-                chmod('./src/Synful/RequestHandlers/' . $value . '.php', 0700);
-                exec('chmod +x ./src/Synful/RequestHandlers/' . $value . '.php');
+                chmod('./src/Synful/RequestHandlers/'.$value.'.php', 0700);
+                exec('chmod +x ./src/Synful/RequestHandlers/'.$value.'.php');
                 exec('php composer.phar dumpautoload');
                 exit(0);
             } else {
@@ -530,7 +530,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle standalone CLI Parameter
+     * Handle standalone CLI Parameter.
      *
      * @param boolean $value
      */
@@ -538,11 +538,11 @@ class CLIHandlers
     {
         Synful::$config['system']['standalone'] = ($value == null) ? true : json_decode($value);
         $str = (Synful::$config['system']['standalone']) ? 'true' : 'false';
-        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set standalone mode to \'' . $str . '\'.');
+        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set standalone mode to \''.$str.'\'.');
     }
 
     /**
-     * Handle logfile CLI Parameter
+     * Handle logfile CLI Parameter.
      *
      * @param string $value
      */
@@ -551,14 +551,14 @@ class CLIHandlers
 
         if ($value != null) {
             Synful::$config['files']['logfile'] = $value;
-            IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set logfile to \'' . $value . '\'.');
+            IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set logfile to \''.$value.'\'.');
         } else {
             IOFunctions::out(LogLevel::WARN, 'Invalid logfile defined. Using default.');
         }
     }
 
     /**
-     * Handle ip CLI Parameter
+     * Handle ip CLI Parameter.
      *
      * @param string $value
      */
@@ -567,7 +567,7 @@ class CLIHandlers
         if ($value != null) {
             if (!filter_var($ip, FILTER_VALIDATE_IP) === false) {
                 Synful::$config['system']['ip'] = $value;
-                IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set IP to \'' . $value . '\'.');
+                IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set IP to \''.$value.'\'.');
             } else {
                 IOFunctions::out(LogLevel::WARN, 'Invalid IP defined. Using default.');
             }
@@ -577,7 +577,7 @@ class CLIHandlers
     }
 
     /**
-     * Handle port CLI Parameter
+     * Handle port CLI Parameter.
      *
      * @param integer $value
      */
@@ -585,14 +585,14 @@ class CLIHandlers
     {
         if ($value != null) {
             Synful::$config['system']['port'] = $value;
-            IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set port to \'' . $value . '\'.');
+            IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set port to \''.$value.'\'.');
         } else {
             IOFunctions::out(LogLevel::WARN, 'Invalid port defined. Using default.');
         }
     }
 
     /**
-     * Handle multithread CLI Parameter
+     * Handle multithread CLI Parameter.
      *
      * @param boolean $value
      */
@@ -600,11 +600,11 @@ class CLIHandlers
     {
         Synful::$config['system']['multithread'] = ($value == null) ? true : json_decode($value);
         $str = (Synful::$config['system']['multithread']) ? 'true' : 'false';
-        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set multithread mode to \'' . $str . '\'.');
+        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set multithread mode to \''.$str.'\'.');
     }
 
     /**
-     * Handle color CLI Parameter
+     * Handle color CLI Parameter.
      *
      * @param boolean $value
      */
@@ -612,6 +612,6 @@ class CLIHandlers
     {
         Synful::$config['system']['color'] = ($value == null) ? true : json_decode($value);
         $str = (Synful::$config['system']['color']) ? 'true' : 'false';
-        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set console color to \'' . $str . '\'.');
+        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set console color to \''.$str.'\'.');
     }
 }

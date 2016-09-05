@@ -45,7 +45,7 @@ class ClientHandleMultiThread extends Thread
 
             IOFunctions::out(
                 LogLevel::INFO,
-                'Client REQ (' . $this->ip . ':' . $this->port . '): ' . $input
+                'Client REQ ('.$this->ip.':'.$this->port.'): '.$input
             );
 
             $response = Synful::$controller->handleRequest($input, $this->ip);
@@ -53,7 +53,7 @@ class ClientHandleMultiThread extends Thread
 
             IOFunctions::out(
                 LogLevel::INFO,
-                'Server RES (' . $this->ip . ':' . $this->port . '): ' . json_encode($response)
+                'Server RES ('.$this->ip.':'.$this->port.'): '.json_encode($response)
             );
 
             socket_close($this->client_socket);

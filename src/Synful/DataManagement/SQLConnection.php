@@ -116,7 +116,7 @@ final class SqlConnection
      */
     public function executeSql($query, $binds = [], $return = false)
     {
-        $id = $this->prepareStatement(sizeof($this->prepared_statements), $query);
+        $id = $this->prepareStatement(count($this->prepared_statements), $query);
         $ret = null;
         if ($id !== null) {
             $ret = $this->executePreparedStatement($id, $binds, $return);
@@ -204,7 +204,7 @@ final class SqlConnection
             $tmp[$key] = &$binds[$key];
         }
 
-        if (sizeof($binds) > 0) {
+        if (count($binds) > 0) {
             call_user_func_array(array($statement, 'bind_param'), $tmp);
             if ($this->sql->errno) {
                 trigger_error(
