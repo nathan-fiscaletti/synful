@@ -3,7 +3,7 @@
 namespace Synful;
 
 /**
- * Class used to handle String Coloring
+ * Class used to handle string Coloring
  */
 class Colors
 {
@@ -59,16 +59,16 @@ class Colors
          
             // Check if given foreground color found
             if (isset(Colors::$foreground_colors[$foreground_color])) {
-                $colored_string .= "\033[".Colors::$foreground_colors[$foreground_color]."m";
+                $colored_string.= "\033[".Colors::$foreground_colors[$foreground_color]."m";
             }
 
             // Check if given background color found
             if (isset(Colors::$background_colors[$background_color])) {
-                $colored_string .= "\033[".Colors::$background_colors[$background_color]."m";
+                $colored_string.= "\033[".Colors::$background_colors[$background_color]."m";
             }
          
             // Add string and end coloring
-            $colored_string .=  $string."\033[".Colors::$foreground_colors[$reset].'m';
+            $colored_string.=  $string."\033[".Colors::$foreground_colors[$reset].'m';
         } else {
             $colored_string = $string;
         }

@@ -21,7 +21,7 @@ class Controller
      * Passes a JSON Request through the desired request handlers and returns a response
      * Validates authentication and request integrity
      *
-     * @param  String   $request
+     * @param  string   $request
      * @param  Stripg   $ip
      * @return Response
      */
@@ -155,7 +155,7 @@ class Controller
      * @param  Response         $response
      * @param  Object           $api_key
      * @param  RequestHandler   $handler
-     * @param  String           $ip
+     * @param  string           $ip
      * @return Boolean
      */
     private function validateAuthentication(&$data, &$response, &$api_key, &$handler, &$ip)
@@ -249,10 +249,10 @@ class Controller
      *
      * @param  APIKey   $api_key
      * @param  Response $response
-     * @param  String   ip
+     * @param  string   ip
      * @return Boolean
      */
-    private function validateFireWall(APIKey &$api_key, Response &$response, String $ip)
+    private function validateFireWall(APIKey &$api_key, Response &$response, string $ip)
     {
         if ($api_key->whitelist_only) {
             if (!$api_key->isFirewallWhiteListed($ip)) {

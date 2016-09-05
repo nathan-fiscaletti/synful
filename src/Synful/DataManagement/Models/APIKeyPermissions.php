@@ -61,7 +61,7 @@ class APIKeyPermissions
         );
 
         if ($res->num_rows > 0) {
-            $res            = mysqli_fetch_assoc($res);
+            $res           = mysqli_fetch_assoc($res);
             $this->put_data = $res['put_data'];
             $this->get_data = $res['get_data'];
             $this->mod_data = $res['mod_data'];

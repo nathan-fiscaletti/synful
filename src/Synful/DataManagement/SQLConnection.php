@@ -90,11 +90,11 @@ final class SqlConnection
         int $port = null
     ) {
     
-        $this->host     = $host;
+        $this->host    = $host;
         $this->username = $username;
         $this->password = $password;
         $this->database = $database;
-        $this->port     = $port;
+        $this->port    = $port;
     }
 
     /**
@@ -182,7 +182,7 @@ final class SqlConnection
      *
      * @param string $str
      */
-    public function escapeString($str)
+    public function escapestring($str)
     {
         return $this->sql->real_escape_string(strip_tags($str));
     }
@@ -209,7 +209,7 @@ final class SqlConnection
             if ($this->sql->errno) {
                 trigger_error(
                     'Error while applying binds to SQL Prepared Statement: '
-                    .$this->sql->error,
+                   .$this->sql->error,
                     E_USER_WARNING
                 );
             }
@@ -228,7 +228,7 @@ final class SqlConnection
             if ($statement->errno) {
                 trigger_error(
                     'Error while retreiving result set from MySQL Prepared Statement: '
-                    .$statement->error,
+                   .$statement->error,
                     E_USER_WARNING
                 );
             }

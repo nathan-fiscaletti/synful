@@ -102,13 +102,13 @@ class APIKey
             )
         );
 
-        $this->id             = $result['id'];
-        $this->key            = $result['api_key'];
-        $this->name           = $result['name'];
-        $this->email          = $result['email'];
+        $this->id            = $result['id'];
+        $this->key           = $result['api_key'];
+        $this->name          = $result['name'];
+        $this->email         = $result['email'];
         $this->whitelist_only = $result['whitelist_only'];
-        $this->is_master      = $result['is_master'];
-        $this->enabled        = $result['enabled'];
+        $this->is_master     = $result['is_master'];
+        $this->enabled       = $result['enabled'];
 
         $this->permissions = new APIKeyPermissions(
             $id,
@@ -135,8 +135,8 @@ class APIKey
 
         while ($ip_list = mysqli_fetch_assoc($fw)) {
             $this->ip_firewall[$ip_list['ip']]
-            = [
-             'ip'    => $ip_list['ip'],
+           = [
+             'ip'   => $ip_list['ip'],
              'block' => $ip_list['block'],
             ];
         }
@@ -164,8 +164,8 @@ class APIKey
     public function firewallIP($ip, $block = 0)
     {
         $this->ip_firewall[$ip]
-        = [
-         'ip'    => $ip,
+       = [
+         'ip'   => $ip,
          'block' => $block,
         ];
     }
@@ -430,7 +430,7 @@ class APIKey
             [],
             true
         );
-        $ret    = null;
+        $ret   = null;
 
         if (mysqli_num_rows($result) > 0) {
             $ret = new APIKey(mysqli_fetch_assoc($result)['id']);
@@ -458,10 +458,10 @@ class APIKey
      */
     public static function generateNew()
     {
-        $key  = bin2hex(openssl_random_pseudo_bytes(32));
+        $key = bin2hex(openssl_random_pseudo_bytes(32));
         $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 11]);
         return [
-                'key'  => $key,
+                'key' => $key,
                 'hash' => $hash,
                ];
     }

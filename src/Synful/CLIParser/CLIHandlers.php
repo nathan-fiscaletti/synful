@@ -16,7 +16,7 @@ class CLIHandlers
     /**
      * Handles whitelistonly CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function whiteListOnly($value)
     {
@@ -60,7 +60,7 @@ class CLIHandlers
                 $key->save();
                 IOFunctions::out(
                     LogLevel::INFO,
-                    'Key \''.Colors::cs($param_data[0], 'light_green') .
+                    'Key \''.Colors::cs($param_data[0], 'light_green').
                     '\' updated with new White-List Only value \''.
                     (($param_data[1] == 'true')
                         ? Colors::cs(
@@ -84,7 +84,7 @@ class CLIHandlers
     /**
      * Handle showfirewall CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function showFireWall($value)
     {
@@ -94,7 +94,7 @@ class CLIHandlers
             foreach ($key->ip_firewall as $firewall_entry) {
                 IOFunctions::out(
                     LogLevel::INFO,
-                    'IP: '.Colors::cs($firewall_entry['ip'], 'yellow').' is ' .
+                    'IP: '.Colors::cs($firewall_entry['ip'], 'yellow').' is '.
                     (($firewall_entry['block'])
                         ? Colors::cs(
                             'blocked',
@@ -104,7 +104,7 @@ class CLIHandlers
                             'allowed',
                             'light_green'
                         )
-                    ) .
+                    ).
                     ' for key '.Colors::cs($value, 'light_cyan'),
                     true,
                     false,
@@ -122,7 +122,7 @@ class CLIHandlers
     /**
      * Handle firewallip CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function fireWallIp($value)
     {
@@ -153,15 +153,15 @@ class CLIHandlers
         } else {
             $id = $firewall_data[0];
             $ip = $firewall_data[1];
-            $block  = $firewall_data[2];
+            $block = $firewall_data[2];
             if (APIKey::keyExists($id)) {
                 $key = APIKey::getKey($id);
                 $key->firewallIP($ip, $block);
                 $key->save();
                 IOFunctions::out(
                     LogLevel::INFO,
-                    'Set firewall on key \''.Colors::cs($id, 'light_blue') .
-                    '\' for ip \''.Colors::cs($ip, 'light_blue').'\' to \'' .
+                    'Set firewall on key \''.Colors::cs($id, 'light_blue').
+                    '\' for ip \''.Colors::cs($ip, 'light_blue').'\' to \''.
                     (($block)
                         ? Colors::cs(
                             'true',
@@ -187,7 +187,7 @@ class CLIHandlers
     /**
      * Handle unfirewallip CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function unFireWallIp($value)
     {
@@ -225,7 +225,7 @@ class CLIHandlers
                     $key->save();
                     IOFunctions::out(
                         LogLevel::INFO,
-                        'Removed firewall entry on key \''.Colors::cs($id, 'light_blue') .
+                        'Removed firewall entry on key \''.Colors::cs($id, 'light_blue').
                         '\' for ip \''.Colors::cs($ip, 'light_blue').'\'.',
                         true,
                         false,
@@ -258,7 +258,7 @@ class CLIHandlers
     /**
      * Handle disablekey CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function disableKey($value)
     {
@@ -268,7 +268,7 @@ class CLIHandlers
             $key->save();
             IOFunctions::out(
                 LogLevel::INFO,
-                'APIKey for ID \''.Colors::cs($value, 'light_blue') .
+                'APIKey for ID \''.Colors::cs($value, 'light_blue').
                 '\' has been '.Colors::cs('disabled', 'light_red').'.',
                 true,
                 false,
@@ -284,7 +284,7 @@ class CLIHandlers
     /**
      * Handle enablekey CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function enableKey($value)
     {
@@ -294,7 +294,7 @@ class CLIHandlers
             $key->save();
             IOFunctions::out(
                 LogLevel::INFO,
-                'APIKey for ID \''.Colors::cs($value, 'light_blue') .
+                'APIKey for ID \''.Colors::cs($value, 'light_blue').
                 '\' has been '.Colors::cs('enabled', 'light_green').'.',
                 true,
                 false,
@@ -310,7 +310,7 @@ class CLIHandlers
     /**
      * Handle removekey CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function removeKey($value)
     {
@@ -319,7 +319,7 @@ class CLIHandlers
             $key->delete();
             IOFunctions::out(
                 LogLevel::INFO,
-                'APIKey for ID \''.Colors::cs($value, 'light_blue') .
+                'APIKey for ID \''.Colors::cs($value, 'light_blue').
                 '\' has been '.Colors::cs('removed', 'light_red').'.',
                 true,
                 false,
@@ -335,7 +335,7 @@ class CLIHandlers
     /**
      * Handle listkeys CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function listKeys($value)
     {
@@ -359,7 +359,7 @@ class CLIHandlers
             );
             IOFunctions::out(
                 LogLevel::INFO,
-                '    Whitelist-Only : ' .
+                '    Whitelist-Only : '.
                 (($row['whitelist_only'])
                     ? Colors::cs(
                         'true',
@@ -376,7 +376,7 @@ class CLIHandlers
             );
             IOFunctions::out(
                 LogLevel::INFO,
-                '    Is-Master      : ' .
+                '    Is-Master      : '.
                 (($row['is_master'])
                     ? Colors::cs(
                         'true',
@@ -393,7 +393,7 @@ class CLIHandlers
             );
             IOFunctions::out(
                 LogLevel::INFO,
-                '    Enabled        : ' .
+                '    Enabled        : '.
                 (($row['enabled'])
                     ? Colors::cs(
                         'true',
@@ -416,7 +416,7 @@ class CLIHandlers
     /**
      * Handle createkey CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function createKey($value)
     {
@@ -491,7 +491,7 @@ class CLIHandlers
     /**
      * Handle createhandler CLI Parameter.
      *
-     * @param  String $value
+     * @param  string $value
      */
     public static function createHandler($value)
     {
@@ -519,7 +519,7 @@ class CLIHandlers
                     true
                 );
                 chmod('./src/Synful/RequestHandlers/'.$value.'.php', 0700);
-                exec('chmod +x ./src/Synful/RequestHandlers/'.$value.'.php');
+                exec('chmod +x./src/Synful/RequestHandlers/'.$value.'.php');
                 exec('php composer.phar dumpautoload');
                 exit(0);
             } else {

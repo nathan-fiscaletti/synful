@@ -172,8 +172,8 @@ class Synful
                 $enabled_request_handler = true;
                 $class_name = explode('.', $handler)[0];
                 eval(
-                    '\\Synful\\Synful::$request_handlers[\'' .
-                    $class_name.'\'] = new \\Synful\\RequestHandlers\\' .
+                    '\\Synful\\Synful::$request_handlers[\''.
+                    $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
                     $class_name.'();'
                 );
                 $is_public = false;
@@ -189,7 +189,7 @@ class Synful
                 }
                 IOFunctions::out(
                     LogLevel::NOTE,
-                    '    Loaded Request Handler: '.$class_name .
+                    '    Loaded Request Handler: '.$class_name.
                     (($is_public)
                         ? Colors::cs(
                             ' (Public)',
@@ -213,7 +213,7 @@ class Synful
         if (!$enabled_request_handler) {
             IOFunctions::out(
                 LogLevel::WARN,
-                'No request handlers found. ' .
+                'No request handlers found. '.
                 'Use \'php synful.php createhandler=HandlerName\' to create a new handler.'
             );
             IOFunctions::out(
@@ -246,7 +246,7 @@ class Synful
     /**
      * Retreives the client IP Address
      *
-     * @return String The ip of the remote client
+     * @return string The ip of the remote client
      */
     private static function getClientIP()
     {

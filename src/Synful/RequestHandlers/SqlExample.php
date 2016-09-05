@@ -27,10 +27,10 @@ class SqlExample implements RequestHandler
         /*
             Define SQL Database in 'config.ini' as follows
 				
-            ...
+           ...
             [sql_databases]
             db_name="['host', 'username', 'password', 'db_name', port]"
-            ...
+           ...
 
         */
             
@@ -47,7 +47,7 @@ class SqlExample implements RequestHandler
             // The connection has already been opened by Synful and will be closed as needed.
 
             // Query MySql for the user row
-            // Parameters: Query String, array containing type definitions and parameter binds,
+            // Parameters: Query string, array containing type definitions and parameter binds,
             // Boolean set to true to return a result set
             $result = $sql_con->executeSql('SELECT * FROM `mytable` WHERE `id`=?', ['i', $request['id']], true);
 

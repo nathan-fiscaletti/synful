@@ -71,8 +71,8 @@ class IOFunctions
                 if ($block_header_on_echo) {
                     $output[] = $line;
                 } else {
-                    $out_line  = '['.Colors::cs('SYNFUL', 'white', null, 'reset').'] ';
-                    $out_line .= IOFunctions::parseLogString($level, $head, $line);
+                    $out_line = '['.Colors::cs('SYNFUL', 'white', null, 'reset').'] ';
+                    $out_line.= IOFunctions::parseLogstring($level, $head, $line);
                     $output[] = $out_line;
                 }
             }
@@ -100,21 +100,21 @@ class IOFunctions
                         FILE_APPEND
                     );
                 } else {
-                    $out_line  = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .=  IOFunctions::parseLogString(
+                    $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
+                    $out_line.=  IOFunctions::parseLogstring(
                         LogLevel::ERRO,
                         'ERRO',
                         'Failed to write to config file. Check permissions?'
                     );
-                    $output[]  = $out_line;
+                    $output[] = $out_line;
 
-                    $out_line  = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .= IOFunctions::parseLogString(
+                    $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
+                    $out_line.= IOFunctions::parseLogstring(
                         LogLevel::ERRO,
                         'ERRO',
                         'Disabling logging for the rest of the session'
                     );
-                    $output[]  = $out_line;
+                    $output[] = $out_line;
 
                     Synful::$config['files']['log_to_file'] = false;
                 }
@@ -181,49 +181,49 @@ class IOFunctions
      * Parses a log string with color codes and any other nessecary parsing
      *
      * @param  LogLevel $level
-     * @param  String   $head
-     * @param  String   $message
-     * @return String
+     * @param  string   $head
+     * @param  string   $message
+     * @return string
      */
-    private static function parseLogString($level, $head, $message)
+    private static function parseLogstring($level, $head, $message)
     {
         $return_string = "";
 
         if (Synful::$config['system']['color']) {
             switch ($level) {
                 case LogLevel::INFO : {
-                    $return_string  = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'white');
+                    $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
+                    $return_string.= Colors::cs($message, 'white');
                     break;
                 }
 
                 case LogLevel::WARN : {
-                    $return_string  = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'yellow', null, 'yellow');
+                    $return_string = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
+                    $return_string.= Colors::cs($message, 'yellow', null, 'yellow');
                     break;
                 }
 
                 case LogLevel::NOTE : {
-                    $return_string  = '['.Colors::cs($head, 'light_blue', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'white');
+                    $return_string = '['.Colors::cs($head, 'light_blue', null, 'reset').'] ';
+                    $return_string.= Colors::cs($message, 'white');
                     break;
                 }
 
                 case LogLevel::ERRO : {
-                    $return_string  = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'red', null, 'red');
+                    $return_string = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
+                    $return_string.= Colors::cs($message, 'red', null, 'red');
                     break;
                 }
 
                 case LogLevel::RESP : {
-                    $return_string  = '['.Colors::cs($head, 'light_cyan', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'cyan', null, 'cyan');
+                    $return_string = '['.Colors::cs($head, 'light_cyan', null, 'reset').'] ';
+                    $return_string.= Colors::cs($message, 'cyan', null, 'cyan');
                     break;
                 }
 
                 default : {
-                    $return_string  = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'white');
+                    $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
+                    $return_string.= Colors::cs($message, 'white');
                 }
             }
         } else {

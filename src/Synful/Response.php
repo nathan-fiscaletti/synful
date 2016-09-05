@@ -70,7 +70,7 @@ class Response implements JsonSerializable
     /**
      * Adds data to the data variable that will be returned with the object
      *
-     * @param String $key
+     * @param string $key
      * @param mixed $data
      */
     public function setResponse($key, $data)
