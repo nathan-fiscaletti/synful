@@ -1,5 +1,5 @@
 <?php
- 
+
 namespace Synful;
 
 use JsonSerializable;
