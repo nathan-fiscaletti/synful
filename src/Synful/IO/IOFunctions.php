@@ -58,7 +58,7 @@ class IOFunctions
         $log_file = Synful::$config['files']['logfile'];
 
         if (Synful::$config['files']['log_to_file'] && $write_to_file) {
-            if (!file_exists(dirname($log_file))) {
+            if (! file_exists(dirname($log_file))) {
                 mkdir(dirname($log_file), 0700, true);
                 chown(dirname($log_file), exec('whoami'));
                 chmod(dirname($log_file), 0700);
@@ -73,7 +73,7 @@ class IOFunctions
                     $output[] = $line;
                 } else {
                     $out_line = '['.Colors::cs('SYNFUL', 'white', null, 'reset').'] ';
-                    $out_line .= IOFunctions::parseLogstring($level, $head, $line);
+                    $out_line .= self::parseLogstring($level, $head, $line);
                     $output[] = $out_line;
                 }
             }
@@ -102,7 +102,7 @@ class IOFunctions
                     );
                 } else {
                     $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .=  IOFunctions::parseLogstring(
+                    $out_line .=  self::parseLogstring(
                         LogLevel::ERRO,
                         'ERRO',
                         'Failed to write to config file. Check permissions?'
@@ -110,7 +110,7 @@ class IOFunctions
                     $output[] = $out_line;
 
                     $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .= IOFunctions::parseLogstring(
+                    $out_line .= self::parseLogstring(
                         LogLevel::ERRO,
                         'ERRO',
                         'Disabling logging for the rest of the session'
@@ -136,22 +136,22 @@ class IOFunctions
 
         switch ($errno) {
             case E_USER_ERROR: {
-                IOFunctions::out(LogLevel::ERRO, 'Fatal Error: '.$err);
+                self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
                 break;
             }
 
             case E_USER_WARNING: {
-                IOFunctions::out(LogLevel::WARN, 'Warning: '.$err);
+                self::out(LogLevel::WARN, 'Warning: '.$err);
                 break;
             }
 
             case E_USER_NOTICE: {
-                IOFunctions::out(LogLevel::NOTE, 'Notice: '.$err);
+                self::out(LogLevel::NOTE, 'Notice: '.$err);
                 break;
             }
 
             default: {
-                IOFunctions::out(LogLevel::ERRO, 'Unknown Error: '.$err);
+                self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
                 break;
             }
         }
@@ -221,7 +221,7 @@ class IOFunctions
                     break;
                 }
 
-                default : {
+                default: {
                     $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
                     $return_string .= Colors::cs($message, 'white');
                 }
