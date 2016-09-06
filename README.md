@@ -1,4 +1,5 @@
 # Synful API Framework
+[![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)
 [![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable)](https://packagist.org/packages/nafisc/synful)
 [![Total Downloads](https://poser.pugx.org/nafisc/synful/downloads)](https://packagist.org/packages/nafisc/synful)
 [![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable)](https://packagist.org/packages/nafisc/synful)
