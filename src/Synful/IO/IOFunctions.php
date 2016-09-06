@@ -30,7 +30,7 @@ class IOFunctions
             trigger_error('Failed to load config: File not found.', E_USER_ERROR);
             $return = false;
         }
-        
+
         return $return;
     }
 
