@@ -5,7 +5,7 @@ namespace Synful\DataManagement;
 use MySqli;
 
 /**
- * Class used for handling a MySql connection
+ * Class used for handling a MySql connection.
  */
 final class SqlConnection
 {
@@ -88,7 +88,6 @@ final class SqlConnection
         string $database = null,
         int $port = null
     ) {
-    
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
