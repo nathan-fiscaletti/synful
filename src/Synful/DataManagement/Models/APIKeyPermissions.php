@@ -9,7 +9,6 @@ use Synful\Synful;
  */
 class APIKeyPermissions
 {
-
     /**
      * The API Key associated associated with the permissions.
      *
@@ -61,7 +60,7 @@ class APIKeyPermissions
         );
 
         if ($res->num_rows > 0) {
-            $res           = mysqli_fetch_assoc($res);
+            $res = mysqli_fetch_assoc($res);
             $this->put_data = $res['put_data'];
             $this->get_data = $res['get_data'];
             $this->mod_data = $res['mod_data'];
@@ -72,7 +71,6 @@ class APIKeyPermissions
             $this->save();
         }
     }
-
 
     /**
      * Save changes made to the permissions.
@@ -95,7 +93,6 @@ class APIKeyPermissions
             ]
         );
     }
-
 
     /**
      * Delete the permissions.
