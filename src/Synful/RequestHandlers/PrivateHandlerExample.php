@@ -12,7 +12,6 @@ use Synful\DataManagement\Models\APIKey;
  */
 class PrivateHandlerExample implements RequestHandler
 {
-
     /**
      * Assign an array of API Keys to the 'white_list_keys' property to make 
      * this handler only allow connections using those API Keys
