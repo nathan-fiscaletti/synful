@@ -3,7 +3,7 @@
 namespace Synful\IO;
 
 /**
- * Class used to store log level constants
+ * Class used to store log level constants.
  */
 class LogLevel
 {
