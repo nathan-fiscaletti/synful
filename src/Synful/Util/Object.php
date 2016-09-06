@@ -3,13 +3,12 @@
 namespace Synful\Util;
 
 /**
- * Trait used as a base for classes with constructors that match their properties
+ * Trait used as a base for classes with constructors that match their properties.
  */
 trait Object
 {
-
     /**
-     * Automatically define parameters for object
+     * Automatically define parameters for object.
      *
      * @param array $params
      */
@@ -25,7 +24,7 @@ trait Object
     }
 
     /**
-     * Handle undefined function calls as property access
+     * Handle undefined function calls as property access.
      *
      * @param  string $name
      * @param  array  $arguments
@@ -44,6 +43,7 @@ trait Object
         } else {
             throw new Exception('Call to undefined function \''.$name.'\'.');
         }
+
         return $ret;
     }
 }

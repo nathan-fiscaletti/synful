@@ -5,47 +5,45 @@ namespace Synful\DataManagement\Models;
 use Synful\Synful;
 
 /**
- * Class used for handling API Permissions in database
+ * Class used for handling API Permissions in database.
  */
 class APIKeyPermissions
 {
-
     /**
-     * The API Key associated associated with the permissions
+     * The API Key associated associated with the permissions.
      *
-     * @var integer
+     * @var int
      */
     public $api_key_id = -1;
 
     /**
-     * Put data permission
+     * Put data permission.
      *
-     * @var integer
+     * @var int
      */
     public $put_data = 0;
 
     /**
-     * Get data permission
+     * Get data permission.
      *
-     * @var integer
+     * @var int
      */
     public $get_data = 0;
 
     /**
-     * Modify data permission
+     * Modify data permission.
      *
-     * @var integer
+     * @var int
      */
     public $mod_data = 0;
 
-
     /**
-     * Create a new instance of APIPermissions
+     * Create a new instance of APIPermissions.
      *
-     * @param integer $id
-     * @param integer $put_data
-     * @param integer $get_data
-     * @param integer $mod_data
+     * @param int $id
+     * @param int $put_data
+     * @param int $get_data
+     * @param int $mod_data
      */
     public function __construct($id, $put_data = 0, $get_data = 0, $mod_data = 0)
     {
@@ -61,7 +59,7 @@ class APIKeyPermissions
         );
 
         if ($res->num_rows > 0) {
-            $res           = mysqli_fetch_assoc($res);
+            $res = mysqli_fetch_assoc($res);
             $this->put_data = $res['put_data'];
             $this->get_data = $res['get_data'];
             $this->mod_data = $res['mod_data'];
@@ -73,9 +71,8 @@ class APIKeyPermissions
         }
     }
 
-
     /**
-     * Save changes made to the permissions
+     * Save changes made to the permissions.
      */
     public function save()
     {
@@ -96,9 +93,8 @@ class APIKeyPermissions
         );
     }
 
-
     /**
-     * Delete the permissions
+     * Delete the permissions.
      */
     public function delete()
     {

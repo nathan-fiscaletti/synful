@@ -3,43 +3,45 @@
 namespace Synful\IO;
 
 use Synful\Colors;
-use Synful\IO\LogLevel;
 use Synful\Synful;
-
 use Exception;
 
 /**
- * Class used to handle system wide IO
+ * Class used to handle system wide IO.
  */
 class IOFunctions
 {
-
     /**
-     * Loads configuration file into system
+     * Loads configuration file into system.
      *
-     * @return boolean
+     * @return bool
      */
     public static function loadConfig()
     {
+        $return = true;
         if (file_exists('./config.ini')) {
             try {
                 Synful::$config = parse_ini_file('./config.ini', true);
-                return true;
             } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->message, E_USER_ERROR);
-                return false;
+                $return = false;
             }
+        } else {
+            trigger_error('Failed to load config: File not found.', E_USER_ERROR);
+            $return = false;
         }
+
+        return $return;
     }
 
     /**
-     * Prints output to the console and logs
+     * Prints output to the console and logs.
      *
-     * @param  integer $level
+     * @param  int $level
      * @param  string  $data
-     * @param  boolean $force
-     * @param  boolean $block_header_on_echo
-     * @param  boolean $write_to_file
+     * @param  bool $force
+     * @param  bool $block_header_on_echo
+     * @param  bool $write_to_file
      */
     public static function out($level, $data, $force = false, $block_header_on_echo = false, $write_to_file = true)
     {
@@ -57,7 +59,7 @@ class IOFunctions
         $log_file = Synful::$config['files']['logfile'];
 
         if (Synful::$config['files']['log_to_file'] && $write_to_file) {
-            if (!file_exists(dirname($log_file))) {
+            if (! file_exists(dirname($log_file))) {
                 mkdir(dirname($log_file), 0700, true);
                 chown(dirname($log_file), exec('whoami'));
                 chmod(dirname($log_file), 0700);
@@ -72,7 +74,7 @@ class IOFunctions
                     $output[] = $line;
                 } else {
                     $out_line = '['.Colors::cs('SYNFUL', 'white', null, 'reset').'] ';
-                    $out_line.= IOFunctions::parseLogstring($level, $head, $line);
+                    $out_line .= self::parseLogstring($level, $head, $line);
                     $output[] = $out_line;
                 }
             }
@@ -87,7 +89,7 @@ class IOFunctions
                     }
                 }
 
-                if (!file_exists($log_file)) {
+                if (! file_exists($log_file)) {
                     @file_put_contents($log_file, '');
                     chmod($log_file, 0700);
                     chown($log_file, exec('whoami'));
@@ -101,7 +103,7 @@ class IOFunctions
                     );
                 } else {
                     $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line.=  IOFunctions::parseLogstring(
+                    $out_line .=  self::parseLogstring(
                         LogLevel::ERRO,
                         'ERRO',
                         'Failed to write to config file. Check permissions?'
@@ -109,7 +111,7 @@ class IOFunctions
                     $output[] = $out_line;
 
                     $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line.= IOFunctions::parseLogstring(
+                    $out_line .= self::parseLogstring(
                         LogLevel::ERRO,
                         'ERRO',
                         'Disabling logging for the rest of the session'
@@ -122,36 +124,35 @@ class IOFunctions
         }
 
         foreach ($output as $line) {
-            echo $line.((!$block_header_on_echo) ? Colors::cs('', 'reset', null, 'reset') : '')."\r\n";
+            echo $line.((! $block_header_on_echo) ? Colors::cs('', 'reset', null, 'reset') : '')."\r\n";
         }
     }
 
     /**
-     * Used to catch error output from PHP and forward it to our log file
+     * Used to catch error output from PHP and forward it to our log file.
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
-            
         $err = $errstr.' in '.$errfile.' at line '.$errline;
 
         switch ($errno) {
-            case E_USER_ERROR : {
-                IOFunctions::out(LogLevel::ERRO, 'Fatal Error: '.$err);
+            case E_USER_ERROR: {
+                self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
                 break;
             }
 
-            case E_USER_WARNING : {
-                IOFunctions::out(LogLevel::WARN, 'Warning: '.$err);
+            case E_USER_WARNING: {
+                self::out(LogLevel::WARN, 'Warning: '.$err);
                 break;
             }
 
-            case E_USER_NOTICE : {
-                IOFunctions::out(LogLevel::NOTE, 'Notice: '.$err);
+            case E_USER_NOTICE: {
+                self::out(LogLevel::NOTE, 'Notice: '.$err);
                 break;
             }
 
-            default : {
-                IOFunctions::out(LogLevel::ERRO, 'Unknown Error: '.$err);
+            default: {
+                self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
                 break;
             }
         }
@@ -160,7 +161,7 @@ class IOFunctions
     }
 
     /**
-     * Handles system shut down, closes out SQL Connection
+     * Handles system shut down, closes out SQL Connection.
      */
     public static function onShutDown()
     {
@@ -174,11 +175,11 @@ class IOFunctions
             }
         }
 
-        IOFunctions::out(LogLevel::INFO, 'Synful API Shutdown!');
+        self::out(LogLevel::INFO, 'Synful API Shutdown!');
     }
 
     /**
-     * Parses a log string with color codes and any other nessecary parsing
+     * Parses a log string with color codes and any other nessecary parsing.
      *
      * @param  LogLevel $level
      * @param  string   $head
@@ -187,43 +188,43 @@ class IOFunctions
      */
     private static function parseLogstring($level, $head, $message)
     {
-        $return_string = "";
+        $return_string = '';
 
         if (Synful::$config['system']['color']) {
             switch ($level) {
-                case LogLevel::INFO : {
+                case LogLevel::INFO: {
                     $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
-                    $return_string.= Colors::cs($message, 'white');
+                    $return_string .= Colors::cs($message, 'white');
                     break;
                 }
 
-                case LogLevel::WARN : {
+                case LogLevel::WARN: {
                     $return_string = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
-                    $return_string.= Colors::cs($message, 'yellow', null, 'yellow');
+                    $return_string .= Colors::cs($message, 'yellow', null, 'yellow');
                     break;
                 }
 
-                case LogLevel::NOTE : {
+                case LogLevel::NOTE: {
                     $return_string = '['.Colors::cs($head, 'light_blue', null, 'reset').'] ';
-                    $return_string.= Colors::cs($message, 'white');
+                    $return_string .= Colors::cs($message, 'white');
                     break;
                 }
 
-                case LogLevel::ERRO : {
+                case LogLevel::ERRO: {
                     $return_string = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
-                    $return_string.= Colors::cs($message, 'red', null, 'red');
+                    $return_string .= Colors::cs($message, 'red', null, 'red');
                     break;
                 }
 
-                case LogLevel::RESP : {
+                case LogLevel::RESP: {
                     $return_string = '['.Colors::cs($head, 'light_cyan', null, 'reset').'] ';
-                    $return_string.= Colors::cs($message, 'cyan', null, 'cyan');
+                    $return_string .= Colors::cs($message, 'cyan', null, 'cyan');
                     break;
                 }
 
-                default : {
+                default: {
                     $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
-                    $return_string.= Colors::cs($message, 'white');
+                    $return_string .= Colors::cs($message, 'white');
                 }
             }
         } else {

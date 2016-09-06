@@ -5,11 +5,10 @@ namespace Synful\DataManagement;
 use MySqli;
 
 /**
- * Class used for handling a MySql connection
+ * Class used for handling a MySql connection.
  */
 final class SqlConnection
 {
-    
     /**
      * The prepared statements that are queue'd for execution.
      *
@@ -27,14 +26,14 @@ final class SqlConnection
     /**
      * The insert id from the last query.
      *
-     * @var integer
+     * @var int
      */
     private $insert_id = -1;
 
     /**
      * The status of the connection.
      *
-     * @var boolean
+     * @var bool
      */
     private $is_open = false;
 
@@ -69,7 +68,7 @@ final class SqlConnection
     /**
      * Connection port.
      *
-     * @var integer
+     * @var int
      */
     private $port;
 
@@ -80,7 +79,7 @@ final class SqlConnection
      * @param string  $username
      * @param string  $password
      * @param string  $database
-     * @param integer $port
+     * @param int $port
      */
     public function __construct(
         string $host = null,
@@ -89,12 +88,11 @@ final class SqlConnection
         string $database = null,
         int $port = null
     ) {
-    
-        $this->host    = $host;
+        $this->host = $host;
         $this->username = $username;
         $this->password = $password;
         $this->database = $database;
-        $this->port    = $port;
+        $this->port = $port;
     }
 
     /**
@@ -110,7 +108,7 @@ final class SqlConnection
      *
      * @param string  $query
      * @param array   $binds
-     * @param boolean $return
+     * @param bool $return
      *
      * @return ResultSet
      */
@@ -160,7 +158,7 @@ final class SqlConnection
     /**
      * Returns the auto generated id used in the last query.
      *
-     * @return integer
+     * @return int
      */
     public function getLastInsertID()
     {
@@ -191,7 +189,7 @@ final class SqlConnection
      * Executes prepared statement.
      *
      * @param string  $prepareTitle
-     * @param boolean $return
+     * @param bool $return
      *
      * @return ResultSet
      */
@@ -205,7 +203,7 @@ final class SqlConnection
         }
 
         if (count($binds) > 0) {
-            call_user_func_array(array($statement, 'bind_param'), $tmp);
+            call_user_func_array([$statement, 'bind_param'], $tmp);
             if ($this->sql->errno) {
                 trigger_error(
                     'Error while applying binds to SQL Prepared Statement: '

@@ -2,23 +2,21 @@
 
 namespace Synful\RequestHandlers;
 
-use Synful\Synful;
 use Synful\RequestHandlers\Interfaces\RequestHandler;
 use Synful\Response;
 
 /**
- * New Request Handler Class
+ * New Request Handler Class.
  */
 class RequestHandlerName implements RequestHandler
 {
-
     /**
-     * To make this a public request handler, hange is_public to 'true'
+     * To make this a public request handler, change is_public to 'true'.
      * Note: When set to 'true', this request handler
      * will not require an API Key.
      *
      * To make this a private request handler assign an array of API Keys to the
-     * 'white_list_keys' property whie will make this handler only allow
+     * 'white_list_keys' property which will make this handler only allow
      * connections using those API Keys.
      *
      * To make this a standard request handler, simply remove the constructor.
@@ -35,14 +33,14 @@ class RequestHandlerName implements RequestHandler
     }
 
     /**
-     * Function for handling request and returning data as a Response object
+     * Function for handling request and returning data as a Response object.
      *
      * @param  Response $data
-     * @param  boolean  $is_master_request
+     * @param  bool  $is_master_request
      */
     public function handleRequest(Response &$data, $is_master_request = false)
     {
-        $request_data =& $data->request;
+        $request_data = &$data->request;
 
         // Insert your code here
     }

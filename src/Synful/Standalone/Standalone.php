@@ -7,12 +7,12 @@ use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 
 /**
- * Class used to handle Standalone instance of Synful
+ * Class used to handle Standalone instance of Synful.
  */
 class Standalone
 {
     /**
-     * Runs Synful in Standalone Mode
+     * Runs Synful in Standalone Mode.
      */
     final public function initialize()
     {
@@ -29,7 +29,7 @@ class Standalone
         } else {
             exit(1);
         }
-            
+
         socket_listen($sock);
 
         while (true) {
@@ -42,7 +42,7 @@ class Standalone
                     [
                         'ip' => $client_ip,
                         'port' => $client_port,
-                        'client_socket' => $client
+                        'client_socket' => $client,
                     ]
                 ))->start();
             } else {
@@ -50,7 +50,7 @@ class Standalone
                     [
                         'ip' => $client_ip,
                         'port' => $client_port,
-                        'client_socket' => $client
+                        'client_socket' => $client,
                     ]
                 ))->start();
             }
