@@ -12,44 +12,43 @@ use Synful\CLIParser\CLIParser;
 
 class Synful
 {
-
     /**
-     * The config for the system pulled from config.ini
+     * The config for the system pulled from config.ini.
      *
      * @var array
      */
     public static $config;
 
     /**
-     * The primary MySql Connection
+     * The primary MySql Connection.
      *
      * @var Synful\DataManagement\SqlConnection
      */
     public static $sql;
 
     /**
-     * The primary controller
+     * The primary controller.
      *
      * @var Synful\Controller
      */
     public static $controller;
 
     /**
-     * All SqlConnections based off of database definitions in config
+     * All SqlConnections based off of database definitions in config.
      *
      * @var array
      */
     public static $sql_databases = [];
 
     /**
-     * All request handlers registered in the system
+     * All request handlers registered in the system.
      *
      * @var array
      */
     public static $request_handlers = [];
 
     /**
-     * Initialize the Synful API instance using either Standalone Mode or Local Web Server
+     * Initialize the Synful API instance using either Standalone Mode or Local Web Server.
      */
     public static function initialize()
     {
@@ -103,7 +102,7 @@ class Synful
     }
 
     /**
-     * Initializes MySQL
+     * Initializes MySQL.
      */
     public static function initializeSql()
     {
@@ -126,7 +125,7 @@ class Synful
     }
 
     /**
-     * Loads all MySQL Databases into Synful
+     * Loads all MySQL Databases into Synful.
      */
     private static function loadSqlDatabases($databases)
     {
@@ -162,7 +161,7 @@ class Synful
     }
 
     /**
-     * Loads all request handlers stored in 'system/request_handlers' into system
+     * Loads all request handlers stored in 'system/request_handlers' into system.
      */
     private static function loadRequestHandlers()
     {
@@ -225,7 +224,7 @@ class Synful
     }
 
     /**
-     * Runs the API thread on the local web server and outputs it's response in JSON format
+     * Runs the API thread on the local web server and outputs it's response in JSON format.
      */
     private static function listenWeb()
     {
@@ -272,7 +271,7 @@ class Synful
     }
 
     /**
-     * Check if this is a CLI instance
+     * Check if this is a CLI instance.
      *
      * @return bool
      */
@@ -282,7 +281,7 @@ class Synful
     }
 
     /**
-     * Create default Synful tables
+     * Create default Synful tables.
      *
      * @return bool
      */
@@ -311,7 +310,7 @@ class Synful
     }
 
     /**
-     * Function to be called after startup has been completed
+     * Function to be called after startup has been completed.
      */
     public static function postStartUp()
     {
@@ -319,7 +318,7 @@ class Synful
     }
 
     /**
-     * Function to be called prior to start up running
+     * Function to be called prior to start up running.
      */
     public static function preStartUp()
     {
