@@ -7,7 +7,6 @@ namespace Synful\Util;
  */
 trait Object
 {
-
     /**
      * Automatically define parameters for object.
      *
@@ -44,7 +43,7 @@ trait Object
         } else {
             throw new Exception('Call to undefined function \''.$name.'\'.');
         }
-        
+
         return $ret;
     }
 }
