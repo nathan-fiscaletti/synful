@@ -37,6 +37,6 @@ if (file_exists('./vendor')) {
     include './vendor/autoload.php';
     \Synful\Synful::initialize();
 } else {
-    echo 'Please run \'composer install --no-scripts\' before running Synful.' . "\r\n";
+    echo 'Please run \'composer install --no-scripts\' before running Synful.'."\r\n";
     exit(3);
 }
