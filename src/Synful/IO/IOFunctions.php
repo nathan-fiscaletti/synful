@@ -3,19 +3,18 @@
 namespace Synful\IO;
 
 use Synful\Colors;
-use Synful\IO\LogLevel;
 use Synful\Synful;
 
 use Exception;
 
 /**
- * Class used to handle system wide IO
+ * Class used to handle system wide IO.
  */
 class IOFunctions
 {
 
     /**
-     * Loads configuration file into system
+     * Loads configuration file into system.
      *
      * @return bool
      */
@@ -33,7 +32,7 @@ class IOFunctions
     }
 
     /**
-     * Prints output to the console and logs
+     * Prints output to the console and logs.
      *
      * @param  int $level
      * @param  string  $data
@@ -127,7 +126,7 @@ class IOFunctions
     }
 
     /**
-     * Used to catch error output from PHP and forward it to our log file
+     * Used to catch error output from PHP and forward it to our log file.
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
@@ -160,7 +159,7 @@ class IOFunctions
     }
 
     /**
-     * Handles system shut down, closes out SQL Connection
+     * Handles system shut down, closes out SQL Connection.
      */
     public static function onShutDown()
     {
@@ -178,7 +177,7 @@ class IOFunctions
     }
 
     /**
-     * Parses a log string with color codes and any other nessecary parsing
+     * Parses a log string with color codes and any other nessecary parsing.
      *
      * @param  LogLevel $level
      * @param  string   $head
