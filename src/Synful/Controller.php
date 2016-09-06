@@ -15,7 +15,7 @@ use Exception;
 class Controller
 {
     /**
-     * Passes a JSON Request through the desired request handlers, validates authentication 
+     * Passes a JSON Request through the desired request handlers, validates authentication
      * and request integrity and returns a response.
      *
      * @param  string   $request
@@ -24,7 +24,7 @@ class Controller
      */
     public function handleRequest($request, $ip)
     {
-        $data = (array)json_decode($request);
+        $data = (array) json_decode($request);
         $response = new Response(['requesting_ip' => $ip]);
 
         if ($this->validateRequest($data, $response) && $this->validateHandler($data, $response)) {
@@ -114,10 +114,10 @@ class Controller
     {
         $return = false;
 
-        if (!empty($data['request'])) {
+        if (! empty($data['request'])) {
             if ($data['request'] instanceof stdClass) {
                 try {
-                    $data['request'] = (Array) $data['request'];
+                    $data['request'] = (array) $data['request'];
                     if (is_array($data['request'])) {
                         $return = true;
                     } else {
@@ -260,7 +260,7 @@ class Controller
                 );
                 $return = false;
             }
-        } 
+        }
 
         if ($return && $api_key->isFirewallBlackListed($ip)) {
             $response->code = 500;
