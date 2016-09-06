@@ -5,34 +5,34 @@ namespace Synful\DataManagement\Models;
 use Synful\Synful;
 
 /**
- * Class used for handling API Permissions in database
+ * Class used for handling API Permissions in database.
  */
 class APIKeyPermissions
 {
 
     /**
-     * The API Key associated associated with the permissions
+     * The API Key associated associated with the permissions.
      *
      * @var int
      */
     public $api_key_id = -1;
 
     /**
-     * Put data permission
+     * Put data permission.
      *
      * @var int
      */
     public $put_data = 0;
 
     /**
-     * Get data permission
+     * Get data permission.
      *
      * @var int
      */
     public $get_data = 0;
 
     /**
-     * Modify data permission
+     * Modify data permission.
      *
      * @var int
      */
@@ -40,7 +40,7 @@ class APIKeyPermissions
 
 
     /**
-     * Create a new instance of APIPermissions
+     * Create a new instance of APIPermissions.
      *
      * @param int $id
      * @param int $put_data
@@ -75,7 +75,7 @@ class APIKeyPermissions
 
 
     /**
-     * Save changes made to the permissions
+     * Save changes made to the permissions.
      */
     public function save()
     {
@@ -98,7 +98,7 @@ class APIKeyPermissions
 
 
     /**
-     * Delete the permissions
+     * Delete the permissions.
      */
     public function delete()
     {
