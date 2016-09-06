@@ -1,7 +1,7 @@
 <?php
 
     /**
-     * Synful API Framework
+     * Synful API Framework.
      * @author  Nathan Fiscaletti <nathan.fiscaletti@gmail.com>
      *
      * Required            : [ PHP 7+, PHP-MySql Extension ]
@@ -33,7 +33,6 @@
      *
      * Request Examples: https://gist.github.com/nathan-fiscaletti/16339c4c1e2f4e8183f3237f2d42d901
      */
-
     include './vendor/autoload.php';
 
     \Synful\Synful::initialize();

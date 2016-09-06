@@ -81,7 +81,6 @@ class APIKey
      */
     private $removed_ip_firewall = [];
 
-
     /**
      * Create a new instance of the APIKey with data from the database.
      *
@@ -444,7 +443,7 @@ class APIKey
     {
         $key = bin2hex(openssl_random_pseudo_bytes(32));
         $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 11]);
-        
+
         return [
                 'key' => $key,
                 'hash' => $hash,
