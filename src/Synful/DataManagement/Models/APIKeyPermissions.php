@@ -37,7 +37,6 @@ class APIKeyPermissions
      */
     public $mod_data = 0;
 
-
     /**
      * Create a new instance of APIPermissions.
      *

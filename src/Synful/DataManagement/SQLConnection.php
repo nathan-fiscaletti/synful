@@ -9,7 +9,6 @@ use MySqli;
  */
 final class SqlConnection
 {
-    
     /**
      * The prepared statements that are queue'd for execution.
      *
@@ -90,11 +89,11 @@ final class SqlConnection
         int $port = null
     ) {
     
-        $this->host    = $host;
+        $this->host = $host;
         $this->username = $username;
         $this->password = $password;
         $this->database = $database;
-        $this->port    = $port;
+        $this->port = $port;
     }
 
     /**
@@ -205,7 +204,7 @@ final class SqlConnection
         }
 
         if (count($binds) > 0) {
-            call_user_func_array(array($statement, 'bind_param'), $tmp);
+            call_user_func_array([$statement, 'bind_param'], $tmp);
             if ($this->sql->errno) {
                 trigger_error(
                     'Error while applying binds to SQL Prepared Statement: '
