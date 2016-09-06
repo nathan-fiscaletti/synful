@@ -141,7 +141,6 @@ class CLIParser
      */
     private $script_name = '';
 
-
     /**
      * Parse the Command Line parameters for the PHP Script.
      */
@@ -168,7 +167,6 @@ class CLIParser
             exit(3);
         }
     }
-
 
     /**
      * Retrievs a detailed string containing the CLI usage for the script.

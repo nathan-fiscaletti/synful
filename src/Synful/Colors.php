@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace Synful;
 
 /**
@@ -9,7 +9,7 @@ class Colors
 {
     private static $foreground_colors = [];
     private static $background_colors = [];
-     
+
     /**
      * Loads all colors into the system.
      */
@@ -41,7 +41,7 @@ class Colors
         self::$background_colors['cyan'] = '46';
         self::$background_colors['light_gray'] = '47';
     }
-     
+
     /**
      * Colors a string and returns it.
      *
@@ -54,18 +54,18 @@ class Colors
     public static function cs($string, $foreground_color = null, $background_color = null, $reset = 'white')
     {
         if (Synful::$config['system']['color']) {
-            $colored_string = "";
-         
+            $colored_string = '';
+
             // Check if given foreground color found
             if (isset(self::$foreground_colors[$foreground_color])) {
-                $colored_string .= "\033[".self::$foreground_colors[$foreground_color]."m";
+                $colored_string .= "\033[".self::$foreground_colors[$foreground_color].'m';
             }
 
             // Check if given background color found
             if (isset(self::$background_colors[$background_color])) {
-                $colored_string .= "\033[".self::$background_colors[$background_color]."m";
+                $colored_string .= "\033[".self::$background_colors[$background_color].'m';
             }
-         
+
             // Add string and end coloring
             $colored_string .=  $string."\033[".self::$foreground_colors[$reset].'m';
         } else {
