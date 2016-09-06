@@ -7,13 +7,12 @@ use Synful\RequestHandlers\Interfaces\RequestHandler;
 use Synful\Response;
 
 /**
- * Class used to demonstrate public request handlers
+ * Class used to demonstrate public request handlers.
  */
 class GetIPExample implements RequestHandler
 {
-
     /**
-     * Construct the request handler as a public request handler (won't require an API key)
+     * Construct the request handler as a public request handler (won't require an API key).
      * If you disable 'allow_public_requests' in 'config.ini',
      * this will not matter and an API key will always be required.
      */
@@ -23,14 +22,14 @@ class GetIPExample implements RequestHandler
     }
 
     /**
-     * Function for handling request and returning data as a Response object
+     * Function for handling request and returning data as a Response object.
      *
      * @param  Response $data
      * @param  bool  $is_master_request
      */
     public function handleRequest(Response &$data, $is_master_request = false)
     {
-        $request_data =& $data->request;
+        $request_data = &$data->request;
 
         // Set the response code
         $data->code = 200;
