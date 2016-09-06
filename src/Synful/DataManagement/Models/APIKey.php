@@ -7,11 +7,10 @@ use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 
 /**
- * Class used for managing API Keys
+ * Class used for managing API Keys.
  */
 class APIKey
 {
-
     /**
      * The database id of the key.
      *
@@ -101,13 +100,13 @@ class APIKey
             )
         );
 
-        $this->id            = $result['id'];
-        $this->key           = $result['api_key'];
-        $this->name          = $result['name'];
-        $this->email         = $result['email'];
+        $this->id = $result['id'];
+        $this->key = $result['api_key'];
+        $this->name = $result['name'];
+        $this->email = $result['email'];
         $this->whitelist_only = $result['whitelist_only'];
-        $this->is_master     = $result['is_master'];
-        $this->enabled       = $result['enabled'];
+        $this->is_master = $result['is_master'];
+        $this->enabled = $result['enabled'];
 
         $this->permissions = new APIKeyPermissions(
             $id,
@@ -141,7 +140,6 @@ class APIKey
         }
     }
 
-
     /**
      * Checks if an IP is already firewalled for the key.
      *
@@ -152,7 +150,6 @@ class APIKey
     {
         return isset($this->ip_firewall[$ip]);
     }
-
 
     /**
      * Add an IP to the APIKeys firewall.
@@ -168,7 +165,6 @@ class APIKey
          'block' => $block,
         ];
     }
-
 
     /**
      * Removes an entry from the firewall.
@@ -188,7 +184,6 @@ class APIKey
             }
         }
     }
-
 
     /**
      * Checks if an IP is black listed in the API Keys firewall.
@@ -210,7 +205,6 @@ class APIKey
         return $ret;
     }
 
-
     /**
      * Checks if an IP is white listed in the API Keys firewall.
      *
@@ -221,7 +215,6 @@ class APIKey
     {
         return !$this->isFirewallBlackListed($ip);
     }
-
 
     /**
      * Saves the APIKey to the database and updates it's firewall and perms.
@@ -289,7 +282,6 @@ class APIKey
         $this->permissions->save();
     }
 
-
     /**
      * Deletes the entry from the database.
      */
@@ -314,7 +306,6 @@ class APIKey
         $this->permissions->delete();
     }
 
-
     /**
      * Try to authenticate with a private key.
      *
@@ -325,7 +316,6 @@ class APIKey
     {
         return password_verify($private_key, $this->key);
     }
-
 
     /**
      * Adds a new APIKey to the database.
@@ -376,7 +366,6 @@ class APIKey
         return $ret;
     }
 
-
     /**
      * Retreieves a key associated with the ID passed.
      *
@@ -404,7 +393,6 @@ class APIKey
         return $ret;
     }
 
-
     /**
      * Check if a key exists in the system.
      *
@@ -415,7 +403,6 @@ class APIKey
     {
         return (self::getKey($id) != null);
     }
-
 
     /**
      * Returns the master key if one exists in the system.
@@ -438,7 +425,6 @@ class APIKey
         return $ret;
     }
 
-
     /**
      * Checks if the master key has already been set.
      *
@@ -448,7 +434,6 @@ class APIKey
     {
         return (self::getMasterKey() != null);
     }
-
 
     /**
      * Generates a new random hex string to use as API Key.
