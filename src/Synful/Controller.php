@@ -75,9 +75,7 @@ class Controller
      */
     private function validateHandler(array &$data, Response &$response)
     {
-
         $response->request = $data['request'];
-
         $return = false;
 
         if (! empty($data['handler'])) {

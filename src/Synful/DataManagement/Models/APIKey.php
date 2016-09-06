@@ -3,7 +3,6 @@
 namespace Synful\DataManagement\Models;
 
 use Synful\Synful;
-use Synful\DataManagement\Models\APIKeyPermissions;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 
@@ -14,70 +13,70 @@ class APIKey
 {
 
     /**
-     * The database id of the key
+     * The database id of the key.
      *
      * @var int
      */
     public $id;
 
     /**
-     * The Key Hash for the key
+     * The Key Hash for the key.
      *
      * @var string
      */
     public $key;
 
     /**
-     * The name associated with the key
+     * The name associated with the key.
      *
      * @var string
      */
     public $name;
 
     /**
-     * The email associated with the key
+     * The email associated with the key.
      *
      * @var stirng
      */
     public $email;
 
     /**
-     * The whitelist_only value for the key
+     * The whitelist_only value for the key.
      *
      * @var bool
      */
     public $whitelist_only;
 
     /**
-     * The is_master value for the key
+     * The is_master value for the key.
      *
      * @var bool
      */
     public $is_master;
 
     /**
-     * The enabled status for the key
+     * The enabled status for the key.
      *
      * @var bool
      */
     public $enabled;
 
     /**
-     * The permissions object associated with the key
+     * The permissions object associated with the key.
      *
      * @var APIKeyPermissions
      */
     public $permissions;
 
     /**
-     * The firewall entries for the key
+     * The firewall entries for the key.
      *
      * @var array
      */
     public $ip_firewall = [];
 
     /**
-     * Private array used for storing removed firewall entries before saving
+     * Private array used for storing removed firewall entries before saving.
      *
      * @var array
      */
@@ -85,7 +84,7 @@ class APIKey
 
 
     /**
-     * Create a new instance of the APIKey with data from the database
+     * Create a new instance of the APIKey with data from the database.
      *
      * @param int $id
      */
@@ -144,7 +143,7 @@ class APIKey
 
 
     /**
-     * Checks if an IP is already firewalled for the key
+     * Checks if an IP is already firewalled for the key.
      *
      * @param  string $ip
      * @return bool
@@ -156,7 +155,7 @@ class APIKey
 
 
     /**
-     * Add an IP to the APIKeys firewall
+     * Add an IP to the APIKeys firewall.
      *
      * @param string  $ip
      * @param int $block
@@ -172,7 +171,7 @@ class APIKey
 
 
     /**
-     * Removes an entry from the firewall
+     * Removes an entry from the firewall.
      *
      * @param string $ip
      */
@@ -192,7 +191,7 @@ class APIKey
 
 
     /**
-     * Checks if an IP is black listed in the API Keys firewall
+     * Checks if an IP is black listed in the API Keys firewall.
      *
      * @param  string $ip
      * @return bool
@@ -213,7 +212,7 @@ class APIKey
 
 
     /**
-     * Checks if an IP is white listed in the API Keys firewall
+     * Checks if an IP is white listed in the API Keys firewall.
      *
      * @param  string $ip
      * @return bool
@@ -225,7 +224,7 @@ class APIKey
 
 
     /**
-     * Saves the APIKey to the database and updates it's firewall and perms
+     * Saves the APIKey to the database and updates it's firewall and perms.
      */
     public function save()
     {
@@ -292,7 +291,7 @@ class APIKey
 
 
     /**
-     * Deletes the entry from the database
+     * Deletes the entry from the database.
      */
     public function delete()
     {
@@ -317,7 +316,7 @@ class APIKey
 
 
     /**
-     * Try to authenticate with a private key
+     * Try to authenticate with a private key.
      *
      * @param  string $private_key
      * @return bool
@@ -329,7 +328,7 @@ class APIKey
 
 
     /**
-     * Adds a new APIKey to the database
+     * Adds a new APIKey to the database.
      *
      * @param  string  $name
      * @param  string  $email
@@ -379,7 +378,7 @@ class APIKey
 
 
     /**
-     * Retreieves a key associated with the ID passed
+     * Retreieves a key associated with the ID passed.
      *
      * @param  mixed $id
      * @return APIKey
@@ -407,7 +406,7 @@ class APIKey
 
 
     /**
-     * Check if a key exists in the system
+     * Check if a key exists in the system.
      *
      * @param  mixed $id
      * @return bool
@@ -419,7 +418,7 @@ class APIKey
 
 
     /**
-     * Returns the master key if one exists in the system
+     * Returns the master key if one exists in the system.
      *
      * @return APIKey
      */
@@ -441,7 +440,7 @@ class APIKey
 
 
     /**
-     * Checks if the master key has already been set
+     * Checks if the master key has already been set.
      *
      * @return bool
      */
@@ -452,7 +451,7 @@ class APIKey
 
 
     /**
-     * Generates a new random hex string to use as API Key
+     * Generates a new random hex string to use as API Key.
      *
      * @return array
      */
