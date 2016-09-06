@@ -2,7 +2,6 @@
 
 namespace Synful\RequestHandlers;
 
-use Synful\Synful;
 use Synful\RequestHandlers\Interfaces\RequestHandler;
 use Synful\Response;
 
