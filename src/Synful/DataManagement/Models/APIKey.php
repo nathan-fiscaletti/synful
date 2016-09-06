@@ -213,7 +213,7 @@ class APIKey
      */
     public function isFirewallWhiteListed($ip)
     {
-        return !$this->isFirewallBlackListed($ip);
+        return ! $this->isFirewallBlackListed($ip);
     }
 
     /**
@@ -331,7 +331,7 @@ class APIKey
     {
         $ret = null;
 
-        if (!self::keyExists($email)) {
+        if (! self::keyExists($email)) {
             $new_key = self::generateNew();
 
             Synful::$sql->executeSql(
@@ -387,7 +387,7 @@ class APIKey
         $ret = null;
 
         if (mysqli_num_rows($keys) > 0) {
-            $ret = new APIKey(mysqli_fetch_assoc($keys)['id']);
+            $ret = new self(mysqli_fetch_assoc($keys)['id']);
         }
 
         return $ret;
@@ -401,7 +401,7 @@ class APIKey
      */
     public static function keyExists($id)
     {
-        return (self::getKey($id) != null);
+        return self::getKey($id) != null;
     }
 
     /**
@@ -416,10 +416,10 @@ class APIKey
             [],
             true
         );
-        $ret   = null;
+        $ret = null;
 
         if (mysqli_num_rows($result) > 0) {
-            $ret = new APIKey(mysqli_fetch_assoc($result)['id']);
+            $ret = new self(mysqli_fetch_assoc($result)['id']);
         }
 
         return $ret;
@@ -432,7 +432,7 @@ class APIKey
      */
     public static function isMasterSet()
     {
-        return (self::getMasterKey() != null);
+        return self::getMasterKey() != null;
     }
 
     /**
@@ -444,6 +444,7 @@ class APIKey
     {
         $key = bin2hex(openssl_random_pseudo_bytes(32));
         $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 11]);
+        
         return [
                 'key' => $key,
                 'hash' => $hash,
