@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace Synful;
 
 use Synful\IO\IOFunctions;
@@ -69,12 +69,13 @@ class Synful
         }
 
         self::initializeSql();
-            
+
         // Parse CLI
         $cli_parser = new CLIParser();
         $cli_parser->parseCLI();
 
-        global $argv; if (self::isCommandLineInterface() && count($argv) < 1) {
+        global $argv; 
+        if (self::isCommandLineInterface() && count($argv) < 1) {
             IOFunctions::out(LogLevel::INFO, $cli_parser->getUsage(), true, false, false);
             exit(3);
         }
@@ -82,7 +83,6 @@ class Synful
         // Run Pre Start up functions
         self::preStartUp();
 
-            
         self::$controller = new Controller();
 
         self::$controller->generateMasterKey();
@@ -117,7 +117,7 @@ class Synful
             exit(1);
         }
 
-        self::$sql =& self::$sql_databases[self::$config['system']['main_database']];
+        self::$sql = &self::$sql_databases[self::$config['system']['main_database']];
 
         self::createDefaultTables();
     }
@@ -128,7 +128,7 @@ class Synful
     private static function loadSqlDatabases($databases)
     {
         foreach ($databases as $database) {
-            $database = (Array)json_decode(str_replace('\'', '"', $database));
+            $database = (array) json_decode(str_replace('\'', '"', $database));
             if (count($database) < 5) {
                 IOFunctions::out(
                     LogLevel::ERRO,
@@ -207,7 +207,7 @@ class Synful
                 );
             }
         }
-        if (!$enabled_request_handler) {
+        if (! $enabled_request_handler) {
             IOFunctions::out(
                 LogLevel::WARN,
                 'No request handlers found. '.
@@ -226,7 +226,6 @@ class Synful
      */
     private static function listenWeb()
     {
-
         if (empty($_POST['request'])) {
             $response = new Response();
             $response->code = 400;
@@ -235,13 +234,13 @@ class Synful
             $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
         }
 
-        header("Content-Type: text/json");
+        header('Content-Type: text/json');
         http_response_code($response->code);
         IOFunctions::out(LogLevel::RESP, json_encode($response), true, true);
     }
 
     /**
-     * Retreives the client IP Address
+     * Retreives the client IP Address.
      *
      * @return string The ip of the remote client
      */
@@ -275,7 +274,7 @@ class Synful
      */
     public static function isCommandLineInterface()
     {
-        return (php_sapi_name() === 'cli');
+        return php_sapi_name() === 'cli';
     }
 
     /**
@@ -285,7 +284,7 @@ class Synful
      */
     private static function createDefaultTables()
     {
-        return (
+        return 
             self::$sql->executeSql(
                 'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
                 '`name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
@@ -303,8 +302,7 @@ class Synful
                 'CREATE TABLE IF NOT EXISTS `ip_firewall` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT '.
                 ', `api_key_id` INT UNSIGNED NOT NULL , `ip` VARCHAR(255) NOT NULL , `block` INT NOT NULL '.
                 ', PRIMARY KEY (`id`) ) ENGINE = MyISAM;'
-            )
-        );
+            );
     }
 
     /**
