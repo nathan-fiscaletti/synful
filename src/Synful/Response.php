@@ -1,56 +1,56 @@
 <?php
-    
+ 
 namespace Synful;
 
 use JsonSerializable;
 use Synful\Util\Object;
 
 /**
- * Class used for response storage
+ * Class used for response storage.
  */
 class Response implements JsonSerializable
 {
     use Object;
 
     /**
-     * The request that this response is for
+     * The request that this response is for.
      *
      * @var array
      */
     public $request;
 
     /**
-     * The HTTP Response Code
+     * The HTTP Response Code.
      *
      * @var int
      */
     public $code;
 
     /**
-     * The response data that will be serialized and set back to client
+     * The response data that will be serialized and set back to client.
      *
      * @var array
      */
     public $response;
 
     /**
-     * The IP address of the client making the request
+     * The IP address of the client making the request.
      *
      * @var string
      */
     public $requesting_ip;
 
     /**
-     * The email associated with the key of the client making the request
+     * The email associated with the key of the client making the request.
      *
      * @var string
      */
     public $requesting_email;
 
     /**
-     * Overrides full response object with custom array of data
+     * Overrides full response object with custom array of data.
      *
-     * @param Array $data
+     * @param array $data
      */
     public function overloadResponse(array $data)
     {
@@ -58,9 +58,9 @@ class Response implements JsonSerializable
     }
 
     /**
-     * Add a list of responses to the response object
+     * Add a list of responses to the response object.
      *
-     * @param Array $responses
+     * @param array $responses
      */
     public function addResponses(array $responses)
     {
@@ -68,7 +68,7 @@ class Response implements JsonSerializable
     }
 
     /**
-     * Adds data to the data variable that will be returned with the object
+     * Adds data to the data variable that will be returned with the object.
      *
      * @param string $key
      * @param mixed $data
@@ -79,12 +79,12 @@ class Response implements JsonSerializable
     }
 
     /**
-     * Override serialization for json_encode to ommit $request variable
+     * Override serialization for json_encode to ommit $request variable.
      *
-     * @return Array
+     * @return array
      */
     public function jsonSerialize()
     {
-        return [ 'code' => $this->code, 'response' => $this->response ];
+        return ['code' => $this->code, 'response' => $this->response];
     }
 }
