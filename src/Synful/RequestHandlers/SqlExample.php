@@ -7,13 +7,13 @@ use Synful\Response;
 use Synful\Synful;
 
 /**
- * Class used to demonstrate Custom Sql Connections
+ * Class used to demonstrate Custom Sql Connections.
  */
 class SqlExample implements RequestHandler
 {
 
     /**
-     * Function for handling request and returning data as a Response object
+     * Function for handling request and returning data as a Response object.
      *
      * @param  Response $data
      * @param  bool  $is_master_request
@@ -22,11 +22,10 @@ class SqlExample implements RequestHandler
     {
 
         // Create a reference to our request object
-        $request =& $data->request;
-            
+        $request = &$data->request;
         /*
             Define SQL Database in 'config.ini' as follows
-				
+
            ...
             [sql_databases]
             db_name="['host', 'username', 'password', 'db_name', port]"
@@ -36,10 +35,10 @@ class SqlExample implements RequestHandler
             
         // Create a reference to the SQL Database Connection
         // (This is the actual name of the database, not it's key in 'config.ini')
-        $sql_con =& Synful::$sql_databases['db_name'];
+        $sql_con = &Synful::$sql_databases['db_name'];
 
         // Validate the request
-        if (!isset($request['id']) || !is_int($request['id'])) {
+        if (! isset($request['id']) || ! is_int($request['id'])) {
             $data->code = 400;
             $data->setResponse('error', 'Bad Request: Invalid ID supplied');
         } else {
