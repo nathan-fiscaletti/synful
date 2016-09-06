@@ -11,7 +11,6 @@ use Synful\Synful;
  */
 class SqlExample implements RequestHandler
 {
-
     /**
      * Function for handling request and returning data as a Response object.
      *
@@ -32,7 +31,7 @@ class SqlExample implements RequestHandler
            ...
 
         */
-            
+
         // Create a reference to the SQL Database Connection
         // (This is the actual name of the database, not it's key in 'config.ini')
         $sql_con = &Synful::$sql_databases['db_name'];
