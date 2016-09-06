@@ -74,7 +74,7 @@ class Synful
         $cli_parser = new CLIParser();
         $cli_parser->parseCLI();
 
-        global $argv; 
+        global $argv;
         if (self::isCommandLineInterface() && count($argv) < 1) {
             IOFunctions::out(LogLevel::INFO, $cli_parser->getUsage(), true, false, false);
             exit(3);
@@ -284,7 +284,7 @@ class Synful
      */
     private static function createDefaultTables()
     {
-        return 
+        return
             self::$sql->executeSql(
                 'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
                 '`name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
