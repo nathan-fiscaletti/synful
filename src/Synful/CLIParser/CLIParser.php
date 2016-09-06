@@ -7,11 +7,10 @@ use Synful\IO\LogLevel;
 use Synful\Colors;
 
 /**
- * Class used for handling CLI Parameteres
+ * Class used for handling CLI Parameteres.
  */
 class CLIParser
 {
-
     /**
      * Array of valid CLI arguemnts.
      *
@@ -104,7 +103,7 @@ class CLIParser
             'description' => 'Outputs a list of all API Keys.',
             'callback' => 'listKeys',
          ],
-         
+
          'firewallip' => [
             'name' => 'firewallip',
             'usage' => 'firewallip=<email/id>,<ip>,<block>',
@@ -131,7 +130,7 @@ class CLIParser
             'usage' => 'whitelistonly=<email,ID>,<true/false>',
             'description' => 'Enables or disables the \'White-List Only\' Option for the specified key.',
             'callback' => 'whiteListOnly',
-         ]
+         ],
 
     ];
 
@@ -153,7 +152,7 @@ class CLIParser
         if (! empty($argv)) {
             $this->script_name = $argv[0];
             array_shift($argv);
-                
+
             if ($this->validateCLI()) {
                 if (count($argv) > 0) {
                     foreach ($argv as $arg) {
@@ -177,26 +176,25 @@ class CLIParser
     public function getUsage()
     {
         $usage .=  PHP_EOL.'    Usage: php ';
-        $usage .= $this->script_name." [arg1, arg2,...]".PHP_EOL;
+        $usage .= $this->script_name.' [arg1, arg2,...]'.PHP_EOL;
         $usage .= '    <> = Denotes a required part of usage.'.PHP_EOL;
         $usage .= '    [] = Denotes an optional part of usage.'.PHP_EOL;
-        $usage .= PHP_EOL."    Arguments:".PHP_EOL;
+        $usage .= PHP_EOL.'    Arguments:'.PHP_EOL;
 
         $largest_argument = max(array_map('strlen', array_keys($this->valid_arguments)));
 
         foreach ($this->valid_arguments as $argument) {
-            $usage.= str_pad('', 8);
-            $usage.= Colors::cs(str_pad($argument[name], $largest_argument), 'light_cyan');
-            $usage.= ' : '.Colors::cs($argument['description'], 'yellow').PHP_EOL;
-            $usage.= str_pad('Argument Usage : ', 29, ' ', STR_PAD_LEFT);
-            $usage.= $argument['usage'].PHP_EOL.PHP_EOL;
+            $usage .= str_pad('', 8);
+            $usage .= Colors::cs(str_pad($argument[name], $largest_argument), 'light_cyan');
+            $usage .= ' : '.Colors::cs($argument['description'], 'yellow').PHP_EOL;
+            $usage .= str_pad('Argument Usage : ', 29, ' ', STR_PAD_LEFT);
+            $usage .= $argument['usage'].PHP_EOL.PHP_EOL;
 
             $spaces = '';
         }
 
         return $usage.PHP_EOL;
     }
-
 
     /**
      * Parse a command line argument.
@@ -216,7 +214,6 @@ class CLIParser
             }
         }
     }
-
 
     /**
      * Verify that all parameters passed to the script are valid.
