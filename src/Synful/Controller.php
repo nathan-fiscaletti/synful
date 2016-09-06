@@ -3,36 +3,32 @@
 namespace Synful;
 
 use Synful\DataManagement\Models\APIKey;
-use Synful\Response;
 use Synful\IO\IOFUnctions;
 use Synful\IO\LogLevel;
 use Synful\RequestHandlers\Interfaces\RequestHandler;
-
 use stdClass;
 use Exception;
 
 /**
- * Class used as middle man for key authentication and request validation
+ * Class used as middle man for key authentication and request validation.
  */
 class Controller
 {
-
     /**
-     * Passes a JSON Request through the desired request handlers and returns a response
-     * Validates authentication and request integrity
+     * Passes a JSON Request through the desired request handlers, validates authentication 
+     * and request integrity and returns a response.
      *
      * @param  string   $request
-     * @param  Stripg   $ip
+     * @param  string   $ip
      * @return Response
      */
     public function handleRequest($request, $ip)
     {
-
         $data = (array)json_decode($request);
         $response = new Response(['requesting_ip' => $ip]);
 
         if ($this->validateRequest($data, $response) && $this->validateHandler($data, $response)) {
-            $handler =& Synful::$request_handlers[$data['handler']];
+            $handler = &Synful::$request_handlers[$data['handler']];
             $api_key = null;
             if ($this->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
                 $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
@@ -43,14 +39,14 @@ class Controller
     }
 
     /**
-     * Generates a master API Key if one does not already exist
+     * Generates a master API Key if one does not already exist.
      *
      * @return APIKey The generated APIKey
      */
     public function generateMasterKey()
     {
         $ret = null;
-        if (!APIKey::isMasterSet()) {
+        if (! APIKey::isMasterSet()) {
             IOFunctions::out(LogLevel::INFO, 'No master key found. Generating new master key.');
             $apik = APIKey::addNew(
                 Synful::$config['security']['name'],
@@ -71,9 +67,9 @@ class Controller
     }
 
     /**
-     * Validates that the assigned handler is valid in the system
+     * Validates that the assigned handler is valid in the system.
      *
-     * @param  Array    $data
+     * @param  array    $data
      * @param  Response $response
      * @return bool
      */
@@ -84,7 +80,7 @@ class Controller
 
         $return = false;
 
-        if (!empty($data['handler'])) {
+        if (! empty($data['handler'])) {
             if (file_exists('./src/Synful/RequestHandlers/'.$data['handler'].'.php')) {
                 $return = true;
             } else {
@@ -108,9 +104,9 @@ class Controller
     }
 
     /**
-     * Validate a request with the system
+     * Validate a request with the system.
      *
-     * @param  Array    $data
+     * @param  array    $data
      * @param  Response $response
      * @return bool
      */
@@ -121,7 +117,7 @@ class Controller
         if (!empty($data['request'])) {
             if ($data['request'] instanceof stdClass) {
                 try {
-                    $data['request'] = (Array)$data['request'];
+                    $data['request'] = (Array) $data['request'];
                     if (is_array($data['request'])) {
                         $return = true;
                     } else {
@@ -149,11 +145,11 @@ class Controller
     }
 
     /**
-     * Validates the authentication of the request
+     * Validates the authentication of the request.
      *
-     * @param  Array            $data
+     * @param  array            $data
      * @param  Response         $response
-     * @param  Object           $api_key
+     * @param  object           $api_key
      * @param  RequestHandler   $handler
      * @param  string           $ip
      * @return bool
@@ -162,11 +158,11 @@ class Controller
     {
         $return = true;
 
-        if (!Synful::$config['security']['allow_public_requests'] ||
-            !(property_exists($handler, 'is_public') && $handler->is_public)) {
+        if (! Synful::$config['security']['allow_public_requests'] ||
+            ! (property_exists($handler, 'is_public') && $handler->is_public)) {
             $return = false;
-            if (!empty($data['user'])) {
-                if (!empty($data['key'])) {
+            if (! empty($data['user'])) {
+                if (! empty($data['key'])) {
                     if (APIKey::keyExists($data['user'])) {
                         $api_key = APIKey::getkey($data['user']);
                         $response->requesting_email = $api_key->email;
@@ -245,7 +241,7 @@ class Controller
     }
 
     /**
-     * Validate the firewall of an APIKey
+     * Validate the firewall of an APIKey.
      *
      * @param  APIKey   $api_key
      * @param  Response $response
@@ -254,23 +250,24 @@ class Controller
      */
     private function validateFireWall(APIKey &$api_key, Response &$response, string $ip)
     {
+        $return = true;
         if ($api_key->whitelist_only) {
-            if (!$api_key->isFirewallWhiteListed($ip)) {
+            if (! $api_key->isFirewallWhiteListed($ip)) {
                 $response->code = 500;
                 $response->setResponse(
                     'error',
                     'Access Denied: Source IP is not whitelisted while on whitelist only key'
                 );
-                return false;
+                $return = false;
             }
-        }
+        } 
 
-        if ($api_key->isFirewallBlackListed($ip)) {
+        if ($return && $api_key->isFirewallBlackListed($ip)) {
             $response->code = 500;
             $response->setResponse('error', 'Access Denied: Source IP Blacklisted');
-            return false;
+            $return = false;
         }
 
-        return true;
+        return $return;
     }
 }
