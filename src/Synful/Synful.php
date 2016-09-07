@@ -50,6 +50,8 @@ class Synful
      */
     public static function initialize()
     {
+        // Make sure we aren't using that pesky PHP < 7.0
+        0 <=> 0;
 
         // Load console color codes
         Colors::loadColors();
