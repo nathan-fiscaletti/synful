@@ -96,7 +96,7 @@ class IOFunctions
                 }
 
                 if (! file_exists($log_file)) {
-                    @file_put_contents($log_file, '');
+                    file_put_contents($log_file, '');
                     chmod($log_file, 0700);
                     chown($log_file, exec('whoami'));
                 }
