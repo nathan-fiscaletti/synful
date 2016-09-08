@@ -228,7 +228,7 @@ class Synful
             $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
         }
 
-        header("Content-Type: application/json");
+        header("Content-Type: text/json");
         IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
     }
 
