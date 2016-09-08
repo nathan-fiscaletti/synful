@@ -82,7 +82,7 @@ class IOFunctions
         $output = [];
 
         foreach (preg_split('/\n|\r\n?/', $data) as $line) {
-            if ((Synful::$config['system']['standalone'] && Synful::isCommandLineInterface()) || $force) {
+            if ((Synful::$config['system']['standalone'] || Synful::isCommandLineInterface()) || $force) {
                 if ($block_header_on_echo) {
                     $output[] = $line;
                 } else {
