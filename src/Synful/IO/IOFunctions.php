@@ -149,7 +149,7 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Fatal Error: '.$err);
-                    header("Content-Type: application/json");
+                    header("Content-Type: text/json");
                     echo json_encode($response);
                     exit;
                 }
@@ -161,7 +161,7 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Warning: '.$err);
-                    header("Content-Type: application/json");
+                    header("Content-Type: text/json");
                     echo json_encode($response);
                     exit;
                 }
@@ -173,7 +173,7 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Notice: '.$err);
-                    header("Content-Type: application/json");
+                    header("Content-Type: text/json");
                     echo json_encode($response);
                     exit;
                 }
@@ -185,7 +185,7 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Unknown Error: '.$err);
-                    header("Content-Type: application/json");
+                    header("Content-Type: text/json");
                     echo json_encode($response);
                     exit;
                 }
