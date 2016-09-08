@@ -71,7 +71,7 @@ class IOFunctions
                         trigger_error($e->message, E_USER_ERROR);
                     }
                 } else {
-                    trigger_error('Unable to write to log file.', E_USER_ERROR);
+                    trigger_error('Unable to write to log file.', E_USER_WARNING);
                 }
             }
         }
