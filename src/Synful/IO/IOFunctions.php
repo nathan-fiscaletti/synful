@@ -104,22 +104,8 @@ class IOFunctions
                         FILE_APPEND
                     );
                 } else {
-                    $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .=  self::parseLogstring(
-                        LogLevel::ERRO,
-                        'ERRO',
-                        'Failed to write to config file. Check permissions?'
-                    );
-                    $output[] = $out_line;
-
-                    $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .= self::parseLogstring(
-                        LogLevel::ERRO,
-                        'ERRO',
-                        'Disabling logging for the rest of the session'
-                    );
-                    $output[] = $out_line;
-
+                    trigger_error('Failled to write to log file. Check permissions? '.
+                                  'Disabling logging for rest of session.', E_USER_WARNING);
                     Synful::$config['files']['log_to_file'] = false;
                 }
             }
@@ -143,7 +129,9 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Fatal Error: '.$err);
+                    header("Content-Type: application/json");
                     echo json_encode($response);
+                    exit(1);
                 }
                 break;
             }
@@ -163,7 +151,9 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Unknown Error: '.$err);
+                    header("Content-Type: application/json");
                     echo json_encode($response);
+                    exit(1);
                 }
                 break;
             }
