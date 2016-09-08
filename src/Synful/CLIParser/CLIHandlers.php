@@ -25,25 +25,25 @@ class CLIHandlers
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Unable to set White-List Only.',
-                true,
+                false,
                 false,
                 false
             );
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Please provide the data in the format \'<email/id>,<true/false>\'',
-                true,
+                false,
                 false,
                 false
             );
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Example: php synful.php whitelistonly=jon@acme.com,true',
-                true,
+                false,
                 false,
                 false
             );
-            exit(2);
+            exit();
         } else {
             if (! APIKey::keyExists($param_data[0])) {
                 IOFunctions::out(
@@ -76,7 +76,7 @@ class CLIHandlers
                     false,
                     false
                 );
-                exit(0);
+                exit();
             }
         }
     }
@@ -112,10 +112,10 @@ class CLIHandlers
                 );
             }
 
-            exit(0);
+            exit();
         } else {
             IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
-            exit(2);
+            exit();
         }
     }
 
