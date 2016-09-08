@@ -144,7 +144,7 @@ class IOFunctions
                     $response->setResponse('error', 'Fatal Error: '.$err);
                     header("Content-Type: application/json");
                     echo json_encode($response);
-                    exit(1);
+                    exit;
                 }
                 break;
             }
@@ -156,7 +156,7 @@ class IOFunctions
                     $response->setResponse('error', 'Warning: '.$err);
                     header("Content-Type: application/json");
                     echo json_encode($response);
-                    exit(1);
+                    exit;
                 }
                 break;
             }
@@ -168,7 +168,7 @@ class IOFunctions
                     $response->setResponse('error', 'Notice: '.$err);
                     header("Content-Type: application/json");
                     echo json_encode($response);
-                    exit(1);
+                    exit;
                 }
                 break;
             }
@@ -180,7 +180,7 @@ class IOFunctions
                     $response->setResponse('error', 'Unknown Error: '.$err);
                     header("Content-Type: application/json");
                     echo json_encode($response);
-                    exit(1);
+                    exit;
                 }
                 break;
             }
