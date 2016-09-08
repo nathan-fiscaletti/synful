@@ -4,6 +4,7 @@ namespace Synful\IO;
 
 use Synful\Colors;
 use Synful\Synful;
+use Synful\Response;
 use Exception;
 
 /**
@@ -11,6 +12,7 @@ use Exception;
  */
 class IOFunctions
 {
+
     /**
      * Loads configuration file into system.
      *
@@ -69,7 +71,7 @@ class IOFunctions
         $output = [];
 
         foreach (preg_split('/\n|\r\n?/', $data) as $line) {
-            if (Synful::$config['system']['standalone'] || $force) {
+            if ((Synful::$config['system']['standalone'] && Synful::isCommandLineInterface()) || $force) {
                 if ($block_header_on_echo) {
                     $output[] = $line;
                 } else {
@@ -138,6 +140,11 @@ class IOFunctions
         switch ($errno) {
             case E_USER_ERROR: {
                 self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->addResponse('error', 'Fatal Error: '.$err);
+                    echo json_encode($response);
+                }
                 break;
             }
 
@@ -153,6 +160,11 @@ class IOFunctions
 
             default: {
                 self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->addResponse('error', 'Unknown Error: '.$err);
+                    echo json_encode($response);
+                }
                 break;
             }
         }
