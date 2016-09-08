@@ -2,6 +2,8 @@
 
 namespace Synful\Util;
 
+use Exception;
+
 /**
  * Trait used as a base for classes with constructors that match their properties.
  */
@@ -28,7 +30,6 @@ trait Object
      *
      * @param  string $name
      * @param  array  $arguments
-     *
      * @return mixed
      */
     public function __call($name, $arguments)

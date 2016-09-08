@@ -142,7 +142,7 @@ class IOFunctions
                 self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
-                    $response->addResponse('error', 'Fatal Error: '.$err);
+                    $response->setResponse('error', 'Fatal Error: '.$err);
                     echo json_encode($response);
                 }
                 break;
@@ -162,7 +162,7 @@ class IOFunctions
                 self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
-                    $response->addResponse('error', 'Unknown Error: '.$err);
+                    $response->setResponse('error', 'Unknown Error: '.$err);
                     echo json_encode($response);
                 }
                 break;
