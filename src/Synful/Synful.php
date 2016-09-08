@@ -228,7 +228,7 @@ class Synful
         }
 
         header("Content-Type: application/json");
-        IOFunctions::out(LogLevel::RESP, json_encode($response), true, true);
+        IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
     }
 
     /**
