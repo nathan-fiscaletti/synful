@@ -73,8 +73,10 @@ class Synful
         self::initializeSql();
 
         // Parse CLI
-        $cli_parser = new CLIParser();
-        $cli_parser->parseCLI();
+        if (self::isCommandLineInterface()) {
+            $cli_parser = new CLIParser();
+            $cli_parser->parseCLI();
+        }
 
         global $argv;
         if (self::isCommandLineInterface() && count($argv) < 1) {
@@ -222,7 +224,7 @@ class Synful
         if (empty($_POST['request'])) {
             $response = new Response();
             $response->code = 400;
-            $response->setResponse('message', 'Bad Request');
+            $response->setResponse('erro', 'Bad Request');
         } else {
             $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
         }
@@ -311,6 +313,6 @@ class Synful
     public static function preStartUp()
     {
         IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
-        IOFunctions::out(LogLevel::NOTE, 'Synful API Initializing...');
+        IOFunctions::out(LogLevel::NOTE, 'Synful API Initializing...', false, false, false, false);
     }
 }
