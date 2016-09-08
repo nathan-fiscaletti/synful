@@ -38,5 +38,5 @@ if (file_exists('./vendor')) {
     \Synful\Synful::initialize();
 } else {
     echo 'Please run \'composer install --no-scripts\' before running Synful.'."\r\n";
-    exit(3);
+    exit();
 }

@@ -5,7 +5,7 @@ namespace Synful;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 use Synful\Standalone\Standalone;
-use Synful\DataManagement\SQLConnection;
+use Synful\DataManagement\SqlConnection;
 use Synful\CLIParser\CLIParser;
 
 class Synful
@@ -57,24 +57,26 @@ class Synful
         Colors::loadColors();
 
         // Enabele error reporting
-        ini_set('display_errors', 1);
-        ini_set('display_startup_errors', 1);
+        ini_set('display_errors', 0);
+        ini_set('display_startup_errors', 0);
         error_reporting(E_ALL);
 
         // Set error handler and shutdown hook
-        set_error_handler('\Synful\IO\IOFunctions::catchError');
-        register_shutdown_function('\Synful\IO\IOFunctions::onShutDown');
+        set_error_handler('\\Synful\\IO\\IOFunctions::catchError', E_ALL);
+        register_shutdown_function('\\Synful\\IO\\IOFunctions::onShutDown');
 
         // Load the configuration into system
         if (! IOFunctions::loadConfig()) {
-            exit(2);
+            exit();
         }
 
         self::initializeSql();
 
         // Parse CLI
-        $cli_parser = new CLIParser();
-        $cli_parser->parseCLI();
+        if (self::isCommandLineInterface()) {
+            $cli_parser = new CLIParser();
+            $cli_parser->parseCLI();
+        }
 
         global $argv;
         if (self::isCommandLineInterface() && count($argv) < 1) {
@@ -110,13 +112,13 @@ class Synful
             IOFunctions::out(LogLevel::NOTE, 'Loading databases...');
             self::loadSqlDatabases(self::$config['sql_databases']);
         } else {
-            IOFunctions::out(LogLevel::ERRO, 'Error: Missing Synful database definintion');
-            IOFunctions::out(
-                LogLevel::ERRO,
+            trigger_error(
+                'Missing Synful database definition.'.
                 'Match the \'main_database\' setting in config.ini to the correct database. '.
-                'Default Synful database is for storing API Keys, Users and Permissions.'
+                'Default Synful database is for storing API Keys, Users and Permissions.',
+                E_USER_WARNING
             );
-            exit(1);
+            exit();
         }
 
         self::$sql = &self::$sql_databases[self::$config['system']['main_database']];
@@ -132,12 +134,8 @@ class Synful
         foreach ($databases as $database) {
             $database = (array) json_decode(str_replace('\'', '"', $database));
             if (count($database) < 5) {
-                IOFunctions::out(
-                    LogLevel::ERRO,
-                    'Failed one or more custom databases. Please check config.ini.',
-                    true
-                );
-                exit(1);
+                trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
+                exit();
             } else {
                 $new_sql_connection = new SqlConnection(
                     $database[0],
@@ -149,12 +147,8 @@ class Synful
                 if ($new_sql_connection->openSQL()) {
                     self::$sql_databases[$database[3]] = $new_sql_connection;
                 } else {
-                    IOFunctions::out(
-                        LogLevel::ERRO,
-                        'Failed on one or more database connections. Please check config.ini.',
-                        true
-                    );
-                    exit(1);
+                    trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
+                    exit();
                 }
             }
         }
@@ -171,7 +165,7 @@ class Synful
                 $enabled_request_handler = true;
                 $class_name = explode('.', $handler)[0];
                 eval(
-                    '\\Synful\\self::$request_handlers[\''.
+                    '\\Synful\\Synful::$request_handlers[\''.
                     $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
                     $class_name.'();'
                 );
@@ -204,8 +198,7 @@ class Synful
                                 'light_blue'
                             )
                         )
-                    ),
-                    true
+                    )
                 );
             }
         }
@@ -229,16 +222,14 @@ class Synful
     private static function listenWeb()
     {
         if (empty($_POST['request'])) {
-            $response = new Response();
-            $response->code = 400;
-            $response->setResponse('message', 'Bad Request');
+            $response = new Response(['code' => 400]);
+            $response->setResponse('error', 'Bad Request');
         } else {
             $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
         }
 
         header('Content-Type: text/json');
-        http_response_code($response->code);
-        IOFunctions::out(LogLevel::RESP, json_encode($response), true, true);
+        IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
     }
 
     /**
@@ -321,6 +312,6 @@ class Synful
     public static function preStartUp()
     {
         IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
-        IOFunctions::out(LogLevel::NOTE, 'Synful API Initializing...');
+        IOFunctions::out(LogLevel::NOTE, 'Synful API Initializing...', false, false, false, false);
     }
 }

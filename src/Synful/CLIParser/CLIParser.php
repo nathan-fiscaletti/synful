@@ -159,11 +159,11 @@ class CLIParser
                     }
                 }
             } else {
-                IOFunctions::out(LogLevel::INFO, $this->getUsage(), true, false, false);
+                IOFunctions::out(LogLevel::INFO, $this->getUsage(), false, false, false);
                 exit(3);
             }
         } else {
-            IOFunctions::out(LogLevel::INFO, $this->getUsage(), true, false, false);
+            IOFunctions::out(LogLevel::INFO, $this->getUsage(), false, false, false);
             exit(3);
         }
     }
@@ -173,7 +173,7 @@ class CLIParser
      */
     public function getUsage()
     {
-        $usage .=  PHP_EOL.'    Usage: php ';
+        $usage = PHP_EOL.'    Usage: php ';
         $usage .= $this->script_name.' [arg1, arg2,...]'.PHP_EOL;
         $usage .= '    <> = Denotes a required part of usage.'.PHP_EOL;
         $usage .= '    [] = Denotes an optional part of usage.'.PHP_EOL;
@@ -183,7 +183,7 @@ class CLIParser
 
         foreach ($this->valid_arguments as $argument) {
             $usage .= str_pad('', 8);
-            $usage .= Colors::cs(str_pad($argument[name], $largest_argument), 'light_cyan');
+            $usage .= Colors::cs(str_pad($argument['name'], $largest_argument), 'light_cyan');
             $usage .= ' : '.Colors::cs($argument['description'], 'yellow').PHP_EOL;
             $usage .= str_pad('Argument Usage : ', 29, ' ', STR_PAD_LEFT);
             $usage .= $argument['usage'].PHP_EOL.PHP_EOL;

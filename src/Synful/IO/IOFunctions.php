@@ -4,6 +4,7 @@ namespace Synful\IO;
 
 use Synful\Colors;
 use Synful\Synful;
+use Synful\Response;
 use Exception;
 
 /**
@@ -23,11 +24,11 @@ class IOFunctions
             try {
                 Synful::$config = parse_ini_file('./config.ini', true);
             } catch (Exception $ex) {
-                trigger_error('Failed to load config: '.$ex->message, E_USER_ERROR);
+                trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
                 $return = false;
             }
         } else {
-            trigger_error('Failed to load config: File not found.', E_USER_ERROR);
+            trigger_error('Failed to load config: File not found.', E_USER_WARNING);
             $return = false;
         }
 
@@ -60,16 +61,24 @@ class IOFunctions
 
         if (Synful::$config['files']['log_to_file'] && $write_to_file) {
             if (! file_exists(dirname($log_file))) {
-                mkdir(dirname($log_file), 0700, true);
-                chown(dirname($log_file), exec('whoami'));
-                chmod(dirname($log_file), 0700);
+                if (is_writable($log_file)) {
+                    try {
+                        mkdir(dirname($log_file), 0700, true);
+                        chown(dirname($log_file), `whoami`);
+                        chmod(dirname($log_file), 0700);
+                    } catch (Exception $e) {
+                        trigger_error($e->message, E_USER_WARNING);
+                    }
+                } else {
+                    trigger_error('Unable to write to log file.', E_USER_WARNING);
+                }
             }
         }
 
         $output = [];
 
         foreach (preg_split('/\n|\r\n?/', $data) as $line) {
-            if (Synful::$config['system']['standalone'] || $force) {
+            if ((Synful::$config['system']['standalone'] && Synful::isCommandLineInterface()) || $force) {
                 if ($block_header_on_echo) {
                     $output[] = $line;
                 } else {
@@ -90,34 +99,25 @@ class IOFunctions
                 }
 
                 if (! file_exists($log_file)) {
-                    @file_put_contents($log_file, '');
-                    chmod($log_file, 0700);
-                    chown($log_file, exec('whoami'));
+                    if (is_writable($log_file)) {
+                        file_put_contents($log_file, '');
+                        chmod($log_file, 0700);
+                        chown($log_file, exec('whoami'));
+                    } else {
+                        trigger_error('Unable to write to log file.', E_USER_WARNING);
+                    }
                 }
 
                 if (is_writable($log_file)) {
+                    $line = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $line);
                     file_put_contents(
                         $log_file,
                         '['.time().'] [SYNFUL] ['.$head.'] '.$line."\r\n",
                         FILE_APPEND
                     );
                 } else {
-                    $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .=  self::parseLogstring(
-                        LogLevel::ERRO,
-                        'ERRO',
-                        'Failed to write to config file. Check permissions?'
-                    );
-                    $output[] = $out_line;
-
-                    $out_line = '['.Colors::cs('SYNFUL', 'white').'] ';
-                    $out_line .= self::parseLogstring(
-                        LogLevel::ERRO,
-                        'ERRO',
-                        'Disabling logging for the rest of the session'
-                    );
-                    $output[] = $out_line;
-
+                    trigger_error('Failled to write to log file. Check permissions? '.
+                                  'Disabling logging for rest of session.', E_USER_WARNING);
                     Synful::$config['files']['log_to_file'] = false;
                 }
             }
@@ -133,26 +133,54 @@ class IOFunctions
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
-        $err = $errstr.' in '.$errfile.' at line '.$errline;
+        $err = $errstr.((Synful::$config['system']['production']) ? '' : ' in '.$errfile.' at line '.$errline);
 
         switch ($errno) {
             case E_USER_ERROR: {
                 self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->setResponse('error', 'Fatal Error: '.$err);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
+                }
                 break;
             }
 
             case E_USER_WARNING: {
                 self::out(LogLevel::WARN, 'Warning: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->setResponse('error', 'Warning: '.$err);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
+                }
                 break;
             }
 
             case E_USER_NOTICE: {
                 self::out(LogLevel::NOTE, 'Notice: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->setResponse('error', 'Notice: '.$err);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
+                }
                 break;
             }
 
             default: {
                 self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->setResponse('error', 'Unknown Error: '.$err);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
+                }
                 break;
             }
         }
@@ -174,8 +202,6 @@ class IOFunctions
                 $database->closeSQL();
             }
         }
-
-        self::out(LogLevel::INFO, 'Synful API Shutdown!');
     }
 
     /**
