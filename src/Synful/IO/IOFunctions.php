@@ -5,6 +5,8 @@ namespace Synful\IO;
 use Synful\Colors;
 use Synful\Synful;
 use Synful\Response;
+use Gestalt\Configuration;
+use Gestalt\Loaders\LoaderInterface;
 use Exception;
 
 /**
@@ -22,7 +24,11 @@ class IOFunctions
         $return = true;
         if (file_exists('./config.ini')) {
             try {
-                Synful::$config = parse_ini_file('./config.ini', true);
+                Synful::$config = Configuration::fromLoader(new class implements LoaderInterface {
+                    public function load(){
+                        return parse_ini_file('./config.ini', true);
+                    }
+                })->all();
             } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
                 $return = false;
@@ -61,16 +67,12 @@ class IOFunctions
 
         if (Synful::$config['files']['log_to_file'] && $write_to_file) {
             if (! file_exists(dirname($log_file))) {
-                if (is_writable($log_file)) {
-                    try {
-                        mkdir(dirname($log_file), 0700, true);
-                        chown(dirname($log_file), `whoami`);
-                        chmod(dirname($log_file), 0700);
-                    } catch (Exception $e) {
-                        trigger_error($e->message, E_USER_WARNING);
-                    }
-                } else {
-                    trigger_error('Unable to write to log file.', E_USER_WARNING);
+                try {
+                    mkdir(dirname($log_file), 0700, true);
+                    chown(dirname($log_file), `whoami`);
+                    chmod(dirname($log_file), 0700);
+                } catch (Exception $e) {
+                    trigger_error($e->message, E_USER_WARNING);
                 }
             }
         }
@@ -99,12 +101,12 @@ class IOFunctions
                 }
 
                 if (! file_exists($log_file)) {
-                    if (is_writable($log_file)) {
+                    try {
                         file_put_contents($log_file, '');
                         chmod($log_file, 0700);
                         chown($log_file, exec('whoami'));
-                    } else {
-                        trigger_error('Unable to write to log file.', E_USER_WARNING);
+                    } catch(Exception $e) {
+                        trigger_error($e->message, E_USER_WARNING);
                     }
                 }
 
