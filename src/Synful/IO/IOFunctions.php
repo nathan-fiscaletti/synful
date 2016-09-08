@@ -132,7 +132,7 @@ class IOFunctions
     /**
      * Used to catch internal exceptions
      */
-    public function catchException($exception){
+    public static function catchException($exception){
         print_r($exception);
     }
 
