@@ -62,12 +62,16 @@ class IOFunctions
 
         if (Synful::$config['files']['log_to_file'] && $write_to_file) {
             if (! file_exists(dirname($log_file))) {
-                try {
-                    mkdir(dirname($log_file), 0700, true);
-                    chown(dirname($log_file), `whoami`);
-                    chmod(dirname($log_file), 0700);
-                } catch(Exception $e) {
-                    trigger_error($e->message, E_USER_ERROR);
+                if (is_writable($log_file)) {
+                    try {
+                        mkdir(dirname($log_file), 0700, true);
+                        chown(dirname($log_file), `whoami`);
+                        chmod(dirname($log_file), 0700);
+                    } catch(Exception $e) {
+                        trigger_error($e->message, E_USER_ERROR);
+                    }
+                } else {
+                    trigger_error('Unable to write to log file.', E_USER_ERROR);
                 }
             }
         }
