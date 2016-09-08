@@ -25,21 +25,21 @@ class CLIHandlers
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Unable to set White-List Only.',
-                true,
+                false,
                 false,
                 false
             );
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Please provide the data in the format \'<email/id>,<true/false>\'',
-                true,
+                false,
                 false,
                 false
             );
             IOFunctions::out(
                 LogLevel::ERRO,
                 'Example: php synful.php whitelistonly=jon@acme.com,true',
-                true,
+                false,
                 false,
                 false
             );
