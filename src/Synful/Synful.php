@@ -114,7 +114,7 @@ class Synful
                 'Missing Synful database definition.'.
                 'Match the \'main_database\' setting in config.ini to the correct database. '.
                 'Default Synful database is for storing API Keys, Users and Permissions.',
-                E_USER_ERROR
+                E_USER_WARNING
             );
             exit(1);
         }

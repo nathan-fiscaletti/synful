@@ -25,11 +25,11 @@ class IOFunctions
             try {
                 Synful::$config = parse_ini_file('./config.ini', true);
             } catch (Exception $ex) {
-                trigger_error('Failed to load config: '.$ex->message, E_USER_ERROR);
+                trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
                 $return = false;
             }
         } else {
-            trigger_error('Failed to load config: File not found.', E_USER_ERROR);
+            trigger_error('Failed to load config: File not found.', E_USER_WARNING);
             $return = false;
         }
 
