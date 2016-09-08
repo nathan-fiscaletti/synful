@@ -159,11 +159,11 @@ class CLIParser
                     }
                 }
             } else {
-                IOFunctions::out(LogLevel::INFO, $this->getUsage(), true, false, false);
+                IOFunctions::out(LogLevel::INFO, $this->getUsage(), false, false, false);
                 exit(3);
             }
         } else {
-            IOFunctions::out(LogLevel::INFO, $this->getUsage(), true, false, false);
+            IOFunctions::out(LogLevel::INFO, $this->getUsage(), false, false, false);
             exit(3);
         }
     }
