@@ -201,6 +201,12 @@ class IOFunctions
      */
     public static function onShutDown()
     {
+
+        $error = error_get_last();
+        if ($error['type'] === E_ERROR) { 
+            print_r($error);  
+        } 
+
         if (Synful::$sql != null) {
             Synful::$sql->closeSQL();
         }
@@ -210,8 +216,6 @@ class IOFunctions
                 $database->closeSQL();
             }
         }
-
-        self::out(LogLevel::INFO, 'Synful API Shutdown!');
     }
 
     /**
