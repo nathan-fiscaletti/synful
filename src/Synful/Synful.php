@@ -169,7 +169,7 @@ class Synful
                 $enabled_request_handler = true;
                 $class_name = explode('.', $handler)[0];
                 eval(
-                    '\\Synful\\self::$request_handlers[\''.
+                    '\\Synful\\Synful::$request_handlers[\''.
                     $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
                     $class_name.'();'
                 );
