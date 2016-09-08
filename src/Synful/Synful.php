@@ -110,11 +110,11 @@ class Synful
             IOFunctions::out(LogLevel::NOTE, 'Loading databases...');
             self::loadSqlDatabases(self::$config['sql_databases']);
         } else {
-            IOFunctions::out(LogLevel::ERRO, 'Error: Missing Synful database definintion');
-            IOFunctions::out(
-                LogLevel::ERRO,
+            trigger_error(
+                'Missing Synful database definition.'.
                 'Match the \'main_database\' setting in config.ini to the correct database. '.
-                'Default Synful database is for storing API Keys, Users and Permissions.'
+                'Default Synful database is for storing API Keys, Users and Permissions.',
+                E_USER_ERROR
             );
             exit(1);
         }
