@@ -5,7 +5,7 @@ namespace Synful;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 use Synful\Standalone\Standalone;
-use Synful\DataManagement\SQLConnection;
+use Synful\DataManagement\SqlConnection;
 use Synful\CLIParser\CLIParser;
 
 class Synful
@@ -134,8 +134,7 @@ class Synful
             if (count($database) < 5) {
                 IOFunctions::out(
                     LogLevel::ERRO,
-                    'Failed one or more custom databases. Please check config.ini.',
-                    true
+                    'Failed one or more custom databases. Please check config.ini.'
                 );
                 exit(1);
             } else {
@@ -151,8 +150,7 @@ class Synful
                 } else {
                     IOFunctions::out(
                         LogLevel::ERRO,
-                        'Failed on one or more database connections. Please check config.ini.',
-                        true
+                        'Failed on one or more database connections. Please check config.ini.'
                     );
                     exit(1);
                 }
