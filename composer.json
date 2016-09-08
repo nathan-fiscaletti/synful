@@ -18,6 +18,7 @@
         }
     },
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "samrap/gestalt": "^0.1.1"
     }
 }
