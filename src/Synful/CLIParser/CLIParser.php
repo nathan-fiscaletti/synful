@@ -183,7 +183,7 @@ class CLIParser
 
         foreach ($this->valid_arguments as $argument) {
             $usage .= str_pad('', 8);
-            $usage .= Colors::cs(str_pad($argument[name], $largest_argument), 'light_cyan');
+            $usage .= Colors::cs(str_pad($argument['name'], $largest_argument), 'light_cyan');
             $usage .= ' : '.Colors::cs($argument['description'], 'yellow').PHP_EOL;
             $usage .= str_pad('Argument Usage : ', 29, ' ', STR_PAD_LEFT);
             $usage .= $argument['usage'].PHP_EOL.PHP_EOL;
