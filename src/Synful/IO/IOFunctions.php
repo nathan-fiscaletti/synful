@@ -100,12 +100,17 @@ class IOFunctions
                 }
 
                 if (! file_exists($log_file)) {
-                    file_put_contents($log_file, '');
-                    chmod($log_file, 0700);
-                    chown($log_file, exec('whoami'));
+                    if (is_writable($log_file)) {
+                        file_put_contents($log_file, '');
+                        chmod($log_file, 0700);
+                        chown($log_file, exec('whoami'));
+                    } else {
+                        trigger_error('Unable to write to log file.', E_USER_ERROR);
+                    }
                 }
 
                 if (is_writable($log_file)) {
+                    $line = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $line);
                     file_put_contents(
                         $log_file,
                         '['.time().'] [SYNFUL] ['.$head.'] '.$line."\r\n",
