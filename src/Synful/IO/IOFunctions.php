@@ -64,7 +64,7 @@ class IOFunctions
             if (! file_exists(dirname($log_file))) {
                 try {
                     mkdir(dirname($log_file), 0700, true);
-                    chown(dirname($log_file), `whoami`));
+                    chown(dirname($log_file), `whoami`);
                     chmod(dirname($log_file), 0700);
                 } catch(Exception $e) {
                     trigger_error($e->message, E_USER_ERROR);
