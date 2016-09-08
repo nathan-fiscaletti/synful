@@ -144,6 +144,7 @@ class IOFunctions
                     $response->setResponse('error', 'Fatal Error: '.$err);
                     header("Content-Type: application/json");
                     IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
                 }
                 break;
             }
@@ -155,6 +156,7 @@ class IOFunctions
                     $response->setResponse('error', 'Warning: '.$err);
                     header("Content-Type: application/json");
                     IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
                 }
                 break;
             }
@@ -166,6 +168,7 @@ class IOFunctions
                     $response->setResponse('error', 'Notice: '.$err);
                     header("Content-Type: application/json");
                     IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
                 }
                 break;
             }
@@ -177,6 +180,7 @@ class IOFunctions
                     $response->setResponse('error', 'Unknown Error: '.$err);
                     header("Content-Type: application/json");
                     IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    exit();
                 }
                 break;
             }
