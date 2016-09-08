@@ -68,7 +68,7 @@ class IOFunctions
                         chown(dirname($log_file), `whoami`);
                         chmod(dirname($log_file), 0700);
                     } catch(Exception $e) {
-                        trigger_error($e->message, E_USER_ERROR);
+                        trigger_error($e->message, E_USER_WARNING);
                     }
                 } else {
                     trigger_error('Unable to write to log file.', E_USER_WARNING);
@@ -105,7 +105,7 @@ class IOFunctions
                         chmod($log_file, 0700);
                         chown($log_file, exec('whoami'));
                     } else {
-                        trigger_error('Unable to write to log file.', E_USER_ERROR);
+                        trigger_error('Unable to write to log file.', E_USER_WARNING);
                     }
                 }
 
