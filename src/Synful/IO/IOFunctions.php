@@ -121,7 +121,7 @@ class IOFunctions
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
-        $err = $errstr.' in '.$errfile.' at line '.$errline;
+        $err = $errstr.((Synful::$config['system']['production']) ? '' : ' in '.$errfile.' at line '.$errline);
 
         switch ($errno) {
             case E_USER_ERROR: {
