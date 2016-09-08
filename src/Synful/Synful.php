@@ -222,9 +222,8 @@ class Synful
     private static function listenWeb()
     {
         if (empty($_POST['request'])) {
-            $response = new Response();
-            $response->code = 400;
-            $response->setResponse('erro', 'Bad Request');
+            $response = new Response(['code' => 400]);
+            $response->setResponse('error', 'Bad Request');
         } else {
             $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
         }

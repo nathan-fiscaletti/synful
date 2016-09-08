@@ -14,7 +14,7 @@ trait Object
      *
      * @param array $params
      */
-    public function __construct($params)
+    public function __construct($params = [])
     {
         foreach ($params as $key => $value) {
             if (property_exists($this, $key)) {
