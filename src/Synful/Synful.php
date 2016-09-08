@@ -67,7 +67,7 @@ class Synful
 
         // Load the configuration into system
         if (! IOFunctions::loadConfig()) {
-            exit(2);
+            exit();
         }
 
         self::initializeSql();
@@ -116,7 +116,7 @@ class Synful
                 'Default Synful database is for storing API Keys, Users and Permissions.',
                 E_USER_WARNING
             );
-            exit(1);
+            exit();
         }
 
         self::$sql = &self::$sql_databases[self::$config['system']['main_database']];
@@ -132,11 +132,8 @@ class Synful
         foreach ($databases as $database) {
             $database = (array) json_decode(str_replace('\'', '"', $database));
             if (count($database) < 5) {
-                IOFunctions::out(
-                    LogLevel::ERRO,
-                    'Failed one or more custom databases. Please check config.ini.'
-                );
-                exit(1);
+                trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
+                exit();
             } else {
                 $new_sql_connection = new SqlConnection(
                     $database[0],
@@ -148,11 +145,8 @@ class Synful
                 if ($new_sql_connection->openSQL()) {
                     self::$sql_databases[$database[3]] = $new_sql_connection;
                 } else {
-                    IOFunctions::out(
-                        LogLevel::ERRO,
-                        'Failed on one or more database connections. Please check config.ini.'
-                    );
-                    exit(1);
+                    trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
+                    exit();
                 }
             }
         }

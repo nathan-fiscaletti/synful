@@ -43,7 +43,7 @@ class CLIHandlers
                 false,
                 false
             );
-            exit(2);
+            exit();
         } else {
             if (! APIKey::keyExists($param_data[0])) {
                 IOFunctions::out(
@@ -76,7 +76,7 @@ class CLIHandlers
                     false,
                     false
                 );
-                exit(0);
+                exit();
             }
         }
     }
@@ -112,10 +112,10 @@ class CLIHandlers
                 );
             }
 
-            exit(0);
+            exit();
         } else {
             IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
-            exit(2);
+            exit();
         }
     }
 
