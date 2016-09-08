@@ -63,7 +63,6 @@ class Synful
 
         // Set error handler and shutdown hook
         set_error_handler('\\Synful\\IO\\IOFunctions::catchError', E_ALL);
-        set_exception_handler('\\Synful\\IO\\IOFunctions::catchException');
         register_shutdown_function('\\Synful\\IO\\IOFunctions::onShutDown');
 
         // Load the configuration into system

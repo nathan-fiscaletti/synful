@@ -130,13 +130,6 @@ class IOFunctions
     }
 
     /**
-     * Used to catch internal exceptions
-     */
-    public static function catchException($exception){
-        print_r($exception);
-    }
-
-    /**
      * Used to catch error output from PHP and forward it to our log file.
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
