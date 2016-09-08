@@ -202,8 +202,7 @@ class Synful
                                 'light_blue'
                             )
                         )
-                    ),
-                    true
+                    )
                 );
             }
         }
