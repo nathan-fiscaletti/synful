@@ -142,11 +142,25 @@ class IOFunctions
 
             case E_USER_WARNING: {
                 self::out(LogLevel::WARN, 'Warning: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->setResponse('error', 'Warning: '.$err);
+                    header("Content-Type: application/json");
+                    echo json_encode($response);
+                    exit(1);
+                }
                 break;
             }
 
             case E_USER_NOTICE: {
                 self::out(LogLevel::NOTE, 'Notice: '.$err);
+                if (! Synful::isCommandLineInterface()) {
+                    $response = new Response(['code' => 500]);
+                    $response->setResponse('error', 'Notice: '.$err);
+                    header("Content-Type: application/json");
+                    echo json_encode($response);
+                    exit(1);
+                }
                 break;
             }
 
