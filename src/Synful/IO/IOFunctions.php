@@ -25,10 +25,12 @@ class IOFunctions
         if (file_exists('./config.ini')) {
             try {
                 Synful::$config = Configuration::fromLoader(new class implements LoaderInterface {
-                    public function load(){
+                    public function load()
+                    {
                         return parse_ini_file('./config.ini', true);
                     }
-                })->all();
+                }
+                )->all();
             } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
                 $return = false;
@@ -105,7 +107,7 @@ class IOFunctions
                         file_put_contents($log_file, '');
                         chmod($log_file, 0700);
                         chown($log_file, exec('whoami'));
-                    } catch(Exception $e) {
+                    } catch (Exception $e) {
                         trigger_error($e->message, E_USER_WARNING);
                     }
                 }
