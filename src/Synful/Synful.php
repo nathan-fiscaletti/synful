@@ -234,7 +234,6 @@ class Synful
         }
 
         header('Content-Type: text/json');
-        http_response_code($response->code);
         IOFunctions::out(LogLevel::RESP, json_encode($response), true, true);
     }
 
