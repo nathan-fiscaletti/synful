@@ -173,7 +173,7 @@ class CLIParser
      */
     public function getUsage()
     {
-        $usage =  PHP_EOL.'    Usage: php ';
+        $usage = PHP_EOL.'    Usage: php ';
         $usage .= $this->script_name.' [arg1, arg2,...]'.PHP_EOL;
         $usage .= '    <> = Denotes a required part of usage.'.PHP_EOL;
         $usage .= '    [] = Denotes an optional part of usage.'.PHP_EOL;

@@ -12,7 +12,6 @@ use Exception;
  */
 class IOFunctions
 {
-
     /**
      * Loads configuration file into system.
      *
@@ -67,7 +66,7 @@ class IOFunctions
                         mkdir(dirname($log_file), 0700, true);
                         chown(dirname($log_file), `whoami`);
                         chmod(dirname($log_file), 0700);
-                    } catch(Exception $e) {
+                    } catch (Exception $e) {
                         trigger_error($e->message, E_USER_WARNING);
                     }
                 } else {
@@ -142,8 +141,8 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Fatal Error: '.$err);
-                    header("Content-Type: text/json");
-                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
                 break;
@@ -154,8 +153,8 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Warning: '.$err);
-                    header("Content-Type: text/json");
-                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
                 break;
@@ -166,8 +165,8 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Notice: '.$err);
-                    header("Content-Type: text/json");
-                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
                 break;
@@ -178,8 +177,8 @@ class IOFunctions
                 if (! Synful::isCommandLineInterface()) {
                     $response = new Response(['code' => 500]);
                     $response->setResponse('error', 'Unknown Error: '.$err);
-                    header("Content-Type: text/json");
-                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    header('Content-Type: text/json');
+                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
                 break;
@@ -194,12 +193,6 @@ class IOFunctions
      */
     public static function onShutDown()
     {
-
-        $error = error_get_last();
-        if ($error['type'] === E_ERROR) { 
-            print_r($error);  
-        } 
-
         if (Synful::$sql != null) {
             Synful::$sql->closeSQL();
         }
