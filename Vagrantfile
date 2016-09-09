@@ -3,7 +3,7 @@
 # To import the bento/ubuntu-16.04 box run `vagrant init bento/ubuntu-16.04`
 # 
 # For more information on using the Vagrant Development Environment, 
-# see https://github.com/nathan-fiscaletti/synful/wiki/Using-the-Synful-API-Vagrant-Development-Environment
+# see https://github.com/nathan-fiscaletti/synful/wiki/Using-Vagrant
 
 Vagrant.configure("2") do |config|
 
