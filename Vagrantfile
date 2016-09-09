@@ -1,5 +1,5 @@
 # Vagrant file for a Synful Test Environment Box
-# Requires bento/ubuntu-16.04 vagrant box and virtual provider
+# Requires bento/ubuntu-16.04 vagrant box and virtualbox provider
 # To import the bento/ubuntu-16.04 box run `vagrant init bento/ubuntu-16.04`
 # 
 # For more information on using the Vagrant Development Environment, 
