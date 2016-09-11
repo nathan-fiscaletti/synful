@@ -11,7 +11,7 @@ use Synful\CLIParser\CLIParser;
 class Synful
 {
     /**
-     * The config for the system pulled from config.ini.
+     * The config for the system pulled from './config/Main.php'.
      *
      * @var array
      */
@@ -145,11 +145,11 @@ class Synful
                         self::$sql_databases[$server_name.'.'.$database_name] = &$new_sql_connection;
                         IOFunctions::out(LogLevel::NOTE, '    Loaded database: '.Colors::cs('\''.$server_name.'.'.$database_name.'\'', 'light_green'));
                     } else {
-                        trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
+                        trigger_error('Failed one or more custom databases. Please check SqlServers.php.', E_USER_WARNING);
                         exit();
                     }
                 } catch (Exception $e) {
-                    trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
+                    trigger_error('Failed one or more custom databases. Please check SqlServers.php.', E_USER_WARNING);
                     exit();
                 }
             }
