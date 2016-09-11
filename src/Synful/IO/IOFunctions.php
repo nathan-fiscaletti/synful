@@ -39,6 +39,7 @@ class IOFunctions
                                 }
                             }
                         }
+
                         return $config;
                     }
                 });
@@ -148,7 +149,6 @@ class IOFunctions
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
-
         if (Synful::$config == null) {
             echo $errstr."\r\n";
             exit();
