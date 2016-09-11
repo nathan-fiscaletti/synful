@@ -94,10 +94,10 @@ class Synful
         IOFunctions::out(LogLevel::NOTE, 'Loading Request Handlers...');
         self::loadRequestHandlers();
 
-        if (self::$config['system']['standalone']) {
+        if (self::$config->get('system.standalone')) {
             IOFunctions::out(LogLevel::NOTE, 'Running in standalone mode...');
             self::postStartUp();
-            (new Standalone(self::$config))->initialize();
+            (new Standalone())->initialize();
         } else {
             self::listenWeb();
         }
@@ -106,47 +106,49 @@ class Synful
     /**
      * Initializes MySQL.
      */
+    // TODO - IMPORTANT
     public static function initializeSql()
     {
-        if (count(self::$config['sql_databases']) > 0) {
+        if (self::$config->get('sqlservers.main.databases.synful') != null) {
             IOFunctions::out(LogLevel::NOTE, 'Loading databases...');
-            self::loadSqlDatabases(self::$config['sql_databases']);
+            self::loadSqlServers(self::$config->get('sqlservers'));
         } else {
             trigger_error(
-                'Missing Synful database definition.'.
-                'Match the \'main_database\' setting in config.ini to the correct database. '.
+                'Missing Synful database definition. '.
+                'Set \'sqlservers.main.databases.synful\' in \'SqlServers.php\'. '.
                 'Default Synful database is for storing API Keys, Users and Permissions.',
                 E_USER_WARNING
             );
             exit();
         }
-
-        self::$sql = &self::$sql_databases[self::$config['system']['main_database']];
-
+        self::$sql = &self::$sql_databases['main.synful'];
         self::createDefaultTables();
     }
 
     /**
      * Loads all MySQL Databases into Synful.
      */
-    private static function loadSqlDatabases($databases)
+    private static function loadSqlServers($sqlservers)
     {
-        foreach ($databases as $database) {
-            $database = (array) json_decode(str_replace('\'', '"', $database));
-            if (count($database) < 5) {
-                trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
-                exit();
-            } else {
-                $new_sql_connection = new SqlConnection(
-                    $database[0],
-                    $database[1],
-                    $database[2],
-                    $database[3],
-                    $database[4]
-                );
-                if ($new_sql_connection->openSQL()) {
-                    self::$sql_databases[$database[3]] = $new_sql_connection;
-                } else {
+        foreach ($sqlservers as $server_name => $server) {
+            foreach ($server['databases'] as $database_name => $database) {
+                try {
+                    $new_sql_connection = new SqlConnection(
+                        $server['host'],
+                        $database['username'],
+                        $database['password'],
+                        $database['database'],
+                        $server['port']
+                    );
+
+                    if ($new_sql_connection->openSQL()) {
+                        self::$sql_databases[$server_name.'.'.$database_name] = &$new_sql_connection;
+                        IOFunctions::out(LogLevel::NOTE, '    Loaded database: '.Colors::cs('\''.$server_name.'.'.$database_name.'\'', 'light_green'));
+                    } else {
+                        trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
+                        exit();
+                    }
+                } catch (Exception $e) {
                     trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
                     exit();
                 }
@@ -171,7 +173,7 @@ class Synful
                 );
                 $is_public = false;
                 $is_private = false;
-                if (self::$config['security']['allow_public_requests']) {
+                if (self::$config->get('security.allow_public_requests')) {
                     if (property_exists(self::$request_handlers[$class_name], 'is_public')) {
                         $is_public = self::$request_handlers[$class_name]->is_public;
                     } elseif (property_exists(self::$request_handlers[$class_name], 'white_list_keys')) {
@@ -311,7 +313,5 @@ class Synful
      */
     public static function preStartUp()
     {
-        IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
-        IOFunctions::out(LogLevel::NOTE, 'Synful API Initializing...', false, false, false, false);
     }
 }

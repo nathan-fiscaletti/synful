@@ -109,9 +109,9 @@ class APIKey
 
         $this->permissions = new APIKeyPermissions(
             $id,
-            Synful::$config['default_permissions']['put_data'],
-            Synful::$config['default_permissions']['get_data'],
-            Synful::$config['default_permissions']['mod_data']
+            Synful::$config->get('permissions.put_data'),
+            Synful::$config->get('permissions.get_data'),
+            Synful::$config->get('permissions.mod_data')
         );
 
         if ($this->is_master) {

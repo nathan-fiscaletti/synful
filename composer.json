@@ -19,6 +19,6 @@
     },
     "require": {
         "php": ">=7.0",
-        "samrap/gestalt": "^0.1.1"
+        "samrap/gestalt": ">=0.1.2"
     }
 }

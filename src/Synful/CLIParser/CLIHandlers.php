@@ -535,8 +535,8 @@ class CLIHandlers
      */
     public static function standAlone($value)
     {
-        Synful::$config['system']['standalone'] = ($value == null) ? true : json_decode($value);
-        $str = (Synful::$config['system']['standalone']) ? 'true' : 'false';
+        Synful::$config->set('system.standalone', ($value == null) ? true : json_decode($value));
+        $str = (Synful::$config->get('system.standalone')) ? 'true' : 'false';
         IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set standalone mode to \''.$str.'\'.');
     }
 
@@ -548,7 +548,7 @@ class CLIHandlers
     public static function logFile($value)
     {
         if ($value != null) {
-            Synful::$config['files']['logfile'] = $value;
+            Synful::$config->set('files.logfile', $value);
             IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set logfile to \''.$value.'\'.');
         } else {
             IOFunctions::out(LogLevel::WARN, 'Invalid logfile defined. Using default.');
@@ -564,7 +564,7 @@ class CLIHandlers
     {
         if ($value != null) {
             if (! filter_var($ip, FILTER_VALIDATE_IP) === false) {
-                Synful::$config['system']['ip'] = $value;
+                Synful::$config->set('system.ip', $value);
                 IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set IP to \''.$value.'\'.');
             } else {
                 IOFunctions::out(LogLevel::WARN, 'Invalid IP defined. Using default.');
@@ -582,7 +582,7 @@ class CLIHandlers
     public static function listenPort($value)
     {
         if ($value != null) {
-            Synful::$config['system']['port'] = $value;
+            Synful::$config->set('system.port', $value);
             IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set port to \''.$value.'\'.');
         } else {
             IOFunctions::out(LogLevel::WARN, 'Invalid port defined. Using default.');
@@ -596,8 +596,8 @@ class CLIHandlers
      */
     public static function multiThread($value)
     {
-        Synful::$config['system']['multithread'] = ($value == null) ? true : json_decode($value);
-        $str = (Synful::$config['system']['multithread']) ? 'true' : 'false';
+        Synful::$config->set('system.multithread', ($value == null) ? true : json_decode($value));
+        $str = (Synful::$config->get('system.multithread')) ? 'true' : 'false';
         IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set multithread mode to \''.$str.'\'.');
     }
 
@@ -608,8 +608,8 @@ class CLIHandlers
      */
     public static function enableColor($value)
     {
-        Synful::$config['system']['color'] = ($value == null) ? true : json_decode($value);
-        $str = (Synful::$config['system']['color']) ? 'true' : 'false';
+        Synful::$config->set('system.color', ($value == null) ? true : json_decode($value));
+        $str = (Synful::$config->get('system.color')) ? 'true' : 'false';
         IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set console color to \''.$str.'\'.');
     }
 }
