@@ -49,8 +49,8 @@ class Controller
         if (! APIKey::isMasterSet()) {
             IOFunctions::out(LogLevel::INFO, 'No master key found. Generating new master key.');
             $apik = APIKey::addNew(
-                Synful::$config['security']['name'],
-                Synful::$config['security']['email'],
+                Synful::$config->get('security.name'),
+                Synful::$config->get('security.email'),
                 0,
                 1,
                 true
@@ -156,7 +156,7 @@ class Controller
     {
         $return = true;
 
-        if (! Synful::$config['security']['allow_public_requests'] ||
+        if (! Synful::$config->get('security.allow_public_requests') ||
             ! (property_exists($handler, 'is_public') && $handler->is_public)) {
             $return = false;
             if (! empty($data['user'])) {

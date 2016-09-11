@@ -22,15 +22,27 @@ class IOFunctions
     public static function loadConfig()
     {
         $return = true;
-        if (file_exists('./config.ini')) {
+        if (file_exists('./config/Main.php')) {
             try {
                 Synful::$config = Configuration::fromLoader(new class implements LoaderInterface {
                     public function load()
                     {
-                        return parse_ini_file('./config.ini', true);
+                        $config = require './config/Main.php';
+                        foreach ($config['sqlservers'] as $server_name => $server) {
+                            foreach ($server['databases'] as $database_name => $database) {
+                                if (isset($database['use'])) {
+                                    if (array_key_exists($database['use'], $server['databases'])) {
+                                        $database = array_merge($server['databases'][$database['use']], $database);
+                                        unset($database['use']);
+                                        $config['sqlservers'][$server_name]['databases'][$database_name] = $database;
+                                    }
+                                }
+                            }
+                        }
+
+                        return $config;
                     }
-                }
-                )->all();
+                });
             } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
                 $return = false;
@@ -65,9 +77,9 @@ class IOFunctions
             $head = 'RESP';
         }
 
-        $log_file = Synful::$config['files']['logfile'];
+        $log_file = Synful::$config->get('files.logfile');
 
-        if (Synful::$config['files']['log_to_file'] && $write_to_file) {
+        if (Synful::$config->get('files.log_to_file') && $write_to_file) {
             if (! file_exists(dirname($log_file))) {
                 try {
                     mkdir(dirname($log_file), 0700, true);
@@ -82,7 +94,7 @@ class IOFunctions
         $output = [];
 
         foreach (preg_split('/\n|\r\n?/', $data) as $line) {
-            if ((Synful::$config['system']['standalone'] || Synful::isCommandLineInterface()) || $force) {
+            if ((Synful::$config->get('system.standalone') || Synful::isCommandLineInterface()) || $force) {
                 if ($block_header_on_echo) {
                     $output[] = $line;
                 } else {
@@ -92,13 +104,13 @@ class IOFunctions
                 }
             }
 
-            if (Synful::$config['files']['log_to_file'] && $write_to_file) {
-                if (Synful::$config['files']['split_logfiles']) {
+            if (Synful::$config->get('files.log_to_file') && $write_to_file) {
+                if (Synful::$config->get('files.split_log_files')) {
                     $log_id = 0;
-                    $max_lines = Synful::$config['files']['max_logfile_lines'];
+                    $max_lines = Synful::$config->get('files.max_logfile_lines');
                     while (file_exists($log_file) && (count(file($log_file)) - 1) > $max_lines) {
                         $log_id++;
-                        $log_file = Synful::$config['files']['logfile'].'.'.$log_id;
+                        $log_file = Synful::$config->get('files.logfile').'.'.$log_id;
                     }
                 }
 
@@ -122,7 +134,7 @@ class IOFunctions
                 } else {
                     trigger_error('Failled to write to log file. Check permissions? '.
                                   'Disabling logging for rest of session.', E_USER_WARNING);
-                    Synful::$config['files']['log_to_file'] = false;
+                    Synful::$config->set('files.log_to_file', false);
                 }
             }
         }
@@ -137,7 +149,12 @@ class IOFunctions
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
-        $err = $errstr.((Synful::$config['system']['production']) ? '' : ' in '.$errfile.' at line '.$errline);
+        if (Synful::$config == null) {
+            echo $errstr."\r\n";
+            exit();
+        }
+
+        $err = $errstr.((Synful::$config->get('system.production')) ? '' : ' in '.$errfile.' at line '.$errline);
 
         switch ($errno) {
             case E_USER_ERROR: {
@@ -220,7 +237,7 @@ class IOFunctions
     {
         $return_string = '';
 
-        if (Synful::$config['system']['color']) {
+        if (Synful::$config->get('system.color')) {
             switch ($level) {
                 case LogLevel::INFO: {
                     $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
