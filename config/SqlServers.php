@@ -32,7 +32,7 @@ return [
 
                 'username' => 'root',
 
-                'password' => 'aoc1080p',
+                'password' => 'password',
 
                 'database' => 'synful',
 
