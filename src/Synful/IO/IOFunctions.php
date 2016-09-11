@@ -5,8 +5,8 @@ namespace Synful\IO;
 use Synful\Colors;
 use Synful\Synful;
 use Synful\Response;
+use Synful\Util\ConfigLoader;
 use Gestalt\Configuration;
-use Gestalt\Loaders\LoaderInterface;
 use Exception;
 
 /**
@@ -22,27 +22,9 @@ class IOFunctions
     public static function loadConfig()
     {
         $return = true;
-        if (file_exists('./config/Main.php')) {
+        if (file_exists('./config/')) {
             try {
-                Synful::$config = Configuration::fromLoader(new class implements LoaderInterface {
-                    public function load()
-                    {
-                        $config = require './config/Main.php';
-                        foreach ($config['sqlservers'] as $server_name => $server) {
-                            foreach ($server['databases'] as $database_name => $database) {
-                                if (isset($database['use'])) {
-                                    if (array_key_exists($database['use'], $server['databases'])) {
-                                        $database = array_merge($server['databases'][$database['use']], $database);
-                                        unset($database['use']);
-                                        $config['sqlservers'][$server_name]['databases'][$database_name] = $database;
-                                    }
-                                }
-                            }
-                        }
-
-                        return $config;
-                    }
-                });
+                Synful::$config = Configuration::fromLoader(new ConfigLoader('./config/'));
             } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
                 $return = false;
