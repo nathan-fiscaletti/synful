@@ -518,7 +518,7 @@ class CLIHandlers
                     true
                 );
                 chmod('./src/Synful/RequestHandlers/'.$value.'.php', 0700);
-                exec('chmod +x./src/Synful/RequestHandlers/'.$value.'.php');
+                exec('chmod +x ./src/Synful/RequestHandlers/'.$value.'.php');
                 exec('php composer.phar dumpautoload');
                 exit(0);
             } else {
