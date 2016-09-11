@@ -19,12 +19,12 @@ class Standalone
         set_time_limit(0);
 
         $sock = socket_create(AF_INET, SOCK_STREAM, 0);
-        $bind = socket_bind($sock, Synful::$config['system']['ip'], Synful::$config['system']['port']);
+        $bind = socket_bind($sock, Synful::$config->get('system.ip'), Synful::$config->get('system.port'));
 
         if ($bind) {
             IOFunctions::out(
                 LogLevel::INFO,
-                'Listening on '.Synful::$config['system']['ip'].':'.Synful::$config['system']['port']
+                'Listening on '.Synful::$config->get('system.ip').':'.Synful::$config->get('system.port')
             );
         } else {
             exit(1);
@@ -37,7 +37,7 @@ class Standalone
             $client_ip = '';
             $client_port = 0;
             socket_getpeername($client, $client_ip, $client_port);
-            if (Synful::$config['system']['multithread']) {
+            if (Synful::$config->get('system.multithread')) {
                 (new \Synful\Standalone\ClientHandleMultiThread(
                     [
                         'ip' => $client_ip,
