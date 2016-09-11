@@ -313,6 +313,5 @@ class Synful
      */
     public static function preStartUp()
     {
-
     }
 }
