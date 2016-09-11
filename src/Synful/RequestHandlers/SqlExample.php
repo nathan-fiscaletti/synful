@@ -22,18 +22,9 @@ class SqlExample implements RequestHandler
 
         // Create a reference to our request object
         $request = &$data->request;
-        /*
-            Define SQL Database in 'config.ini' as follows
 
-           ...
-            [sql_databases]
-            db_name="['host', 'username', 'password', 'db_name', port]"
-           ...
-
-        */
-
+        // Define SQL Databases and Servers in 'SqlServers.php'
         // Create a reference to the SQL Database Connection
-        // (This is the actual name of the database, not it's key in 'config.ini')
         $sql_con = &Synful::$sql_databases['db_name'];
 
         // Validate the request

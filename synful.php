@@ -11,12 +11,11 @@
  *  It supports running in two modes, 'standalone' and 'HTTP'.
  *
  *  To run it in standalone, run 'php synful.php standalone=true'
- *      You can configure the standalone settings in 'config.ini'
- *      under the 'system' section or via the command line.
+ *      You can configure the standalone settings in 'System.php' or via the command line.
  *      (Standalone mode requires the PHP Sockets Module to be enabled)
  *
  *  To run it in HTTP mode, simply put the files on a web server and
- *  configure the SQL information in 'config.ini'
+ *  configure the SQL information in 'SqlServers.php'
  *
  * - Multi Thread Support -
  *      Sunful API does fully support multiple requests when running in standalone mode
@@ -25,7 +24,7 @@
  *      (PHP needs the PECL PThreads module enabled in order for this feature to work)
  *
  *      To enable the multithread feature when running in standalone mode,
- *      simply enable it in 'config.ini' under the 'system' section.
+ *      simply enable it in 'System.php'.
  *
  * - Making A Request -
  *      Requests are to be made in JSON format.
