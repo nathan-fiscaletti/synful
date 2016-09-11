@@ -53,7 +53,7 @@ class Colors
      */
     public static function cs($string, $foreground_color = null, $background_color = null, $reset = 'white')
     {
-        if (Synful::$config['system']['color']) {
+        if (Synful::$config->get('system.color')) {
             $colored_string = '';
 
             // Check if given foreground color found
