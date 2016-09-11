@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     /*
@@ -16,7 +17,7 @@ return [
      | Standalone IP Address
      |--------------------------------------------------------------------------
      |
-     | The IP Address to run the listen server on if running in 
+     | The IP Address to run the listen server on if running in
      | standalone mode.
      */
 
@@ -37,7 +38,7 @@ return [
      | Multithread
      |--------------------------------------------------------------------------
      |
-     | If set to true, will run with multithread support when 
+     | If set to true, will run with multithread support when
      | running in standalone mode.
      */
 
@@ -61,7 +62,7 @@ return [
      | If set to true, line numbers and file names will not be output
      | with error messages.
      */
-    
+
     'production' => true,
 
 ];

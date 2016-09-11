@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     /*
@@ -9,7 +10,7 @@ return [
      | The default 'put' permission for new keys.
      */
 
-	'put_data' => 1,
+    'put_data' => 1,
 
     /*
      |--------------------------------------------------------------------------

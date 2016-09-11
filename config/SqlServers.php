@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     /*
@@ -16,7 +17,7 @@ return [
      |
      | The primary server housing the main Synful database.
      | Synful will automatically look for the primary synful database under
-     | 'sqlservers.main.databases.synful'. 
+     | 'sqlservers.main.databases.synful'.
      */
 
     'main' => [
@@ -44,9 +45,9 @@ return [
              |
              | This is an example of using the 'use' setting to import settings
              | from another database entry.
-             | 
+             |
              | !! Remove this in production.
-             
+
 
             'users' => [
 
@@ -57,9 +58,9 @@ return [
                  |
                  | If this setting is set, the config will import settings
                  | from the defined database entry.
-            
+
                 'use' => 'synful',
-            
+
                 /*
                  |--------------------------------------------------------------
                  | Database Name
@@ -67,9 +68,9 @@ return [
                  |
                  | The name of this MySql Database. This will override any
                  | imported settings.
-            
+
                 'database' => 'users',
-            
+
              ],
 
              */

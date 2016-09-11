@@ -148,7 +148,7 @@ class Synful
                         trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
                         exit();
                     }
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     trigger_error('Failed one or more custom databases. Please check config.ini.', E_USER_WARNING);
                     exit();
                 }

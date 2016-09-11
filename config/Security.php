@@ -1,4 +1,5 @@
 <?php
+
 return [
 
     /*
@@ -6,7 +7,7 @@ return [
      | Allow Public Requests
      |--------------------------------------------------------------------------
      |
-     | If set to false, all public request handlers will be treated as 
+     | If set to false, all public request handlers will be treated as
      | private request handlers.
      */
 

@@ -1,6 +1,7 @@
 <?php
+
 return [
-    
+
     /*
      |--------------------------------------------------------------------------
      | Synful Configuration
@@ -57,7 +58,7 @@ return [
      |
      | Load all default permissions into system
      */
-    
+
     'permissions' => require './config/Permissions.php',
 
 ];
