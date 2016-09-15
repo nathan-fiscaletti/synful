@@ -25,7 +25,7 @@ class SqlExample implements RequestHandler
 
         // Define SQL Databases and Servers in 'SqlServers.php'
         // Create a reference to the SQL Database Connection
-        $sql_con = &Synful::$sql_databases['db_name'];
+        $sql_con = &Synful::$sql_databases['server_name.db_name'];
 
         // Validate the request
         if (! isset($request['id']) || ! is_int($request['id'])) {

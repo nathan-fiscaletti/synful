@@ -31,9 +31,9 @@ class GetIPExample implements RequestHandler
         $request_data = &$data->request;
 
         // Set the response code
-        $response->code = 200;
+        $data->code = 200;
 
         // Add the 'ip' field to the request data using the client's requesting_ip
-        $response->setResponse('ip', $data->requesting_ip);
+        $data->setResponse('ip', $data->requesting_ip);
     }
 }
