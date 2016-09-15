@@ -26,7 +26,7 @@ class Model
     private $identifier;
 
     /**
-     * The data pulled from sql
+     * The data pulled from sql.
      *
      * @var array
      */
