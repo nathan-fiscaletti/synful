@@ -180,9 +180,20 @@ final class SqlConnection
      *
      * @param string $str
      */
-    public function escapestring($str)
+    public function escapeString($str)
     {
         return $this->sql->real_escape_string(strip_tags($str));
+    }
+
+    /**
+     * Retrieves a list of table names for this database
+     *
+     * @return array
+     */
+    public function getTables()
+    {
+        $result = $this->executeSql('SHOW TABLES', [], true);
+        return array_column(mysqli_fetch_all($result), 0);
     }
 
     /**
@@ -206,8 +217,8 @@ final class SqlConnection
             call_user_func_array([$statement, 'bind_param'], $tmp);
             if ($this->sql->errno) {
                 trigger_error(
-                    'Error while applying binds to SQL Prepared Statement: '
-                   .$this->sql->error,
+                    'Error while applying binds to SQL Prepared Statement: '.
+                    $this->sql->error,
                     E_USER_WARNING
                 );
             }
@@ -225,8 +236,8 @@ final class SqlConnection
             $ret = $statement->get_result();
             if ($statement->errno) {
                 trigger_error(
-                    'Error while retreiving result set from MySQL Prepared Statement: '
-                   .$statement->error,
+                    'Error while retreiving result set from MySQL Prepared Statement: '.
+                    $statement->error,
                     E_USER_WARNING
                 );
             }
