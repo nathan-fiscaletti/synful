@@ -193,6 +193,7 @@ final class SqlConnection
     public function getTables()
     {
         $result = $this->executeSql('SHOW TABLES', [], true);
+
         return array_column(mysqli_fetch_all($result), 0);
     }
 

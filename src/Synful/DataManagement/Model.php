@@ -6,20 +6,20 @@ use Synful\Util\Object;
 use Synful;
 
 /**
- * Class used to construct Database Models
+ * Class used to construct Database Models.
  */
 class Model
 {
 
     /**
-     * The parent database of the table that this model is for
+     * The parent database of the table that this model is for.
      *
      * @var string
      */
     public $database = 'synful';
 
     /**
-     * The identifier to use to locate this item
+     * The identifier to use to locate this item.
      *
      * @var [type]
      */
@@ -35,7 +35,7 @@ class Model
     private $rows = [];
 
     /**
-     * The id of this row in association with it's identifier
+     * The id of this row in association with it's identifier.
      *
      * @var mixed
      */
@@ -48,9 +48,9 @@ class Model
     private $belongsTo;
 
     /**
-     * Create a new instance of a database table model
+     * Create a new instance of a database table model.
      *
-     * @param integer $id
+     * @param int     $id
      * @param string  $custom_identifier
      */
     public function __construct(
@@ -62,7 +62,7 @@ class Model
         $belongs_to = []
     ) {
         foreach ($has_many as $model) {
-            if (! ($model instanceof Model)) {
+            if (! ($model instanceof self)) {
                 trigger_error('Not an instance of \\Synful\\DataManagent\\Model.', E_USER_WARNING);
             }
         }
@@ -82,7 +82,7 @@ class Model
     }
 
     /**
-     * Saves the data to the table
+     * Saves the data to the table.
      */
     public function save()
     {
@@ -122,9 +122,9 @@ class Model
     }
 
     /**
-     * Check if this row exists
+     * Check if this row exists.
      *
-     * @return boolean
+     * @return bool
      */
     public function exists()
     {
@@ -138,9 +138,9 @@ class Model
     }
 
     /**
-     * Validates the models integrity
+     * Validates the models integrity.
      *
-     * @return boolean
+     * @return bool
      */
     public function validateModel()
     {
@@ -159,7 +159,7 @@ class Model
     }
 
     /**
-     * Returns parent SqlConnection object
+     * Returns parent SqlConnection object.
      *
      * @return SqlConnection
      */
@@ -175,7 +175,7 @@ class Model
     }
 
     /**
-     * Handle undefined property calls as row access
+     * Handle undefined property calls as row access.
      *
      * @param  string $key
      * @param  mixed  $value
@@ -190,7 +190,7 @@ class Model
     }
 
     /**
-     * Handle undefined property calls as row access
+     * Handle undefined property calls as row access.
      *
      * @param  string $key
      * @return mixed
@@ -225,15 +225,16 @@ class Model
         } else {
             trigger_error('Call to undefined function \''.$name.'\'.', E_USER_WARNING);
         }
+
         return $ret;
     }
 
     /**
-     * Load the object data into the model
+     * Load the object data into the model.
      */
     private function load()
     {
-        if (!$this->validateModel()) {
+        if (! $this->validateModel()) {
             trigger_error(
                 'No table found for \''.$this->getTableName().'\' model.',
                 E_USER_WARNING
@@ -252,7 +253,7 @@ class Model
     }
 
     /**
-     * Get the primary key for this table
+     * Get the primary key for this table.
      *
      * @return string [description]
      */
@@ -268,9 +269,9 @@ class Model
     }
 
     /**
-     * Checks if the table exists in the provided database
+     * Checks if the table exists in the provided database.
      *
-     * @return boolean
+     * @return bool
      */
     private function tableExists()
     {
@@ -278,7 +279,7 @@ class Model
     }
 
     /**
-     * Returns the name of the table associated with this row
+     * Returns the name of the table associated with this row.
      *
      * @return string
      */
