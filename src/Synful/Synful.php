@@ -142,7 +142,7 @@ class Synful
                     );
 
                     if ($new_sql_connection->openSQL()) {
-                        self::$sql_databases[$server_name.'.'.$database_name] = &$new_sql_connection;
+                        self::$sql_databases[$server_name.'.'.$database_name] = $new_sql_connection;
                         IOFunctions::out(LogLevel::NOTE, '    Loaded database: '.Colors::cs('\''.$server_name.'.'.$database_name.'\'', 'light_green'));
                     } else {
                         trigger_error('Failed one or more custom databases. Please check SqlServers.php.', E_USER_WARNING);
