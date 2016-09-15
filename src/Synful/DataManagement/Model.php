@@ -10,7 +10,6 @@ use Synful;
  */
 class Model
 {
-
     /**
      * The parent database of the table that this model is for.
      *
