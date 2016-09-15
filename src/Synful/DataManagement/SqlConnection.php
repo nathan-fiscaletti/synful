@@ -186,7 +186,7 @@ final class SqlConnection
     }
 
     /**
-     * Retrieves a list of table names for this database
+     * Retrieves a list of table names for this database.
      *
      * @return array
      */
