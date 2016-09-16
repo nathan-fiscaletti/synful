@@ -31,7 +31,7 @@ return [
      | exceed a certain number of lines.
      */
 
-    'split_logfiles' => true,
+    'split_log_files' => true,
 
     /*
      |--------------------------------------------------------------------------
