@@ -7,4 +7,11 @@
  * It is important that this directory is your web root.
  */
 chdir('../');
-include './synful.php';
+
+if (file_exists('./vendor')) {
+    include './vendor/autoload.php';
+    \Synful\Synful::initialize();
+} else {
+    echo 'Please run \'composer install --no-scripts\' before running Synful.'."\r\n";
+    exit();
+}
