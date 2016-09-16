@@ -67,7 +67,7 @@ class Colors
             }
 
             // Add string and end coloring
-            $colored_string .=  $string."\033[".self::$foreground_colors[$reset].'m';
+            $colored_string .= $string."\033[".self::$foreground_colors[$reset].'m';
         } else {
             $colored_string = $string;
         }
