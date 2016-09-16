@@ -1,7 +1,7 @@
 {
     "name":"nafisc/synful",
     "description":"Create simplified custom API's in minutes",
-    "homepage":"http://synful-api.net/",
+    "homepage":"http://synful.io/",
     "keywords":["api", "synful"],
     "license":"MIT",
     "minimum-stability": "dev",
