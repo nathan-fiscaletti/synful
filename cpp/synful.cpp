@@ -6,6 +6,8 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <string.h>
 
 /**
  * Check if a file exists
@@ -30,6 +32,12 @@ int main(int argc, char *argv[])
   if (! exists("./src/Synful/Synful.php")) {
     std::cout << "Must be run from Synful root directory.\r\n";
     exit(1);
+  }
+
+  if (strcmp(argv[1], "install") == 0) {
+      std::string installCmd = "composer install --no-scripts";
+      system(installCmd.c_str());
+      exit(0);
   }
 
   std::string commandLineStr= "cd public/;php index.php ";
