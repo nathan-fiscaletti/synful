@@ -14,6 +14,72 @@ use Synful\Colors;
 class CLIHandlers
 {
     /**
+     * Handles listsql CLI Parameter.
+     *
+     * @param  string $value
+     */
+    public static function listSql($value)
+    {
+        IOFunctions::out(
+            LogLevel::INFO,
+            'Sql Server List',
+            true,
+            false,
+            false
+        );
+        IOFunctions::out(
+            LogLevel::INFO,
+            '---------------------------------------------------',
+            true,
+            false,
+            false
+        );
+        foreach (Synful::$config->get('sqlservers') as $server_name => $server) {
+            IOFUnctions::out(
+                LogLevel::INFO,
+                ' | '.Colors::cs($server_name, 'light_green'),
+                true,
+                false,
+                false
+            );
+            IOFunctions::out(
+                LogLevel::INFO,
+                ' --------------------------------------------------',
+                true,
+                false,
+                false
+            );
+            IOFunctions::out(
+                LogLevel::INFO,
+                ' | Server Info  : ['.$server['host'].', '.$server['port'].']',
+                true,
+                false,
+                false
+            );
+            $dbs = ' | Databases    : ';
+            $database_info = '';
+            foreach ($server['databases'] as $database_name => $database) {
+                $database_info .= ($database_info == '') ? '['.$database_name : ', '.$database_name;
+            }
+            IOFunctions::out(
+                LogLevel::INFO,
+                $dbs.$database_info.']',
+                true,
+                false,
+                false
+            );
+            IOFunctions::out(
+                LogLevel::INFO,
+                '---------------------------------------------------',
+                true,
+                false,
+                false
+            );
+        }
+        exit(0);
+    }
+
+    /**
      * Handles whitelistonly CLI Parameter.
      *
      * @param  string $value
@@ -538,67 +604,6 @@ class CLIHandlers
         Synful::$config->set('system.standalone', ($value == null) ? true : json_decode($value));
         $str = (Synful::$config->get('system.standalone')) ? 'true' : 'false';
         IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set standalone mode to \''.$str.'\'.');
-    }
-
-    /**
-     * Handle logfile CLI Parameter.
-     *
-     * @param string $value
-     */
-    public static function logFile($value)
-    {
-        if ($value != null) {
-            Synful::$config->set('files.logfile', $value);
-            IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set logfile to \''.$value.'\'.');
-        } else {
-            IOFunctions::out(LogLevel::WARN, 'Invalid logfile defined. Using default.');
-        }
-    }
-
-    /**
-     * Handle ip CLI Parameter.
-     *
-     * @param string $value
-     */
-    public static function listenIp($value)
-    {
-        if ($value != null) {
-            if (! filter_var($ip, FILTER_VALIDATE_IP) === false) {
-                Synful::$config->set('system.ip', $value);
-                IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set IP to \''.$value.'\'.');
-            } else {
-                IOFunctions::out(LogLevel::WARN, 'Invalid IP defined. Using default.');
-            }
-        } else {
-            IOFunctions::out(LogLevel::WARN, 'Invalid IP defined. Using default.');
-        }
-    }
-
-    /**
-     * Handle port CLI Parameter.
-     *
-     * @param int $value
-     */
-    public static function listenPort($value)
-    {
-        if ($value != null) {
-            Synful::$config->set('system.port', $value);
-            IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set port to \''.$value.'\'.');
-        } else {
-            IOFunctions::out(LogLevel::WARN, 'Invalid port defined. Using default.');
-        }
-    }
-
-    /**
-     * Handle multithread CLI Parameter.
-     *
-     * @param bool $value
-     */
-    public static function multiThread($value)
-    {
-        Synful::$config->set('system.multithread', ($value == null) ? true : json_decode($value));
-        $str = (Synful::$config->get('system.multithread')) ? 'true' : 'false';
-        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set multithread mode to \''.$str.'\'.');
     }
 
     /**

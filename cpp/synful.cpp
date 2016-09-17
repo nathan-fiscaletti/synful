@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
     exit(1);
   }
 
-  if (strcmp(argv[1], "install") == 0) {
+  if (argc > 1 && strcmp(argv[1], "install") == 0) {
       std::string installCmd = "composer install --no-scripts";
       system(installCmd.c_str());
       exit(0);
