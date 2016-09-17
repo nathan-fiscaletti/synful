@@ -6,7 +6,6 @@ use Synful\Synful;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 use Synful\Util\Object;
-use Synful\Util\Encryption;
 
 /**
  * Class used for handling client socket communication.
