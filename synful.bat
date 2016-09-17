@@ -8,6 +8,8 @@ if not exist "./src/Synful/Synful.php" (
     if not "%1"=="" (
         if "%1"=="install" (
             composer install --no-scripts
+        ) else if "%1"=="update" (
+            composer update
         ) else goto run
     ) else (
         :run
