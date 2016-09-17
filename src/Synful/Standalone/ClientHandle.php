@@ -6,6 +6,7 @@ use Synful\Synful;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 use Synful\Util\Object;
+use Synful\Util\Encryption;
 
 /**
  * Class used for handling client socket communication.
@@ -44,15 +45,24 @@ class ClientHandle
 
         IOFunctions::out(
             LogLevel::INFO,
-            'Client REQ ('.$this->ip.':'.$this->port.'): '.$input
+            'Client REQ ('.$this->ip.':'.$this->port.')'
         );
 
-        $response = Synful::$controller->handleRequest($input, $this->ip);
-        socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));
+        if (Synful::$config->get('security.use_encryption')) {
+            $response = Synful::$controller->handleRequest(Synful::$crypto->decrypt($input), $this->ip);
+            socket_write(
+                $this->client_socket,
+                Synful::$crypto->encrypt(json_encode($response)),
+                strlen(json_encode($response))
+            );
+        } else {
+            $response = Synful::$controller->handleRequest($input, $this->ip);
+            socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));
+        }
 
         IOFunctions::out(
             LogLevel::INFO,
-            'Server RES ('.$this->ip.':'.$this->port.'): '.json_encode($response)
+            'Server RES ('.$this->ip.':'.$this->port.') : '.json_encode($response)
         );
 
         socket_close($this->client_socket);
