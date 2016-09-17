@@ -47,7 +47,7 @@ class Synful
     public static $request_handlers = [];
 
     /**
-     * The encrpytion object used by Synful
+     * The encrpytion object used by Synful.
      *
      * @var Encryption
      */
@@ -240,7 +240,7 @@ class Synful
      */
     private static function listenWeb()
     {
-        header("Content-Type: text/json");
+        header('Content-Type: text/json');
         if (empty($_POST['request'])) {
             $response = new Response(['code' => 400]);
             $response->setResponse('error', 'Bad Request');

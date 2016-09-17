@@ -38,7 +38,7 @@ return [
      | Use Encryption
      |--------------------------------------------------------------------------
      |
-     | If enabled, all requests and responses must be encrypted using byte 
+     | If enabled, all requests and responses must be encrypted using byte
      | shifting and the encryption key. (This is very simple encrpytino, if
      | you want something more secure, please look at another solution).
      */
