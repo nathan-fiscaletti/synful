@@ -8,6 +8,7 @@ use Synful\Standalone\Standalone;
 use Synful\DataManagement\SqlConnection;
 use Synful\CLIParser\CLIParser;
 use Synful\Util\Encryption;
+use Synful\Util\Colors;
 
 class Synful
 {
