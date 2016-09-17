@@ -38,6 +38,10 @@ int main(int argc, char *argv[])
       std::string installCmd = "composer install --no-scripts";
       system(installCmd.c_str());
       exit(0);
+  }else if (argc > 1 && strcmp(argv[1], "vagrant") == 0) {
+      std::string vagrantCmd = "vagrant up";
+      system(vagrantCmd.c_str());
+      exit(0);
   }
 
   std::string commandLineStr= "cd public/;php index.php ";
