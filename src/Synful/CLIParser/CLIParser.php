@@ -18,41 +18,11 @@ class CLIParser
      */
     private $valid_arguments = [
 
-        // Main System
-
         'standalone' => [
             'name' => 'standalone',
             'usage' => 'standalone | standalone=[true/false]',
             'description' => 'Tells the system to open a local socket instead of relying on a web server.',
             'callback' => 'standAlone',
-        ],
-
-        'logfile' => [
-            'name' => 'logfile',
-            'usage' => 'logfile=[filename]',
-            'description' => 'Define a different log file to store the system logs in.',
-            'callback' => 'logFile',
-        ],
-
-        'ip' => [
-            'name' => 'ip',
-            'usage' => 'ip=[x.x.x.x]',
-            'description' => 'Define a different IP for standalone server to run on.',
-            'callback' => 'listenIp',
-        ],
-
-        'port' => [
-            'name' => 'port',
-            'usage' => 'port=[0 - 65535]',
-            'description' => 'Define a different port to run the standalone server on.',
-            'callback' => 'listenPort',
-        ],
-
-        'multithread' => [
-            'name' => 'multithread',
-            'usage' => 'multithread | multithread=[true/false]',
-            'description' => 'Tells the system to use a multithread server. (Requires multithread support in PHP.)',
-            'callback' => 'multiThread',
         ],
 
         'color' => [
@@ -130,6 +100,13 @@ class CLIParser
             'usage' => 'whitelistonly=<email,ID>,<true/false>',
             'description' => 'Enables or disables the \'White-List Only\' Option for the specified key.',
             'callback' => 'whiteListOnly',
+         ],
+
+         'listsql' => [
+            'name' => 'listsql',
+            'usage' => 'listsql',
+            'description' => 'Lists the Sql Servers and child databases stored in SqlServers.php',
+            'callback' => 'listSql',
          ],
 
     ];
