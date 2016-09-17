@@ -4,7 +4,7 @@ namespace Synful\CLIParser;
 
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
-use Synful\Colors;
+use Synful\Util\Colors;
 
 /**
  * Class used for handling CLI Parameteres.
