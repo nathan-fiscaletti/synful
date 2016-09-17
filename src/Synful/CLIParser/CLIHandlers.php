@@ -6,7 +6,7 @@ use Synful\Synful;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 use Synful\DataManagement\Models\APIKey;
-use Synful\Colors;
+use Synful\Util\Colors;
 
 /**
  * Store handlers for CLI Parameters in this file.

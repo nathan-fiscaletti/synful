@@ -1,6 +1,8 @@
 <?php
 
-namespace Synful;
+namespace Synful\Util;
+
+use Synful\Synful;
 
 /**
  * Class used to handle string Coloring.

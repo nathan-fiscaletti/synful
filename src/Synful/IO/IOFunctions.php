@@ -2,7 +2,7 @@
 
 namespace Synful\IO;
 
-use Synful\Colors;
+use Synful\Util\Colors;
 use Synful\Synful;
 use Synful\Response;
 use Synful\Util\ConfigLoader;
