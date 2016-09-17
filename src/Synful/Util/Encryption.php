@@ -44,6 +44,7 @@ class Encryption
             $x[$i] = ($z[$i] + $this->salt_data[$c]);
             $c = ($c == count($this->salt_data) - 1) ? 0 : $c + 1;
         }
+
         return implode(' ', $x);
     }
 
