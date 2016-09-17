@@ -7,6 +7,7 @@ use Synful\IO\LogLevel;
 use Synful\Standalone\Standalone;
 use Synful\DataManagement\SqlConnection;
 use Synful\CLIParser\CLIParser;
+use Synful\Util\Encryption;
 
 class Synful
 {
@@ -46,6 +47,13 @@ class Synful
     public static $request_handlers = [];
 
     /**
+     * The encrpytion object used by Synful.
+     *
+     * @var Encryption
+     */
+    public static $crypto;
+
+    /**
      * Initialize the Synful API instance using either Standalone Mode or Local Web Server.
      */
     public static function initialize()
@@ -68,6 +76,14 @@ class Synful
         // Load the configuration into system
         if (! IOFunctions::loadConfig()) {
             exit();
+        }
+
+        // Load encryption
+        if (self::$config->get('security.use_encryption')) {
+            self::$crypto = new Encryption(
+                self::$config->get('security.encryption_key'),
+                self::$config->get('security.encryption_strength')
+            );
         }
 
         self::initializeSql();
@@ -143,7 +159,10 @@ class Synful
                     if ($new_sql_connection->openSQL()) {
                         self::$sql_databases[$server_name.'.'.$database_name] = $new_sql_connection;
                     } else {
-                        trigger_error('Failed one or more custom databases. Please check SqlServers.php.', E_USER_WARNING);
+                        trigger_error(
+                            'Failed one or more custom databases. Please check SqlServers.php.',
+                            E_USER_WARNING
+                        );
                         exit();
                     }
                 } catch (Exception $e) {
@@ -221,15 +240,27 @@ class Synful
      */
     private static function listenWeb()
     {
+        header('Content-Type: text/json');
         if (empty($_POST['request'])) {
             $response = new Response(['code' => 400]);
             $response->setResponse('error', 'Bad Request');
+            if (self::$config->get('security.use_encryption')) {
+                IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
+            } else {
+                IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+            }
         } else {
-            $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
+            if (self::$config->get('security.use_encryption')) {
+                $response = self::$controller->handleRequest(
+                    self::$crypto->decrypt($_POST['request']),
+                    self::getClientIP()
+                );
+                IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
+            } else {
+                $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
+                IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+            }
         }
-
-        header('Content-Type: text/json');
-        IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
     }
 
     /**

@@ -47,8 +47,17 @@ class ClientHandleMultiThread extends Thread
             'Client REQ ('.$this->ip.':'.$this->port.'): '.$input
         );
 
-        $response = Synful::$controller->handleRequest($input, $this->ip);
-        socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));
+        if (Synful::$config->get('security.use_encryption')) {
+            $response = Synful::$controller->handleRequest(Synful::$crypto->decrypt($input), $this->ip);
+            socket_write(
+                $this->client_socket,
+                Synful::$crypto->encrypt(json_encode($response)),
+                strlen(json_encode($response))
+            );
+        } else {
+            $response = Synful::$controller->handleRequest($input, $this->ip);
+            socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));
+        }
 
         IOFunctions::out(
             LogLevel::INFO,
