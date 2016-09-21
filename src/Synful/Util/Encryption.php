@@ -25,7 +25,10 @@ class Encryption
         $this->salt_data = [];
         $salt_bytes = $this->toAscii($salt);
         for ($i = 0; $i < count($salt_bytes); $i++) {
-            $this->salt_data[$i] = ($salt_bytes[$i] / (125 - $strength)) * 100;
+            $val = (int)($salt_bytes[$i] + (125 - $strength));
+            $val = ($val > 127) ? 127 : $val;
+            $val = ($val < -127) ? -127 : $val;
+            $this->salt_data[$i] = $val;
         }
     }
 
@@ -44,7 +47,6 @@ class Encryption
             $x[$i] = ($z[$i] + $this->salt_data[$c]);
             $c = ($c == count($this->salt_data) - 1) ? 0 : $c + 1;
         }
-
         return implode(' ', $x);
     }
 
@@ -63,7 +65,6 @@ class Encryption
             $x[$i] = ($z[$i] - $this->salt_data[$c]);
             $c = ($c == count($this->salt_data) - 1) ? 0 : $c + 1;
         }
-
         return $this->fromAscii($x);
     }
 
@@ -73,13 +74,12 @@ class Encryption
      * @param  string $string
      * @return array
      */
-    private function toAscii($string)
+    public function toAscii($string)
     {
         $ret = [];
         foreach (str_split($string) as $chr) {
             $ret[] = ord($chr);
         }
-
         return $ret;
     }
 
@@ -89,7 +89,7 @@ class Encryption
      * @param  array  $arr
      * @return string
      */
-    private function fromAscii($arr)
+    public function fromAscii($arr)
     {
         return implode(array_map('chr', $arr));
     }
