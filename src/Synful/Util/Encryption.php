@@ -57,7 +57,7 @@ class Encryption
      * @param  string  $data
      * @return string
      */
-    private function decrypt($data)
+    public function decrypt($data)
     {
         $c = 0;
         $x = [];
@@ -92,7 +92,7 @@ class Encryption
      * @param  array  $arr
      * @return string
      */
-    public function fromAscii($arr)
+    private function fromAscii($arr)
     {
         return implode(array_map('chr', $arr));
     }
