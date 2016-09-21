@@ -25,7 +25,7 @@ class Encryption
         $this->salt_data = [];
         $salt_bytes = $this->toAscii($salt);
         for ($i = 0; $i < count($salt_bytes); $i++) {
-            $val = (int)($salt_bytes[$i] + (125 - $strength));
+            $val = (int) ($salt_bytes[$i] + (125 - $strength));
             $val = ($val > 127) ? 127 : $val;
             $val = ($val < -127) ? -127 : $val;
             $this->salt_data[$i] = $val;
