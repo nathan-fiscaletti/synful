@@ -57,7 +57,7 @@ class Encryption
      * @param  string  $data
      * @return string
      */
-    public function decrypt($data)
+    private function decrypt($data)
     {
         $c = 0;
         $x = [];
@@ -76,7 +76,7 @@ class Encryption
      * @param  string $string
      * @return array
      */
-    public function toAscii($string)
+    private function toAscii($string)
     {
         $ret = [];
         foreach (str_split($string) as $chr) {
