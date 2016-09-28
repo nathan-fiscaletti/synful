@@ -7,22 +7,14 @@ use DirectoryIterator;
 
 class ConfigLoader implements LoaderInterface
 {
+    use Object;
+
     /**
      * The directory to load PHP configuration files from.
      *
      * @var array
      */
     protected $directory;
-
-    /**
-     * Create a ConfigLoader instance.
-     *
-     * @param string $directory
-     */
-    public function __construct($directory)
-    {
-        $this->directory = $directory;
-    }
 
     /**
      * Load the configuration items and return them as an array.

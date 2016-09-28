@@ -2,12 +2,12 @@
 
 namespace Synful;
 
+use Synful\DataManagement\SqlConnection;
+use Synful\Standalone\Standalone;
+use Synful\CLIParser\CLIParser;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
-use Synful\Standalone\Standalone;
-use Synful\DataManagement\SqlConnection;
-use Synful\CLIParser\CLIParser;
-use Synful\Util\Encryption;
+use Synful\Util\Security\Encryption;
 use Synful\Util\Colors;
 
 class Synful
@@ -50,7 +50,7 @@ class Synful
     /**
      * The encrpytion object used by Synful.
      *
-     * @var Encryption
+     * @var Synful\Util\Security\Encryption
      */
     public static $crypto;
 
@@ -81,10 +81,9 @@ class Synful
 
         // Load encryption
         if (self::$config->get('security.use_encryption')) {
-            self::$crypto = new Encryption(
-                self::$config->get('security.encryption_key'),
-                self::$config->get('security.encryption_strength')
-            );
+            self::$crypto = new Encryption([
+                'key' => self::$config->get('security.encryption_key'),
+            ]);
         }
 
         self::initializeSql();
