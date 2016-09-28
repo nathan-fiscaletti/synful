@@ -1,5 +1,5 @@
 #!/bin/bash
-# This file is used for executing symful management commands
+# This file is used for executing synful management commands
 # on unix machines.
 
 run ()
