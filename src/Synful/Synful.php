@@ -82,7 +82,7 @@ class Synful
         // Load encryption
         if (self::$config->get('security.use_encryption')) {
             self::$crypto = new Encryption([
-                'key' => self::$config->get('security.encryption_key')
+                'key' => self::$config->get('security.encryption_key'),
             ]);
         }
 

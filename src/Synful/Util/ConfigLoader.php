@@ -3,7 +3,6 @@
 namespace Synful\Util;
 
 use Gestalt\Loaders\LoaderInterface;
-use Synful\Util\Object;
 use DirectoryIterator;
 
 class ConfigLoader implements LoaderInterface

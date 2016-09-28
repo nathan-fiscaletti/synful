@@ -9,7 +9,7 @@ namespace Synful\Util\Security;
 class Aes256BitEncryption
 {
     /**
-     * Encrypt data using AES-256 bit encryption based on a key
+     * Encrypt data using AES-256 bit encryption based on a key.
      *
      * @param  string $data
      * @param  string $key
@@ -37,7 +37,7 @@ class Aes256BitEncryption
     }
 
     /**
-     * Decrypt data using AES-256 bit encryption based on a key
+     * Decrypt data using AES-256 bit encryption based on a key.
      *
      * @param  string $data
      * @param  string $key
