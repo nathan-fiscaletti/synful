@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
   sudo apt-get update -y > /dev/null 2>&1
 
   echo "Installing Dependencies..."
-  sudo apt-get -y install php7.0-cli php7.0-zip unzip apache2 php7.0 libapache2-mod-php7.0 php7.0-mysql composer mysql-client > /dev/null 2>&1
+  sudo apt-get -y install php7.0-cli php7.0-zip unzip apache2 php7.0 libapache2-mod-php7.0 php7.0-mysql php7.0-mcrypt composer mysql-client > /dev/null 2>&1
 
   echo "Installing MySQL..."
   sudo apt-get install debconf-utils -y > /dev/null 2>&1
@@ -47,9 +47,13 @@ Vagrant.configure("2") do |config|
   echo "Removing placeholder index file..."
   rm /var/www/html/index.html
 
-  echo "Setting site root"...
+  echo "Setting site root..."
   sed -i '12s!/var/www/html!/var/www/html/public!' /etc/apache2/sites-enabled/000-default.conf
   sed -i '164s!/var/www!/var/www/html/public!' /etc/apache2/apache2.conf
+
+  echo "Enabling MCrypt..."
+  sed -i '1718imcrypt.so' /etc/php/7.0/apache2/php.ini
+  sed -i '1718imcrypt.so' /etc/php/7.0/cli/php.ini 
 
   echo "Restarting Apache Service..."
   service apache2 restart

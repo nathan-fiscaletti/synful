@@ -38,9 +38,11 @@ return [
      | Use Encryption
      |--------------------------------------------------------------------------
      |
-     | If enabled, all requests and responses must be encrypted using byte
-     | shifting and the encryption key. (This is very simple encrpytino, if
-     | you want something more secure, please look at another solution).
+     | If enabled, all requests and responses will be encrypted using
+     | Synful\Util\Encryption. These functions by default use AES-256 bit
+     | encryption however, this is only there as an example. You should not use
+     | it in production. You can however place custom code in the Encryption
+     | class to handle your own encryption.
      */
 
     'use_encryption' => false,
@@ -50,19 +52,11 @@ return [
      | Encryption Key
      |--------------------------------------------------------------------------
      |
-     | The key to use for encrypting / decrypting requests and responses.
+     | This key will be loaded into the encryption class to be used with your
+     | custom encryption. Must be either 16, 24 or 32 characters long to use
+     | AES-256 bit encryption.
      */
 
-    'encryption_key' => 'mysecretkey',
-
-    /*
-     |--------------------------------------------------------------------------
-     | Encryption Strength
-     |--------------------------------------------------------------------------
-     |
-     | The strength of the encryption. Between 1 and 120.
-     */
-
-    'encryption_strength' => 100,
+    'encryption_key' => 'keymustbe16clong',
 
 ];
