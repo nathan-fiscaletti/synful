@@ -26,7 +26,7 @@ class IOFunctions
             try {
                 Synful::$config = Configuration::fromLoader(
                     new ConfigLoader([
-                        'directory' => './config/'
+                        'directory' => './config/',
                         ])
                 );
             } catch (Exception $ex) {
