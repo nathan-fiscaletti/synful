@@ -24,7 +24,11 @@ class IOFunctions
         $return = true;
         if (file_exists('./config/')) {
             try {
-                Synful::$config = Configuration::fromLoader(new ConfigLoader('./config/'));
+                Synful::$config = Configuration::fromLoader(
+                    new ConfigLoader([
+                        'directory' => './config/'
+                        ])
+                );
             } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
                 $return = false;
