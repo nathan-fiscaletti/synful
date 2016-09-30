@@ -18,7 +18,16 @@ else
         elif [[ "$1" == "update" ]]; then
             composer update;
         elif [[ "$1" == "vagrant" ]]; then
-            vagrant up;
+            if [ ! -z "$2" ]; then
+	        vagrant "$@";
+            else
+		if [ -d .vagrant ]; then
+                    vagrant destroy;
+		    rm -r .vagrant
+                else
+                    vagrant up;
+                fi;
+            fi;
         else
             run;
         fi;
