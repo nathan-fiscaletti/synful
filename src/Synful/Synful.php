@@ -247,7 +247,11 @@ class Synful
             if (self::$config->get('security.use_encryption')) {
                 IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
             } else {
-                IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
+                if (self::$config->get('system.pretty_responses') || isset($_GET['pretty'])) {
+                    IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
+                } else {
+                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                }
             }
         } else {
             if (self::$config->get('security.use_encryption')) {
@@ -258,7 +262,11 @@ class Synful
                 IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
             } else {
                 $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
-                IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
+                if (self::$config->get('system.pretty_responses') || isset($_GET['pretty'])) {
+                    IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
+                } else {
+                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                }
             }
         }
     }
