@@ -2,10 +2,11 @@
 
 namespace Synful\IO;
 
+use Synful\Util\SynfulException;
+use Synful\Util\ConfigLoader;
 use Synful\Util\Colors;
 use Synful\Synful;
 use Synful\Response;
-use Synful\Util\ConfigLoader;
 use Gestalt\Configuration;
 use Exception;
 
@@ -136,7 +137,7 @@ class IOFunctions
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
         if (Synful::$config == null) {
-            echo $errstr."\r\n";
+            echo $errstr.' in '.$errfile.' at line '.$errline."\r\n";
             exit();
         }
 
@@ -146,8 +147,7 @@ class IOFunctions
             case E_USER_ERROR: {
                 self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = new Response(['code' => 500]);
-                    $response->setResponse('error', 'Fatal Error: '.$err);
+                    $response = (new SynfulException(null, 500, $errno, 'Fatal Error: '.$err))->response;
                     header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
@@ -158,8 +158,7 @@ class IOFunctions
             case E_USER_WARNING: {
                 self::out(LogLevel::WARN, 'Warning: '.$err);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = new Response(['code' => 500]);
-                    $response->setResponse('error', 'Warning: '.$err);
+                    $response = (new SynfulException(null, 500, $errno, 'Warning: '.$err))->response;
                     header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
@@ -170,8 +169,7 @@ class IOFunctions
             case E_USER_NOTICE: {
                 self::out(LogLevel::NOTE, 'Notice: '.$err);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = new Response(['code' => 500]);
-                    $response->setResponse('error', 'Notice: '.$err);
+                    $response = (new SynfulException(null, 500, $errno, 'Notice: '.$err))->response;
                     header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
@@ -182,8 +180,7 @@ class IOFunctions
             default: {
                 self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = new Response(['code' => 500]);
-                    $response->setResponse('error', 'Unknown Error: '.$err);
+                    $response = (new SynfulException(null, 500, $errno, 'Unknown Error: '.$err))->response;
                     header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
