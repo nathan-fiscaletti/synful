@@ -5,9 +5,8 @@ namespace Synful;
 use Synful\DataManagement\Models\APIKey;
 use Synful\IO\IOFUnctions;
 use Synful\IO\LogLevel;
-use Synful\RequestHandlers\Interfaces\RequestHandler;
+use Synful\Util\SynfulException;
 use stdClass;
-use Exception;
 
 /**
  * Class used as middle man for key authentication and request validation.
@@ -20,19 +19,23 @@ class Controller
      *
      * @param  string   $request
      * @param  string   $ip
-     * @return Response
+     * @return \Synful\Response
      */
     public function handleRequest($request, $ip)
     {
         $data = (array) json_decode($request);
         $response = new Response(['requesting_ip' => $ip]);
 
-        if ($this->validateRequest($data, $response) && $this->validateHandler($data, $response)) {
-            $handler = &Synful::$request_handlers[$data['handler']];
-            $api_key = null;
-            if ($this->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
-                $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
+        try {
+            if ($this->validateRequest($data, $response) && $this->validateHandler($data, $response)) {
+                $handler = &Synful::$request_handlers[$data['handler']];
+                $api_key = null;
+                if ($this->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
+                    $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
+                }
             }
+        } catch (SynfulException $synfulException) {
+            $response = $synfulException->response;
         }
 
         return $response;
@@ -41,7 +44,7 @@ class Controller
     /**
      * Generates a master API Key if one does not already exist.
      *
-     * @return APIKey The generated APIKey
+     * @return \Synful\DataManagement\Models\APIKey
      */
     public function generateMasterKey()
     {
@@ -70,7 +73,7 @@ class Controller
      * Validates that the assigned handler is valid in the system.
      *
      * @param  array    $data
-     * @param  Response $response
+     * @param  \Synful\Response $response
      * @return bool
      */
     private function validateHandler(array &$data, Response &$response)
@@ -82,20 +85,10 @@ class Controller
             if (file_exists('./src/Synful/RequestHandlers/'.$data['handler'].'.php')) {
                 $return = true;
             } else {
-                $response->code = 500;
-                $response->setResponse(
-                    'error',
-                    'Unknown Handler: '.$data['handler'].'.Handlers are case sensitive.'
-                );
-                $return = false;
+                throw new SynfulException($response, 500, 1001);
             }
         } else {
-            $response->code = 500;
-            $response->setResponse(
-                'error',
-                'No handler defined.'
-            );
-            $return = false;
+            throw new SynfulException($response, 500, 1002);
         }
 
         return $return;
@@ -105,7 +98,7 @@ class Controller
      * Validate a request with the system.
      *
      * @param  array    $data
-     * @param  Response $response
+     * @param  \Synful\Response $response
      * @return bool
      */
     private function validateRequest(array &$data, Response &$response)
@@ -119,24 +112,16 @@ class Controller
                     if (is_array($data['request'])) {
                         $return = true;
                     } else {
-                        $response->code = 400;
-                        $response->setResponse('error', 'Bad request: Invalid request field supplied. Not array.');
-                        $return = false;
+                        throw new SynfulException($response, 400, 1003);
                     }
-                } catch (Exception $e) {
-                    $response->code = 400;
-                    $response->setResponse('error', 'Bad request: Invalid request field supplied. Not array.');
-                    $return = false;
+                } catch (\Exception $e) {
+                    throw new SynfulException($response, 400, 1003);
                 }
             } else {
-                $response->code = 400;
-                $response->setResponse('error', 'Bad request: Invalid request field supplied. Not Object.');
-                $return = false;
+                throw new SynfulException($response, 400, 1004);
             }
         } else {
-            $response->code = 400;
-            $response->setResponse('error', 'Bad request: Missing request field');
-            $return = false;
+            throw new SynfulException($response, 400, 1005);
         }
 
         return $return;
@@ -145,94 +130,74 @@ class Controller
     /**
      * Validates the authentication of the request.
      *
-     * @param  array            $data
-     * @param  Response         $response
-     * @param  object           $api_key
-     * @param  RequestHandler   $handler
-     * @param  string           $ip
+     * @param  array                                               $data
+     * @param  Response                                            $response
+     * @param  object                                              $api_key
+     * @param  \Synful\RequestHandlers\Interfaces\RequestHandler   $handler
+     * @param  string                                              $ip
      * @return bool
      */
     private function validateAuthentication(&$data, &$response, &$api_key, &$handler, &$ip)
     {
         $return = true;
-
-        if (! Synful::$config->get('security.allow_public_requests') ||
-            ! (property_exists($handler, 'is_public') && $handler->is_public)) {
-            $return = false;
-            if (! empty($data['user'])) {
-                if (! empty($data['key'])) {
-                    if (APIKey::keyExists($data['user'])) {
-                        $api_key = APIKey::getkey($data['user']);
-                        $response->requesting_email = $api_key->email;
-                        if (property_exists($handler, 'white_list_keys')) {
-                            if (is_array($handler->white_list_keys)) {
-                                if (in_array($api_key->email, $handler->white_list_keys)) {
+        if (! is_null($handler)) {
+            if (! Synful::$config->get('security.allow_public_requests') ||
+                ! (property_exists($handler, 'is_public') && $handler->is_public)) {
+                $return = false;
+                if (! empty($data['user'])) {
+                    if (! empty($data['key'])) {
+                        if (APIKey::keyExists($data['user'])) {
+                            $api_key = APIKey::getkey($data['user']);
+                            $response->requesting_email = $api_key->email;
+                            if (property_exists($handler, 'white_list_keys')) {
+                                if (is_array($handler->white_list_keys)) {
+                                    if (in_array($api_key->email, $handler->white_list_keys)) {
+                                        if ($api_key->enabled) {
+                                            if ($api_key->authenticate($data['key'])) {
+                                                return $this->validateFireWall($api_key, $response, $ip);
+                                            } else {
+                                                throw new SynfulException($response, 400, 1006);
+                                            }
+                                        } else {
+                                            throw new SynfulException($response, 400, 1007);
+                                        }
+                                    } else {
+                                        throw new SynfulException($response, 400, 1008);
+                                    }
+                                } else {
                                     if ($api_key->enabled) {
                                         if ($api_key->authenticate($data['key'])) {
                                             return $this->validateFireWall($api_key, $response, $ip);
                                         } else {
-                                            $response->code = 400;
-                                            $response->setResponse('error', 'Bad Request: Invalid user or key');
-                                            $return = false;
+                                            throw new SynfulException($response, 400, 1006);
                                         }
                                     } else {
-                                        $response->code = 400;
-                                        $response->setResponse('error', 'Bad Request: Key has been disabled');
-                                        $return = false;
+                                        throw new SynfulException($response, 400, 1007);
                                     }
-                                } else {
-                                    $response->code = 400;
-                                    $response->setResponse(
-                                        'error',
-                                        'Bad Request: Key not whitelisted for specified request handler.'
-                                    );
-                                    $return = false;
                                 }
                             } else {
                                 if ($api_key->enabled) {
                                     if ($api_key->authenticate($data['key'])) {
                                         return $this->validateFireWall($api_key, $response, $ip);
                                     } else {
-                                        $response->code = 400;
-                                        $response->setResponse('error', 'Bad Request: Invalid user or key');
-                                        $return = false;
+                                        throw new SynfulException($response, 400, 1006);
                                     }
                                 } else {
-                                    $response->code = 400;
-                                    $response->setResponse('error', 'Bad Request: Key has been disabled');
-                                    $return = false;
+                                    throw new SynfulException($response, 400, 1007);
                                 }
                             }
                         } else {
-                            if ($api_key->enabled) {
-                                if ($api_key->authenticate($data['key'])) {
-                                    return $this->validateFireWall($api_key, $response, $ip);
-                                } else {
-                                    $response->code = 400;
-                                    $response->setResponse('error', 'Bad Request: Invalid user or key');
-                                    $return = false;
-                                }
-                            } else {
-                                $response->code = 400;
-                                $response->setResponse('error', 'Bad Request: Key has been disabled');
-                                $return = false;
-                            }
+                            throw new SynfulException($response, 400, 1006);
                         }
                     } else {
-                        $response->code = 400;
-                        $response->setResponse('error', 'Bad Request: Invalid user or key');
-                        $return = false;
+                        throw new SynfulException($response, 400, 1009);
                     }
                 } else {
-                    $response->code = 400;
-                    $response->setResponse('error', 'Bad Request: No key defined');
-                    $return = false;
+                    throw new SynfulException($response, 400, 1010);
                 }
-            } else {
-                $response->code = 400;
-                $response->setResponse('error', 'Bad Request: No user defined');
-                $return = false;
             }
+        } else {
+            throw new SynfulException($response, 500, 1001);
         }
 
         return $return;
@@ -241,9 +206,9 @@ class Controller
     /**
      * Validate the firewall of an APIKey.
      *
-     * @param  APIKey   $api_key
-     * @param  Response $response
-     * @param  string   ip
+     * @param  \Synful\DataManagement\Models\APIKey $api_key
+     * @param  \Synful\Response                     $response
+     * @param  string                               $ip
      * @return bool
      */
     private function validateFireWall(APIKey &$api_key, Response &$response, string $ip)
@@ -251,19 +216,12 @@ class Controller
         $return = true;
         if ($api_key->whitelist_only) {
             if (! $api_key->isFirewallWhiteListed($ip)) {
-                $response->code = 500;
-                $response->setResponse(
-                    'error',
-                    'Access Denied: Source IP is not whitelisted while on whitelist only key'
-                );
-                $return = false;
+                throw new SynfulException($response, 500, 1011);
             }
         }
 
         if ($return && $api_key->isFirewallBlackListed($ip)) {
-            $response->code = 500;
-            $response->setResponse('error', 'Access Denied: Source IP Blacklisted');
-            $return = false;
+            throw new SynfulException($response, 500, 1012);
         }
 
         return $return;

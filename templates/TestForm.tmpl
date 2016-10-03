@@ -1,0 +1,379 @@
+<!-- Template used for testing Synful via /test.php -->
+
+<html>
+    <head>
+
+        <!-- Begin Style Sheet -->
+        <style>
+
+            /**
+             * Set the primary body style.
+             */
+            body {
+
+                /* Use a gardient for the background */
+                background: rgba(0,0,0,1);
+
+                background: -moz-linear-gradient(
+                    top, rgba(0,0,0,1) 0%, rgba(60,60,60,1) 100%
+                );
+
+                background: -webkit-gradient(
+                    left top, 
+                    left bottom, 
+                    color-stop(0%, rgba(0,0,0,1)), 
+                    color-stop(100%, rgba(60,60,60,1))
+                );
+
+                background: -webkit-linear-gradient(
+                    top, rgba(0,0,0,1) 0%, rgba(60,60,60,1) 100%
+                );
+
+                background: -o-linear-gradient(
+                    top, rgba(0,0,0,1) 0%, rgba(60,60,60,1) 100%
+                );
+
+                background: -ms-linear-gradient(
+                    top, rgba(0,0,0,1) 0%, rgba(60,60,60,1) 100%
+                );
+
+                background: linear-gradient(
+                    to bottom, rgba(0,0,0,1) 0%, rgba(60,60,60,1) 100%
+                );
+
+                filter: progid:DXImageTransform.Microsoft.gradient(
+                    startColorstr='#000000',
+                    endColorstr='#3c3c3c',
+                    GradientType=0 
+                );
+
+                color: #FFFFFF;
+
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            /**
+             * Only one table is used, and this width seems to work well for it
+             * since it's centered on the page.
+             */               
+            table {
+                width: 75%;
+                border-spacing: 15px 15px;
+            }
+
+            /**
+             * Get rid of the pesky resize on the text areas.
+             */
+            textarea {
+                resize: none;
+            }
+
+            hr {
+                color: white;
+                height: 0.5;
+                border: 1px dashed white;
+            }
+
+            
+            iframe {
+                display: none;
+            }
+
+            /**
+             * Used for section titles.
+             */
+            .title {
+                font-family: monospace;
+                font-size: 16px;
+            }
+
+            /** 
+             * Used for input fields.
+             */
+            .customInput {
+                color: white;
+                font-size: 14px;
+                border: 1px solid white;
+                border-radius: 5px;
+                background-color: #3c3c3c;
+                padding: 10px;
+            }
+
+            /**
+             * Used for table cells.
+             */
+            .jsonContainer {
+                border: 1px solid white;
+                border-radius: 5px;
+                background-color: #3c3c3c;
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+                font-family: monospace;
+                font-size: 16px;
+                color: #FFFFFF;
+                width:50%;
+            }
+
+            /**
+             * Used for displaying request and result previews.
+             */
+            .jsonContainer .internal {
+                padding-left: 15px;
+                padding-top: 10px;
+                border: none;
+                background-color: rgba(0,0,0,0);
+                font-family: monospace;
+                font-size: 14px;
+                color: #FFFFFF;
+                width: 90%;
+                height: 300px;
+                margin: 0px;
+            }
+
+            /**
+             * Get rid of blue border around request and result previews.
+             */
+            .jsonContainer .internal:focus {
+                outline: none;
+            }
+        </style>
+        <!-- End Style Sheet -->
+
+        <!-- Begin JavaScript Functions -->
+        <script type='text/javascript'>
+
+            /**
+             * Called each time a keyup event is fired on any of the boxes.
+             */
+            function updateRequest()
+            {
+                // Set the hidden form input with the request data.
+                // Ommit the truncation for this so that the full key
+                // is visible when the form is submitted.
+                elem('request').value = getRequest(false);
+
+                // Set the displayed request while truncating the key
+                // to better utilize screen real estate. 
+                elem('req_disp').value = getRequest(true);
+
+                // Submit the hidden form to generate the result.
+                document.forms['main_form'].submit(); 
+
+            }
+
+            /**
+             * Used to generate the final request text.
+             *
+             * @param  boolean trunc
+             * @return string
+             */
+            function getRequest(trunc)
+            {
+                var ret = '{\r\n';
+
+                // Verify that the user field has a value
+                if (elem('user').value.trim() != null && 
+                    elem('user').value.trim() != "") {
+
+                    // Since the user field has a value, add the user value
+                    // and key value to the json request data.
+                    ret += '    "user": "' + elem('user').value + '",\r\n';
+
+                    // If this json request text should be tuncated
+                    // verify that it's length is greater than 10 and if so
+                    // append an ellipses to the end. Else, simply append the
+                    // key value to the json request data.
+                    if (trunc && elem('key').value.length > 10) {
+                        ret += '    "key": "' + 
+                               elem('key').value.substring(0, 10) + 
+                               '...",\r\n';
+                    } else {
+                        ret += '    "key": "' + elem('key').value + '",\r\n';
+                    }
+                }
+
+                // Append the handler to the json request data.
+                ret += '    "handler": "' + elem('handler').value + '",\r\n';
+
+                // Currently, I am using a textarea to define the request data.
+                // This should be changed to use KeyValue pairs in the form.
+                if (elem('ln_request').value.trim() != null &&
+                    elem('ln_request').value.trim() != "") {
+                    ret += '    "request": {' + getRequestInternal() + 
+                           '\r\n    }\r\n';
+                } else {
+                    ret += '    "request": {}\r\n'; 
+                }
+
+                // Finalize the json request data with the closing bracket
+                // and return the text.
+                ret += '}';
+                return ret;
+                      
+            }
+
+            /**
+             * Create the request text based on input with proper indentation.
+             *
+             * @return string
+             */
+            function getRequestInternal()
+            {
+                var ret = '';
+                var lines = elem('ln_request').value.trim().split("\n");
+                lines.forEach(function(item, index){
+                    ret += '\r\n        ' + item;
+                });
+                return ret;
+            }
+
+            /**
+             * Inject the custom CSS into the JSON formatted result iframe.
+             */
+            function showResult()
+            {
+                var myIFrame = elem('result_frame');
+                var content = myIFrame.contentWindow.document.body;
+                var jsonData = content.textContent || content.innerText || "";
+
+                elem('res_disp').innerHTML = jsonData;
+            }
+
+            /**
+             * Retrieve an HTML element based on it's ID
+             *
+             * @param  string id
+             * @return mixed
+             */
+            function elem(id)
+            {
+                return document.getElementById(id);
+            }
+        </script>
+        <!-- End JavaScript Functions -->
+
+        <title>Synful Request Tester</title>
+    </head>
+
+    <!-- Begin Primary HTML Code -->
+
+    <!--
+        Run showResult() when page is loaded to initialize the result code
+      -->
+    <body> 
+        <div align='center'> 
+            <br />
+            <h2>Synful Request Tester</h2>
+
+            <hr />
+            <br />
+            <br />
+            
+            <span class='title'>Build Your JSON Request</span>
+            <br /><br />
+
+            <!--
+                Collect input for building the request.
+              -->
+            <input type='text' id='user' placeholder='User...' 
+                   onkeyup='updateRequest()' class='customInput'
+                   onpaste='updateRequest()'
+                   onkeypress='updateRequest()'
+                   oninput='updateRequest()'
+                   onchange='updateRequest()' />
+            <input type='text' id='key' placeholder='Key...' 
+                   onkeyup='updateRequest()' class='customInput'
+                   onpaste='updateRequest()'
+                   onkeypress='updateRequest()'
+                   oninput='updateRequest()'
+                   onchange='updateRequest()' />
+            <input type='text' id='handler' placeholder='Handler...' 
+                   onkeyup='updateRequest()' class='customInput'
+                   onpaste='updateRequest()'
+                   onkeypress='updateRequest()'
+                   oninput='updateRequest()'
+                   onchange='updateRequest()' />
+
+            <br /><br />
+
+            <!--
+                This needs to be replaced with a +/- box with key/value
+              -->
+            <textarea rows='15' cols='100' id='ln_request' 
+                      placeholder='Request JSON...' onkeyup='updateRequest()' 
+                      class='customInput' onpaste='updateRequest()'
+                      onkeypress='updateRequest()' 
+                      oninput='updateRequest()'
+                      onchange='updateRequest()'></textarea>
+
+            <br /><br />
+
+            <div align='center'>
+
+                <!-- 
+                    I know tables are stupid and that this could be done with 
+                    CSS, but I don't know enough CSS.
+                  -->
+                <table>
+                    <tr>
+                        <td align='center'>
+                            <span class='title'>JSON Request Preview</span>
+                        </td>
+                        <td align='center'>
+                            <span class='title'>JSON Response Preview</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='jsonContainer'>
+
+                            <!-- 
+                                 Container used solely for displaying the 
+                                 request. Actual request is stored in the 
+                                 hidden form element with ID 'request'.
+                            -->
+                            <textarea cols='100' id='req_disp' class='internal' 
+                                      readonly>{}</textarea>
+
+                        </td>
+                        <td class='jsonContainer'>
+
+                            <!-- 
+                                 Container used solely for displaying the 
+                                 response. Actual request is stored in the 
+                                 hidden iframe with ID 'result_frame'.
+                            -->
+                            <textarea cols='100' id='res_disp' class='internal' 
+                                      readonly>{}</textarea>
+                            
+                        </td>
+                    </tr>
+                </table>
+
+            </div>  
+            
+            <!-- 
+                Make sure our form's action is set to the primary entry point
+                for synful, and that the form target is the iframe id 
+                'result_frame'. 
+              -->
+            <form action='./' method='POST' target='result_frame' 
+                  id='main_form'/>
+                <input type='hidden' id='request' name='request' />
+
+                <br /><br />
+
+            </form>
+
+            <!--
+                This iframe is hidden, but used to retrieve
+                results.
+              -->
+            <iframe id='result_frame' name='result_frame' 
+                    src='./' onload='showResult()'>
+            </iframe>
+
+        </div>
+    </body>
+
+    <!-- End Primary HTML Code -->
+</html>

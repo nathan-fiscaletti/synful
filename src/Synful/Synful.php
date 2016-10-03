@@ -9,6 +9,7 @@ use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 use Synful\Util\Security\Encryption;
 use Synful\Util\Colors;
+use Synful\Util\SynfulException;
 
 class Synful
 {
@@ -242,12 +243,11 @@ class Synful
     {
         header('Content-Type: text/json');
         if (empty($_POST['request'])) {
-            $response = new Response(['code' => 400]);
-            $response->setResponse('error', 'Bad Request');
+            $response = (new SynfulException(null, 400, 1013))->response;
             if (self::$config->get('security.use_encryption')) {
                 IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
             } else {
-                IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
             }
         } else {
             if (self::$config->get('security.use_encryption')) {
@@ -258,8 +258,22 @@ class Synful
                 IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
             } else {
                 $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
-                IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
             }
+        }
+    }
+
+    /**
+     * Generate a test form for submitting requests.
+     */
+    public static function testForm()
+    {
+        // Load the configuration into system
+        if (IOFunctions::loadConfig() && ! self::$config->get('system.production')) {
+            readfile('./templates/TestForm.tmpl');
+        } else {
+            header('Location: /');
+            exit;
         }
     }
 
