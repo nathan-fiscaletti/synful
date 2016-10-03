@@ -272,7 +272,7 @@ class Synful
         if (IOFunctions::loadConfig() && ! self::$config->get('system.production')) {
             readfile('./templates/TestForm.tmpl');
         } else {
-            header("Location: /");
+            header('Location: /');
             exit;
         }
     }
