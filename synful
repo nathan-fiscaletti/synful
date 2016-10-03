@@ -14,7 +14,7 @@ if [ ! -f ./src/Synful/Synful.php ]; then
 else
     if [ ! -z "$1" ]; then
         if [[ "$1" == "install" ]]; then
-            composer install --no-scripts;
+            composer install --no-scripts --no-dev;
         elif [[ "$1" == "update" ]]; then
             composer update;
         elif [[ "$1" == "vagrant" ]]; then
@@ -29,9 +29,9 @@ else
                 fi;
             fi;
         else
-            run;
+            run "$@";
         fi;
     else
-        run;
+        run "$@";
     fi;
 fi
