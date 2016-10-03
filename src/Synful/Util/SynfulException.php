@@ -10,7 +10,7 @@ class SynfulException extends Exception
     /**
      * The error code.
      *
-     * @var integer
+     * @var int
      */
     private $error;
 
@@ -27,7 +27,7 @@ class SynfulException extends Exception
      * @var \Synful\Response
      */
     public $response;
-    
+
     /**
      * Construct the SynfulException object.
      *
@@ -57,7 +57,10 @@ class SynfulException extends Exception
      */
     public function getErrorMessage($error = null)
     {
-        if ($error == null) $error = $this->error;
+        if ($error == null) {
+            $error = $this->error;
+        }
+
         $ret = null;
 
         if ($this->message != null) {

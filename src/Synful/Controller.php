@@ -41,13 +41,6 @@ class Controller
         return $response;
     }
 
-    private function respond(&$response, $code, $responseData, $validated = true)
-    {
-        $response->code = $code;
-        $response->setArr($responseData);
-        return $validated;
-    }
-
     /**
      * Generates a master API Key if one does not already exist.
      *
@@ -206,6 +199,7 @@ class Controller
         } else {
             throw new SynfulException($response, 500, 1001);
         }
+
         return $return;
     }
 

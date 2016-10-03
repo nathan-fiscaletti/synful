@@ -5,7 +5,6 @@
  * In order to use this file, go into /config/System.php and set
  * 'production' to 'false'.
  */
-
 chdir('../');
 
 if (file_exists('./vendor')) {
