@@ -7,7 +7,7 @@ if not exist "./src/Synful/Synful.php" (
 ) else (
     if not "%1"=="" (
         if "%1"=="install" (
-            composer install --no-scripts
+            composer install --no-scripts --no-dev
         ) else if "%1"=="update" (
             composer update
         ) else goto run

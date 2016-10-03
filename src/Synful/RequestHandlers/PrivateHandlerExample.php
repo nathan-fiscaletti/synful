@@ -19,6 +19,7 @@ class PrivateHandlerExample implements RequestHandler
     {
         $this->white_list_keys = [
             'john@acme.com',
+            'api@ob.com',  
         ];
     }
 
@@ -34,6 +35,13 @@ class PrivateHandlerExample implements RequestHandler
 
         $api_key = APIKey::getKey($data->requesting_email);
         $data->code = 200;
-        $data->setResponse('key', $api_key->name);
+        $data->setResponse('user_information', [
+            'name' => $api_key->name, 
+            'email' => $api_key->email, 
+            'is_master' => $api_key->is_master,
+            'enabled' => $api_key->enabled,
+            'whitelist_only' => $api_key->whitelist_only,
+            'firewall' => $api_key->ip_firewall,
+        ]);
     }
 }
