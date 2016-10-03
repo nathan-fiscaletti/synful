@@ -65,4 +65,16 @@ return [
 
     'production' => true,
 
+
+    /*
+     |--------------------------------------------------------------------------
+     | Pretty Responses
+     |--------------------------------------------------------------------------
+     |
+     | If set to true, JSON responses will be formatted using JSON_PRETTY_PRINT.
+     | You can also use the ?pretty GET parameter.
+     */
+
+    'pretty_responses' => false,
+
 ];
