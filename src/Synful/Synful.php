@@ -264,7 +264,7 @@ class Synful
     }
 
     /**
-     * Generate a test form for submitting requests
+     * Generate a test form for submitting requests.
      */
     public static function testForm()
     {
@@ -272,7 +272,7 @@ class Synful
         if (IOFunctions::loadConfig() && ! self::$config->get('system.production')) {
             readfile('./templates/TestForm.tmpl');
         } else {
-            header ("Location: /");
+            header("Location: /");
             exit;
         }
     }

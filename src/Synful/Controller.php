@@ -5,7 +5,6 @@ namespace Synful;
 use Synful\DataManagement\Models\APIKey;
 use Synful\IO\IOFUnctions;
 use Synful\IO\LogLevel;
-use Synful\RequestHandlers\Interfaces\RequestHandler;
 use Synful\Util\SynfulException;
 use stdClass;
 
@@ -148,7 +147,7 @@ class Controller
     private function validateAuthentication(&$data, &$response, &$api_key, &$handler, &$ip)
     {
         $return = true;
-        if (!is_null($handler)) {
+        if (! is_null($handler)) {
             if (! Synful::$config->get('security.allow_public_requests') ||
                 ! (property_exists($handler, 'is_public') && $handler->is_public)) {
                 $return = false;

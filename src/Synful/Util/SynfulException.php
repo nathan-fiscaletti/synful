@@ -3,40 +3,40 @@
 namespace Synful\Util;
 
 use Synful\Response;
-use \Exception;
+use Exception;
 
 class SynfulException extends Exception
 {
     /**
-     * The error code
+     * The error code.
      *
      * @var integer
      */
     private $error;
 
     /**
-     * The error message
-     * 
+     * The error message.
+     *
      * @var string
      */
     protected $message = null;
 
     /**
-     * The Response Object
-     * 
+     * The Response Object.
+     *
      * @var \Synful\Response
      */
     public $response;
     
     /**
      * Construct the SynfulException object.
-     * 
+     *
      * @param \Synful\Response $response
-     * @param integer          $code
-     * @param integer          $error
+     * @param int              $code
+     * @param int              $error
      * @param string           $message
      */
-    public function __construct($response, $code, $error, $message = "")
+    public function __construct($response, $code, $error, $message = '')
     {
         $this->message = ($message == null) ? $this->getErrorMessage($error) : $message;
         parent::__construct($this->message, $error);
@@ -51,8 +51,8 @@ class SynfulException extends Exception
 
     /**
      * Retrieve error message based on error code.
-     * 
-     * @param  integer $error
+     *
+     * @param  int    $error
      * @return string
      */
     public function getErrorMessage($error = null)
@@ -64,73 +64,73 @@ class SynfulException extends Exception
             $ret = $this->message;
         } else {
             switch ($error) {
-                case 1001 : {
-                    $ret = "Unknown handler. Handlers are case sensitive.";
+                case 1001: {
+                    $ret = 'Unknown handler. Handlers are case sensitive.';
                     break;
                 }
 
-                case 1002 : {
-                    $ret = "No handler defined.";
+                case 1002: {
+                    $ret = 'No handler defined.';
                     break;
                 }
 
-                case 1003 : {
-                    $ret = "Bad request: Invalid request field supplied. Not array.";
+                case 1003: {
+                    $ret = 'Bad request: Invalid request field supplied. Not array.';
                     break;
                 }
 
-                case 1004 : {
-                    $ret = "Bad Request: Invalid request field supplied. Not Object.";
+                case 1004: {
+                    $ret = 'Bad Request: Invalid request field supplied. Not Object.';
                     break;
                 }
 
-                case 1005 : {
-                    $ret = "Bad Request: Missing request field.";
+                case 1005: {
+                    $ret = 'Bad Request: Missing request field.';
                     break;
                 }
 
-                case 1006 : {
-                    $ret = "Bad Request: Invalid user or key.";
+                case 1006: {
+                    $ret = 'Bad Request: Invalid user or key.';
                     break;
                 }
 
-                case 1007 : {
-                    $ret = "Bad Request: Key has been disabled.";
+                case 1007: {
+                    $ret = 'Bad Request: Key has been disabled.';
                     break;
                 }
 
-                case 1008 : {
-                    $ret = "Bad Request: Key not whitelisted for specified handler.";
+                case 1008: {
+                    $ret = 'Bad Request: Key not whitelisted for specified handler.';
                     break;
                 }
 
-                case 1009 : {
-                    $ret = "Bad Request: No key defined.";
+                case 1009: {
+                    $ret = 'Bad Request: No key defined.';
                     break;
                 }
 
-                case 1010 : {
-                    $ret = "Bad Request: No user defined.";
+                case 1010: {
+                    $ret = 'Bad Request: No user defined.';
                     break;
                 }
 
-                case 1011 : {
-                    $ret = "Access Denied: Source IP is not whitelisted while on whitelist only key.";
+                case 1011: {
+                    $ret = 'Access Denied: Source IP is not whitelisted while on whitelist only key.';
                     break;
                 }
 
-                case 1012 : {
-                    $ret = "Access Denied: Source IP Blacklisted.";
+                case 1012: {
+                    $ret = 'Access Denied: Source IP Blacklisted.';
                     break;
                 }
 
-                case 1013 : {
-                    $ret = "Bad Request.";
+                case 1013: {
+                    $ret = 'Bad Request.';
                     break;
                 }
 
-                default : {
-                    $ret = "Unknown Error";
+                default: {
+                    $ret = 'Unknown Error';
                 }
             }
         }
