@@ -2,14 +2,17 @@
 
 namespace Synful;
 
+use Synful\DataManagement\Models\APIKey;
 use Synful\DataManagement\SqlConnection;
 use Synful\Standalone\Standalone;
 use Synful\CLIParser\CLIParser;
 use Synful\IO\IOFunctions;
 use Synful\IO\LogLevel;
 use Synful\Util\Security\Encryption;
-use Synful\Util\Colors;
-use Synful\Util\SynfulException;
+use Synful\Util\ASCII\Colors;
+use Synful\Util\Framework\SynfulException;
+use Synful\Util\Framework\Validator;
+use Synful\Util\Framework\Response;
 
 class Synful
 {
@@ -28,11 +31,11 @@ class Synful
     public static $sql;
 
     /**
-     * The primary controller.
+     * The primary validator.
      *
-     * @var Synful\Controller
+     * @var Synful\Util\Framework\Validator
      */
-    public static $controller;
+    public static $validator;
 
     /**
      * All SqlConnections based off of database definitions in config.
@@ -56,7 +59,8 @@ class Synful
     public static $crypto;
 
     /**
-     * Initialize the Synful API instance using either Standalone Mode or Local Web Server.
+     * Initialize the Synful API instance using either Standalone Mode
+     * or Local Web Server.
      */
     public static function initialize()
     {
@@ -81,9 +85,9 @@ class Synful
         }
 
         // Load encryption
-        if (self::$config->get('security.use_encryption')) {
+        if (sf_conf('security.use_encryption')) {
             self::$crypto = new Encryption([
-                'key' => self::$config->get('security.encryption_key'),
+                'key' => sf_conf('security.encryption_key'),
             ]);
         }
 
@@ -97,22 +101,24 @@ class Synful
 
         global $argv;
         if (self::isCommandLineInterface() && count($argv) < 1) {
-            IOFunctions::out(LogLevel::INFO, $cli_parser->getUsage(), true, false, false);
+            sf_info($cli_parser->getUsage(), true, false, false);
             exit(3);
         }
 
         // Run Pre Start up functions
         self::preStartUp();
 
-        self::$controller = new Controller();
+        // Instatiate new validator
+        self::$validator = new Validator();
 
-        self::$controller->generateMasterKey();
+        // Generate a new master API key if one does not exist
+        APIKey::generateMasterKey();
 
-        IOFunctions::out(LogLevel::NOTE, 'Loading Request Handlers...');
+        sf_note('Loading Request Handlers...');
         self::loadRequestHandlers();
 
-        if (self::$config->get('system.standalone')) {
-            IOFunctions::out(LogLevel::NOTE, 'Running in standalone mode...');
+        if (sf_conf('system.standalone')) {
+            sf_note('Running in standalone mode...');
             self::postStartUp();
             (new Standalone())->initialize();
         } else {
@@ -126,8 +132,8 @@ class Synful
     // TODO - IMPORTANT
     public static function initializeSql()
     {
-        if (self::$config->get('sqlservers.main.databases.synful') != null) {
-            self::loadSqlServers(self::$config->get('sqlservers'));
+        if (sf_conf('sqlservers.main.databases.synful') != null) {
+            self::loadSqlServers(sf_conf('sqlservers'));
         } else {
             trigger_error(
                 'Missing Synful database definition. '.
@@ -191,7 +197,7 @@ class Synful
                 );
                 $is_public = false;
                 $is_private = false;
-                if (self::$config->get('security.allow_public_requests')) {
+                if (sf_conf('security.allow_public_requests')) {
                     if (property_exists(self::$request_handlers[$class_name], 'is_public')) {
                         $is_public = self::$request_handlers[$class_name]->is_public;
                     } elseif (property_exists(self::$request_handlers[$class_name], 'white_list_keys')) {
@@ -200,8 +206,7 @@ class Synful
                         }
                     }
                 }
-                IOFunctions::out(
-                    LogLevel::NOTE,
+                sf_note(
                     '    Loaded Request Handler: '.$class_name.
                     (($is_public)
                         ? Colors::cs(
@@ -223,17 +228,43 @@ class Synful
             }
         }
         if (! $enabled_request_handler) {
-            IOFunctions::out(
-                LogLevel::WARN,
+            sf_warn(
                 'No request handlers found. '.
                 'Use \'php synful.php createhandler=HandlerName\' to create a new handler.'
             );
-            IOFunctions::out(
-                LogLevel::WARN,
+            sf_warn(
                 'Note: Request handlers are case sensitive. '.
                 'We recommend using TitleCase for request handler names.'
             );
         }
+    }
+
+    /**
+     * Passes a JSON Request through the desired request handlers, validates authentication
+     * and request integrity and returns a response.
+     *
+     * @param  string                          $request
+     * @param  string                          $ip
+     * @return \Synful\Util\Framework\Response
+     */
+    public static function handleRequest($request, $ip)
+    {
+        $data = (array) json_decode($request);
+        $response = new Response(['requesting_ip' => $ip]);
+
+        try {
+            if (self::$validator->validateRequest($data, $response) && self::$validator->validateHandler($data, $response)) {
+                $handler = &Synful::$request_handlers[$data['handler']];
+                $api_key = null;
+                if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
+                    $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
+                }
+            }
+        } catch (SynfulException $synfulException) {
+            $response = $synfulException->response;
+        }
+
+        return $response;
     }
 
     /**
@@ -244,28 +275,28 @@ class Synful
         header('Content-Type: text/json');
         if (empty($_POST['request'])) {
             $response = (new SynfulException(null, 400, 1013))->response;
-            if (self::$config->get('security.use_encryption')) {
-                IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
+            if (sf_conf('security.use_encryption')) {
+                sf_respond(sf_encrypt(json_encode($response)));
             } else {
-                if (self::$config->get('system.pretty_responses') || isset($_GET['pretty'])) {
-                    IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
+                if (sf_conf('system.pretty_responses') || isset($_GET['pretty'])) {
+                    sf_respond(json_encode($response, JSON_PRETTY_PRINT));
                 } else {
-                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    sf_respond(json_encode($response));
                 }
             }
         } else {
-            if (self::$config->get('security.use_encryption')) {
-                $response = self::$controller->handleRequest(
+            if (sf_conf('security.use_encryption')) {
+                $response = self::handleRequest(
                     self::$crypto->decrypt($_POST['request']),
                     self::getClientIP()
                 );
-                IOFunctions::out(LogLevel::RESP, self::$crypto->encrypt(json_encode($response)), true, true, false);
+                sf_respond(sf_encrypt(json_encode($response)));
             } else {
-                $response = self::$controller->handleRequest($_POST['request'], self::getClientIP());
-                if (self::$config->get('system.pretty_responses') || isset($_GET['pretty'])) {
-                    IOFunctions::out(LogLevel::RESP, json_encode($response, JSON_PRETTY_PRINT), true, true, false);
+                $response = self::handleRequest($_POST['request'], self::getClientIP());
+                if (sf_conf('system.pretty_responses') || isset($_GET['pretty'])) {
+                    sf_respond(json_encode($response, JSON_PRETTY_PRINT));
                 } else {
-                    IOFunctions::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    sf_respond(json_encode($response));
                 }
             }
         }
@@ -277,7 +308,7 @@ class Synful
     public static function testForm()
     {
         // Load the configuration into system
-        if (IOFunctions::loadConfig() && ! self::$config->get('system.production')) {
+        if (IOFunctions::loadConfig() && ! sf_conf('system.production')) {
             readfile('./templates/TestForm.tmpl');
         } else {
             header('Location: /');
@@ -331,20 +362,20 @@ class Synful
     private static function createDefaultTables()
     {
         return
-            self::$sql->executeSql(
+            sf_sql(
                 'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
                 '`name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
                 '`whitelist_only` INT NOT NULL , `is_master` INT NOT NULL, `enabled` INT NOT NULL , '.
                 'PRIMARY KEY (`id`)) ENGINE = MyISAM;'
             )
 
-            && self::$sql->executeSql(
+            && sf_sql(
                 'CREATE TABLE IF NOT EXISTS `api_perms` ( `api_key_id` INT UNSIGNED NOT NULL , '.
                 '`put_data` INT NOT NULL , `get_data` INT NOT NULL , `mod_data` INT NOT NULL , '.
                 'PRIMARY KEY (`api_key_id`) ) ENGINE = MyISAM;'
             )
 
-            && self::$sql->executeSql(
+            && sf_sql(
                 'CREATE TABLE IF NOT EXISTS `ip_firewall` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT '.
                 ', `api_key_id` INT UNSIGNED NOT NULL , `ip` VARCHAR(255) NOT NULL , `block` INT NOT NULL '.
                 ', PRIMARY KEY (`id`) ) ENGINE = MyISAM;'
@@ -356,7 +387,7 @@ class Synful
      */
     public static function postStartUp()
     {
-        IOFunctions::out(LogLevel::NOTE, '---------------------------------------------------', false, false, false);
+        sf_note('---------------------------------------------------', false, false, false);
     }
 
     /**

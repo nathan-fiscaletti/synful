@@ -3,10 +3,7 @@
 namespace Synful\CLIParser;
 
 use Synful\Synful;
-use Synful\IO\IOFunctions;
-use Synful\IO\LogLevel;
 use Synful\DataManagement\Models\APIKey;
-use Synful\Util\Colors;
 
 /**
  * Store handlers for CLI Parameters in this file.
@@ -20,37 +17,32 @@ class CLIHandlers
      */
     public static function listSql($value)
     {
-        IOFunctions::out(
-            LogLevel::INFO,
+        sf_info(
             'Sql Server List',
             true,
             false,
             false
         );
-        IOFunctions::out(
-            LogLevel::INFO,
+        sf_info(
             '---------------------------------------------------',
             true,
             false,
             false
         );
-        foreach (Synful::$config->get('sqlservers') as $server_name => $server) {
-            IOFUnctions::out(
-                LogLevel::INFO,
-                ' | '.Colors::cs($server_name, 'light_green'),
+        foreach (sf_conf('sqlservers') as $server_name => $server) {
+            sf_info(
+                ' | '.sf_color($server_name, 'light_green'),
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 ' --------------------------------------------------',
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 ' | Server Info  : ['.$server['host'].', '.$server['port'].']',
                 true,
                 false,
@@ -61,15 +53,13 @@ class CLIHandlers
             foreach ($server['databases'] as $database_name => $database) {
                 $database_info .= ($database_info == '') ? '['.$database_name : ', '.$database_name;
             }
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 $dbs.$database_info.']',
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 '---------------------------------------------------',
                 true,
                 false,
@@ -88,22 +78,19 @@ class CLIHandlers
     {
         $param_data = explode(',', $value);
         if (count($param_data) < 2 || ! ($param_data[1] === 'true' || $param_data[1] === 'false')) {
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Unable to set White-List Only.',
                 false,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Please provide the data in the format \'<email/id>,<true/false>\'',
                 false,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Example: php synful.php whitelistonly=jon@acme.com,true',
                 false,
                 false,
@@ -112,8 +99,7 @@ class CLIHandlers
             exit();
         } else {
             if (! APIKey::keyExists($param_data[0])) {
-                IOFunctions::out(
-                    LogLevel::ERRO,
+                sf_error(
                     'No key found for email/ID \''.$param_data[0].'\'.',
                     true,
                     false,
@@ -124,16 +110,15 @@ class CLIHandlers
                 $key = APIKey::getKey($param_data[0]);
                 $key->whitelist_only = ($param_data[1] === 'true') ? 1 : 0;
                 $key->save();
-                IOFunctions::out(
-                    LogLevel::INFO,
-                    'Key \''.Colors::cs($param_data[0], 'light_green').
+                sf_info(
+                    'Key \''.sf_color($param_data[0], 'light_green').
                     '\' updated with new White-List Only value \''.
                     (($param_data[1] == 'true')
-                        ? Colors::cs(
+                        ? sf_color(
                             $param_data[1],
                             'light_green'
                         )
-                        : Colors::cs(
+                        : sf_color(
                             $param_data[1],
                             'light_red'
                         )
@@ -158,20 +143,19 @@ class CLIHandlers
             $key = APIKey::getKey($value);
 
             foreach ($key->ip_firewall as $firewall_entry) {
-                IOFunctions::out(
-                    LogLevel::INFO,
-                    'IP: '.Colors::cs($firewall_entry['ip'], 'yellow').' is '.
+                sf_info(
+                    'IP: '.sf_color($firewall_entry['ip'], 'yellow').' is '.
                     (($firewall_entry['block'])
-                        ? Colors::cs(
+                        ? sf_color(
                             'blocked',
                             'light_red'
                         )
-                        : Colors::cs(
+                        : sf_color(
                             'allowed',
                             'light_green'
                         )
                     ).
-                    ' for key '.Colors::cs($value, 'light_cyan'),
+                    ' for key '.sf_color($value, 'light_cyan'),
                     true,
                     false,
                     false
@@ -180,7 +164,7 @@ class CLIHandlers
 
             exit();
         } else {
-            IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+            sf_error('No key was found with that ID.', true, false, false);
             exit();
         }
     }
@@ -194,22 +178,19 @@ class CLIHandlers
     {
         $firewall_data = explode(',', $value);
         if (count($firewall_data) < 3) {
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Unable to firewall IP.',
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Please provide the key data in the format \'<email/id>,<ip>,<block_value>\'',
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Example: php synful.php firewallip=jon@acme.com,192.168.1.1,1',
                 true,
                 false,
@@ -224,16 +205,15 @@ class CLIHandlers
                 $key = APIKey::getKey($id);
                 $key->firewallIP($ip, $block);
                 $key->save();
-                IOFunctions::out(
-                    LogLevel::INFO,
-                    'Set firewall on key \''.Colors::cs($id, 'light_blue').
-                    '\' for ip \''.Colors::cs($ip, 'light_blue').'\' to \''.
+                sf_info(
+                    'Set firewall on key \''.sf_color($id, 'light_blue').
+                    '\' for ip \''.sf_color($ip, 'light_blue').'\' to \''.
                     (($block)
-                        ? Colors::cs(
+                        ? sf_color(
                             'true',
                             'light_green'
                         )
-                        : Colors::cs(
+                        : sf_color(
                             'false',
                             'light_red'
                         )
@@ -244,7 +224,7 @@ class CLIHandlers
                 );
                 exit(0);
             } else {
-                IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+                sf_error('No key was found with that ID.', true, false, false);
                 exit(2);
             }
         }
@@ -259,22 +239,19 @@ class CLIHandlers
     {
         $firewall_data = explode(',', $value);
         if (count($firewall_data) < 2) {
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Unable to unfirewall IP.',
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Please provide the key data in the format \'<email/id>,<ip>\'',
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Example: php synful.php unfirewallip=jon@acme.com,192.168.1.1',
                 true,
                 false,
@@ -289,18 +266,16 @@ class CLIHandlers
                 if ($key->isFirewalled($ip)) {
                     $key->unfirewallIP($ip);
                     $key->save();
-                    IOFunctions::out(
-                        LogLevel::INFO,
-                        'Removed firewall entry on key \''.Colors::cs($id, 'light_blue').
-                        '\' for ip \''.Colors::cs($ip, 'light_blue').'\'.',
+                    sf_info(
+                        'Removed firewall entry on key \''.sf_color($id, 'light_blue').
+                        '\' for ip \''.sf_color($ip, 'light_blue').'\'.',
                         true,
                         false,
                         false
                     );
                     exit(0);
                 } else {
-                    IOFunctions::out(
-                        LogLevel::ERRO,
+                    sf_error(
                         'That IP does not have a firewall entry on that key.',
                         true,
                         false,
@@ -309,8 +284,7 @@ class CLIHandlers
                     exit(2);
                 }
             } else {
-                IOFunctions::out(
-                    LogLevel::ERRO,
+                sf_error(
                     'No key was found with that ID.',
                     true,
                     false,
@@ -332,17 +306,16 @@ class CLIHandlers
             $key = APIKey::getKey($value);
             $key->enabled = false;
             $key->save();
-            IOFunctions::out(
-                LogLevel::INFO,
-                'APIKey for ID \''.Colors::cs($value, 'light_blue').
-                '\' has been '.Colors::cs('disabled', 'light_red').'.',
+            sf_info(
+                'APIKey for ID \''.sf_color($value, 'light_blue').
+                '\' has been '.sf_color('disabled', 'light_red').'.',
                 true,
                 false,
                 false
             );
             exit(0);
         } else {
-            IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+            sf_error('No key was found with that ID.', true, false, false);
             exit(2);
         }
     }
@@ -358,17 +331,16 @@ class CLIHandlers
             $key = APIKey::getKey($value);
             $key->enabled = true;
             $key->save();
-            IOFunctions::out(
-                LogLevel::INFO,
-                'APIKey for ID \''.Colors::cs($value, 'light_blue').
-                '\' has been '.Colors::cs('enabled', 'light_green').'.',
+            sf_info(
+                'APIKey for ID \''.sf_color($value, 'light_blue').
+                '\' has been '.sf_color('enabled', 'light_green').'.',
                 true,
                 false,
                 false
             );
             exit(0);
         } else {
-            IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+            sf_error('No key was found with that ID.', true, false, false);
             exit(2);
         }
     }
@@ -383,17 +355,16 @@ class CLIHandlers
         if (APIKey::keyExists($value)) {
             $key = APIKey::getKey($value);
             $key->delete();
-            IOFunctions::out(
-                LogLevel::INFO,
-                'APIKey for ID \''.Colors::cs($value, 'light_blue').
-                '\' has been '.Colors::cs('removed', 'light_red').'.',
+            sf_info(
+                'APIKey for ID \''.sf_color($value, 'light_blue').
+                '\' has been '.sf_color('removed', 'light_red').'.',
                 true,
                 false,
                 false
             );
             exit(0);
         } else {
-            IOFunctions::out(LogLevel::ERRO, 'No key was found with that ID.', true, false, false);
+            sf_error('No key was found with that ID.', true, false, false);
             exit(2);
         }
     }
@@ -405,33 +376,30 @@ class CLIHandlers
      */
     public static function listKeys($value)
     {
-        IOFunctions::out(LogLevel::INFO, 'API Key List', true, false, false);
-        IOFunctions::out(LogLevel::INFO, '---------------------------------------------------', true, false, false);
-        $sql_result = Synful::$sql->executeSql('SELECT * FROM `api_keys` ORDER BY `is_master` DESC', [], true);
+        sf_info('API Key List', true, false, false);
+        sf_info('---------------------------------------------------', true, false, false);
+        $sql_result = sf_sql('SELECT * FROM `api_keys` ORDER BY `is_master` DESC', [], true);
         while ($row = mysqli_fetch_assoc($sql_result)) {
-            IOFunctions::out(
-                LogLevel::INFO,
-                'Belongs To: '.Colors::cs($row['name'], 'light_blue'),
+            sf_info(
+                'Belongs To: '.sf_color($row['name'], 'light_blue'),
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 '    EMail / ID     : '.$row['email'].' / '.$row['id'],
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 '    Whitelist-Only : '.
                 (($row['whitelist_only'])
-                    ? Colors::cs(
+                    ? sf_color(
                         'true',
                         'light_green'
                     )
-                    : Colors::cs(
+                    : sf_color(
                         'false',
                         'light_red'
                     )
@@ -440,15 +408,14 @@ class CLIHandlers
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 '    Is-Master      : '.
                 (($row['is_master'])
-                    ? Colors::cs(
+                    ? sf_color(
                         'true',
                         'light_green'
                     )
-                    : Colors::cs(
+                    : sf_color(
                         'false',
                         'light_red'
                     )
@@ -457,15 +424,14 @@ class CLIHandlers
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::INFO,
+            sf_info(
                 '    Enabled        : '.
                 (($row['enabled'])
-                    ? Colors::cs(
+                    ? sf_color(
                         'true',
                         'light_green'
                     )
-                    : Colors::cs(
+                    : sf_color(
                         'false',
                         'light_red'
                     )
@@ -474,7 +440,7 @@ class CLIHandlers
                 false,
                 false
             );
-            IOFunctions::out(LogLevel::INFO, '', true, false, false);
+            sf_info('', true, false, false);
         }
         exit(0);
     }
@@ -488,16 +454,14 @@ class CLIHandlers
     {
         $new_key_data = explode(',', $value);
         if (count($new_key_data) < 3) {
-            IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error('Unable to create new API Key.', true, false, false);
+            sf_error(
                 'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_int>\'',
                 true,
                 false,
                 false
             );
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Example: php synful.php createkey=jon@acme.com,John_Doe,0',
                 true,
                 false,
@@ -510,16 +474,14 @@ class CLIHandlers
             $whitelist_only = intval($new_key_data[2]);
 
             if (! is_int($whitelist_only)) {
-                IOFunctions::out(LogLevel::ERRO, 'Unable to create new API Key.', true, false, false);
-                IOFunctions::out(
-                    LogLevel::ERRO,
+                sf_error('Unable to create new API Key.', true, false, false);
+                sf_error(
                     'Please provide the key data in the format \'<email>,<First_Last>,<whitelist_only_as_int>\'',
                     true,
                     false,
                     false
                 );
-                IOFunctions::out(
-                    LogLevel::ERRO,
+                sf_error(
                     'Example: php synful.php createkey=jon@acme.com,John_Doe,0',
                     true,
                     false,
@@ -529,19 +491,18 @@ class CLIHandlers
             }
 
             if (APIKey::keyExists($email)) {
-                IOFunctions::out(LogLevel::ERRO, 'A key with that email is already defined.', true, false, false);
+                sf_error('A key with that email is already defined.', true, false, false);
                 exit(2);
             }
 
-            IOFunctions::out(LogLevel::INFO, 'Creating new key with data: ', true, false, false);
-            IOFunctions::out(LogLevel::INFO, '    Name: '.$name, true, false, false);
-            IOFunctions::out(LogLevel::INFO, '    Email: '.$email, true, false, false);
+            sf_info('Creating new key with data: ', true, false, false);
+            sf_info('    Name: '.$name, true, false, false);
+            sf_info('    Email: '.$email, true, false, false);
 
-            IOFunctions::out(LogLevel::INFO, '------------------------------------------------', true, false, false);
+            sf_info('------------------------------------------------', true, false, false);
 
             if (APIKey::addNew($name, $email, $whitelist_only, 0, true) == null) {
-                IOFunctions::out(
-                    LogLevel::ERRO,
+                sf_error(
                     'There was an error while creating your new API Key.',
                     true,
                     false,
@@ -564,8 +525,7 @@ class CLIHandlers
         $value = trim($value);
 
         if (! ctype_alpha($value)) {
-            IOFunctions::out(
-                LogLevel::ERRO,
+            sf_error(
                 'Error: Request Handler names must only contain alphabetic characters and no spaces. '.
                 'TitleCase recommended.',
                 true
@@ -578,8 +538,7 @@ class CLIHandlers
                     str_replace('RequestHandlerName', $value, file_get_contents('./templates/RequestHandler.tmpl'))
                 );
 
-                IOFunctions::out(
-                    LogLevel::INFO,
+                sf_info(
                     'Created Request Handler in \'src/Synful/RequestHandlers\' with name \''.$value.'\'.',
                     true
                 );
@@ -588,7 +547,7 @@ class CLIHandlers
                 exec('php composer.phar dumpautoload');
                 exit(0);
             } else {
-                IOFunctions::out(LogLevel::ERRO, 'Error: A request handler by that name already exists.', true);
+                sf_error('Error: A request handler by that name already exists.', true);
                 exit(0);
             }
         }
@@ -602,8 +561,8 @@ class CLIHandlers
     public static function standAlone($value)
     {
         Synful::$config->set('system.standalone', ($value == null) ? true : json_decode($value));
-        $str = (Synful::$config->get('system.standalone')) ? 'true' : 'false';
-        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set standalone mode to \''.$str.'\'.');
+        $str = (sf_conf('system.standalone')) ? 'true' : 'false';
+        sf_note('CONFIG: Set standalone mode to \''.$str.'\'.');
     }
 
     /**
@@ -614,7 +573,7 @@ class CLIHandlers
     public static function enableColor($value)
     {
         Synful::$config->set('system.color', ($value == null) ? true : json_decode($value));
-        $str = (Synful::$config->get('system.color')) ? 'true' : 'false';
-        IOFunctions::out(LogLevel::NOTE, 'CONFIG: Set console color to \''.$str.'\'.');
+        $str = (sf_conf('system.color')) ? 'true' : 'false';
+        sf_note('CONFIG: Set console color to \''.$str.'\'.');
     }
 }

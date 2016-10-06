@@ -2,8 +2,6 @@
 
 namespace Synful\DataManagement\Models;
 
-use Synful\Synful;
-
 /**
  * Class used for handling API Permissions in database.
  */
@@ -49,7 +47,7 @@ class APIKeyPermissions
     {
         $this->api_key_id = $id;
 
-        $res = Synful::$sql->executeSql(
+        $res = sf_sql(
             'SELECT * FROM `api_perms` WHERE `api_key_id` = ?',
             [
              's',
@@ -76,7 +74,7 @@ class APIKeyPermissions
      */
     public function save()
     {
-        Synful::$sql->executeSql(
+        sf_sql(
             'INSERT INTO `api_perms` (`api_key_id`, `put_data`, `get_data`,'.
             ' `mod_data`) VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE '.
             '`put_data` = ?, `get_data` = ?, `mod_data` = ?',
@@ -98,7 +96,7 @@ class APIKeyPermissions
      */
     public function delete()
     {
-        Synful::$sql->executeSql(
+        sf_sql(
             'DELETE FROM `api_perms` WHERE `api_key_id` = ?',
             [
              's',

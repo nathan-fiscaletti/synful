@@ -2,10 +2,6 @@
 
 namespace Synful\DataManagement\Models;
 
-use Synful\Synful;
-use Synful\IO\IOFunctions;
-use Synful\IO\LogLevel;
-
 /**
  * Class used for managing API Keys.
  */
@@ -89,7 +85,7 @@ class APIKey
     public function __construct($id)
     {
         $result = mysqli_fetch_assoc(
-            Synful::$sql->executeSql(
+            sf_sql(
                 'SELECT * FROM `api_keys` WHERE `id` = ?',
                 [
                  's',
@@ -109,9 +105,9 @@ class APIKey
 
         $this->permissions = new APIKeyPermissions(
             $id,
-            Synful::$config->get('permissions.put_data'),
-            Synful::$config->get('permissions.get_data'),
-            Synful::$config->get('permissions.mod_data')
+            sf_conf('permissions.put_data'),
+            sf_conf('permissions.get_data'),
+            sf_conf('permissions.mod_data')
         );
 
         if ($this->is_master) {
@@ -121,7 +117,7 @@ class APIKey
             $this->permissions->save();
         }
 
-        $fw = Synful::$sql->executeSql(
+        $fw = sf_sql(
             'SELECT * FROM `ip_firewall` WHERE `api_key_id` = ?',
             [
              's',
@@ -137,6 +133,34 @@ class APIKey
              'block' => $ip_list['block'],
             ];
         }
+    }
+
+    /*
+     * Generates a master API Key if one does not already exist.
+     *
+     * @return \Synful\DataManagement\Models\APIKey
+     */
+    public static function generateMasterKey()
+    {
+        $ret = null;
+        if (! self::isMasterSet()) {
+            sf_info('No master key found. Generating new master key.');
+            $apik = self::addNew(
+                sf_conf('security.name'),
+                sf_conf('security.email'),
+                0,
+                1,
+                true
+            );
+            if ($apik == null) {
+               sf_warn('Failed to get master key.');
+            }
+            $ret = $apik;
+        } else {
+            $ret = self::getMasterKey();
+        }
+
+        return $ret;
     }
 
     /**
@@ -221,7 +245,7 @@ class APIKey
     public function save()
     {
         // Update the API Keys Entry
-        Synful::$sql->executeSql(
+        sf_sql(
             'UPDATE `api_keys` SET `api_key` = ?, `name` = ?, '.
             '`email` = ?, `whitelist_only` = ?, `is_master` = ?, '.
             '`enabled` = ? WHERE `id` = ?',
@@ -239,7 +263,7 @@ class APIKey
 
         // Remove selected IP Firewall Entries
         foreach ($this->removed_ip_firewall as $removed_firewall_entry) {
-            Synful::$sql->executeSql(
+            sf_sql(
                 'DELETE FROM `ip_firewall` WHERE `ip` = ? '.
                 'AND `api_key_id` = ?',
                 [
@@ -252,7 +276,7 @@ class APIKey
 
         // Update IP Firewalls
         foreach ($this->ip_firewall as $firewall_entry) {
-            $res = Synful::$sql->executeSql(
+            $res = sf_sql(
                 'SELECT `ip` FROM `ip_firewall` WHERE `api_key_id` = ? '.
                 'AND `ip` = ?',
                 [
@@ -264,7 +288,7 @@ class APIKey
             );
 
             if ($res->num_rows < 1) {
-                Synful::$sql->executeSql(
+                sf_sql(
                     'INSERT INTO `ip_firewall` (api_key_id, ip, block) '.
                     'VALUES (?, ?, ?)',
                     [
@@ -286,7 +310,7 @@ class APIKey
      */
     public function delete()
     {
-        Synful::$sql->executeSql(
+        sf_sql(
             'DELETE FROM `api_keys` WHERE `id` = ?',
             [
              's',
@@ -294,7 +318,7 @@ class APIKey
             ]
         );
 
-        Synful::$sql->executeSql(
+        sf_sql(
             'DELETE FROM `ip_firewall` WHERE `api_key_id` = ?',
             [
              's',
@@ -333,7 +357,7 @@ class APIKey
         if (! self::keyExists($email)) {
             $new_key = self::generateNew();
 
-            Synful::$sql->executeSql(
+            sf_sql(
                 'INSERT INTO `api_keys` (`api_key`, `name`, `email`, '.
                 '`whitelist_only`, `is_master`, `enabled`) VALUES '.
                 '(?, ?, ?, ?, ?, ?)',
@@ -349,8 +373,7 @@ class APIKey
             );
 
             if ($print_key) {
-                IOFunctions::out(
-                    LogLevel::INFO,
+                sf_info(
                     'New Private '.(($is_master) ? 'Master' : '').
                     ' API Key: '.$new_key['key'],
                     true,
@@ -373,7 +396,7 @@ class APIKey
      */
     public static function getKey($id)
     {
-        $keys = Synful::$sql->executeSql(
+        $keys = sf_sql(
             'SELECT `id` FROM `api_keys` WHERE `id` = ? OR `email` = ?',
             [
              'ss',
@@ -410,7 +433,7 @@ class APIKey
      */
     public static function getMasterKey()
     {
-        $result = Synful::$sql->executeSql(
+        $result = sf_sql(
             'SELECT * FROM `api_keys` where `is_master` = 1',
             [],
             true

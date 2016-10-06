@@ -2,7 +2,7 @@
 
 namespace Synful\RequestHandlers\Interfaces;
 
-use Synful\Response;
+use Synful\Util\Framework\Response;
 
 /**
  * Interface used to handle Request Handlers.

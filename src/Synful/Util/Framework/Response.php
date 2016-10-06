@@ -1,9 +1,8 @@
 <?php
 
-namespace Synful;
+namespace Synful\Util\Framework;
 
 use JsonSerializable;
-use Synful\Util\Object;
 
 /**
  * Class used for response storage.

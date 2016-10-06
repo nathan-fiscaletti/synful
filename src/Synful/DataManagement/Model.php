@@ -2,8 +2,8 @@
 
 namespace Synful\DataManagement;
 
-use Synful\Util\Object;
-use Synful;
+use Synful\Util\Framework\Object;
+use Synful\Synful;
 
 /**
  * Class used to construct Database Models.
