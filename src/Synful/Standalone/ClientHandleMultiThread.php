@@ -3,9 +3,7 @@
 namespace Synful\Standalone;
 
 use Synful\Synful;
-use Synful\IO\IOFunctions;
-use Synful\IO\LogLevel;
-use Synful\Util\Object;
+use Synful\Util\Framework\Object;
 
 /**
  * Class used for handling multithread client socket communication.
@@ -42,25 +40,23 @@ class ClientHandleMultiThread extends Thread
     {
         $input = socket_read($this->client_socket, 2024);
 
-        IOFunctions::out(
-            LogLevel::INFO,
+        sf_info(
             'Client REQ ('.$this->ip.':'.$this->port.'): '.$input
         );
 
-        if (Synful::$config->get('security.use_encryption')) {
-            $response = Synful::$controller->handleRequest(Synful::$crypto->decrypt($input), $this->ip);
+        if (sf_conf('security.use_encryption')) {
+            $response = Synful::handleRequest(sf_decrypt($input), $this->ip);
             socket_write(
                 $this->client_socket,
-                Synful::$crypto->encrypt(json_encode($response)),
-                strlen(json_encode($response))
+                sf_encrypt(json_encode($response)),
+                strlen(sf_encrypt(json_encode($response)))
             );
         } else {
-            $response = Synful::$controller->handleRequest($input, $this->ip);
+            $response = Synful::handleRequest($input, $this->ip);
             socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));
         }
 
-        IOFunctions::out(
-            LogLevel::INFO,
+        sf_info(
             'Server RES ('.$this->ip.':'.$this->port.'): '.json_encode($response)
         );
 

@@ -15,7 +15,14 @@
     "autoload": {
         "psr-4": {
             "Synful\\": "src/Synful"
-        }
+        },
+        "files": [
+            "src/Synful/Util/Functions/Encryption.php",
+            "src/Synful/Util/Functions/Logging.php",
+            "src/Synful/Util/Functions/Strings.php",
+            "src/Synful/Util/Functions/System.php",
+            "src/Synful/Util/Functions/Sql.php"
+        ]
     },
     "require": {
         "php": ">=7.0",

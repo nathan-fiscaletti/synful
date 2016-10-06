@@ -1,8 +1,7 @@
 <?php
 
-namespace Synful\Util;
+namespace Synful\Util\Framework;
 
-use Synful\Response;
 use Exception;
 
 class SynfulException extends Exception

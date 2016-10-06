@@ -1,8 +1,9 @@
 <?php
 
-namespace Synful\Util;
+namespace Synful\Util\Config;
 
 use Gestalt\Loaders\LoaderInterface;
+use Synful\Util\Framework\Object;
 use DirectoryIterator;
 
 class ConfigLoader implements LoaderInterface

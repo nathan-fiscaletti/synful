@@ -58,7 +58,7 @@
              */               
             table {
                 width: 75%;
-                border-spacing: 15px 15px;
+                border-spacing: 15px 50px;
             }
 
             /**
@@ -72,11 +72,6 @@
                 color: white;
                 height: 0.5;
                 border: 1px dashed white;
-            }
-
-            
-            iframe {
-                display: none;
             }
 
             /**
@@ -112,14 +107,16 @@
                 font-size: 16px;
                 color: #FFFFFF;
                 width:50%;
+                -webkit-box-shadow: 0px 0px 51px 8px rgba(255,255,255,1);
+                -moz-box-shadow: 0px 0px 51px 8px rgba(255,255,255,1);
+                box-shadow: 0px 0px 51px 8px rgba(255,255,255,1);
             }
 
             /**
              * Used for displaying request and result previews.
              */
             .jsonContainer .internal {
-                padding-left: 15px;
-                padding-top: 10px;
+                padding-left: 10px;
                 border: none;
                 background-color: rgba(0,0,0,0);
                 font-family: monospace;
@@ -157,8 +154,9 @@
                 elem('req_disp').value = getRequest(true);
 
                 // Submit the hidden form to generate the result.
-                document.forms['main_form'].submit(); 
+                document.forms['main_form'].submit();   
 
+                showResult();                   
             }
 
             /**
@@ -232,11 +230,17 @@
              */
             function showResult()
             {
-                var myIFrame = elem('result_frame');
-                var content = myIFrame.contentWindow.document.body;
-                var jsonData = content.textContent || content.innerText || "";
-
-                elem('res_disp').innerHTML = jsonData;
+                var iframe = elem('result_frame');
+                var style = document.createElement('style');
+                style.textContent =
+                  'body {' +
+                  '  background-color: rgba(0,0,0,0);' +
+                  '  color: #FFFFFF;' +
+                  '  font-family: monospace;' +
+                  '  font-size: 14px;' +
+                  '}' 
+                ;
+                iframe.contentDocument.head.appendChild(style);
             }
 
             /**
@@ -260,7 +264,7 @@
     <!--
         Run showResult() when page is loaded to initialize the result code
       -->
-    <body> 
+    <body onload='showResult()'> 
         <div align='center'> 
             <br />
             <h2>Synful Request Tester</h2>
@@ -330,21 +334,34 @@
                                  Container used solely for displaying the 
                                  request. Actual request is stored in the 
                                  hidden form element with ID 'request'.
+
+                                 Using inline css here because both the iframe 
+                                 and this text area use the same CSS class
+                                 but iframes act differently so I need
+                                 the custom padding to make it match
+                                 properly with iframe's padding.
                             -->
                             <textarea cols='100' id='req_disp' class='internal' 
-                                      readonly>{}</textarea>
+                                      style=
+                                      '
+                                          padding-top: 10px;
+                                          padding-left: 15px;
+                                      ' 
+                                      readonly>{}
+                            </textarea>
 
                         </td>
                         <td class='jsonContainer'>
 
-                            <!-- 
-                                 Container used solely for displaying the 
-                                 response. Actual request is stored in the 
-                                 hidden iframe with ID 'result_frame'.
-                            -->
-                            <textarea cols='100' id='res_disp' class='internal' 
-                                      readonly>{}</textarea>
-                            
+                            <!--
+                                Wrapper for result frame. API Results are set 
+                                here, showResult() is called on each load to 
+                                reinject custom CSS .
+                              -->
+                            <iframe id='result_frame' name='result_frame' 
+                                    src='./index.php' class='internal' 
+                                    onload='showResult()'>
+                            </iframe>
                         </td>
                     </tr>
                 </table>
@@ -356,21 +373,13 @@
                 for synful, and that the form target is the iframe id 
                 'result_frame'. 
               -->
-            <form action='./' method='POST' target='result_frame' 
+            <form action='./index.php' method='POST' target='result_frame' 
                   id='main_form'/>
                 <input type='hidden' id='request' name='request' />
 
                 <br /><br />
 
             </form>
-
-            <!--
-                This iframe is hidden, but used to retrieve
-                results.
-              -->
-            <iframe id='result_frame' name='result_frame' 
-                    src='./' onload='showResult()'>
-            </iframe>
 
         </div>
     </body>

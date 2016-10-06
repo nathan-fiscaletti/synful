@@ -2,11 +2,11 @@
 
 namespace Synful\IO;
 
-use Synful\Util\SynfulException;
-use Synful\Util\ConfigLoader;
-use Synful\Util\Colors;
+use Synful\Util\Framework\SynfulException;
+use Synful\Util\Framework\Response;
+use Synful\Util\Config\ConfigLoader;
+use Synful\Util\ASCII\Colors;
 use Synful\Synful;
-use Synful\Response;
 use Gestalt\Configuration;
 use Exception;
 
@@ -64,9 +64,9 @@ class IOFunctions
             $head = 'RESP';
         }
 
-        $log_file = Synful::$config->get('files.logfile');
+        $log_file = sf_conf('files.logfile');
 
-        if (Synful::$config->get('files.log_to_file') && $write_to_file) {
+        if (sf_conf('files.log_to_file') && $write_to_file) {
             if (! file_exists(dirname($log_file))) {
                 try {
                     mkdir(dirname($log_file), 0700, true);
@@ -81,23 +81,23 @@ class IOFunctions
         $output = [];
 
         foreach (preg_split('/\n|\r\n?/', $data) as $line) {
-            if ((Synful::$config->get('system.standalone') || Synful::isCommandLineInterface()) || $force) {
+            if ((sf_conf('system.standalone') || Synful::isCommandLineInterface()) || $force) {
                 if ($block_header_on_echo) {
                     $output[] = $line;
                 } else {
-                    $out_line = '['.Colors::cs('SYNFUL', 'white', null, 'reset').'] ';
+                    $out_line = '['.sf_color('SYNFUL', 'white', null, 'reset').'] ';
                     $out_line .= self::parseLogstring($level, $head, $line);
                     $output[] = $out_line;
                 }
             }
 
-            if (Synful::$config->get('files.log_to_file') && $write_to_file) {
-                if (Synful::$config->get('files.split_log_files')) {
+            if (sf_conf('files.log_to_file') && $write_to_file) {
+                if (sf_conf('files.split_log_files')) {
                     $log_id = 0;
-                    $max_lines = Synful::$config->get('files.max_logfile_lines');
+                    $max_lines = sf_conf('files.max_logfile_lines');
                     while (file_exists($log_file) && (count(file($log_file)) - 1) > $max_lines) {
                         $log_id++;
-                        $log_file = Synful::$config->get('files.logfile').'.'.$log_id;
+                        $log_file = sf_conf('files.logfile').'.'.$log_id;
                     }
                 }
 
@@ -127,7 +127,7 @@ class IOFunctions
         }
 
         foreach ($output as $line) {
-            echo $line.((! $block_header_on_echo) ? Colors::cs('', 'reset', null, 'reset') : '')."\r\n";
+            echo $line.((! $block_header_on_echo) ? sf_color('', 'reset', null, 'reset') : '')."\r\n";
         }
     }
 
@@ -141,7 +141,7 @@ class IOFunctions
             exit();
         }
 
-        $err = $errstr.((Synful::$config->get('system.production')) ? '' : ' in '.$errfile.' at line '.$errline);
+        $err = $errstr.((sf_conf('system.production')) ? '' : ' in '.$errfile.' at line '.$errline);
 
         switch ($errno) {
             case E_USER_ERROR: {
@@ -220,41 +220,41 @@ class IOFunctions
     {
         $return_string = '';
 
-        if (Synful::$config->get('system.color')) {
+        if (sf_conf('system.color')) {
             switch ($level) {
                 case LogLevel::INFO: {
-                    $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'white');
+                    $return_string = '['.sf_color($head, 'light_green', null, 'reset').'] ';
+                    $return_string .= sf_color($message, 'white');
                     break;
                 }
 
                 case LogLevel::WARN: {
-                    $return_string = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'yellow', null, 'yellow');
+                    $return_string = '['.sf_color($head, 'light_red', null, 'reset').'] ';
+                    $return_string .= sf_color($message, 'yellow', null, 'yellow');
                     break;
                 }
 
                 case LogLevel::NOTE: {
-                    $return_string = '['.Colors::cs($head, 'light_blue', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'white');
+                    $return_string = '['.sf_color($head, 'light_blue', null, 'reset').'] ';
+                    $return_string .= sf_color($message, 'white');
                     break;
                 }
 
                 case LogLevel::ERRO: {
-                    $return_string = '['.Colors::cs($head, 'light_red', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'red', null, 'red');
+                    $return_string = '['.sf_color($head, 'light_red', null, 'reset').'] ';
+                    $return_string .= sf_color($message, 'red', null, 'red');
                     break;
                 }
 
                 case LogLevel::RESP: {
-                    $return_string = '['.Colors::cs($head, 'light_cyan', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'cyan', null, 'cyan');
+                    $return_string = '['.sf_color($head, 'light_cyan', null, 'reset').'] ';
+                    $return_string .= sf_color($message, 'cyan', null, 'cyan');
                     break;
                 }
 
                 default: {
-                    $return_string = '['.Colors::cs($head, 'light_green', null, 'reset').'] ';
-                    $return_string .= Colors::cs($message, 'white');
+                    $return_string = '['.sf_color($head, 'light_green', null, 'reset').'] ';
+                    $return_string .= sf_color($message, 'white');
                 }
             }
         } else {
