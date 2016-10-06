@@ -2,10 +2,6 @@
 
 namespace Synful\CLIParser;
 
-use Synful\IO\IOFunctions;
-use Synful\IO\LogLevel;
-use Synful\Util\Colors;
-
 /**
  * Class used for handling CLI Parameteres.
  */
@@ -136,11 +132,11 @@ class CLIParser
                     }
                 }
             } else {
-                IOFunctions::out(LogLevel::INFO, $this->getUsage(), false, false, false);
+                sf_out($this->getUsage(), false, false, false);
                 exit(3);
             }
         } else {
-            IOFunctions::out(LogLevel::INFO, $this->getUsage(), false, false, false);
+            sf_out($this->getUsage(), false, false, false);
             exit(3);
         }
     }
@@ -159,8 +155,8 @@ class CLIParser
 
         foreach ($this->valid_arguments as $argument) {
             $usage .= str_pad('', 8);
-            $usage .= Colors::cs(str_pad($argument['name'], $largest_argument), 'light_cyan');
-            $usage .= ' : '.Colors::cs($argument['description'], 'yellow').PHP_EOL;
+            $usage .= sf_color(str_pad($argument['name'], $largest_argument), 'light_cyan');
+            $usage .= ' : '.sf_color($argument['description'], 'yellow').PHP_EOL;
             $usage .= str_pad('Argument Usage : ', 29, ' ', STR_PAD_LEFT);
             $usage .= $argument['usage'].PHP_EOL.PHP_EOL;
 
