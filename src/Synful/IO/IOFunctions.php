@@ -5,7 +5,6 @@ namespace Synful\IO;
 use Synful\Util\Framework\SynfulException;
 use Synful\Util\Framework\Response;
 use Synful\Util\Config\ConfigLoader;
-use Synful\Util\ASCII\Colors;
 use Synful\Synful;
 use Gestalt\Configuration;
 use Exception;

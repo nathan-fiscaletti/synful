@@ -23,5 +23,4 @@ if (! function_exists('sf_color')) {
     {
         return \Synful\Util\ASCII\Colors::cs($string, $foreground_color, $background_color, $reset);
     }
-
 }

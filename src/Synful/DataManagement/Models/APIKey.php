@@ -153,7 +153,7 @@ class APIKey
                 true
             );
             if ($apik == null) {
-               sf_warn('Failed to get master key.');
+                sf_warn('Failed to get master key.');
             }
             $ret = $apik;
         } else {

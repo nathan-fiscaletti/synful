@@ -7,7 +7,6 @@ use Synful\DataManagement\SqlConnection;
 use Synful\Standalone\Standalone;
 use Synful\CLIParser\CLIParser;
 use Synful\IO\IOFunctions;
-use Synful\IO\LogLevel;
 use Synful\Util\Security\Encryption;
 use Synful\Util\ASCII\Colors;
 use Synful\Util\Framework\SynfulException;
@@ -254,7 +253,7 @@ class Synful
 
         try {
             if (self::$validator->validateRequest($data, $response) && self::$validator->validateHandler($data, $response)) {
-                $handler = &Synful::$request_handlers[$data['handler']];
+                $handler = &self::$request_handlers[$data['handler']];
                 $api_key = null;
                 if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
                     $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
