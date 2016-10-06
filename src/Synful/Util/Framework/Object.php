@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\Util;
+namespace Synful\Util\Framework;
 
 use Exception;
 

@@ -2,7 +2,7 @@
 
 namespace Synful\Util\Security;
 
-use Synful\Util\Object;
+use Synful\Util\Framework\Object;
 
 /**
  * Class used for encrypting requests and responses.

@@ -3,7 +3,7 @@
 namespace Synful\RequestHandlers;
 
 use Synful\RequestHandlers\Interfaces\RequestHandler;
-use Synful\Response;
+use Synful\Util\Framework\Response;
 use Synful\Synful;
 
 /**
