@@ -4,7 +4,7 @@ if (! function_exists('sf_sql')) {
 
     /**
      * Execute a Sql Query on the primary Synful Database.
-     * 
+     *
      * @param string     $query
      * @param array      $binds
      * @param bool       $return
@@ -14,5 +14,4 @@ if (! function_exists('sf_sql')) {
     {
         return \Synful\Synful::$sql->executeSql($query, $binds, $return);
     }
-
 }

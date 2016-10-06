@@ -5,7 +5,7 @@
  | Synful Functions
  |------------------------------------------------------------------------------
  |
- | This set of functions is used to abstract the 
+ | This set of functions is used to abstract the
  | calls to the Primary Synful functions.
  */
 

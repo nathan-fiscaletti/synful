@@ -20,7 +20,6 @@ if (! function_exists('sf_encrypt')) {
     {
         return \Synful\Synful::$crypto->encrypt($data);
     }
-
 }
 
 if (! function_exists('sf_decrypt')) {
@@ -35,5 +34,4 @@ if (! function_exists('sf_decrypt')) {
     {
         return \Synful\Synful::$crypto->decrypt($data);
     }
-
 }
