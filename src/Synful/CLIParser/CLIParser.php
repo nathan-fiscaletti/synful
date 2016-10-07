@@ -165,8 +165,6 @@ class CLIParser
             $usage .= ' : '.sf_color($argument['description'], 'yellow').PHP_EOL;
             $usage .= str_pad('Argument Usage : ', 29, ' ', STR_PAD_LEFT);
             $usage .= $argument['usage'].PHP_EOL.PHP_EOL;
-
-            $spaces = '';
         }
 
         return $usage.PHP_EOL;
