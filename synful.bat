@@ -10,7 +10,9 @@ if not exist "./src/Synful/Synful.php" (
             composer install --no-scripts --no-dev
         ) else if "%1"=="update" (
             composer update
-        ) else goto run
+        ) else if "%1"=="vagrant" (
+            vagrant up
+        ) goto run
     ) else (
         :run
         cd public
