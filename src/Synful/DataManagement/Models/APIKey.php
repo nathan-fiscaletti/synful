@@ -127,8 +127,8 @@ class APIKey
         );
 
         while ($ip_list = mysqli_fetch_assoc($fw)) {
-            $this->ip_firewall[$ip_list['ip']]
-           = [
+            $this->ip_firewall[$ip_list['ip']] =
+            [
              'ip'   => $ip_list['ip'],
              'block' => $ip_list['block'],
             ];
@@ -182,8 +182,8 @@ class APIKey
      */
     public function firewallIP($ip, $block = 0)
     {
-        $this->ip_firewall[$ip]
-       = [
+        $this->ip_firewall[$ip] =
+        [
          'ip'   => $ip,
          'block' => $block,
         ];
