@@ -143,6 +143,7 @@ class CLIParser
             sf_out($this->getUsage(), false, false, false);
             $exit = true;
         }
+
         return $exit;
     }
 
@@ -190,6 +191,7 @@ class CLIParser
                 break;
             }
         }
+
         return $exit;
     }
 

@@ -447,7 +447,7 @@ class CLIHandlers
             );
             sf_info('', true, false, false);
         }
-        
+
         return true;
     }
 
