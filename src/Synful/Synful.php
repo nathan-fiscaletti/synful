@@ -210,16 +210,16 @@ class Synful
                 sf_note(
                     '    Loaded Request Handler: '.$class_name.
                     (($is_public)
-                        ? Colors::cs(
+                        ? sf_color(
                             ' (Public)',
                             'light_green'
                         )
                         : (($is_private)
-                            ? Colors::cs(
+                            ? sf_color(
                                 ' (Private)',
                                 'light_red'
                             )
-                            : Colors::cs(
+                            : sf_color(
                                 ' (Standard)',
                                 'light_blue'
                             )

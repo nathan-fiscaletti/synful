@@ -28,6 +28,27 @@ class SynfulException extends Exception
     public $response;
 
     /**
+     * Error message definitions
+     *
+     * @var array
+     */
+    private $error_messages = [
+        1001 => 'Unknown handler. Handlers are case sensitive.',
+        1002 => 'No handler defined.',
+        1003 => 'Bad request: Invalid request field supplied. Not array.',
+        1004 => 'Bad Request: Invalid request field supplied. Not Object.',
+        1005 => 'Bad Request: Missing request field.',
+        1006 => 'Bad Request: Invalid user or key.',
+        1007 => 'Bad Request: Key has been disabled.',
+        1008 => 'Bad Request: Key not whitelisted for specified handler.',
+        1009 => 'Bad Request: No key defined.',
+        1010 => 'Bad Request: No user defined.',
+        1011 => 'Access Denied: Source IP is not whitelisted while on whitelist only key.',
+        1012 => 'Access Denied: Source IP Blacklisted.',
+        1013 => 'Bad Request.',
+    ];
+
+    /**
      * Construct the SynfulException object.
      *
      * @param \Synful\Response $response
@@ -65,75 +86,10 @@ class SynfulException extends Exception
         if ($this->message != null) {
             $ret = $this->message;
         } else {
-            switch ($error) {
-                case 1001: {
-                    $ret = 'Unknown handler. Handlers are case sensitive.';
-                    break;
-                }
-
-                case 1002: {
-                    $ret = 'No handler defined.';
-                    break;
-                }
-
-                case 1003: {
-                    $ret = 'Bad request: Invalid request field supplied. Not array.';
-                    break;
-                }
-
-                case 1004: {
-                    $ret = 'Bad Request: Invalid request field supplied. Not Object.';
-                    break;
-                }
-
-                case 1005: {
-                    $ret = 'Bad Request: Missing request field.';
-                    break;
-                }
-
-                case 1006: {
-                    $ret = 'Bad Request: Invalid user or key.';
-                    break;
-                }
-
-                case 1007: {
-                    $ret = 'Bad Request: Key has been disabled.';
-                    break;
-                }
-
-                case 1008: {
-                    $ret = 'Bad Request: Key not whitelisted for specified handler.';
-                    break;
-                }
-
-                case 1009: {
-                    $ret = 'Bad Request: No key defined.';
-                    break;
-                }
-
-                case 1010: {
-                    $ret = 'Bad Request: No user defined.';
-                    break;
-                }
-
-                case 1011: {
-                    $ret = 'Access Denied: Source IP is not whitelisted while on whitelist only key.';
-                    break;
-                }
-
-                case 1012: {
-                    $ret = 'Access Denied: Source IP Blacklisted.';
-                    break;
-                }
-
-                case 1013: {
-                    $ret = 'Bad Request.';
-                    break;
-                }
-
-                default: {
-                    $ret = 'Unknown Error';
-                }
+            if (in_array($error, array_keys($this->error_messages))) {
+                $ret = $this->error_messages[$error];
+            } else {
+                $ret = $this->error_messages[1013];
             }
         }
 

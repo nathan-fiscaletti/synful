@@ -21,6 +21,6 @@ if (! function_exists('sf_color')) {
      */
     function sf_color($string, $foreground_color = null, $background_color = null, $reset = 'white')
     {
-        return \Synful\Util\ASCII\Colors::cs($string, $foreground_color, $background_color, $reset);
+        return \Synful\Util\ASCII\Colors::colorString($string, $foreground_color, $background_color, $reset);
     }
 }

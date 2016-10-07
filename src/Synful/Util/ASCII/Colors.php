@@ -53,7 +53,7 @@ class Colors
      * @param  string $reset
      * @return string
      */
-    public static function cs($string, $foreground_color = null, $background_color = null, $reset = 'white')
+    public static function colorString($string, $foreground_color = null, $background_color = null, $reset = 'white')
     {
         if (Synful::$config->get('system.color')) {
             $colored_string = '';
