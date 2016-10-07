@@ -28,7 +28,7 @@ class SynfulException extends Exception
     public $response;
 
     /**
-     * Error message definitions
+     * Error message definitions.
      *
      * @var array
      */
