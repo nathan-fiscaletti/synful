@@ -1,9 +1,9 @@
 # Synful API Framework
-[![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)
-[![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable)](https://packagist.org/packages/nafisc/synful)
-[![Total Downloads](https://poser.pugx.org/nafisc/synful/downloads)](https://packagist.org/packages/nafisc/synful)
-[![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable)](https://packagist.org/packages/nafisc/synful)
-[![License](https://poser.pugx.org/nafisc/synful/license)](https://packagist.org/packages/nafisc/synful)
+[![StyleCI](https://styleci.io/repos/66602627/shield?style=flat-square)](https://styleci.io/repos/66602627)
+[![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat-square)](https://packagist.org/packages/nafisc/synful)
+[![Total Downloads](https://poser.pugx.org/nafisc/synful/downloads?format=flat-square)](https://packagist.org/packages/nafisc/synful)
+[![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable?format=flat-square)](https://packagist.org/packages/nafisc/synful)
+[![License](https://poser.pugx.org/nafisc/synful/license?format=flat-square)](https://packagist.org/packages/nafisc/synful)
 
 [synful.io](http://synful.io/) - Simplified custom API's in minutes. 
 
