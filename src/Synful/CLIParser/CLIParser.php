@@ -136,11 +136,11 @@ class CLIParser
                     }
                 }
             } else {
-                sf_out($this->getUsage(), false, false, false);
+                sf_info($this->getUsage(), false, false, false);
                 $exit = true;
             }
         } else {
-            sf_out($this->getUsage(), false, false, false);
+            sf_info($this->getUsage(), false, false, false);
             $exit = true;
         }
 
