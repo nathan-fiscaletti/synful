@@ -95,7 +95,9 @@ class Synful
         // Parse CLI
         if (self::isCommandLineInterface()) {
             $cli_parser = new CLIParser();
-            $cli_parser->parseCLI();
+            if ($cli_parser->parseCLI()) {
+                exit();
+            }
         }
 
         global $argv;
@@ -252,7 +254,8 @@ class Synful
         $response = new Response(['requesting_ip' => $ip]);
 
         try {
-            if (self::$validator->validateRequest($data, $response) && self::$validator->validateHandler($data, $response)) {
+            if (self::$validator->validateRequest($data, $response) &&
+                self::$validator->validateHandler($data, $response)) {
                 $handler = &self::$request_handlers[$data['handler']];
                 $api_key = null;
                 if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {

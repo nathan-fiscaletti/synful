@@ -14,6 +14,7 @@ class CLIHandlers
      * Handles listsql CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function listSql($value)
     {
@@ -66,13 +67,15 @@ class CLIHandlers
                 false
             );
         }
-        exit(0);
+
+        return true;
     }
 
     /**
      * Handles whitelistonly CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function whiteListOnly($value)
     {
@@ -96,7 +99,6 @@ class CLIHandlers
                 false,
                 false
             );
-            exit();
         } else {
             if (! APIKey::keyExists($param_data[0])) {
                 sf_error(
@@ -105,7 +107,6 @@ class CLIHandlers
                     false,
                     false
                 );
-                exit(2);
             } else {
                 $key = APIKey::getKey($param_data[0]);
                 $key->whitelist_only = ($param_data[1] === 'true') ? 1 : 0;
@@ -127,15 +128,17 @@ class CLIHandlers
                     false,
                     false
                 );
-                exit();
             }
         }
+
+        return true;
     }
 
     /**
      * Handle showfirewall CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function showFireWall($value)
     {
@@ -161,18 +164,18 @@ class CLIHandlers
                     false
                 );
             }
-
-            exit();
         } else {
             sf_error('No key was found with that ID.', true, false, false);
-            exit();
         }
+
+        return true;
     }
 
     /**
      * Handle firewallip CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function fireWallIp($value)
     {
@@ -196,7 +199,6 @@ class CLIHandlers
                 false,
                 false
             );
-            exit(2);
         } else {
             $id = $firewall_data[0];
             $ip = $firewall_data[1];
@@ -222,18 +224,19 @@ class CLIHandlers
                     false,
                     false
                 );
-                exit(0);
             } else {
                 sf_error('No key was found with that ID.', true, false, false);
-                exit(2);
             }
         }
+
+        return true;
     }
 
     /**
      * Handle unfirewallip CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function unFireWallIp($value)
     {
@@ -257,7 +260,6 @@ class CLIHandlers
                 false,
                 false
             );
-            exit(2);
         } else {
             $id = $firewall_data[0];
             $ip = $firewall_data[1];
@@ -273,7 +275,6 @@ class CLIHandlers
                         false,
                         false
                     );
-                    exit(0);
                 } else {
                     sf_error(
                         'That IP does not have a firewall entry on that key.',
@@ -281,7 +282,6 @@ class CLIHandlers
                         false,
                         false
                     );
-                    exit(2);
                 }
             } else {
                 sf_error(
@@ -290,15 +290,17 @@ class CLIHandlers
                     false,
                     false
                 );
-                exit(2);
             }
         }
+
+        return true;
     }
 
     /**
      * Handle disablekey CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function disableKey($value)
     {
@@ -313,17 +315,18 @@ class CLIHandlers
                 false,
                 false
             );
-            exit(0);
         } else {
             sf_error('No key was found with that ID.', true, false, false);
-            exit(2);
         }
+
+        return true;
     }
 
     /**
      * Handle enablekey CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function enableKey($value)
     {
@@ -338,17 +341,18 @@ class CLIHandlers
                 false,
                 false
             );
-            exit(0);
         } else {
             sf_error('No key was found with that ID.', true, false, false);
-            exit(2);
         }
+
+        return true;
     }
 
     /**
      * Handle removekey CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function removeKey($value)
     {
@@ -362,17 +366,18 @@ class CLIHandlers
                 false,
                 false
             );
-            exit(0);
         } else {
             sf_error('No key was found with that ID.', true, false, false);
-            exit(2);
         }
+
+        return true;
     }
 
     /**
      * Handle listkeys CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function listKeys($value)
     {
@@ -442,13 +447,15 @@ class CLIHandlers
             );
             sf_info('', true, false, false);
         }
-        exit(0);
+        
+        return true;
     }
 
     /**
      * Handle createkey CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function createKey($value)
     {
@@ -467,7 +474,6 @@ class CLIHandlers
                 false,
                 false
             );
-            exit(2);
         } else {
             $email = $new_key_data[0];
             $name = str_replace('_', ' ', $new_key_data[1]);
@@ -487,12 +493,10 @@ class CLIHandlers
                     false,
                     false
                 );
-                exit(2);
             }
 
             if (APIKey::keyExists($email)) {
                 sf_error('A key with that email is already defined.', true, false, false);
-                exit(2);
             }
 
             sf_info('Creating new key with data: ', true, false, false);
@@ -509,15 +513,16 @@ class CLIHandlers
                     false
                 );
             }
-
-            exit(2);
         }
+
+        return true;
     }
 
     /**
      * Handle createhandler CLI Parameter.
      *
      * @param  string $value
+     * @return bool
      */
     public static function createHandler($value)
     {
@@ -530,7 +535,6 @@ class CLIHandlers
                 'TitleCase recommended.',
                 true
             );
-            exit(0);
         } else {
             if (! file_exists('./src/Synful/RequestHandlers/'.$value.'.php')) {
                 file_put_contents(
@@ -545,35 +549,41 @@ class CLIHandlers
                 chmod('./src/Synful/RequestHandlers/'.$value.'.php', 0700);
                 exec('chmod +x ./src/Synful/RequestHandlers/'.$value.'.php');
                 exec('php composer.phar dumpautoload');
-                exit(0);
             } else {
                 sf_error('Error: A request handler by that name already exists.', true);
-                exit(0);
             }
         }
+
+        return true;
     }
 
     /**
      * Handle standalone CLI Parameter.
      *
      * @param bool $value
+     * @return bool
      */
     public static function standAlone($value)
     {
         Synful::$config->set('system.standalone', ($value == null) ? true : json_decode($value));
         $str = (sf_conf('system.standalone')) ? 'true' : 'false';
         sf_note('CONFIG: Set standalone mode to \''.$str.'\'.');
+
+        return false;
     }
 
     /**
      * Handle color CLI Parameter.
      *
      * @param bool $value
+     * @return bool
      */
     public static function enableColor($value)
     {
         Synful::$config->set('system.color', ($value == null) ? true : json_decode($value));
         $str = (sf_conf('system.color')) ? 'true' : 'false';
         sf_note('CONFIG: Set console color to \''.$str.'\'.');
+
+        return false;
     }
 }

@@ -120,6 +120,7 @@ class CLIParser
     public function parseCLI()
     {
         global $argv;
+        $exit = false;
 
         if (! empty($argv)) {
             $this->script_name = $argv[0];
@@ -128,17 +129,21 @@ class CLIParser
             if ($this->validateCLI()) {
                 if (count($argv) > 0) {
                     foreach ($argv as $arg) {
-                        $this->parseArgument($arg);
+                        if ($this->parseArgument($arg)) {
+                            $exit = true;
+                            break;
+                        }
                     }
                 }
             } else {
                 sf_out($this->getUsage(), false, false, false);
-                exit(3);
+                $exit = true;
             }
         } else {
             sf_out($this->getUsage(), false, false, false);
-            exit(3);
+            $exit = true;
         }
+        return $exit;
     }
 
     /**
@@ -169,20 +174,23 @@ class CLIParser
     /**
      * Parse a command line argument.
      *
-     * @param string $argument
+     * @param  string $argument
+     * @return bool
      */
     private function parseArgument($argument)
     {
+        $exit = false;
         foreach ($this->valid_arguments as $valid_argument) {
             $cli_data = explode('=', $argument);
             if ($valid_argument['name'] == $cli_data[0]) {
-                call_user_func(
+                $exit = call_user_func(
                     '\Synful\CLIParser\CLIHandlers::'.$valid_argument['callback'],
                     (count($cli_data) > 1) ? $cli_data[1] : null
                 );
                 break;
             }
         }
+        return $exit;
     }
 
     /**
@@ -193,16 +201,16 @@ class CLIParser
     private function validateCLI()
     {
         global $argv;
-        $ret = true;
+        $valid = true;
 
         foreach ($argv as $arg) {
             if (! array_key_exists(explode('=', $arg)[0], $this->valid_arguments)) {
                 trigger_error('Unknown parameter: \''.$arg.'\'', E_USER_WARNING);
-                $ret = false;
+                $valid = false;
                 break;
             }
         }
 
-        return $ret;
+        return $valid;
     }
 }
