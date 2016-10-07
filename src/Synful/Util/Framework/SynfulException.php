@@ -56,7 +56,7 @@ class SynfulException extends Exception
      * @param int              $error
      * @param string           $message
      */
-    public function __construct($response, $code, $error, $message = '')
+    public function __construct($response, $code, $error, $message = null)
     {
         $this->message = ($message == null) ? $this->getErrorMessage($error) : $message;
         parent::__construct($this->message, $error);
