@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\IO;
+namespace Synful\Util\IO;
 
 use Synful\Util\Framework\SynfulException;
 use Synful\Util\Framework\Response;
