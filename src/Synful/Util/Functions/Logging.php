@@ -21,8 +21,8 @@ if (! function_exists('sf_info')) {
      */
     function sf_info($data, $force = false, $block_header_on_echo = false, $write_to_file = true)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::INFO,
+        return \Synful\Util\IO\IOFunctions::out(
+            \Synful\Util\IO\LogLevel::INFO,
             $data,
             $force,
             $block_header_on_echo,
@@ -44,8 +44,8 @@ if (! function_exists('sf_warn')) {
      */
     function sf_warn($data, $force = false, $block_header_on_echo = false, $write_to_file = true)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::WARN,
+        return \Synful\Util\IO\IOFunctions::out(
+            \Synful\Util\IO\LogLevel::WARN,
             $data,
             $force,
             $block_header_on_echo,
@@ -67,8 +67,8 @@ if (! function_exists('sf_error')) {
      */
     function sf_error($data, $force = false, $block_header_on_echo = false, $write_to_file = true)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::ERRO,
+        return \Synful\Util\IO\IOFunctions::out(
+            \Synful\Util\IO\LogLevel::ERRO,
             $data,
             $force,
             $block_header_on_echo,
@@ -90,8 +90,8 @@ if (! function_exists('sf_note')) {
      */
     function sf_note($data, $force = false, $block_header_on_echo = false, $write_to_file = true)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::NOTE,
+        return \Synful\Util\IO\IOFunctions::out(
+            \Synful\Util\IO\LogLevel::NOTE,
             $data,
             $force,
             $block_header_on_echo,
@@ -110,8 +110,8 @@ if (! function_exists('sf_respond')) {
      */
     function sf_respond($data)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::RESP,
+        return \Synful\Util\IO\IOFunctions::out(
+            \Synful\Util\IO\LogLevel::RESP,
             $data,
             true,
             true,

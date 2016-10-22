@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\DataManagement\Models;
+namespace Synful\Util\DataManagement\Models;
 
 /**
  * Class used for handling API Permissions in database.

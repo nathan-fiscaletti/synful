@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\CLIParser;
+namespace Synful\Util\CLIParser;
 
 /**
  * Class used for handling CLI Parameteres.
@@ -183,7 +183,7 @@ class CLIParser
             $cli_data = explode('=', $argument);
             if ($valid_argument['name'] == $cli_data[0]) {
                 $exit = call_user_func(
-                    '\Synful\CLIParser\CLIHandlers::'.$valid_argument['callback'],
+                    '\Synful\Util\CLIParser\CLIHandlers::'.$valid_argument['callback'],
                     (count($cli_data) > 1) ? $cli_data[1] : null
                 );
                 break;
