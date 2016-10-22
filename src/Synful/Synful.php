@@ -66,6 +66,9 @@ class Synful
         // Make sure we aren't using that pesky PHP < 7.0
         0 <=> 0;
 
+        // Load Global Functions
+        self::loadGlobalFunctions();
+
         // Load console color codes
         Colors::loadColors();
 
@@ -237,6 +240,18 @@ class Synful
                 'Note: Request handlers are case sensitive. '.
                 'We recommend using TitleCase for request handler names.'
             );
+        }
+    }
+
+    /**
+     * Automatically include all function libraries stored in Global Functions.
+     */
+    private static function loadGlobalFunctions()
+    {
+        foreach (scandir('./src/Synful/Util/Functions') as $func_lib) {
+            if (substr($func_lib, 0, 1) !== '.') {
+                include_once './src/Synful/Util/Functions/'.$func_lib;
+            }
         }
     }
 

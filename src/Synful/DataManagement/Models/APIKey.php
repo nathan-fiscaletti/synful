@@ -375,10 +375,7 @@ class APIKey
             if ($print_key) {
                 sf_info(
                     'New Private '.(($is_master) ? 'Master' : '').
-                    ' API Key: '.$new_key['key'],
-                    true,
-                    false,
-                    false
+                    ' API Key: '.$new_key['key']
                 );
             }
 
