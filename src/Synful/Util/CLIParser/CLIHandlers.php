@@ -1,9 +1,9 @@
 <?php
 
-namespace Synful\CLIParser;
+namespace Synful\Util\CLIParser;
 
 use Synful\Synful;
-use Synful\DataManagement\Models\APIKey;
+use Synful\Util\DataManagement\Models\APIKey;
 
 /**
  * Store handlers for CLI Parameters in this file.

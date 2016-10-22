@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\DataManagement\Models;
+namespace Synful\Util\DataManagement\Models;
 
 /**
  * Class used for managing API Keys.

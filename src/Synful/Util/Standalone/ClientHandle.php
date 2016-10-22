@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\Standalone;
+namespace Synful\Util\Standalone;
 
 use Synful\Synful;
 use Synful\Util\Framework\Object;
