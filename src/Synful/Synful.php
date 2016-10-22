@@ -2,11 +2,11 @@
 
 namespace Synful;
 
-use Synful\DataManagement\Models\APIKey;
-use Synful\DataManagement\SqlConnection;
-use Synful\Standalone\Standalone;
-use Synful\CLIParser\CLIParser;
-use Synful\IO\IOFunctions;
+use Synful\Util\DataManagement\Models\APIKey;
+use Synful\Util\DataManagement\SqlConnection;
+use Synful\Util\Standalone\Standalone;
+use Synful\Util\CLIParser\CLIParser;
+use Synful\Util\IO\IOFunctions;
 use Synful\Util\Security\Encryption;
 use Synful\Util\ASCII\Colors;
 use Synful\Util\Framework\SynfulException;
@@ -78,8 +78,8 @@ class Synful
         error_reporting(E_ALL);
 
         // Set error handler and shutdown hook
-        set_error_handler('\\Synful\\IO\\IOFunctions::catchError', E_ALL);
-        register_shutdown_function('\\Synful\\IO\\IOFunctions::onShutDown');
+        set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
+        register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
 
         // Load the configuration into system
         if (! IOFunctions::loadConfig()) {
