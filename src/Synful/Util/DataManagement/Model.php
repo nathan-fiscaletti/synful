@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\DataManagement;
+namespace Synful\Util\DataManagement;
 
 use Synful\Util\Framework\Object;
 use Synful\Synful;
