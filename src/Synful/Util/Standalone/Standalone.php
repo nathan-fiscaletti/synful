@@ -1,10 +1,10 @@
 <?php
 
-namespace Synful\Standalone;
+namespace Synful\Util\Standalone;
 
 use Synful\Synful;
-use Synful\IO\IOFunctions;
-use Synful\IO\LogLevel;
+use Synful\Util\IO\IOFunctions;
+use Synful\Util\IO\LogLevel;
 
 /**
  * Class used to handle Standalone instance of Synful.
@@ -38,7 +38,7 @@ class Standalone
             $client_port = 0;
             socket_getpeername($client, $client_ip, $client_port);
             if (Synful::$config->get('system.multithread')) {
-                (new \Synful\Standalone\ClientHandleMultiThread(
+                (new \Synful\Util\Standalone\ClientHandleMultiThread(
                     [
                         'ip' => $client_ip,
                         'port' => $client_port,
@@ -46,7 +46,7 @@ class Standalone
                     ]
                 ))->start();
             } else {
-                (new \Synful\Standalone\ClientHandle(
+                (new \Synful\Util\Standalone\ClientHandle(
                     [
                         'ip' => $client_ip,
                         'port' => $client_port,

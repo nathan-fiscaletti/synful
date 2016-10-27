@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\IO;
+namespace Synful\Util\IO;
 
 /**
  * Class used to store log level constants.
