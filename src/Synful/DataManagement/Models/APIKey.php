@@ -196,13 +196,13 @@ class APIKey
      */
     public function unfirewallIP($ip)
     {
-        for ($i = 0; $i < count($this->ip_firewall); $i++) {
-            if ($this->ip_firewall[$i]['ip'] == $ip) {
+        foreach ($this->ip_firewall as $firewall_entry) {
+            if ($firewall_entry['ip'] == $ip) {
                 array_push(
                     $this->removed_ip_firewall,
-                    $this->ip_firewall[$i]
+                    $firewall_entry
                 );
-                unset($this->ip_firewall[$i]);
+                unset($this->ip_firewall[$firewall_entry['ip']]);
                 break;
             }
         }
@@ -299,7 +299,7 @@ class APIKey
                     ]
                 );
             }
-        }//end foreach
+        }
 
         // Update Permissions
         $this->permissions->save();
