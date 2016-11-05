@@ -540,6 +540,7 @@ class CLIHandlers
         } else {
             sf_error('Output standard must be used before any other argument in order to be active.', true, false, false);
         }
+
         return false;
     }
 
