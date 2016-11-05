@@ -127,7 +127,7 @@ class IOFunctions
         }
 
         foreach ($output as $line) {
-            echo $line.((! $block_header_on_echo && !$__minimal_output)
+            echo $line.((! $block_header_on_echo && ! $__minimal_output)
                 ? sf_color('', 'reset', null, 'reset') : '')."\r\n";
         }
     }

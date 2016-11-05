@@ -381,12 +381,12 @@ class APIKey
                         ' API Key: '.$new_key['key']
                     );
                 } else {
-                   sf_info($new_key['key'], true, true);
+                    sf_info($new_key['key'], true, true);
                 }
             }
 
             $ret = self::getKey($email);
-        }//end if
+        }
 
         return $ret;
     }

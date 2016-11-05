@@ -110,7 +110,7 @@ class Synful
         global $argv;
         if (self::isCommandLineInterface() && (
             count($argv) < 1 || substr($argv[0], 0, 6) == 'output'
-        ) && ! Synful::$config->get('system.standalone')) {
+        ) && ! self::$config->get('system.standalone')) {
             sf_info($cli_parser->getUsage(), true, false, false);
             exit(3);
         }

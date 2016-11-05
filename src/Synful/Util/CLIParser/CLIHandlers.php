@@ -522,7 +522,7 @@ class CLIHandlers
 
     /**
      * Handle the output CLI Parameter.
-     * (Must be first parameter or else it will not fire.)
+     * (Must be first parameter or else it will not fire.).
      *
      * @param string $value
      * @return bool
