@@ -538,7 +538,13 @@ class CLIHandlers
                 $__minimal_output = false;
             }
         } else {
-            sf_error('Output standard must be used before any other argument in order to be active.', true, false, false);
+            sf_error(
+                'Output standard must be used before any other argument in'.
+                ' order to be active.',
+                true,
+                false,
+                false
+            );
         }
 
         return false;
