@@ -42,6 +42,13 @@ class CLIParser
             'callback' => 'createKey',
         ],
 
+        'output' => [
+            'name' => 'output',
+            'usage' => 'output=<minimal/full>',
+            'description' => 'Minimizes output when creating new api keys. Must be set before `createkey`.',
+            'callback' => 'output',
+        ],
+
         'removekey' => [
                 'name' => 'removekey',
                 'usage' => 'removekey=<email/ID>',

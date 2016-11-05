@@ -78,10 +78,11 @@ class IOFunctions
         }
 
         $output = [];
+        global $__minimal_output;
 
         foreach (preg_split('/\n|\r\n?/', $data) as $line) {
             if ((sf_conf('system.standalone') || Synful::isCommandLineInterface()) || $force) {
-                if ($block_header_on_echo) {
+                if ($block_header_on_echo || $__minimal_output) {
                     $output[] = $line;
                 } else {
                     $out_line = '['.sf_color('SYNFUL', 'white', null, 'reset').'] ';
@@ -126,7 +127,8 @@ class IOFunctions
         }
 
         foreach ($output as $line) {
-            echo $line.((! $block_header_on_echo) ? sf_color('', 'reset', null, 'reset') : '')."\r\n";
+            echo $line.((! $block_header_on_echo && !$__minimal_output)
+                ? sf_color('', 'reset', null, 'reset') : '')."\r\n";
         }
     }
 
@@ -147,7 +149,6 @@ class IOFunctions
                 self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Fatal Error: '.$err))->response;
-                    header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
@@ -158,7 +159,6 @@ class IOFunctions
                 self::out(LogLevel::WARN, 'Warning: '.$err);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Warning: '.$err))->response;
-                    header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
@@ -169,7 +169,6 @@ class IOFunctions
                 self::out(LogLevel::NOTE, 'Notice: '.$err);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Notice: '.$err))->response;
-                    header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
@@ -180,7 +179,6 @@ class IOFunctions
                 self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Unknown Error: '.$err))->response;
-                    header('Content-Type: text/json');
                     self::out(LogLevel::RESP, json_encode($response), true, true, false);
                     exit();
                 }
