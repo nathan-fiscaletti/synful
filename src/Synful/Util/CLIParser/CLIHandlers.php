@@ -498,14 +498,16 @@ class CLIHandlers
             if (APIKey::keyExists($email)) {
                 sf_error('A key with that email is already defined.', true, false, false);
             }
+            global $__minimal_output;
 
-            sf_info('Creating new key with data: ', true, false, false);
-            sf_info('    Name: '.$name, true, false, false);
-            sf_info('    Email: '.$email, true, false, false);
+            if (! $__minimal_output) {
+                sf_info('Creating new key with data: ', true, false, false);
+                sf_info('    Name: '.$name, true, false, false);
+                sf_info('    Email: '.$email, true, false, false);
+                sf_info('------------------------------------------------', true, false, false);
+            }
 
-            sf_info('------------------------------------------------', true, false, false);
-
-            if (APIKey::addNew($name, $email, $whitelist_only, 0, true) == null) {
+            if (APIKey::addNew($name, $email, $whitelist_only, 0, true, $__minimal_output) == null) {
                 sf_error(
                     'There was an error while creating your new API Key.',
                     true,
@@ -516,6 +518,30 @@ class CLIHandlers
         }
 
         return true;
+    }
+
+    /**
+     * Handle the output CLI Parameter.
+     * (Must be first parameter or else it will not fire.).
+     *
+     * @param string $value
+     * @return bool
+     */
+    public static function output($value)
+    {
+        global $argv;
+        if (substr($argv[0], 0, 6) == 'output') {
+            global $__minimal_output;
+            if ($value == 'minimal') {
+                $__minimal_output = true;
+            } else {
+                $__minimal_output = false;
+            }
+        } else {
+            sf_error('Output standard must be used before any other argument in order to be active.', true, false, false);
+        }
+
+        return false;
     }
 
     /**
