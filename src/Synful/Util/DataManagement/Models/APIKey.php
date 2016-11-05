@@ -43,13 +43,6 @@ class APIKey
     public $whitelist_only;
 
     /**
-     * The is_master value for the key.
-     *
-     * @var bool
-     */
-    public $is_master;
-
-    /**
      * The enabled status for the key.
      *
      * @var bool
@@ -62,6 +55,13 @@ class APIKey
      * @var APIKeyPermissions
      */
     public $permissions;
+
+    /**
+     * The is_master value for the key.
+     *
+     * @var bool
+     */
+    public $is_master;
 
     /**
      * The firewall entries for the key.
@@ -143,6 +143,7 @@ class APIKey
     public static function generateMasterKey()
     {
         $ret = null;
+        global $__minimal_output;
         if (! self::isMasterSet()) {
             sf_info('No master key found. Generating new master key.');
             $apik = self::addNew(
@@ -150,7 +151,8 @@ class APIKey
                 sf_conf('security.email'),
                 0,
                 1,
-                true
+                true,
+                $__minimal_output
             );
             if ($apik == null) {
                 sf_warn('Failed to get master key.');
@@ -350,7 +352,7 @@ class APIKey
      * @param  bool $print_key
      * @return APIKey
      */
-    public static function addNew($name, $email, $whitelist_only, $is_master = 0, $print_key = false)
+    public static function addNew($name, $email, $whitelist_only, $is_master = 0, $print_key = false, $minimal = false)
     {
         $ret = null;
 
@@ -373,10 +375,14 @@ class APIKey
             );
 
             if ($print_key) {
-                sf_info(
-                    'New Private '.(($is_master) ? 'Master' : '').
-                    ' API Key: '.$new_key['key']
-                );
+                if (! $minimal) {
+                    sf_info(
+                        'New Private '.(($is_master) ? 'Master' : '').
+                        ' API Key: '.$new_key['key']
+                    );
+                } else {
+                   sf_info($new_key['key'], true, true);
+                }
             }
 
             $ret = self::getKey($email);
