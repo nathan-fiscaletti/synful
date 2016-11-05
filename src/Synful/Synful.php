@@ -12,6 +12,7 @@ use Synful\Util\ASCII\Colors;
 use Synful\Util\Framework\SynfulException;
 use Synful\Util\Framework\Validator;
 use Synful\Util\Framework\Response;
+use Synful\Util\WebListener\WebListener;
 
 class Synful
 {
@@ -66,6 +67,9 @@ class Synful
         // Make sure we aren't using that pesky PHP < 7.0
         0 <=> 0;
 
+        // Set content type
+        header('Content-Type: text/json');
+
         // Load Global Functions
         self::loadGlobalFunctions();
 
@@ -104,7 +108,9 @@ class Synful
         }
 
         global $argv;
-        if (self::isCommandLineInterface() && count($argv) < 1) {
+        if (self::isCommandLineInterface() && (
+            count($argv) < 1 || substr($argv[0], 0, 6) == 'output'
+        ) && ! self::$config->get('system.standalone')) {
             sf_info($cli_parser->getUsage(), true, false, false);
             exit(3);
         }
@@ -126,7 +132,7 @@ class Synful
             self::postStartUp();
             (new Standalone())->initialize();
         } else {
-            self::listenWeb();
+            (new WebListener())->initialize();
         }
     }
 
@@ -282,41 +288,6 @@ class Synful
         }
 
         return $response;
-    }
-
-    /**
-     * Runs the API thread on the local web server and outputs it's response in JSON format.
-     */
-    private static function listenWeb()
-    {
-        header('Content-Type: text/json');
-        if (empty($_POST['request'])) {
-            $response = (new SynfulException(null, 400, 1013))->response;
-            if (sf_conf('security.use_encryption')) {
-                sf_respond(sf_encrypt(json_encode($response)));
-            } else {
-                if (sf_conf('system.pretty_responses') || isset($_GET['pretty'])) {
-                    sf_respond(json_encode($response, JSON_PRETTY_PRINT));
-                } else {
-                    sf_respond(json_encode($response));
-                }
-            }
-        } else {
-            if (sf_conf('security.use_encryption')) {
-                $response = self::handleRequest(
-                    self::$crypto->decrypt($_POST['request']),
-                    self::getClientIP()
-                );
-                sf_respond(sf_encrypt(json_encode($response)));
-            } else {
-                $response = self::handleRequest($_POST['request'], self::getClientIP());
-                if (sf_conf('system.pretty_responses') || isset($_GET['pretty'])) {
-                    sf_respond(json_encode($response, JSON_PRETTY_PRINT));
-                } else {
-                    sf_respond(json_encode($response));
-                }
-            }
-        }
     }
 
     /**
