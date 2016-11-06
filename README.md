@@ -1,4 +1,5 @@
-# Synful API Framework
+![Synful API Framework](https://github.com/nathan-fiscaletti/synful/blob/master/Synful-Logo.png?raw=true)
+
 [![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)
 [![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat)](https://packagist.org/packages/nafisc/synful)
 [![Total Downloads](https://poser.pugx.org/nafisc/synful/downloads?format=flat)](https://packagist.org/packages/nafisc/synful)
