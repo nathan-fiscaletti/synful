@@ -295,6 +295,9 @@ class Synful
      */
     public static function testForm()
     {
+        // Load Global Functions
+        self::loadGlobalFunctions();
+
         // Load the configuration into system
         if (IOFunctions::loadConfig() && ! sf_conf('system.production')) {
             readfile('./templates/TestForm.tmpl');
@@ -309,7 +312,7 @@ class Synful
      *
      * @return string The ip of the remote client
      */
-    private static function getClientIP()
+    public static function getClientIP()
     {
         $ipaddress = '';
 

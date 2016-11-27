@@ -3,6 +3,7 @@
 namespace Synful\Util\WebListener;
 
 use Synful\Util\Framework\SynfulException;
+use Synful\Synful;
 
 /**
  * Class used to listen on web sockets.
@@ -28,13 +29,13 @@ class WebListener
             }
         } else {
             if (sf_conf('security.use_encryption')) {
-                $response = self::handleRequest(
-                    self::$crypto->decrypt($_POST['request']),
-                    self::getClientIP()
+                $response = Synful::handleRequest(
+                    Synful::$crypto->decrypt($_POST['request']),
+                    Synful::getClientIP()
                 );
                 sf_respond(sf_encrypt(json_encode($response)));
             } else {
-                $response = self::handleRequest($_POST['request'], self::getClientIP());
+                $response = Synful::handleRequest($_POST['request'], Synful::getClientIP());
                 if (sf_conf('system.pretty_responses') || (isset($_GET['pretty'])
                     && Synful::$config->get('system.allow_pretty_responses_on_get'))) {
                     sf_respond(json_encode($response, JSON_PRETTY_PRINT));
