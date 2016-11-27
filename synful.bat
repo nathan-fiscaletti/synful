@@ -12,7 +12,9 @@ if not exist "./src/Synful/Synful.php" (
             composer update
         ) else if "%1"=="vagrant" (
             vagrant up
-        ) goto run
+        ) else ( 
+            goto run
+        )
     ) else (
         :run
         cd public
