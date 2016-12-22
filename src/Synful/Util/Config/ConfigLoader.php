@@ -2,9 +2,9 @@
 
 namespace Synful\Util\Config;
 
-use Gestalt\Loaders\LoaderInterface;
-use Synful\Util\Framework\Object;
 use DirectoryIterator;
+use Synful\Util\Framework\Object;
+use Gestalt\Loaders\LoaderInterface;
 
 class ConfigLoader implements LoaderInterface
 {

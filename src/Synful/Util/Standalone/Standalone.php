@@ -3,8 +3,8 @@
 namespace Synful\Util\Standalone;
 
 use Synful\Synful;
-use Synful\Util\IO\IOFunctions;
 use Synful\Util\IO\LogLevel;
+use Synful\Util\IO\IOFunctions;
 
 /**
  * Class used to handle Standalone instance of Synful.

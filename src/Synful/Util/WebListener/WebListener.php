@@ -2,8 +2,8 @@
 
 namespace Synful\Util\WebListener;
 
-use Synful\Util\Framework\SynfulException;
 use Synful\Synful;
+use Synful\Util\Framework\SynfulException;
 
 /**
  * Class used to listen on web sockets.
