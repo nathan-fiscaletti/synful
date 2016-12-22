@@ -14,14 +14,14 @@ class SqlExample implements RequestHandler
     /**
      * Function for handling request and returning data as a Response object.
      *
-     * @param  Response $data
+     * @param  Response $response
      * @param  bool  $is_master_request
      */
-    public function handleRequest(Response &$data, $is_master_request = false)
+    public function handleRequest(Response &$response, $is_master_request = false)
     {
 
         // Create a reference to our request object
-        $request = &$data->request;
+        $request = &$response->request;
 
         // Define SQL Databases and Servers in 'SqlServers.php'
         // Create a reference to the SQL Database Connection
@@ -29,8 +29,8 @@ class SqlExample implements RequestHandler
 
         // Validate the request
         if (! isset($request['id']) || ! is_int($request['id'])) {
-            $data->code = 400;
-            $data->setResponse('error', 'Bad Request: Invalid ID supplied');
+            $response->code = 400;
+            $response->setResponse('error', 'Bad Request: Invalid ID supplied');
         } else {
             // Do not use $sql_con->openSql();
             // The connection has already been opened by Synful and will be closed as needed.
@@ -44,15 +44,15 @@ class SqlExample implements RequestHandler
             $db_row = mysqli_fetch_assoc($result);
 
             // Set the response code
-            $data->code = 200;
+            $response->code = 200;
 
             // Overload the response with the data stored in the database row
-            $data->overloadResponse($db_row);
+            $response->overloadResponse($db_row);
 
             // Alternately, you can set each response field manually
-            $data->setResponse('id', $db_row['id']);
-            $data->setResponse('name', $db_row['name']);
-            $data->setResponse('foo', 'bar');
+            $response->setResponse('id', $db_row['id']);
+            $response->setResponse('name', $db_row['name']);
+            $response->setResponse('foo', 'bar');
 
             // Do not use $sql_con->closeSql();
             // The connection will be closed as needed by Synful automatically

@@ -25,16 +25,16 @@ class PrivateHandlerExample implements RequestHandler
     /**
      * Function for handling request and returning data as a Response object.
      *
-     * @param  Response $data
+     * @param  Response $response
      * @param  bool  $is_master_request
      */
-    public function handleRequest(Response &$data, $is_master_request = false)
+    public function handleRequest(Response &$response, $is_master_request = false)
     {
-        $request_data = &$data->request;
+        $request_data = &$response->request;
 
-        $api_key = APIKey::getKey($data->requesting_email);
-        $data->code = 200;
-        $data->setResponse('user_information', [
+        $api_key = APIKey::getKey($response->requesting_email);
+        $response->code = 200;
+        $response->setResponse('user_information', [
             'name' => $api_key->name,
             'email' => $api_key->email,
             'is_master' => $api_key->is_master,
