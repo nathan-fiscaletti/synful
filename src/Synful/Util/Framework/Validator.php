@@ -2,8 +2,8 @@
 
 namespace Synful\Util\Framework;
 
-use Synful\Util\DataManagement\Models\APIKey;
 use stdClass;
+use Synful\Util\DataManagement\Models\APIKey;
 
 /**
  * Class used as middle man for key authentication and request validation.

@@ -2,12 +2,12 @@
 
 namespace Synful\Util\IO;
 
-use Synful\Util\Framework\SynfulException;
-use Synful\Util\Framework\Response;
-use Synful\Util\Config\ConfigLoader;
+use Exception;
 use Synful\Synful;
 use Gestalt\Configuration;
-use Exception;
+use Synful\Util\Framework\Response;
+use Synful\Util\Config\ConfigLoader;
+use Synful\Util\Framework\SynfulException;
 
 /**
  * Class used to handle system wide IO.
