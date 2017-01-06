@@ -3,7 +3,6 @@
 
 [![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)
 [![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat)](https://packagist.org/packages/nafisc/synful)
-[![Total Downloads](https://poser.pugx.org/nafisc/synful/downloads?format=flat)](https://packagist.org/packages/nafisc/synful)
 [![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable?format=flat)](https://packagist.org/packages/nafisc/synful)
 [![License](https://poser.pugx.org/nafisc/synful/license?format=flat)](https://packagist.org/packages/nafisc/synful)
 
