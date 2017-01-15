@@ -76,26 +76,28 @@ class Synful
         // Load console color codes
         Colors::loadColors();
 
-        // Enabele error reporting
-        ini_set('display_errors', 0);
-        ini_set('display_startup_errors', 0);
-        error_reporting(E_ALL);
-
-        // Set error handler and shutdown hook
-        set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
-        register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
-
         // Load the configuration into system
         if (! IOFunctions::loadConfig()) {
             exit();
         }
 
-        // Load encryption
-        if (sf_conf('security.use_encryption')) {
-            self::$crypto = new Encryption([
-                'key' => sf_conf('security.encryption_key'),
-            ]);
+        // Enabele error reporting
+        ini_set('display_errors', 0);
+        ini_set('display_startup_errors', 0);
+        error_reporting(E_ALL);
+        if (sf_conf('system.display_errors')) {
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
         }
+
+        // Set error handler and shutdown hook
+        set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
+        register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
+
+        // Load encryption
+        self::$crypto = new Encryption([
+            'key' => sf_conf('security.encryption_key'),
+        ]);
 
         self::initializeSql();
 
@@ -267,9 +269,10 @@ class Synful
      *
      * @param  string                          $request
      * @param  string                          $ip
+     * @param  bool                            $wasEncrypted
      * @return \Synful\Util\Framework\Response
      */
-    public static function handleRequest($request, $ip)
+    public static function handleRequest($request, $ip, $wasEncrypted = false)
     {
         $data = (array) json_decode($request);
         $response = new Response(['requesting_ip' => $ip]);
@@ -280,7 +283,11 @@ class Synful
                 $handler = &self::$request_handlers[$data['handler']];
                 $api_key = null;
                 if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
-                    $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
+                    if (property_exists($handler, 'encrypted_only') && $handler->encrypted_only && $wasEncrypted) {
+                        $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
+                    } else {
+                        throw new SynfulException($response, 400, 1014);
+                    }
                 }
             }
         } catch (SynfulException $synfulException) {

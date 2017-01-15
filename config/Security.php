@@ -35,17 +35,18 @@ return [
 
     /*
      |--------------------------------------------------------------------------
-     | Use Encryption
+     | Force Encryption
      |--------------------------------------------------------------------------
      |
      | If enabled, all requests and responses will be encrypted using
-     | Synful\Util\Encryption. These functions by default use AES-256 bit
-     | encryption however, this is only there as an example. You should not use
-     | it in production. You can however place custom code in the Encryption
-     | class to handle your own encryption.
+     | Synful\Util\Encryption regardless of the responses configuration.
+     | These functions by default use AES-256 bit encryption however, this is
+     | only there as an example. You should not use it in production.
+     | You can however place custom code in the Encryption class to
+     | handle your own encryption.
      */
 
-    'use_encryption' => false,
+    'force_encryption' => false,
 
     /*
      |--------------------------------------------------------------------------
