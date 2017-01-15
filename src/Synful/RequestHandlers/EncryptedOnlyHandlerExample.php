@@ -8,7 +8,7 @@ use Synful\RequestHandlers\Interfaces\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class RequestHandlerName implements RequestHandler
+class EncryptedOnlyHandlerExample implements RequestHandler
 {
     /**
      * To make this a public request handler, change is_public to 'true'.
@@ -26,9 +26,9 @@ class RequestHandlerName implements RequestHandler
     public function __construct()
     {
         $this->is_public = false;
+        $this->encrypted_only = true;
         $this->white_list_keys = [
             'john@acme.com',
-            'person@place.com',
         ];
     }
 
@@ -42,6 +42,9 @@ class RequestHandlerName implements RequestHandler
     {
         $request_data = &$response->request;
 
-        // Insert your code here
+        // Respond with a message telling the client that the
+        // encrypted request was received.
+        $response->code = 200;
+        $response->setResponse('Encrypted Request Received', 'true');
     }
 }

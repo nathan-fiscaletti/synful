@@ -38,28 +38,34 @@ class ClientHandle
      */
     public function start()
     {
-        $input = socket_read($this->client_socket, 2024);
+        $input = socket_read($this->client_socket, 4096);
 
         sf_info(
             'Client REQ ('.$this->ip.':'.$this->port.')'
         );
 
-        if (sf_conf('security.use_encryption')) {
-            $response = Synful::handleRequest(sf_decrypt($input), $this->ip);
-            socket_write(
-                $this->client_socket,
-                sf_encrypt(json_encode($response)),
-                strlen(sf_encrypt(json_encode($response)))
-            );
+        if (empty($input)) {
+            $response = (new SynfulException(null, 400, 1013))->response;
         } else {
             $response = Synful::handleRequest($input, $this->ip);
-            socket_write($this->client_socket, json_encode($response), strlen(json_encode($response)));
+
+            if (! sf_is_json($input)) {
+                if (sf_is_json(sf_decrypt($input))) {
+                    $response = Synful::handleRequest(
+                        Synful::$crypto->decrypt($input),
+                        Synful::getClientIP(),
+                        true
+                    );
+                    $response->encrypt_response = true;
+                }
+            }
         }
 
         sf_info(
-            'Server RES ('.$this->ip.':'.$this->port.') : '.json_encode($response)
+            'Client RES ('.$this->ip.':'.$this->port.')'
         );
 
+        socket_write($this->client_socket, $response->serialize(), strlen($response->serialize()));
         socket_close($this->client_socket);
         unset($this);
     }
