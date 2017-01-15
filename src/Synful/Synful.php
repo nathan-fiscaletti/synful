@@ -283,7 +283,7 @@ class Synful
                 $handler = &self::$request_handlers[$data['handler']];
                 $api_key = null;
                 if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
-                    if (property_exists($handler, 'encrypted_only') {
+                    if (property_exists($handler, 'encrypted_only')) {
                         if (($handler->encrypted_only && $wasEncrypted) || ! $handler->encrypted_only) {
                             $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
                         } else {
