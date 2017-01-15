@@ -34,3 +34,17 @@ if (! function_exists('sf_conf')) {
         return \Synful\Synful::$config->get($key);
     }
 }
+
+if (! function_exists('sf_is_json')) {
+    /**
+     * Check if a string is valid JSON.
+     *
+     * @param  string
+     * @return boolean
+     */
+    function sf_is_json($string)
+    {
+        json_decode($string);
+        return (json_last_error() == JSON_ERROR_NONE);
+    }
+}
