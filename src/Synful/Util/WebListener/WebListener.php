@@ -18,31 +18,25 @@ class WebListener
     {
         if (empty($_POST['request'])) {
             $response = (new SynfulException(null, 400, 1013))->response;
-            if (sf_conf('security.use_encryption')) {
-                sf_respond(sf_encrypt(json_encode($response)));
-            } else {
-                if (sf_conf('system.pretty_responses') || isset($_GET['pretty'])) {
-                    sf_respond(json_encode($response, JSON_PRETTY_PRINT));
-                } else {
-                    sf_respond(json_encode($response));
-                }
-            }
+            sf_respond($response->serialize());
         } else {
-            if (sf_conf('security.use_encryption')) {
-                $response = Synful::handleRequest(
-                    Synful::$crypto->decrypt($_POST['request']),
-                    Synful::getClientIP()
-                );
-                sf_respond(sf_encrypt(json_encode($response)));
-            } else {
-                $response = Synful::handleRequest($_POST['request'], Synful::getClientIP());
-                if (sf_conf('system.pretty_responses') || (isset($_GET['pretty'])
-                    && Synful::$config->get('system.allow_pretty_responses_on_get'))) {
-                    sf_respond(json_encode($response, JSON_PRETTY_PRINT));
-                } else {
-                    sf_respond(json_encode($response));
+            $response = Synful::handleRequest(
+                $_POST['request'],
+                Synful::getClientIP()
+            );
+
+            if (! sf_is_json($_POST['request'])) {
+                if (sf_is_json(sf_decrypt($_POST['request']))) {
+                    $response = Synful::handleRequest(
+                        Synful::$crypto->decrypt($_POST['request']),
+                        Synful::getClientIP(),
+                        true
+                    );
+                    $response->encrypt_response = true;
                 }
             }
+
+            sf_respond($response->serialize());
         }
     }
 }
