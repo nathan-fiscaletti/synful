@@ -40,11 +40,12 @@ if (! function_exists('sf_is_json')) {
      * Check if a string is valid JSON.
      *
      * @param  string
-     * @return boolean
+     * @return boo
      */
     function sf_is_json($string)
     {
         json_decode($string);
-        return (json_last_error() == JSON_ERROR_NONE);
+
+        return json_last_error() == JSON_ERROR_NONE;
     }
 }

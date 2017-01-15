@@ -49,8 +49,8 @@ class Response implements JsonSerializable
     /**
      * If set to true, the response will be encrypted based on the encryption
      * functions defined in the security section of the config.
-     * 
-     * @var boolean
+     *
+     * @var bool
      */
     public $encrypt_response = false;
 
@@ -98,7 +98,7 @@ class Response implements JsonSerializable
     /**
      * Get the serialized version of the response.
      * Encryption will be used if needed.
-     * 
+     *
      * @return string
      */
     public function serialize()
