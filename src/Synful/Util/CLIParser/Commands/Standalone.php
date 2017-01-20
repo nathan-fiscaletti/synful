@@ -2,8 +2,8 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\CLIParser\Commands\Util\Command;
 use Synful\Synful;
+use Synful\Util\CLIParser\Commands\Util\Command;
 
 class Standalone extends Command
 {
@@ -19,6 +19,7 @@ class Standalone extends Command
 
         $this->exec = function () {
             Synful::$config->set('system.standalone', true);
+
             return true;
         };
     }

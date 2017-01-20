@@ -258,7 +258,7 @@ class APIKey
              $this->email,
              $this->whitelist_only,
              $this->is_master,
-             (int)$this->enabled,
+             (int) $this->enabled,
              $this->id,
             ]
         );

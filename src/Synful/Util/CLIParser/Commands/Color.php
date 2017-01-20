@@ -2,8 +2,8 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\CLIParser\Commands\Util\Command;
 use Synful\Synful;
+use Synful\Util\CLIParser\Commands\Util\Command;
 
 class Color extends Command
 {
@@ -19,6 +19,7 @@ class Color extends Command
 
         $this->exec = function ($bool) {
             Synful::$config->set('system.color', $bool);
+
             return ($bool) ? 1 : 0;
         };
     }
