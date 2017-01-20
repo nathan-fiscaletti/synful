@@ -35,7 +35,6 @@ abstract class Command
      */
     public $required;
 
-
     /**
      * The exec callback to be called when the command is run.
      *
