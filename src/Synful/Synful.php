@@ -5,15 +5,18 @@ namespace Synful;
 use Synful\Util\ASCII\Colors;
 use Synful\Util\IO\IOFunctions;
 use Synful\Util\Framework\Response;
-use Synful\Util\CLIParser\CLIParser;
 use Synful\Util\Framework\Validator;
 use Synful\Util\Security\Encryption;
+use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\Standalone\Standalone;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\SynfulException;
 use Synful\Util\DataManagement\Models\APIKey;
 use Synful\Util\DataManagement\SqlConnection;
 
+/**
+ * Primary class for framework.
+ */
 class Synful
 {
     /**
@@ -101,20 +104,35 @@ class Synful
 
         self::initializeSql();
 
-        // Parse CLI
+        // Parse Command Line
         if (self::isCommandLineInterface()) {
-            $cli_parser = new CLIParser();
-            if ($cli_parser->parseCLI()) {
-                exit();
-            }
-        }
+            global $argv;
+            $commandLine = new CommandLine();
+            $results = $commandLine->parse($argv);
 
-        global $argv;
-        if (self::isCommandLineInterface() && (
-            count($argv) < 1 || substr($argv[0], 0, 6) == 'output'
-        ) && ! self::$config->get('system.standalone')) {
-            sf_info($cli_parser->getUsage(), true, false, false);
-            exit(3);
+            // Output Results
+            if ((array_key_exists('hc', $results) && ! $results['hc']) ||
+                ! array_key_exists('hc', $results)) {
+                if (array_key_exists('cl', $results)) {
+                    $str = (sf_conf('system.color')) ? 'true' : 'false';
+                    sf_note('CONFIG: Set console color to \''.$str.'\'.');
+                }
+
+                if (array_key_exists('s', $results)) {
+                    $str = (sf_conf('system.standalone')) ? 'true' : 'false';
+                    sf_note('CONFIG: Set standalone mode to \''.$str.'\'.');
+                }
+
+                if (array_key_exists('o', $results)) {
+                    sf_note('CONFIG: Set output level to \''.$results['o'].'\'.');
+                }
+            }
+
+            if ((count($argv) < 2 || substr($argv[1], 0, 7) == '-output' ||
+                 substr($argv[1], 0, 2) == '-o') && ! sf_conf('system.standalone')) {
+                $commandLine->printUsage();
+                exit(3);
+            }
         }
 
         // Run Pre Start up functions
@@ -125,8 +143,9 @@ class Synful
 
         // Generate a new master API key if one does not exist
         APIKey::generateMasterKey();
-
-        sf_note('Loading Request Handlers...');
+        if (self::isCommandLineInterface()) {
+            sf_note('Loading Request Handlers...', true, false, false);
+        }
         self::loadRequestHandlers();
 
         if (sf_conf('system.standalone')) {
@@ -185,7 +204,10 @@ class Synful
                         exit();
                     }
                 } catch (Exception $e) {
-                    trigger_error('Failed one or more custom databases. Please check SqlServers.php.', E_USER_WARNING);
+                    trigger_error(
+                        'Failed one or more custom databases. Please check SqlServers.php.',
+                        E_USER_WARNING
+                    );
                     exit();
                 }
             }
@@ -218,25 +240,30 @@ class Synful
                         }
                     }
                 }
-                sf_note(
-                    '    Loaded Request Handler: '.$class_name.
-                    (($is_public)
-                        ? sf_color(
-                            ' (Public)',
-                            'light_green'
-                        )
-                        : (($is_private)
+                if (self::isCommandLineInterface()) {
+                    sf_note(
+                        '    Loaded Request Handler: '.$class_name.
+                        (($is_public)
                             ? sf_color(
-                                ' (Private)',
-                                'light_red'
+                                ' (Public)',
+                                'light_green'
                             )
-                            : sf_color(
-                                ' (Standard)',
-                                'light_blue'
+                            : (($is_private)
+                                ? sf_color(
+                                    ' (Private)',
+                                    'light_red'
+                                )
+                                : sf_color(
+                                    ' (Standard)',
+                                    'light_blue'
+                                )
                             )
-                        )
-                    )
-                );
+                        ),
+                        true,
+                        false,
+                        false
+                    );
+                }
             }
         }
         if (! $enabled_request_handler) {

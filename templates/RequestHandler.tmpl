@@ -26,6 +26,7 @@ class RequestHandlerName implements RequestHandler
     public function __construct()
     {
         $this->is_public = false;
+        $this->encrypted_only = false;
         $this->white_list_keys = [
             'john@acme.com',
             'person@place.com',
