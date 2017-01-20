@@ -15,7 +15,7 @@ abstract class Command
     public $name;
 
     /**
-     * The alias for the command
+     * The alias for the command.
      *
      * @var string
      */
