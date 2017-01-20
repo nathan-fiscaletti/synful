@@ -146,40 +146,40 @@ class IOFunctions
 
         switch ($errno) {
             case E_USER_ERROR: {
-                self::out(LogLevel::ERRO, 'Fatal Error: '.$err);
+                self::out(LogLevel::ERRO, 'Fatal Error: '.$err, true, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Fatal Error: '.$err))->response;
-                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    self::out(LogLevel::RESP, json_encode($response), true, true, true);
                     exit();
                 }
                 break;
             }
 
             case E_USER_WARNING: {
-                self::out(LogLevel::WARN, 'Warning: '.$err);
+                self::out(LogLevel::WARN, 'Warning: '.$err, true, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Warning: '.$err))->response;
-                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    self::out(LogLevel::RESP, json_encode($response), true, true, true);
                     exit();
                 }
                 break;
             }
 
             case E_USER_NOTICE: {
-                self::out(LogLevel::NOTE, 'Notice: '.$err);
+                self::out(LogLevel::NOTE, 'Notice: '.$err, true, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Notice: '.$err))->response;
-                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    self::out(LogLevel::RESP, json_encode($response), true, true, true);
                     exit();
                 }
                 break;
             }
 
             default: {
-                self::out(LogLevel::ERRO, 'Unknown Error: '.$err);
+                self::out(LogLevel::ERRO, 'Unknown Error: '.$err, true, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Unknown Error: '.$err))->response;
-                    self::out(LogLevel::RESP, json_encode($response), true, true, false);
+                    self::out(LogLevel::RESP, json_encode($response), true, true, true);
                     exit();
                 }
                 break;

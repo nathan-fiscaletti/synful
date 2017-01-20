@@ -19,6 +19,7 @@
     },
     "require": {
         "php": ">=7.0",
-        "samrap/gestalt": ">=0.1.2"
+        "samrap/gestalt": ">=0.1.2",
+        "nafisc/parameterparser": "^0.1.9"
     }
 }
