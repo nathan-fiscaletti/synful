@@ -18,7 +18,6 @@ class WhitelistOnly extends Command
         $this->alias = 'white-list-only';
 
         $this->exec = function ($email_or_id, $value) {
-            
             if (! is_numeric($value)) {
                 sf_error('Value must be an integer of either 0 or 1.');
             } else {
