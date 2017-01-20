@@ -7,18 +7,18 @@ use Synful\Util\DataManagement\Models\APIKey;
 
 class UnfirewallIp extends Command
 {
-	/**
-	 * Construct the UnfirewallIp command.
-	 */
-	public function __construct()
-	{
-		$this->name = 'uf';
-		$this->description = 'Removes the firewall entry for the specified ip on the specified key.';
-		$this->required = false;
+    /**
+     * Construct the UnfirewallIp command.
+     */
+    public function __construct()
+    {
+        $this->name = 'uf';
+        $this->description = 'Removes the firewall entry for the specified ip on the specified key.';
+        $this->required = false;
 
-		$this->alias = 'unfirewall-ip';
-		$this->exec = function ($email_or_id, $ip) {
-			$id = $email_or_id;
+        $this->alias = 'unfirewall-ip';
+        $this->exec = function ($email_or_id, $ip) {
+            $id = $email_or_id;
             if (APIKey::keyExists($id)) {
                 $key = APIKey::getKey($id);
                 if ($key->isFirewalled($ip)) {
@@ -49,6 +49,6 @@ class UnfirewallIp extends Command
             }
 
             exit;
-		};
-	}
+        };
+    }
 }
