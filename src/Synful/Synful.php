@@ -111,7 +111,7 @@ class Synful
             $results = $commandLine->parse($argv);
 
             // Output Results
-            if ((array_key_exists('hc', $results) && !$results['hc']) ||
+            if ((array_key_exists('hc', $results) && ! $results['hc']) ||
                 ! array_key_exists('hc', $results)) {
                 if (array_key_exists('cl', $results)) {
                     $str = (sf_conf('system.color')) ? 'true' : 'false';

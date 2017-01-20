@@ -2,10 +2,9 @@
 
 namespace Synful\Util\CLIParser;
 
-use ParameterParser\ParameterCluster;
 use ParameterParser\ParameterParser;
 use ParameterParser\ParameterClosure;
-use Synful\Util\ASCII\Colors;
+use ParameterParser\ParameterCluster;
 
 /**
  * Class used for parsing command line.
@@ -30,7 +29,7 @@ class CommandLine
         $this->loadParameters();
         $parameterParser = new ParameterParser($argv, $this->parameters);
 
-        $parameterParser->setErrorHandler(function(ParameterClosure $parameter, $errorMessage){
+        $parameterParser->setErrorHandler(function (ParameterClosure $parameter, $errorMessage) {
             sf_error($errorMessage, true, false, false);
             sf_error('Usage: '.$parameter->getUsage(), true, false, false);
             sf_error('Check `-help` for mor information.');
@@ -38,7 +37,7 @@ class CommandLine
         });
 
         $results = $parameterParser->parse();
-        
+
         if (! $parameterParser->isValid()) {
             $this->printUsage();
             exit;
@@ -74,7 +73,7 @@ class CommandLine
             }
         }
 
-        $this->parameters->setDefault(function ($parameter){
+        $this->parameters->setDefault(function ($parameter) {
             return -1;
         });
     }
