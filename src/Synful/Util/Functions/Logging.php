@@ -112,6 +112,7 @@ if (! function_exists('sf_respond')) {
     function sf_respond($code, $data, $to_file = false)
     {
         http_response_code($code);
+
         return \Synful\Util\IO\IOFunctions::out(
             \Synful\Util\IO\LogLevel::RESP,
             $data,
