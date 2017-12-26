@@ -105,17 +105,19 @@ if (! function_exists('sf_respond')) {
     /**
      * Prints output to the console and logs with RESP log type.
      *
+     * @param  int     $code
      * @param  string  $data
      * @return mixed
      */
-    function sf_respond($data)
+    function sf_respond($code, $data, $to_file = false)
     {
+        http_response_code($code);
         return \Synful\Util\IO\IOFunctions::out(
             \Synful\Util\IO\LogLevel::RESP,
             $data,
             true,
             true,
-            false
+            $to_file
         );
     }
 }
