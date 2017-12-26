@@ -92,7 +92,7 @@ class Response implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return ['code' => $this->code, 'response' => $this->response];
+        return $this->response;
     }
 
     /**

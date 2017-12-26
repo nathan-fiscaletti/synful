@@ -149,7 +149,7 @@ class IOFunctions
                 self::out(LogLevel::ERRO, 'Fatal Error: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Fatal Error: '.$err))->response;
-                    self::out(LogLevel::RESP, $response->serialize(), true, true, true);
+                    sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
                 break;
@@ -159,7 +159,7 @@ class IOFunctions
                 self::out(LogLevel::WARN, 'Warning: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Warning: '.$err))->response;
-                    self::out(LogLevel::RESP, $response->serialize(), true, true, true);
+                    sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
                 break;
@@ -169,7 +169,7 @@ class IOFunctions
                 self::out(LogLevel::NOTE, 'Notice: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Notice: '.$err))->response;
-                    self::out(LogLevel::RESP, $response->serialize(), true, true, true);
+                    sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
                 break;
@@ -179,7 +179,7 @@ class IOFunctions
                 self::out(LogLevel::ERRO, 'Unknown Error: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(null, 500, $errno, 'Unknown Error: '.$err))->response;
-                    self::out(LogLevel::RESP, $response->serialize(), true, true, true);
+                    sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
                 break;

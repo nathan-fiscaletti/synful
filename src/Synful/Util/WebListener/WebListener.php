@@ -18,7 +18,7 @@ class WebListener
     {
         if (empty($_POST['request'])) {
             $response = (new SynfulException(null, 400, 1013))->response;
-            sf_respond($response->serialize());
+            sf_respond($response->code, $response->serialize());
         } else {
             $response = Synful::handleRequest(
                 $_POST['request'],
@@ -36,7 +36,7 @@ class WebListener
                 }
             }
 
-            sf_respond($response->serialize());
+            sf_respond($response->code, $response->serialize());
         }
     }
 }
