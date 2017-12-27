@@ -141,8 +141,7 @@ class Synful
         // Instatiate new validator
         self::$validator = new Validator();
 
-        // Generate a new master API key if one does not exist
-        APIKey::generateMasterKey();
+        // Load request handlers
         if (self::isCommandLineInterface()) {
             sf_note('Loading Request Handlers...', true, false, false);
         }
@@ -312,12 +311,12 @@ class Synful
                 if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
                     if (property_exists($handler, 'encrypted_only')) {
                         if (($handler->encrypted_only && $wasEncrypted) || ! $handler->encrypted_only) {
-                            $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
+                            $handler->handleRequest($response);
                         } else {
                             throw new SynfulException($response, 400, 1014);
                         }
                     } else {
-                        $handler->handleRequest($response, ($api_key == null) ? false : $api_key->is_master);
+                        $handler->handleRequest($response);
                     }
                 }
             }
@@ -394,8 +393,7 @@ class Synful
             sf_sql(
                 'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
                 '`name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
-                '`whitelist_only` INT NOT NULL , `is_master` INT NOT NULL, `enabled` INT NOT NULL , '.
-                'PRIMARY KEY (`id`)) ENGINE = MyISAM;'
+                '`whitelist_only` INT NOT NULL , `enabled` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;'
             )
 
             && sf_sql(
