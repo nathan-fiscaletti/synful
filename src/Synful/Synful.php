@@ -11,7 +11,6 @@ use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\Standalone\Standalone;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\SynfulException;
-use Synful\Util\DataManagement\Models\APIKey;
 use Synful\Util\DataManagement\SqlConnection;
 
 /**
