@@ -39,7 +39,7 @@ class CreateKey extends Command
                         sf_info('------------------------------------------------', true, false, false);
                     }
 
-                    if (APIKey::addNew($name, $email, $whitelist_only, 0, true, $__minimal_output) == null) {
+                    if (APIKey::addNew($name, $email, $whitelist_only, true, $__minimal_output) == null) {
                         sf_error(
                             'There was an error while creating your new API Key.',
                             true,

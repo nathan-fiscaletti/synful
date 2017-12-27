@@ -32,7 +32,7 @@ class CommandLine
         $parameterParser->setErrorHandler(function (ParameterClosure $parameter, $errorMessage) {
             sf_error($errorMessage, true, false, false);
             sf_error('Usage: '.$parameter->getUsage(), true, false, false);
-            sf_error('Check `-help` for mor information.');
+            sf_error('Check `-help` for more information.');
             exit;
         });
 

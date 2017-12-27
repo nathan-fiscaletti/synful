@@ -18,7 +18,7 @@ class ListKeys extends Command
         $this->exec = function () {
             sf_info('API Key List', true, false, false);
             sf_info('---------------------------------------------------', true, false, false);
-            $sql_result = sf_sql('SELECT * FROM `api_keys` ORDER BY `is_master` DESC', [], true);
+            $sql_result = sf_sql('SELECT * FROM `api_keys`', [], true);
             while ($row = mysqli_fetch_assoc($sql_result)) {
                 sf_info(
                     'Belongs To: '.sf_color($row['name'], 'light_blue'),
@@ -35,22 +35,6 @@ class ListKeys extends Command
                 sf_info(
                     '    Whitelist-Only : '.
                     (($row['whitelist_only'])
-                        ? sf_color(
-                            'true',
-                            'light_green'
-                        )
-                        : sf_color(
-                            'false',
-                            'light_red'
-                        )
-                    ),
-                    true,
-                    false,
-                    false
-                );
-                sf_info(
-                    '    Is-Master      : '.
-                    (($row['is_master'])
                         ? sf_color(
                             'true',
                             'light_green'

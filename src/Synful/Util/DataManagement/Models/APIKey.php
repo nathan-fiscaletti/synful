@@ -57,13 +57,6 @@ class APIKey
     public $permissions;
 
     /**
-     * The is_master value for the key.
-     *
-     * @var bool
-     */
-    public $is_master;
-
-    /**
      * The firewall entries for the key.
      *
      * @var array
@@ -100,7 +93,6 @@ class APIKey
         $this->name = $result['name'];
         $this->email = $result['email'];
         $this->whitelist_only = $result['whitelist_only'];
-        $this->is_master = $result['is_master'];
         $this->enabled = $result['enabled'];
 
         $this->permissions = new APIKeyPermissions(
@@ -109,13 +101,6 @@ class APIKey
             sf_conf('permissions.get_data'),
             sf_conf('permissions.mod_data')
         );
-
-        if ($this->is_master) {
-            $this->permissions->put_data = 1;
-            $this->permissions->get_data = 1;
-            $this->permissions->mod_data = 1;
-            $this->permissions->save();
-        }
 
         $fw = sf_sql(
             'SELECT * FROM `ip_firewall` WHERE `api_key_id` = ?',
@@ -133,36 +118,6 @@ class APIKey
              'block' => $ip_list['block'],
             ];
         }
-    }
-
-    /*
-     * Generates a master API Key if one does not already exist.
-     *
-     * @return \Synful\DataManagement\Models\APIKey
-     */
-    public static function generateMasterKey()
-    {
-        $ret = null;
-        global $__minimal_output;
-        if (! self::isMasterSet()) {
-            sf_info('No master key found. Generating new master key.');
-            $apik = self::addNew(
-                sf_conf('security.name'),
-                sf_conf('security.email'),
-                0,
-                1,
-                true,
-                $__minimal_output
-            );
-            if ($apik == null) {
-                sf_warn('Failed to get master key.');
-            }
-            $ret = $apik;
-        } else {
-            $ret = self::getMasterKey();
-        }
-
-        return $ret;
     }
 
     /**
@@ -249,15 +204,14 @@ class APIKey
         // Update the API Keys Entry
         sf_sql(
             'UPDATE `api_keys` SET `api_key` = ?, `name` = ?, '.
-            '`email` = ?, `whitelist_only` = ?, `is_master` = ?, '.
+            '`email` = ?, `whitelist_only` = ?, '.
             '`enabled` = ? WHERE `id` = ?',
             [
-             'sssssss',
+             'ssssss',
              $this->key,
              $this->name,
              $this->email,
              $this->whitelist_only,
-             $this->is_master,
              (int) $this->enabled,
              $this->id,
             ]
@@ -348,11 +302,10 @@ class APIKey
      * @param  string  $name
      * @param  string  $email
      * @param  int $whitelist_only
-     * @param  int $is_master
      * @param  bool $print_key
      * @return APIKey
      */
-    public static function addNew($name, $email, $whitelist_only, $is_master = 0, $print_key = false, $minimal = false)
+    public static function addNew($name, $email, $whitelist_only, $print_key = false, $minimal = false)
     {
         $ret = null;
 
@@ -361,15 +314,14 @@ class APIKey
 
             sf_sql(
                 'INSERT INTO `api_keys` (`api_key`, `name`, `email`, '.
-                '`whitelist_only`, `is_master`, `enabled`) VALUES '.
-                '(?, ?, ?, ?, ?, ?)',
+                '`whitelist_only`, `enabled`) VALUES '.
+                '(?, ?, ?, ?, ?)',
                 [
-                 'ssssss',
+                 'sssss',
                  $new_key['hash'],
                  $name,
                  $email,
                  $whitelist_only,
-                 $is_master,
                  1,
                 ]
             );
@@ -377,8 +329,7 @@ class APIKey
             if ($print_key) {
                 if (! $minimal) {
                     sf_info(
-                        'New Private '.(($is_master) ? 'Master' : '').
-                        ' API Key: '.$new_key['key']
+                        'New Private API Key: '.$new_key['key']
                     );
                 } else {
                     sf_info($new_key['key'], true, true);
@@ -427,37 +378,6 @@ class APIKey
     public static function keyExists($id)
     {
         return self::getKey($id) != null;
-    }
-
-    /**
-     * Returns the master key if one exists in the system.
-     *
-     * @return APIKey
-     */
-    public static function getMasterKey()
-    {
-        $result = sf_sql(
-            'SELECT * FROM `api_keys` where `is_master` = 1',
-            [],
-            true
-        );
-        $ret = null;
-
-        if (mysqli_num_rows($result) > 0) {
-            $ret = new self(mysqli_fetch_assoc($result)['id']);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Checks if the master key has already been set.
-     *
-     * @return bool
-     */
-    public static function isMasterSet()
-    {
-        return self::getMasterKey() != null;
     }
 
     /**
