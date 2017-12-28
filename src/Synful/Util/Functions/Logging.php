@@ -120,7 +120,7 @@ if (! function_exists('sf_input')) {
         );
         $out_line = '['.sf_color('SYNFUL', 'white', null, 'reset').'] ';
         $out_line .= \Synful\Util\IO\IOFunctions::parseLogstring(
-            \Synful\Util\IO\LogLevel::INFO,
+            $level,
             'INFO',
             '> '
         );
