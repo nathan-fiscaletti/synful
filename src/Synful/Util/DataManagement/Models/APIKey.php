@@ -249,6 +249,17 @@ class APIKey
                      (int) $firewall_entry['block'],
                     ]
                 );
+            } else {
+                sf_sql(
+                    'UPDATE `ip_firewall` SET `block`=? WHERE '.
+                    '`api_key_id`=? AND `ip`=?',
+                    [
+                     'iis',
+                     (int) $firewall_entry['block'],
+                     (int) $this->id,
+                     $firewall_entry['ip'],
+                    ]
+                );
             }
         }
     }
