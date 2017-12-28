@@ -127,19 +127,13 @@ class Synful
             }
         }
 
-        // Run Pre Start up functions
-        self::preStartUp();
-
         // Instatiate new validator
         self::$validator = new Validator();
 
         // Load request handlers
-        if (self::isCommandLineInterface()) {
-            sf_note('Loading Request Handlers...', true, false, false);
-        }
-
         self::loadRequestHandlers();
 
+        // Initialize WebListener
         (new WebListener())->initialize();
     }
 
@@ -391,20 +385,5 @@ class Synful
                 ', `api_key_id` INT UNSIGNED NOT NULL , `ip` VARCHAR(255) NOT NULL , `block` INT NOT NULL '.
                 ', PRIMARY KEY (`id`) ) ENGINE = MyISAM;'
             );
-    }
-
-    /**
-     * Function to be called after startup has been completed.
-     */
-    public static function postStartUp()
-    {
-        sf_note('---------------------------------------------------', false, false, false);
-    }
-
-    /**
-     * Function to be called prior to start up running.
-     */
-    public static function preStartUp()
-    {
     }
 }
