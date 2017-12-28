@@ -8,7 +8,7 @@ use Synful\Util\CLIParser\Commands\Util\Command;
 class UpdateKey extends Command
 {
     /**
-     * Construct the CreateKey command.
+     * Construct the UpdateKey command.
      */
     public function __construct()
     {
