@@ -8,7 +8,6 @@ use Synful\Util\Framework\Response;
 use Synful\Util\Framework\Validator;
 use Synful\Util\Security\Encryption;
 use Synful\Util\CLIParser\CommandLine;
-use Synful\Util\Standalone\Standalone;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\SynfulException;
 use Synful\Util\DataManagement\SqlConnection;
@@ -61,8 +60,7 @@ class Synful
     public static $crypto;
 
     /**
-     * Initialize the Synful API instance using either Standalone Mode
-     * or Local Web Server.
+     * Initialize the Synful API instance.
      */
     public static function initialize()
     {
@@ -117,18 +115,13 @@ class Synful
                     sf_note('CONFIG: Set console color to \''.$str.'\'.');
                 }
 
-                if (array_key_exists('s', $results)) {
-                    $str = (sf_conf('system.standalone')) ? 'true' : 'false';
-                    sf_note('CONFIG: Set standalone mode to \''.$str.'\'.');
-                }
-
                 if (array_key_exists('o', $results)) {
                     sf_note('CONFIG: Set output level to \''.$results['o'].'\'.');
                 }
             }
 
             if ((count($argv) < 2 || substr($argv[1], 0, 7) == '-output' ||
-                 substr($argv[1], 0, 2) == '-o') && ! sf_conf('system.standalone')) {
+                 substr($argv[1], 0, 2) == '-o')) {
                 $commandLine->printUsage();
                 exit(3);
             }
@@ -144,15 +137,10 @@ class Synful
         if (self::isCommandLineInterface()) {
             sf_note('Loading Request Handlers...', true, false, false);
         }
+
         self::loadRequestHandlers();
 
-        if (sf_conf('system.standalone')) {
-            sf_note('Running in standalone mode...');
-            self::postStartUp();
-            (new Standalone())->initialize();
-        } else {
-            (new WebListener())->initialize();
-        }
+        (new WebListener())->initialize();
     }
 
     /**
