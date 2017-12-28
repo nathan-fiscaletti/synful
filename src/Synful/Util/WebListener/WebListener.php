@@ -16,7 +16,7 @@ class WebListener
      */
     final public function initialize()
     {
-        $json = file_get_contents("php://input");
+        $json = file_get_contents('php://input');
         if (empty($json)) {
             $response = (new SynfulException(null, 400, 1013))->response;
             sf_respond($response->code, $response->serialize());
