@@ -116,7 +116,7 @@ if (! function_exists('sf_input')) {
             'INFO',
             '> '
         );
-        
+
         return readline(
             $out_line
         );
