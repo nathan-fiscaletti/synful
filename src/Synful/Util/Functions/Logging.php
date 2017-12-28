@@ -101,11 +101,19 @@ if (! function_exists('sf_note')) {
 }
 
 if (! function_exists('sf_input')) {
-    function sf_input($data, $level)
+
+    /**
+     * Retrieves input from the user with the specified prompt.
+     *
+     * @param  string $prompt
+     * @param  int    $level
+     * @return string
+     */
+    function sf_input($prompt, $level)
     {
         \Synful\Util\IO\IOFunctions::out(
             $level,
-            $data,
+            $prompt,
             true,
             false,
             false
