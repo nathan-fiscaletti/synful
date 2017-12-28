@@ -257,7 +257,7 @@ class APIKey
                      'iis',
                      (int) $firewall_entry['block'],
                      (int) $this->id,
-                     $firewall_entry['ip']
+                     $firewall_entry['ip'],
                     ]
                 );
             }
