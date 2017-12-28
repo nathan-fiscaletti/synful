@@ -299,11 +299,11 @@ class APIKey
      * @return APIKey
      */
     public static function addNew(
-        string $name, 
-        string $email, 
-        int    $whitelist_only, 
-        int    $security_level, 
-        bool   $print_key = false, 
+        string $name,
+        string $email,
+        int    $whitelist_only,
+        int    $security_level,
+        bool   $print_key = false,
         bool   $minimal = false
     ) {
         $ret = null;
@@ -322,7 +322,7 @@ class APIKey
                  $email,
                  $whitelist_only,
                  1,
-                 $security_level
+                 $security_level,
                 ]
             );
 
