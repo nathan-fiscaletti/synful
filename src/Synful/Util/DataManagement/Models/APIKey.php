@@ -287,6 +287,32 @@ class APIKey
     }
 
     /**
+     * Regenerate the key for this API Key.
+     *
+     * @param bool $print_key
+     * @param bool $minimal
+     */
+    public function regen(
+        $print_key = false,
+        $minimal = false
+    ) {
+        $new_key = self::generateNew();
+
+        $this->key = $new_key['hash'];
+        $this->save();
+
+        if ($print_key) {
+            if (! $minimal) {
+                sf_info(
+                    'New Private API Key: '.$new_key['key']
+                );
+            } else {
+                sf_info($new_key['key'], true, true);
+            }
+        }
+    }
+
+    /**
      * Try to authenticate with a private key.
      *
      * @param  string $private_key
