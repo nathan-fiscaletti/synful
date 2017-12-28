@@ -16,19 +16,20 @@ class WebListener
      */
     final public function initialize()
     {
-        if (empty($_POST['request'])) {
+        $json = file_get_contents('php://input');
+        if (empty($json)) {
             $response = (new SynfulException(null, 400, 1013))->response;
             sf_respond($response->code, $response->serialize());
         } else {
             $response = Synful::handleRequest(
-                $_POST['request'],
+                $json,
                 Synful::getClientIP()
             );
 
-            if (! sf_is_json($_POST['request'])) {
-                if (sf_is_json(sf_decrypt($_POST['request']))) {
+            if (! sf_is_json($json)) {
+                if (sf_is_json(sf_decrypt($json))) {
                     $response = Synful::handleRequest(
-                        Synful::$crypto->decrypt($_POST['request']),
+                        Synful::$crypto->decrypt($json),
                         Synful::getClientIP(),
                         true
                     );
