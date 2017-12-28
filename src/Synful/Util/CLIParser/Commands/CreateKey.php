@@ -38,13 +38,13 @@ class CreateKey extends Command
                 } else {
                     if (APIKey::keyExists($email)) {
                         $response = null;
-                        while(
+                        while (
                             $response != 'yes' && $response != 'no' &&
                             $response != 'y' && $response != 'n'
                         ) {
                             sf_error('A key with that email is already defined.', true, false, false);
-                            $response = sf_input (
-                                'Would you like to update it with this information? (yes/no)', 
+                            $response = sf_input(
+                                'Would you like to update it with this information? (yes/no)',
                                 \Synful\Util\IO\LogLevel::INFO
                             );
                             continue;
@@ -107,7 +107,7 @@ class CreateKey extends Command
                                 false,
                                 false
                             );
-                        } else if ($response == 'no' || $response == 'n') {
+                        } elseif ($response == 'no' || $response == 'n') {
                             exit;
                         }
                     } else {
@@ -125,11 +125,11 @@ class CreateKey extends Command
 
                         if (
                             APIKey::addNew(
-                                $name, 
-                                $email, 
-                                $whitelist_only, 
-                                $security_level, 
-                                true, 
+                                $name,
+                                $email,
+                                $whitelist_only,
+                                $security_level,
+                                true,
                                 $__minimal_output
                             ) == null
                         ) {

@@ -101,7 +101,8 @@ if (! function_exists('sf_note')) {
 }
 
 if (! function_exists('sf_input')) {
-    function sf_input($data, $level) {
+    function sf_input($data, $level)
+    {
         \Synful\Util\IO\IOFunctions::out(
             $level,
             $data,
@@ -115,6 +116,7 @@ if (! function_exists('sf_input')) {
             'INFO',
             '> '
         );
+        
         return readline(
             $out_line
         );

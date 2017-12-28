@@ -12,7 +12,7 @@ use Synful\RequestHandlers\Interfaces\RequestHandler;
 class SqlExample implements RequestHandler
 {
     /**
-     * Set the security level for the RequestHandler
+     * Set the security level for the RequestHandler.
      */
     public function __construct()
     {
