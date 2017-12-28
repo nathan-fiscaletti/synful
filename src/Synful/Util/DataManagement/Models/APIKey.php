@@ -50,11 +50,11 @@ class APIKey
     public $enabled;
 
     /**
-     * The permissions object associated with the key.
+     * The security level for the key.
      *
-     * @var APIKeyPermissions
+     * @var int
      */
-    public $permissions;
+    public $security_level;
 
     /**
      * The firewall entries for the key.
@@ -94,13 +94,7 @@ class APIKey
         $this->email = $result['email'];
         $this->whitelist_only = $result['whitelist_only'];
         $this->enabled = $result['enabled'];
-
-        $this->permissions = new APIKeyPermissions(
-            $id,
-            sf_conf('permissions.put_data'),
-            sf_conf('permissions.get_data'),
-            sf_conf('permissions.mod_data')
-        );
+        $this->security_level = $result['security_level'];
 
         $fw = sf_sql(
             'SELECT * FROM `ip_firewall` WHERE `api_key_id` = ?',
@@ -205,14 +199,15 @@ class APIKey
         sf_sql(
             'UPDATE `api_keys` SET `api_key` = ?, `name` = ?, '.
             '`email` = ?, `whitelist_only` = ?, '.
-            '`enabled` = ? WHERE `id` = ?',
+            '`enabled` = ?, `security_level` = ? WHERE `id` = ?',
             [
-             'ssssss',
+             'sssssss',
              $this->key,
              $this->name,
              $this->email,
              $this->whitelist_only,
              (int) $this->enabled,
+             (int) $this->security_level,
              $this->id,
             ]
         );
@@ -256,9 +251,6 @@ class APIKey
                 );
             }
         }
-
-        // Update Permissions
-        $this->permissions->save();
     }
 
     /**
@@ -281,19 +273,18 @@ class APIKey
              $this->id,
             ]
         );
-
-        $this->permissions->delete();
     }
 
     /**
      * Try to authenticate with a private key.
      *
      * @param  string $private_key
+     * @param  int    $security_level
      * @return bool
      */
-    public function authenticate($private_key)
+    public function authenticate($private_key, $security_level)
     {
-        return password_verify($private_key, $this->key);
+        return password_verify($private_key, $this->key) && $this->security_level >= $security_level;
     }
 
     /**
@@ -302,11 +293,19 @@ class APIKey
      * @param  string  $name
      * @param  string  $email
      * @param  int $whitelist_only
+     * @param  int $security_level
      * @param  bool $print_key
+     * @param  bool $minimal
      * @return APIKey
      */
-    public static function addNew($name, $email, $whitelist_only, $print_key = false, $minimal = false)
-    {
+    public static function addNew(
+        string $name,
+        string $email,
+        int    $whitelist_only,
+        int    $security_level,
+        bool   $print_key = false,
+        bool   $minimal = false
+    ) {
         $ret = null;
 
         if (! self::keyExists($email)) {
@@ -314,15 +313,16 @@ class APIKey
 
             sf_sql(
                 'INSERT INTO `api_keys` (`api_key`, `name`, `email`, '.
-                '`whitelist_only`, `enabled`) VALUES '.
-                '(?, ?, ?, ?, ?)',
+                '`whitelist_only`, `enabled`, `security_level`) VALUES '.
+                '(?, ?, ?, ?, ?, ?)',
                 [
-                 'sssss',
+                 'ssssss',
                  $new_key['hash'],
                  $name,
                  $email,
                  $whitelist_only,
                  1,
+                 $security_level,
                 ]
             );
 

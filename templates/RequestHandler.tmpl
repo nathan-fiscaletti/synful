@@ -22,11 +22,15 @@ class RequestHandlerName implements RequestHandler
      * To make this a standard request handler, simply remove the constructor.
      * The request handler will only be accessible with API keys, but any
      * API key will be able to access it.
+     *
+     * To lock the Request Handler down to only API keys of a specific Security
+     * Level, set the `security_level` property.
      */
     public function __construct()
     {
         $this->is_public = false;
         $this->encrypted_only = false;
+        $this->security_level = 3;
         $this->white_list_keys = [
             'john@acme.com',
             'person@place.com',

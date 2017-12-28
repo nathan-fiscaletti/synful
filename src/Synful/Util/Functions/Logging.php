@@ -100,6 +100,29 @@ if (! function_exists('sf_note')) {
     }
 }
 
+if (! function_exists('sf_input')) {
+    function sf_input($data, $level)
+    {
+        \Synful\Util\IO\IOFunctions::out(
+            $level,
+            $data,
+            true,
+            false,
+            false
+        );
+        $out_line = '['.sf_color('SYNFUL', 'white', null, 'reset').'] ';
+        $out_line .= \Synful\Util\IO\IOFunctions::parseLogstring(
+            \Synful\Util\IO\LogLevel::INFO,
+            'INFO',
+            '> '
+        );
+
+        return readline(
+            $out_line
+        );
+    }
+}
+
 if (! function_exists('sf_respond')) {
 
     /**
