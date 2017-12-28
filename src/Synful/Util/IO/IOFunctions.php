@@ -212,7 +212,7 @@ class IOFunctions
      * @param  string   $message
      * @return string
      */
-    private static function parseLogstring($level, $head, $message)
+    public static function parseLogstring($level, $head, $message)
     {
         $return_string = '';
 

@@ -25,7 +25,7 @@ class TestAuth extends Command
                 exit;
             }
 
-            if (! $api_key->authenticate($key)) {
+            if (! $api_key->authenticate($key, 0)) {
                 sf_info(
                     'Authentication for APIKey with auth \''.sf_color($auth, 'light_blue').
                     '\' has '.sf_color('failed', 'light_red').'.',
@@ -40,6 +40,14 @@ class TestAuth extends Command
             sf_info(
                 'Authentication for APIKey with auth \''.sf_color($auth, 'light_blue').
                 '\' has '.sf_color('succeeded', 'light_green').'.',
+                true,
+                false,
+                false
+            );
+
+            sf_info(
+                'API Key Embedded Security: '.
+                sf_color('Level '.$api_key->security_level, 'light_blue'),
                 true,
                 false,
                 false

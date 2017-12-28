@@ -17,6 +17,7 @@ class PrivateHandlerExample implements RequestHandler
      */
     public function __construct()
     {
+        $this->security_level = 4;
         $this->white_list_keys = [
             'john@acme.com',
         ];

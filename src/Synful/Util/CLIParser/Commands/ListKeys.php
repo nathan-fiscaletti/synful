@@ -49,6 +49,12 @@ class ListKeys extends Command
                     false
                 );
                 sf_info(
+                    '    Security       : '.sf_color('Level '.$row['security_level'], 'light_green'),
+                    true,
+                    false,
+                    false
+                );
+                sf_info(
                     '    Enabled        : '.
                     (($row['enabled'])
                         ? sf_color(
