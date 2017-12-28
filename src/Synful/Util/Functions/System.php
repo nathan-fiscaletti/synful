@@ -11,8 +11,7 @@
 
 if (! function_exists('sf_init')) {
     /**
-     * Initialize the Synful API instance using either Standalone Mode
-     * or Local Web Server.
+     * Initialize the Synful API instance.
      *
      * @return mixed
      */

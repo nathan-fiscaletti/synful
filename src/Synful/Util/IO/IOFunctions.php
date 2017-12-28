@@ -80,7 +80,7 @@ class IOFunctions
         global $__minimal_output;
 
         foreach (preg_split('/\n|\r\n?/', $data) as $line) {
-            if ((sf_conf('system.standalone') || Synful::isCommandLineInterface()) || $force) {
+            if ((Synful::isCommandLineInterface()) || $force) {
                 if ($block_header_on_echo || $__minimal_output) {
                     $output[] = $line;
                 } else {
