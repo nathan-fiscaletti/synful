@@ -3,6 +3,7 @@
 namespace Synful\Util\Framework;
 
 use stdClass;
+use Synful\Synful;
 use Synful\Util\DataManagement\Models\APIKey;
 
 /**
@@ -94,7 +95,14 @@ class Validator
                                 if (is_array($handler->white_list_keys)) {
                                     if (in_array($api_key->email, $handler->white_list_keys)) {
                                         if ($api_key->enabled) {
-                                            if ($api_key->authenticate($data['key'])) {
+                                            if (
+                                                $api_key->authenticate(
+                                                    $data['key'],
+                                                    (property_exists($handler, 'security_level'))
+                                                        ? $handler->security_level
+                                                        : 0
+                                                )
+                                            ) {
                                                 return $this->validateFireWall($api_key, $response, $ip);
                                             } else {
                                                 throw new SynfulException($response, 400, 1006);
@@ -107,7 +115,14 @@ class Validator
                                     }
                                 } else {
                                     if ($api_key->enabled) {
-                                        if ($api_key->authenticate($data['key'])) {
+                                        if (
+                                            $api_key->authenticate(
+                                                $data['key'],
+                                                (property_exists($handler, 'security_level'))
+                                                    ? $handler->security_level
+                                                    : 0
+                                            )
+                                        ) {
                                             return $this->validateFireWall($api_key, $response, $ip);
                                         } else {
                                             throw new SynfulException($response, 400, 1006);
@@ -118,7 +133,14 @@ class Validator
                                 }
                             } else {
                                 if ($api_key->enabled) {
-                                    if ($api_key->authenticate($data['key'])) {
+                                    if (
+                                        $api_key->authenticate(
+                                            $data['key'],
+                                            (property_exists($handler, 'security_level'))
+                                                ? $handler->security_level
+                                                : 0
+                                        )
+                                    ) {
                                         return $this->validateFireWall($api_key, $response, $ip);
                                     } else {
                                         throw new SynfulException($response, 400, 1006);

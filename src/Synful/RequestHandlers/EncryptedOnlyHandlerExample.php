@@ -27,6 +27,7 @@ class EncryptedOnlyHandlerExample implements RequestHandler
     {
         $this->is_public = false;
         $this->encrypted_only = true;
+        $this->security_level = 4;
         $this->white_list_keys = [
             'john@acme.com',
         ];

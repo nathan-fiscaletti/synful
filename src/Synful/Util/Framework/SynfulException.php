@@ -38,7 +38,7 @@ class SynfulException extends Exception
         1003 => 'Bad request: Invalid request field supplied. Not array.',
         1004 => 'Bad Request: Invalid request field supplied. Not Object.',
         1005 => 'Bad Request: Missing request field.',
-        1006 => 'Bad Request: Invalid user or key.',
+        1006 => 'Bad Request: API Authentication failed.',
         1007 => 'Bad Request: Key has been disabled.',
         1008 => 'Bad Request: Key not whitelisted for specified handler.',
         1009 => 'Bad Request: No key defined.',

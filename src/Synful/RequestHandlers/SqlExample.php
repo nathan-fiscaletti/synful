@@ -12,6 +12,14 @@ use Synful\RequestHandlers\Interfaces\RequestHandler;
 class SqlExample implements RequestHandler
 {
     /**
+     * Set the security level for the RequestHandler
+     */
+    public function __construct()
+    {
+        $this->security_level = 4;
+    }
+
+    /**
      * Function for handling request and returning data as a Response object.
      *
      * @param  Response $response
