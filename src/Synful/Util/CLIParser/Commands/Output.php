@@ -12,7 +12,7 @@ class Output extends Command
     public function __construct()
     {
         $this->name = 'o';
-        $this->description = 'Minimizes output when creating new api keys. Must be set before `createkey`.';
+        $this->description = 'Minimizes output when creating or updating api keys. Must be set before `create-key` or `update-key`.';
         $this->required = false;
         $this->alias = 'output';
         $this->exec = function ($level) {
