@@ -3,6 +3,7 @@
 namespace Synful\Util\DataManagement;
 
 use MySqli;
+use Synful\Util\Framework\SynfulException;
 
 /**
  * Class used for handling a MySql connection.
@@ -111,45 +112,20 @@ final class SqlConnection
      * @param bool $return
      *
      * @return ResultSet
+     * @throws \Synful\Framework\SynfulException
      */
     public function executeSql($query, $binds = [], $return = false)
     {
+        if (! $this->is_open) {
+            if (! $this->openSql()) {
+                throw new SynfulException(null, 500, 1015);
+            }
+        }
+
         $id = $this->prepareStatement(count($this->prepared_statements), $query);
         $ret = null;
         if ($id !== null) {
             $ret = $this->executePreparedStatement($id, $binds, $return);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Closes the Sql connection.
-     */
-    public function closeSql()
-    {
-        if ($this->sql != null && $this->is_open) {
-            $this->sql->close();
-            $this->sql = null;
-        }
-    }
-
-    /**
-     * Open the Sql connection.
-     */
-    public function openSql()
-    {
-        $ret = false;
-
-        $this->closeSQL();
-
-        $this->sql = @new mysqli($this->host, $this->username, $this->password, $this->database, $this->port);
-
-        if ($this->sql->connect_errno) {
-            $this->sql = null;
-        } else {
-            $this->is_open = true;
-            $ret = true;
         }
 
         return $ret;
@@ -182,6 +158,16 @@ final class SqlConnection
      */
     public function escapeString($str)
     {
+        if (! $this->is_open) {
+            if (! $this->openSql()) {
+                trigger_error(
+                    'Failed one or more custom databases. Please check SqlServers.php.',
+                    E_USER_WARNING
+                );
+                exit();
+            }
+        }
+
         return $this->sql->real_escape_string(strip_tags($str));
     }
 
@@ -195,6 +181,38 @@ final class SqlConnection
         $result = $this->executeSql('SHOW TABLES', [], true);
 
         return array_column(mysqli_fetch_all($result), 0);
+    }
+
+    /**
+     * Closes the Sql connection.
+     */
+    private function closeSql()
+    {
+        if ($this->sql != null && $this->is_open) {
+            $this->sql->close();
+            $this->sql = null;
+        }
+    }
+
+    /**
+     * Open the Sql connection.
+     */
+    private function openSql()
+    {
+        $ret = false;
+
+        $this->closeSQL();
+
+        $this->sql = @new mysqli($this->host, $this->username, $this->password, $this->database, $this->port);
+
+        if ($this->sql->connect_errno) {
+            $this->sql = null;
+        } else {
+            $this->is_open = true;
+            $ret = true;
+        }
+
+        return $ret;
     }
 
     /**

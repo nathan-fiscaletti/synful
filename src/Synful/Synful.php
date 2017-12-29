@@ -25,13 +25,6 @@ class Synful
     public static $config;
 
     /**
-     * The primary MySql Connection.
-     *
-     * @var Synful\DataManagement\SqlConnection
-     */
-    public static $sql;
-
-    /**
      * The primary validator.
      *
      * @var Synful\Util\Framework\Validator
@@ -99,6 +92,8 @@ class Synful
             'key' => sf_conf('security.encryption_key'),
         ]);
 
+        // Initialize the Sql databases
+        // This does not initialize a connection.
         self::initializeSql();
 
         // Parse Command Line
@@ -153,120 +148,6 @@ class Synful
                 E_USER_WARNING
             );
             exit();
-        }
-        self::$sql = &self::$sql_databases['main.synful'];
-        self::createDefaultTables();
-    }
-
-    /**
-     * Loads all MySQL Databases into Synful.
-     */
-    private static function loadSqlServers($sqlservers)
-    {
-        foreach ($sqlservers as $server_name => $server) {
-            foreach ($server['databases'] as $database_name => $database) {
-                try {
-                    $new_sql_connection = new SqlConnection(
-                        $server['host'],
-                        $database['username'],
-                        $database['password'],
-                        $database['database'],
-                        $server['port']
-                    );
-
-                    if ($new_sql_connection->openSQL()) {
-                        self::$sql_databases[$server_name.'.'.$database_name] = $new_sql_connection;
-                    } else {
-                        trigger_error(
-                            'Failed one or more custom databases. Please check SqlServers.php.',
-                            E_USER_WARNING
-                        );
-                        exit();
-                    }
-                } catch (Exception $e) {
-                    trigger_error(
-                        'Failed one or more custom databases. Please check SqlServers.php.',
-                        E_USER_WARNING
-                    );
-                    exit();
-                }
-            }
-        }
-    }
-
-    /**
-     * Loads all request handlers stored in 'system/request_handlers' into system.
-     */
-    private static function loadRequestHandlers()
-    {
-        $enabled_request_handler = false;
-        foreach (scandir('./src/Synful/RequestHandlers') as $handler) {
-            if (substr($handler, 0, 1) !== '.' && $handler != 'Interfaces') {
-                $enabled_request_handler = true;
-                $class_name = explode('.', $handler)[0];
-                eval(
-                    '\\Synful\\Synful::$request_handlers[\''.
-                    $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
-                    $class_name.'();'
-                );
-                $is_public = false;
-                $is_private = false;
-                if (sf_conf('security.allow_public_requests')) {
-                    if (property_exists(self::$request_handlers[$class_name], 'is_public')) {
-                        $is_public = self::$request_handlers[$class_name]->is_public;
-                    } elseif (property_exists(self::$request_handlers[$class_name], 'white_list_keys')) {
-                        if (is_array(self::$request_handlers[$class_name]->white_list_keys)) {
-                            $is_private = true;
-                        }
-                    }
-                }
-                if (self::isCommandLineInterface()) {
-                    sf_note(
-                        '    Loaded Request Handler: '.$class_name.
-                        (($is_public)
-                            ? sf_color(
-                                ' (Public)',
-                                'light_green'
-                            )
-                            : (($is_private)
-                                ? sf_color(
-                                    ' (Private)',
-                                    'light_red'
-                                )
-                                : sf_color(
-                                    ' (Standard)',
-                                    'light_blue'
-                                )
-                            )
-                        ),
-                        true,
-                        false,
-                        false
-                    );
-                }
-            }
-        }
-        if (! $enabled_request_handler) {
-            sf_warn(
-                'No request handlers found. '.
-                'Use \'php synful.php createhandler=HandlerName\' to create a new handler.'
-            );
-            sf_warn(
-                'Note: Request handlers are case sensitive. '.
-                'We recommend using TitleCase for request handler names.'
-            );
-        }
-    }
-
-    /**
-     * Automatically include all function libraries stored in Global Functions.
-     */
-    private static function loadGlobalFunctions()
-    {
-        foreach (scandir('./src/Synful/Util/Functions') as $func_lib) {
-            if (substr($func_lib, 0, 1) !== '.') {
-                include_once './src/Synful/Util/Functions/'.$func_lib;
-            }
         }
     }
 
@@ -370,7 +251,7 @@ class Synful
      *
      * @return bool
      */
-    private static function createDefaultTables()
+    public static function createDefaultTables()
     {
         return
             sf_sql(
@@ -385,5 +266,101 @@ class Synful
                 ', `api_key_id` INT UNSIGNED NOT NULL , `ip` VARCHAR(255) NOT NULL , `block` INT NOT NULL '.
                 ', PRIMARY KEY (`id`) ) ENGINE = MyISAM;'
             );
+    }
+
+    /**
+     * Loads all MySQL Databases into Synful.
+     */
+    private static function loadSqlServers($sqlservers)
+    {
+        foreach ($sqlservers as $server_name => $server) {
+            foreach ($server['databases'] as $database_name => $database) {
+                $new_sql_connection = new SqlConnection(
+                    $server['host'],
+                    $database['username'],
+                    $database['password'],
+                    $database['database'],
+                    $server['port']
+                );
+
+                self::$sql_databases[$server_name.'.'.$database_name] = $new_sql_connection;
+            }
+        }
+    }
+
+    /**
+     * Loads all request handlers stored in 'system/request_handlers' into system.
+     */
+    private static function loadRequestHandlers()
+    {
+        $enabled_request_handler = false;
+        foreach (scandir('./src/Synful/RequestHandlers') as $handler) {
+            if (substr($handler, 0, 1) !== '.' && $handler != 'Interfaces') {
+                $enabled_request_handler = true;
+                $class_name = explode('.', $handler)[0];
+                eval(
+                    '\\Synful\\Synful::$request_handlers[\''.
+                    $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
+                    $class_name.'();'
+                );
+                $is_public = false;
+                $is_private = false;
+                if (sf_conf('security.allow_public_requests')) {
+                    if (property_exists(self::$request_handlers[$class_name], 'is_public')) {
+                        $is_public = self::$request_handlers[$class_name]->is_public;
+                    } elseif (property_exists(self::$request_handlers[$class_name], 'white_list_keys')) {
+                        if (is_array(self::$request_handlers[$class_name]->white_list_keys)) {
+                            $is_private = true;
+                        }
+                    }
+                }
+                if (self::isCommandLineInterface()) {
+                    sf_note(
+                        '    Loaded Request Handler: '.$class_name.
+                        (($is_public)
+                            ? sf_color(
+                                ' (Public)',
+                                'light_green'
+                            )
+                            : (($is_private)
+                                ? sf_color(
+                                    ' (Private)',
+                                    'light_red'
+                                )
+                                : sf_color(
+                                    ' (Standard)',
+                                    'light_blue'
+                                )
+                            )
+                        ),
+                        true,
+                        false,
+                        false
+                    );
+                }
+            }
+        }
+        if (! $enabled_request_handler) {
+            sf_warn(
+                'No request handlers found. '.
+                'Use \'php synful.php createhandler=HandlerName\' to create a new handler.'
+            );
+            sf_warn(
+                'Note: Request handlers are case sensitive. '.
+                'We recommend using TitleCase for request handler names.'
+            );
+        }
+    }
+
+    /**
+     * Automatically include all function libraries stored in Global Functions.
+     */
+    private static function loadGlobalFunctions()
+    {
+        foreach (scandir('./src/Synful/Util/Functions') as $func_lib) {
+            if (substr($func_lib, 0, 1) !== '.') {
+                include_once './src/Synful/Util/Functions/'.$func_lib;
+            }
+        }
     }
 }
