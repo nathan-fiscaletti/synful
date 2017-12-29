@@ -62,6 +62,9 @@ Vagrant.configure("2") do |config|
   cd /var/www/html/
   composer install --no-scripts >/dev/null 2>&1
 
+  echo "Creating default MySql tables..."
+  ./synful -ct
+
   echo "Done!"
   echo "MySql Credentials: [ Username = root, Password = password, Database = synful ]"
   echo "You can access your Synful API at one of the following addresses:";for ip in $( hostname -I ); do echo "    http://"$ip"/"; done;

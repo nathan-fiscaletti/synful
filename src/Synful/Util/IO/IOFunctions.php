@@ -193,13 +193,9 @@ class IOFunctions
      */
     public static function onShutDown()
     {
-        if (Synful::$sql != null) {
-            Synful::$sql->closeSQL();
-        }
-
         if (count(Synful::$sql_databases) > 0) {
-            foreach (Synful::$sql_databases as $database) {
-                $database->closeSQL();
+            foreach (Synful::$sql_databases as &$database) {
+                $database = null;
             }
         }
     }
