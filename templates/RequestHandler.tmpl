@@ -11,31 +11,45 @@ use Synful\Util\Framework\RequestHandler;
 class RequestHandlerName implements RequestHandler
 {
     /**
-     * To make this a public request handler, change is_public to 'true'.
-     * Note: When set to 'true', this request handler
-     * will not require an API Key.
+     * Set the `is_public` property to make this  a public request handler.
+     * When a request handler is set to public, it won't require an API key.
      *
-     * To make this a private request handler assign an array of API Keys to the
-     * 'white_list_keys' property which will make this handler only allow
-     * connections using those API Keys.
+     * Note If you disable allow_public_requests in Security.php,
+     * this will not matter and an API key will always be required.
      *
-     * To make this a standard request handler, simply remove the constructor.
-     * The request handler will only be accessible with API keys, but any
-     * API key will be able to access it.
+     * Note: If you are using only public RequestHandlers, you will not
+     * need any database configuration to run Synful.
      *
-     * To lock the Request Handler down to only API keys of a specific Security
-     * Level, set the `security_level` property.
+     * @var bool
      */
-    public function __construct()
-    {
-        $this->is_public = false;
-        $this->encrypted_only = false;
-        $this->security_level = 3;
-        $this->white_list_keys = [
-            'john@acme.com',
-            'person@place.com',
-        ];
-    }
+    public $is_public = true;
+
+    /**
+     * Set the security level for the RequestHandler.
+     * Only API keys with this security level or
+     * higher can access this RequestHandler.
+     *
+     * @var int
+     */
+    public $security_level = 0;
+
+    /**
+     * To make this an encrypted only RequestHandler
+     * set the `encrypted_only` property of the class.
+     *
+     * @var boolean
+     */
+    public $encrypted_only = false;
+
+    /**
+     * Assign an array of API Keys to the 'white_list_keys' property to make
+     * this handler only allow connections using those API Keys.
+     *
+     * @var array
+     */
+    public $white_list_keys = [
+        'john@acme.com',
+    ];
 
     /**
      * Function for handling request and returning data as a Response object.
