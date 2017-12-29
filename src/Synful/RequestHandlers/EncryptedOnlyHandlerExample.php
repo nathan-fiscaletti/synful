@@ -14,7 +14,7 @@ class EncryptedOnlyHandlerExample implements RequestHandler
      * To make this an encrypted only RequestHandler
      * set the `encrypted_only` property of the class.
      *
-     * @var boolean
+     * @var bool
      */
     public $encrypted_only = true;
 
