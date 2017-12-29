@@ -3,7 +3,7 @@
 namespace Synful\RequestHandlers;
 
 use Synful\Util\Framework\Response;
-use Synful\RequestHandlers\Interfaces\RequestHandler;
+use Synful\Util\Framework\RequestHandler;
 
 /**
  * New Request Handler Class.

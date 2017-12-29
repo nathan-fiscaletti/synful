@@ -4,7 +4,7 @@ namespace Synful\RequestHandlers;
 
 use Synful\Synful;
 use Synful\Util\Framework\Response;
-use Synful\RequestHandlers\Interfaces\RequestHandler;
+use Synful\Util\Framework\RequestHandler;
 
 /**
  * Class used to demonstrate Custom Sql Connections.
