@@ -11,14 +11,18 @@ use Synful\Util\Framework\RequestHandler;
 class GetIPExample implements RequestHandler
 {
     /**
-     * Construct the request handler as a public request handler (wont require an API key).
-     * If you disable allow_public_requests in Security.php,
+     * Set the `is_public` property to make this  a public request handler.
+     * When a request handler is set to public, it won't require an API key.
+     *
+     * Note If you disable allow_public_requests in Security.php,
      * this will not matter and an API key will always be required.
+     *
+     * Note: If you are using only public RequestHandlers, you will not
+     * need any database configuration to run Synful.
+     *
+     * @var bool
      */
-    public function __construct()
-    {
-        $this->is_public = true;
-    }
+    public $is_public = true;
 
     /**
      * Function for handling request and returning data as a Response object.

@@ -8,15 +8,16 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class EncryptedOnlyHandlerExample implements RequestHandler
+class SecurityLevelExample implements RequestHandler
 {
     /**
-     * To make this an encrypted only RequestHandler
-     * set the `encrypted_only` property of the class.
+     * Set the security level for the RequestHandler.
+     * Only API keys with this security level or
+     * higher can access this RequestHandler.
      *
-     * @var boolean
+     * @var int
      */
-    public $encrypted_only = true;
+    public $security_level = 4;
 
     /**
      * Function for handling request and returning data as a Response object.
@@ -27,9 +28,9 @@ class EncryptedOnlyHandlerExample implements RequestHandler
     {
         $request_data = &$response->request;
 
-        // Respond with a message telling the client that the
-        // encrypted request was received.
-        $response->code = 200;
-        $response->setResponse('Encrypted Request Received', 'true');
+        $response->setResponse(
+            'message',
+            'This API key has a security level equal to or greater than 4.'
+        );
     }
 }
