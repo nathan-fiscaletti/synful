@@ -15,6 +15,7 @@ else
     if [ ! -z "$1" ]; then
         if [[ "$1" == "install" ]]; then
             composer install --no-scripts --no-dev;
+            run -ct
         elif [[ "$1" == "update" ]]; then
             composer update;
         elif [[ "$1" == "vagrant" ]]; then
