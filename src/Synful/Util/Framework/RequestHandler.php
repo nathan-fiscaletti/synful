@@ -1,8 +1,6 @@
 <?php
 
-namespace Synful\RequestHandlers\Interfaces;
-
-use Synful\Util\Framework\Response;
+namespace Synful\Util\Framework;
 
 /**
  * Interface used to handle Request Handlers.
