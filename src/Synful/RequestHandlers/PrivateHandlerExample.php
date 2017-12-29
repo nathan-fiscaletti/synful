@@ -3,8 +3,8 @@
 namespace Synful\RequestHandlers;
 
 use Synful\Util\Framework\Response;
+use Synful\Util\Framework\RequestHandler;
 use Synful\Util\DataManagement\Models\APIKey;
-use Synful\RequestHandlers\Interfaces\RequestHandler;
 
 /**
  * Class used to demonstrate private request handlers.
