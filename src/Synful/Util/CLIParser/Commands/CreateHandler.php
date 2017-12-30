@@ -32,7 +32,7 @@ class CreateHandler extends Command
                         './src/Synful/RequestHandlers/'.$name.'.php',
                         str_replace(
                             'EndPoint',
-                            strtolower($name), 
+                            strtolower($name),
                             str_replace(
                                 'RequestHandlerName',
                                 $name,
