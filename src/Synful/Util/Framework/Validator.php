@@ -2,8 +2,6 @@
 
 namespace Synful\Util\Framework;
 
-use stdClass;
-use Synful\Synful;
 use Synful\Util\DataManagement\Models\APIKey;
 
 /**

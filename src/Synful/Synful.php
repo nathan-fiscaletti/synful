@@ -175,9 +175,9 @@ class Synful
                 $data,
                 array_flip([
                     'user',
-                    'key'
+                    'key',
                 ])
-            )
+            ),
         ]);
 
         try {
