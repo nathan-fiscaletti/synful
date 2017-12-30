@@ -11,6 +11,13 @@ use Synful\Util\Framework\RequestHandler;
 class EncryptedOnlyHandlerExample implements RequestHandler
 {
     /**
+     * Override the handler endpoint
+     * Example: http://myapi.net/user/search
+     * uses the endpoint `user/search`
+     */
+    public $endpoint = 'example/encrypted';
+
+    /**
      * To make this an encrypted only RequestHandler
      * set the `encrypted_only` property of the class.
      *

@@ -55,6 +55,11 @@ Vagrant.configure("2") do |config|
   sed -i '1718imcrypt.so' /etc/php/7.0/apache2/php.ini
   sed -i '1718imcrypt.so' /etc/php/7.0/cli/php.ini 
 
+  echo "Enabling modrewrite..."
+  a2enmod rewrite
+  sed -i '155s!None!All!' /etc/apache2/apache2.conf
+  sed -i '166s!None!All!' /etc/apache2/apache2.conf
+
   echo "Restarting Apache Service..."
   service apache2 restart
 

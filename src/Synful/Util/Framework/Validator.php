@@ -12,64 +12,6 @@ use Synful\Util\DataManagement\Models\APIKey;
 class Validator
 {
     /**
-     * Validates that the assigned handler is valid in the system.
-     *
-     * @param  array                           $data
-     * @param  \Synful\Util\Framework\Response $response
-     * @return bool
-     */
-    public function validateHandler(array &$data, Response &$response)
-    {
-        $response->request = $data['request'];
-        $return = false;
-
-        if (! empty($data['handler'])) {
-            if (file_exists('./src/Synful/RequestHandlers/'.$data['handler'].'.php')) {
-                $return = true;
-            } else {
-                throw new SynfulException($response, 500, 1001);
-            }
-        } else {
-            throw new SynfulException($response, 500, 1002);
-        }
-
-        return $return;
-    }
-
-    /**
-     * Validate a request with the system.
-     *
-     * @param  array                           $data
-     * @param  \Synful\Util\Framework\Response $response
-     * @return bool
-     */
-    public function validateRequest(array &$data, Response &$response)
-    {
-        $return = false;
-
-        if (! empty($data['request'])) {
-            if ($data['request'] instanceof stdClass) {
-                try {
-                    $data['request'] = (array) $data['request'];
-                    if (is_array($data['request'])) {
-                        $return = true;
-                    } else {
-                        throw new SynfulException($response, 400, 1003);
-                    }
-                } catch (\Exception $e) {
-                    throw new SynfulException($response, 400, 1003);
-                }
-            } else {
-                throw new SynfulException($response, 400, 1004);
-            }
-        } else {
-            throw new SynfulException($response, 400, 1005);
-        }
-
-        return $return;
-    }
-
-    /**
      * Validates the authentication of the request.
      *
      * @param  array                                               $data
@@ -160,7 +102,7 @@ class Validator
                 }
             }
         } else {
-            throw new SynfulException($response, 500, 1001);
+            throw new SynfulException($response, 404, 1001);
         }
 
         return $return;

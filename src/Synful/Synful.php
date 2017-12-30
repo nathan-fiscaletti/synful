@@ -155,34 +155,44 @@ class Synful
      * Passes a JSON Request through the desired request handlers, validates authentication
      * and request integrity and returns a response.
      *
+     * @param  string                          $handler
      * @param  string                          $request
      * @param  string                          $ip
      * @param  bool                            $wasEncrypted
      * @return \Synful\Util\Framework\Response
      */
-    public static function handleRequest($request, $ip, $wasEncrypted = false)
-    {
+    public static function handleRequest(
+        string $handler,
+        string $request,
+        string $ip,
+        bool $wasEncrypted = false
+    ) {
         $data = (array) json_decode($request);
-        $response = new Response(['requesting_ip' => $ip]);
+
+        $response = new Response([
+            'requesting_ip' => $ip,
+            'request' => array_diff_key(
+                $data,
+                array_flip([
+                    'user',
+                    'key'
+                ])
+            )
+        ]);
 
         try {
-            if (self::$validator->validateRequest($data, $response) &&
-                self::$validator->validateHandler($data, $response)) {
-                $handler = &self::$request_handlers[$data['handler']];
-                $api_key = null;
-                if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
-                    if (property_exists($handler, 'encrypted_only')) {
-                        if (($handler->encrypted_only && $wasEncrypted) || ! $handler->encrypted_only) {
-                            $handler->handleRequest($response);
-                        } else {
-                            throw new SynfulException($response, 400, 1014);
-                        }
-                    } else {
+            $handler = &self::$request_handlers[$handler];
+            $api_key = null;
+            if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
+                if (property_exists($handler, 'encrypted_only')) {
+                    if (($handler->encrypted_only && $wasEncrypted) || ! $handler->encrypted_only) {
                         $handler->handleRequest($response);
+                    } else {
+                        throw new SynfulException($response, 400, 1014);
                     }
+                } else {
+                    $handler->handleRequest($response);
                 }
-            } else {
-                throw new SynfulException($response, 400, 1013);
             }
         } catch (SynfulException $synfulException) {
             $response = $synfulException->response;

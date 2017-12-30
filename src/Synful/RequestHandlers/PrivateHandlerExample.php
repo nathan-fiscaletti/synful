@@ -12,6 +12,13 @@ use Synful\Util\DataManagement\Models\APIKey;
 class PrivateHandlerExample implements RequestHandler
 {
     /**
+     * Override the handler endpoint
+     * Example: http://myapi.net/user/search
+     * uses the endpoint `user/search`
+     */
+    public $endpoint = 'example/private';
+
+    /**
      * Assign an array of API Keys to the 'white_list_keys' property to make
      * this handler only allow connections using those API Keys.
      *
