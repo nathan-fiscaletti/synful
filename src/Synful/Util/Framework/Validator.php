@@ -12,24 +12,25 @@ class Validator
     /**
      * Validates the authentication of the request.
      *
-     * @param  array                                               $data
-     * @param  \Synful\Util\Framework\Response                     $response
+     * @param  \Synful\Util\Framwork\Response                      $response
      * @param  object                                              $api_key
      * @param  \Synful\RequestHandlers\Interfaces\RequestHandler   $handler
      * @param  string                                              $ip
      * @return bool
      */
-    public function validateAuthentication(&$data, &$response, &$api_key, &$handler, &$ip)
+    public function validateAuthentication(&$response, &$api_key, &$handler, &$ip)
     {
         $return = true;
         if (! is_null($handler)) {
             if (! sf_conf('security.allow_public_requests') ||
                 ! (property_exists($handler, 'is_public') && $handler->is_public)) {
                 $return = false;
-                if (! empty($data['user'])) {
-                    if (! empty($data['key'])) {
-                        if (APIKey::keyExists($data['user'])) {
-                            $api_key = APIKey::getkey($data['user']);
+                if (! empty($response->request_headers['Synful-User'])) {
+                    if (! empty($response->request_headers['Synful-Key'])) {
+                        $user = $response->request_headers['Synful-User'];
+                        $key = $response->request_headers['Synful-Key'];
+                        if (APIKey::keyExists($user)) {
+                            $api_key = APIKey::getkey($user);
                             $response->requesting_email = $api_key->email;
                             if (property_exists($handler, 'white_list_keys')) {
                                 if (is_array($handler->white_list_keys)) {
@@ -37,7 +38,7 @@ class Validator
                                         if ($api_key->enabled) {
                                             if (
                                                 $api_key->authenticate(
-                                                    $data['key'],
+                                                    $key,
                                                     (property_exists($handler, 'security_level'))
                                                         ? $handler->security_level
                                                         : 0
@@ -57,7 +58,7 @@ class Validator
                                     if ($api_key->enabled) {
                                         if (
                                             $api_key->authenticate(
-                                                $data['key'],
+                                                $key,
                                                 (property_exists($handler, 'security_level'))
                                                     ? $handler->security_level
                                                     : 0
@@ -75,7 +76,7 @@ class Validator
                                 if ($api_key->enabled) {
                                     if (
                                         $api_key->authenticate(
-                                            $data['key'],
+                                            $key,
                                             (property_exists($handler, 'security_level'))
                                                 ? $handler->security_level
                                                 : 0
