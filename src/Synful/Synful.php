@@ -6,7 +6,6 @@ use Synful\Util\ASCII\Colors;
 use Synful\Util\IO\IOFunctions;
 use Synful\Util\Framework\Response;
 use Synful\Util\Framework\Validator;
-use Synful\Util\Security\Encryption;
 use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\SynfulException;
@@ -46,13 +45,6 @@ class Synful
     public static $request_handlers = [];
 
     /**
-     * The encrpytion object used by Synful.
-     *
-     * @var Synful\Util\Security\Encryption
-     */
-    public static $crypto;
-
-    /**
      * Initialize the Synful API instance.
      */
     public static function initialize()
@@ -86,11 +78,6 @@ class Synful
         // Set error handler and shutdown hook
         set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
         register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
-
-        // Load encryption
-        self::$crypto = new Encryption([
-            'key' => sf_conf('security.encryption_key'),
-        ]);
 
         // Initialize the Sql databases
         // This does not initialize a connection.
@@ -158,14 +145,12 @@ class Synful
      * @param  string                          $handler
      * @param  string                          $request
      * @param  string                          $ip
-     * @param  bool                            $wasEncrypted
      * @return \Synful\Util\Framework\Response
      */
     public static function handleRequest(
         string $handler,
         string $request,
-        string $ip,
-        bool $wasEncrypted = false
+        string $ip
     ) {
         $data = (array) json_decode($request);
 
@@ -184,15 +169,7 @@ class Synful
             $handler = &self::$request_handlers[$handler];
             $api_key = null;
             if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
-                if (property_exists($handler, 'encrypted_only')) {
-                    if (($handler->encrypted_only && $wasEncrypted) || ! $handler->encrypted_only) {
-                        $handler->handleRequest($response);
-                    } else {
-                        throw new SynfulException($response, 400, 1014);
-                    }
-                } else {
-                    $handler->handleRequest($response);
-                }
+                $handler->handleRequest($response);
             }
         } catch (SynfulException $synfulException) {
             $response = $synfulException->response;

@@ -43,7 +43,6 @@ class SynfulException extends Exception
         1011 => 'Access Denied: Source IP is not whitelisted while on whitelist only key.',
         1012 => 'Access Denied: Source IP Blacklisted.',
         1013 => 'Bad Request.',
-        1014 => 'Non-encrypted request to handler configured for encrypted requests only.',
         1015 => 'Unable to connect to MySql server. Check \'SqlServers.php\'.',
     ];
 

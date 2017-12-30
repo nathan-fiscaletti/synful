@@ -47,23 +47,17 @@ class WebListener
             $json = '{}';
         }
 
+        if (! sf_is_json($json)) {
+            $response = (new SynfulException(null, 400, 1013))->response;
+            sf_respond($response->code, $response->serialize());
+            exit;
+        }
+
         $response = Synful::handleRequest(
             $selected_handler,
             $json,
             Synful::getClientIP()
         );
-
-        if (! sf_is_json($json)) {
-            if (sf_is_json(sf_decrypt($json))) {
-                $response = Synful::handleRequest(
-                    $selected_handler,
-                    Synful::$crypto->decrypt($json),
-                    Synful::getClientIP(),
-                    true
-                );
-                $response->encrypt_response = true;
-            }
-        }
 
         sf_respond($response->code, $response->serialize());
     }
