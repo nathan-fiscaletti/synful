@@ -30,7 +30,15 @@ class CreateHandler extends Command
                 if (! file_exists('./src/Synful/RequestHandlers/'.$name.'.php')) {
                     file_put_contents(
                         './src/Synful/RequestHandlers/'.$name.'.php',
-                        str_replace('RequestHandlerName', $name, file_get_contents('./templates/RequestHandler.tmpl'))
+                        str_replace(
+                            'EndPoint',
+                            strtolower($name),
+                            str_replace(
+                                'RequestHandlerName',
+                                $name,
+                                file_get_contents('./templates/RequestHandler.tmpl')
+                            )
+                        )
                     );
 
                     sf_info(
