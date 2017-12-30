@@ -11,6 +11,13 @@ use Synful\Util\Framework\RequestHandler;
 class SecurityLevelExample implements RequestHandler
 {
     /**
+     * Override the handler endpoint
+     * Example: http://myapi.net/user/search
+     * uses the endpoint `user/search`.
+     */
+    public $endpoint = 'example/secure';
+
+    /**
      * Set the security level for the RequestHandler.
      * Only API keys with this security level or
      * higher can access this RequestHandler.
