@@ -47,6 +47,13 @@ class Response implements JsonSerializable
     public $requesting_email;
 
     /**
+     * The request headers for the request.
+     *
+     * @var array
+     */
+    public $request_headers;
+
+    /**
      * Overrides full response object with custom array of data.
      *
      * @param array $data

@@ -156,19 +156,14 @@ class Synful
 
         $response = new Response([
             'requesting_ip' => $ip,
-            'request' => array_diff_key(
-                $data,
-                array_flip([
-                    'user',
-                    'key',
-                ])
-            ),
+            'request_headers' => apache_request_headers(),
+            'request' => $data,
         ]);
 
         try {
             $handler = &self::$request_handlers[$handler];
             $api_key = null;
-            if (self::$validator->validateAuthentication($data, $response, $api_key, $handler, $ip)) {
+            if (self::$validator->validateAuthentication($response, $api_key, $handler, $ip)) {
                 $handler->handleRequest($response);
             }
         } catch (SynfulException $synfulException) {
