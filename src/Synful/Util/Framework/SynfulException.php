@@ -33,11 +33,8 @@ class SynfulException extends Exception
      * @var array
      */
     private $error_messages = [
-        1001 => 'Unknown handler. Handlers are case sensitive.',
-        1002 => 'No handler defined.',
-        1003 => 'Bad request: Invalid request field supplied. Not array.',
-        1004 => 'Bad Request: Invalid request field supplied. Not Object.',
-        1005 => 'Bad Request: Missing request field.',
+        1001 => 'Unknown endpoint.',
+        1002 => 'Either you do not have mod-rewrite enabled or there is no request handler defined in your request.',
         1006 => 'Bad Request: API Authentication failed.',
         1007 => 'Bad Request: Key has been disabled.',
         1008 => 'Bad Request: Key not whitelisted for specified handler.',

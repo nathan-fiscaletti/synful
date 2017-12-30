@@ -12,6 +12,13 @@ use Synful\Util\Framework\RequestHandler;
 class SqlExample implements RequestHandler
 {
     /**
+     * Override the handler endpoint
+     * Example: http://myapi.net/user/search
+     * uses the endpoint `user/search`
+     */
+    public $endpoint = 'example/sql';
+
+    /**
      * Function for handling request and returning data as a Response object.
      *
      * @param  Response $response
