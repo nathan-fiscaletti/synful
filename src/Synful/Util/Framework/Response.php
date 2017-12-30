@@ -47,14 +47,6 @@ class Response implements JsonSerializable
     public $requesting_email;
 
     /**
-     * If set to true, the response will be encrypted based on the encryption
-     * functions defined in the security section of the config.
-     *
-     * @var bool
-     */
-    public $encrypt_response = false;
-
-    /**
      * Overrides full response object with custom array of data.
      *
      * @param array $data
@@ -97,7 +89,6 @@ class Response implements JsonSerializable
 
     /**
      * Get the serialized version of the response.
-     * Encryption will be used if needed.
      *
      * @return string
      */
@@ -108,10 +99,6 @@ class Response implements JsonSerializable
         if (sf_conf('system.pretty_responses') || (isset($_GET['pretty'])
             && Synful::$config->get('system.allow_pretty_responses_on_get'))) {
             $ret = json_encode($this, JSON_PRETTY_PRINT);
-        }
-
-        if ($this->encrypt_response || sf_conf('security.force_encryption')) {
-            $ret = sf_encrypt($ret);
         }
 
         return $ret;
