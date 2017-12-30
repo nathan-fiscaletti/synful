@@ -11,6 +11,13 @@ use Synful\Util\Framework\RequestHandler;
 class RequestHandlerName implements RequestHandler
 {
     /**
+     * Override the handler endpoint
+     * Example: http://myapi.net/user/search
+     * uses the endpoint `user/search`
+     */
+    public $endpoint = 'getip';
+
+    /**
      * Set the `is_public` property to make this  a public request handler.
      * When a request handler is set to public, it won't require an API key.
      *
