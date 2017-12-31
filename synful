@@ -24,7 +24,7 @@ else
             else
 		        if [ -d .vagrant ]; then
                     vagrant destroy;
-		            rm -r .vagrant
+		            rm -rf .vagrant
                 else
                     vagrant up;
                 fi;
