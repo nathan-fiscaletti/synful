@@ -317,11 +317,19 @@ class APIKey
      *
      * @param  string $private_key
      * @param  int    $security_level
-     * @return bool
+     * @return int
      */
     public function authenticate($private_key, $security_level)
     {
-        return password_verify($private_key, $this->key) && $this->security_level >= $security_level;
+        if (! password_verify($private_key, $this->key)) {
+            return -1;
+        }
+
+        if (! ($this->security_level >= $security_level)) {
+            return 0;
+        }
+
+        return 1;
     }
 
     /**
