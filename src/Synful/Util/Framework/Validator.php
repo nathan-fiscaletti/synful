@@ -36,17 +36,25 @@ class Validator
                                 if (is_array($handler->white_list_keys)) {
                                     if (in_array($api_key->email, $handler->white_list_keys)) {
                                         if ($api_key->enabled) {
-                                            if (
-                                                $api_key->authenticate(
-                                                    $key,
-                                                    (property_exists($handler, 'security_level'))
-                                                        ? $handler->security_level
-                                                        : 0
-                                                )
-                                            ) {
-                                                return $this->validateFireWall($api_key, $response, $ip);
-                                            } else {
-                                                throw new SynfulException($response, 400, 1006);
+                                            $security_result = $api_key->authenticate(
+                                                $key,
+                                                (property_exists($handler, 'security_level'))
+                                                    ? $handler->security_level
+                                                    : 0
+                                            );
+
+                                            switch ($security_result) {
+                                                case -1 : {
+                                                    throw new SynfulException($response, 400, 1006);
+                                                }
+
+                                                case 0 : {
+                                                    throw new SynfulException($response, 400, 1003);
+                                                }
+
+                                                case 1 : {
+                                                    return $this->validateFireWall($api_key, $response, $ip);
+                                                }
                                             }
                                         } else {
                                             throw new SynfulException($response, 400, 1007);
@@ -56,17 +64,25 @@ class Validator
                                     }
                                 } else {
                                     if ($api_key->enabled) {
-                                        if (
-                                            $api_key->authenticate(
-                                                $key,
-                                                (property_exists($handler, 'security_level'))
-                                                    ? $handler->security_level
-                                                    : 0
-                                            )
-                                        ) {
-                                            return $this->validateFireWall($api_key, $response, $ip);
-                                        } else {
-                                            throw new SynfulException($response, 400, 1006);
+                                        $security_result = $api_key->authenticate(
+                                            $key,
+                                            (property_exists($handler, 'security_level'))
+                                                ? $handler->security_level
+                                                : 0
+                                        );
+
+                                        switch ($security_result) {
+                                            case -1 : {
+                                                throw new SynfulException($response, 400, 1006);
+                                            }
+
+                                            case 0 : {
+                                                throw new SynfulException($response, 400, 1003);
+                                            }
+
+                                            case 1 : {
+                                                return $this->validateFireWall($api_key, $response, $ip);
+                                            }
                                         }
                                     } else {
                                         throw new SynfulException($response, 400, 1007);
@@ -74,17 +90,25 @@ class Validator
                                 }
                             } else {
                                 if ($api_key->enabled) {
-                                    if (
-                                        $api_key->authenticate(
-                                            $key,
-                                            (property_exists($handler, 'security_level'))
-                                                ? $handler->security_level
-                                                : 0
-                                        )
-                                    ) {
-                                        return $this->validateFireWall($api_key, $response, $ip);
-                                    } else {
-                                        throw new SynfulException($response, 400, 1006);
+                                    $security_result = $api_key->authenticate(
+                                        $key,
+                                        (property_exists($handler, 'security_level'))
+                                            ? $handler->security_level
+                                            : 0
+                                    );
+
+                                    switch ($security_result) {
+                                        case -1 : {
+                                            throw new SynfulException($response, 400, 1006);
+                                        }
+
+                                        case 0 : {
+                                            throw new SynfulException($response, 400, 1003);
+                                        }
+
+                                        case 1 : {
+                                            return $this->validateFireWall($api_key, $response, $ip);
+                                        }
                                     }
                                 } else {
                                     throw new SynfulException($response, 400, 1007);

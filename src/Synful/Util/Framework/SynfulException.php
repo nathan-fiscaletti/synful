@@ -35,6 +35,7 @@ class SynfulException extends Exception
     private $error_messages = [
         1001 => 'Unknown endpoint.',
         1002 => 'Either you do not have mod-rewrite enabled or there is no request handler defined in your request.',
+        1003 => 'Bad Request: Insufficient security level.',
         1006 => 'Bad Request: API Authentication failed.',
         1007 => 'Bad Request: Key has been disabled.',
         1008 => 'Bad Request: Key not whitelisted for specified handler.',
