@@ -44,15 +44,15 @@ class Validator
                                             );
 
                                             switch ($security_result) {
-                                                case -1 : {
+                                                case -1: {
                                                     throw new SynfulException($response, 400, 1006);
                                                 }
 
-                                                case 0 : {
+                                                case 0: {
                                                     throw new SynfulException($response, 400, 1003);
                                                 }
 
-                                                case 1 : {
+                                                case 1: {
                                                     return $this->validateFireWall($api_key, $response, $ip);
                                                 }
                                             }
@@ -72,15 +72,15 @@ class Validator
                                         );
 
                                         switch ($security_result) {
-                                            case -1 : {
+                                            case -1: {
                                                 throw new SynfulException($response, 400, 1006);
                                             }
 
-                                            case 0 : {
+                                            case 0: {
                                                 throw new SynfulException($response, 400, 1003);
                                             }
 
-                                            case 1 : {
+                                            case 1: {
                                                 return $this->validateFireWall($api_key, $response, $ip);
                                             }
                                         }
@@ -98,15 +98,15 @@ class Validator
                                     );
 
                                     switch ($security_result) {
-                                        case -1 : {
+                                        case -1: {
                                             throw new SynfulException($response, 400, 1006);
                                         }
 
-                                        case 0 : {
+                                        case 0: {
                                             throw new SynfulException($response, 400, 1003);
                                         }
 
-                                        case 1 : {
+                                        case 1: {
                                             return $this->validateFireWall($api_key, $response, $ip);
                                         }
                                     }
