@@ -17,7 +17,7 @@ class ListKeys extends Command
         $this->alias = 'list-keys';
         $this->exec = function () {
             sf_info('API Key List', true, false, false);
-            sf_info('---------------------------------------------------', true, false, false);
+            sf_info('-----------------------------------------------------', true, false, false);
             $sql_result = sf_sql('SELECT * FROM `api_keys`', [], true);
             while ($row = mysqli_fetch_assoc($sql_result)) {
                 sf_info(
@@ -28,6 +28,12 @@ class ListKeys extends Command
                 );
                 sf_info(
                     '    EMail / ID     : '.$row['email'].' / '.$row['id'],
+                    true,
+                    false,
+                    false
+                );
+                sf_info(
+                    '    Salt           : '.sf_color($row['salt'], 'yellow'),
                     true,
                     false,
                     false
