@@ -22,6 +22,13 @@ class APIKey
     public $key;
 
     /**
+     * The Key Salt for the key.
+     *
+     * @var string
+     */
+    public $salt;
+
+    /**
      * The name associated with the key.
      *
      * @var string
@@ -90,6 +97,7 @@ class APIKey
 
         $this->id = $result['id'];
         $this->key = $result['api_key'];
+        $this->salt = $result['salt'];
         $this->name = $result['name'];
         $this->email = $result['email'];
         $this->whitelist_only = $result['whitelist_only'];
@@ -197,12 +205,13 @@ class APIKey
     {
         // Update the API Keys Entry
         sf_sql(
-            'UPDATE `api_keys` SET `api_key` = ?, `name` = ?, '.
+            'UPDATE `api_keys` SET `api_key` = ?, `salt` = ?, `name` = ?, '.
             '`email` = ?, `whitelist_only` = ?, '.
             '`enabled` = ?, `security_level` = ? WHERE `id` = ?',
             [
-             'sssssss',
+             'sssssssS',
              $this->key,
+             $this->salt,
              $this->name,
              $this->email,
              $this->whitelist_only,
@@ -299,6 +308,7 @@ class APIKey
         $new_key = self::generateNew();
 
         $this->key = $new_key['hash'];
+        $this->salt = $new_key['salt'];
         $this->save();
 
         if ($print_key) {
@@ -321,7 +331,7 @@ class APIKey
      */
     public function authenticate($private_key, $security_level)
     {
-        if (! password_verify($private_key, $this->key)) {
+        if (! password_verify($this->salt.$private_key, $this->key)) {
             return -1;
         }
 
@@ -357,12 +367,13 @@ class APIKey
             $new_key = self::generateNew();
 
             sf_sql(
-                'INSERT INTO `api_keys` (`api_key`, `name`, `email`, '.
+                'INSERT INTO `api_keys` (`api_key`, `salt`, `name`, `email`, '.
                 '`whitelist_only`, `enabled`, `security_level`) VALUES '.
-                '(?, ?, ?, ?, ?, ?)',
+                '(?, ?, ?, ?, ?, ?, ?)',
                 [
-                 'ssssss',
+                 'sssssss',
                  $new_key['hash'],
+                 $new_key['salt'],
                  $name,
                  $email,
                  $whitelist_only,
@@ -433,10 +444,12 @@ class APIKey
     public static function generateNew()
     {
         $key = bin2hex(openssl_random_pseudo_bytes(32));
-        $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 11]);
+        $salt = bin2hex(openssl_random_pseudo_bytes(16));
+        $hash = password_hash($salt.$key, PASSWORD_BCRYPT, ['cost' => 11]);
 
         return [
                 'key' => $key,
+                'salt' => $salt,
                 'hash' => $hash,
                ];
     }
