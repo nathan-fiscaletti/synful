@@ -22,7 +22,7 @@ else
             if [ ! -z "$2" ]; then
 	            vagrant "$@";
             else
-		        if [ -d .vagrant ]; then
+                if [ -d .vagrant ]; then
                     vagrant destroy;
 		            rm -rf .vagrant
                 else

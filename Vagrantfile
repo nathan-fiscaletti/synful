@@ -63,12 +63,9 @@ Vagrant.configure("2") do |config|
   echo "Restarting Apache Service..."
   service apache2 restart
 
-  echo "Running composer install for Synful..."
+  echo "Installing Synful..."
   cd /var/www/html/
-  composer install --no-scripts >/dev/null 2>&1
-
-  echo "Creating default MySql tables..."
-  ./synful -ct
+  ./synful install >/dev/null 2>&1
 
   echo "Done!"
   echo "MySql Credentials: [ Username = root, Password = password, Database = synful ]"
