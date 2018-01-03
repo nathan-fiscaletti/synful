@@ -209,7 +209,7 @@ class APIKey
             '`email` = ?, `whitelist_only` = ?, '.
             '`enabled` = ?, `security_level` = ? WHERE `id` = ?',
             [
-             'sssssssS',
+             'ssssssss',
              $this->key,
              $this->salt,
              $this->name,
