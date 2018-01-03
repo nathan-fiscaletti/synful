@@ -323,14 +323,12 @@ class Synful
             }
         }
         if (! $enabled_request_handler) {
-            sf_warn(
-                'No request handlers found. '.
-                'Use \'php synful.php createhandler=HandlerName\' to create a new handler.'
+            trigger_error(
+                'No request handlers found.',
+                E_USER_ERROR
             );
-            sf_warn(
-                'Note: Request handlers are case sensitive. '.
-                'We recommend using TitleCase for request handler names.'
-            );
+
+            exit;
         }
     }
 
