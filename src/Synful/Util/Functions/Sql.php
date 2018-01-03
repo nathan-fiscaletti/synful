@@ -1,5 +1,27 @@
 <?php
 
+/*
+ |------------------------------------------------------------------------------
+ | Sql Functions
+ |------------------------------------------------------------------------------
+ |
+ | This set of functions is used to access Synful SQL features.
+ */
+
+if (! function_exists('sf_db')) {
+
+    /**
+     * Returns a SqlConnection object at the specific path.
+     *
+     * @param  string $path
+     * @return \Synful\Util\DataManagement\SqlConnection
+     */
+    function sf_db(string $path)
+    {
+        return \Synful\Synful::$sql_databases[$path];
+    }
+}
+
 if (! function_exists('sf_sql')) {
 
     /**
