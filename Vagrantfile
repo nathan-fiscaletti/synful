@@ -51,10 +51,6 @@ Vagrant.configure("2") do |config|
   sed -i '12s!/var/www/html!/var/www/html/public!' /etc/apache2/sites-enabled/000-default.conf
   sed -i '164s!/var/www!/var/www/html/public!' /etc/apache2/apache2.conf
 
-  echo "Enabling MCrypt..."
-  sed -i '1718imcrypt.so' /etc/php/7.0/apache2/php.ini
-  sed -i '1718imcrypt.so' /etc/php/7.0/cli/php.ini 
-
   echo "Enabling modrewrite..."
   a2enmod rewrite
   sed -i '155s!None!All!' /etc/apache2/apache2.conf
