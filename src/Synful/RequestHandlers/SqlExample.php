@@ -31,7 +31,7 @@ class SqlExample implements RequestHandler
 
         // Define SQL Databases and Servers in 'SqlServers.php'
         // Create a reference to the SQL Database Connection
-        $sql_con = sf_db['server_name.db_name'];
+        $sql_con = sf_db('server_name.db_name');
 
         // Validate the request
         if (! isset($request['id']) || ! is_int($request['id'])) {
