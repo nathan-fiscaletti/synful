@@ -61,7 +61,7 @@ if (! function_exists('sf_response')) {
     {
         return new \Synful\Util\Framework\Response([
             'code' => $code,
-            'response' => $response
+            'response' => $response,
         ]);
     }
 }
