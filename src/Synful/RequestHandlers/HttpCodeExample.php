@@ -8,14 +8,14 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class GetIPExample implements RequestHandler
+class HttpCodeExample implements RequestHandler
 {
     /**
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
-     * uses the endpoint `user/search`.
+     * uses the endpoint `user/search`
      */
-    public $endpoint = 'example/getip';
+    public $endpoint = 'example/httpcode';
 
     /**
      * Set the `is_public` property to make this  a public request handler.
@@ -35,12 +35,20 @@ class GetIPExample implements RequestHandler
      * Function for handling request and returning a response.
      *
      * @param Request $request
-     * @return \Synful\Util\Framework\Response|array
      */
     public function handleRequest(Request $request)
     {
-        return [
-            'ip' => $request->ip,
-        ];
+        // Return a 401 error code.
+        return sf_response(
+            401
+        );
+
+        // Alternately, you can return a 401 with a response body.
+        return sf_response(
+            401,
+            [
+                'error' => 'You are not authorized to be here.',
+            ]
+        );
     }
 }

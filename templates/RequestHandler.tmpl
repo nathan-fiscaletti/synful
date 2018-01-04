@@ -2,7 +2,7 @@
 
 namespace Synful\RequestHandlers;
 
-use Synful\Util\Framework\Response;
+use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
@@ -51,14 +51,19 @@ class RequestHandlerName implements RequestHandler
     // ];
 
     /**
-     * Function for handling request and returning data as a Response object.
+     * Function for handling request and returning a response.
      *
-     * @param  Response $response
+     * @param Request $request
+     * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Response &$response)
+    public function handleRequest(Request $request)
     {
-        $request_data = &$response->request;
-
         // Insert your code here
+        return sf_response(
+            200,
+            [
+                'message' => 'Your new Request Handler is working!',
+            ]
+        );
     }
 }
