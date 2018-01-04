@@ -37,6 +37,7 @@ class PrivateHandlerExample implements RequestHandler
     public function handleRequest(Request $request)
     {
         $api_key = APIKey::getKey($request->email);
+
         return [
             'user-information' => [
                 'name' => $api_key->name,

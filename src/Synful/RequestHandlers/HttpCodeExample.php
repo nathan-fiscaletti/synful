@@ -13,7 +13,7 @@ class HttpCodeExample implements RequestHandler
     /**
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
-     * uses the endpoint `user/search`
+     * uses the endpoint `user/search`.
      */
     public $endpoint = 'example/httpcode';
 

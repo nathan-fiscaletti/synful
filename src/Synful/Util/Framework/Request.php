@@ -5,7 +5,8 @@ namespace Synful\Util\Framework;
 /**
  * Class used to represent an HTTP request.
  */
-class Request implements \ArrayAccess {
+class Request implements \ArrayAccess
+{
     use Object;
 
     /**
@@ -53,7 +54,7 @@ class Request implements \ArrayAccess {
      * @param  mixed $offset
      * @return mixed
      */
-    public function offsetGet ($offset)
+    public function offsetGet($offset)
     {
         return $this->data[$offset];
     }
@@ -105,7 +106,7 @@ class Request implements \ArrayAccess {
      */
     public function __set($name, $value)
     {
-        throw new \Exception('Cannot modify a request object.');   
+        throw new \Exception('Cannot modify a request object.');
     }
 
     /**
@@ -119,7 +120,7 @@ class Request implements \ArrayAccess {
     public function __call($name, $args)
     {
         if (count($args) > 0) {
-            throw new \Exception('Cannot modify a request object.');          
+            throw new \Exception('Cannot modify a request object.');
         }
 
         if (array_key_exists($name, $this->data)) {
