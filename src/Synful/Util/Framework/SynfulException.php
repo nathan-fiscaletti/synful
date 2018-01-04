@@ -45,27 +45,28 @@ class SynfulException extends Exception
         1012 => 'Access Denied: Source IP Blacklisted.',
         1013 => 'Bad Request.',
         1015 => 'Unable to connect to MySql server. Check \'SqlServers.php\'.',
+        1016 => 'Invalid response type returned from Request Handler.',
     ];
 
     /**
      * Construct the SynfulException object.
      *
-     * @param \Synful\Response $response
      * @param int              $code
      * @param int              $error
      * @param string           $message
      */
-    public function __construct($response, $code, $error, $message = null)
+    public function __construct($code, $error, $message = null)
     {
         $this->message = ($message == null) ? $this->getErrorMessage($error) : $message;
         parent::__construct($this->message, $error);
         $this->error = $error;
-        $this->response = ($response == null) ? new Response : $response;
-        $this->response->code = $code;
-        $this->response->overloadResponse([
-            'error_code' => $error,
-            'error' => $this->message,
-        ]);
+        $this->response = sf_response(
+            $code,
+            [
+                'error_code' => $error,
+                'error' => $this->message,
+            ]
+        );
     }
 
     /**

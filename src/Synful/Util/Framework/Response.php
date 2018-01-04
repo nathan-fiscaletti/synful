@@ -12,13 +12,6 @@ class Response implements JsonSerializable
     use Object;
 
     /**
-     * The request that this response is for.
-     *
-     * @var array
-     */
-    public $request;
-
-    /**
      * The HTTP Response Code.
      *
      * @var int
@@ -26,66 +19,14 @@ class Response implements JsonSerializable
     public $code;
 
     /**
-     * The response data that will be serialized and set back to client.
+     * The response data that will be serialized and sent back to client.
      *
      * @var array
      */
     public $response;
 
     /**
-     * The IP address of the client making the request.
-     *
-     * @var string
-     */
-    public $requesting_ip;
-
-    /**
-     * The email associated with the key of the client making the request.
-     *
-     * @var string
-     */
-    public $requesting_email;
-
-    /**
-     * The request headers for the request.
-     *
-     * @var array
-     */
-    public $request_headers;
-
-    /**
-     * Overrides full response object with custom array of data.
-     *
-     * @param array $data
-     */
-    public function overloadResponse(array $data)
-    {
-        $this->response = $data;
-    }
-
-    /**
-     * Add a list of responses to the response object.
-     *
-     * @param array $responses
-     */
-    public function addResponses(array $responses)
-    {
-        $this->response = array_merge($this->response, $responses);
-    }
-
-    /**
-     * Adds data to the data variable that will be returned with the object.
-     *
-     * @param string $key
-     * @param mixed $data
-     */
-    public function setResponse($key, $data)
-    {
-        $this->response[$key] = $data;
-    }
-
-    /**
-     * Override serialization for json_encode to ommit $request variable.
+     * Override serialization for json_encode.
      *
      * @return array
      */
@@ -106,6 +47,10 @@ class Response implements JsonSerializable
         if (sf_conf('system.pretty_responses') || (isset($_GET['pretty'])
             && Synful::$config->get('system.allow_pretty_responses_on_get'))) {
             $ret = json_encode($this, JSON_PRETTY_PRINT);
+        }
+
+        if ($this->response == null) {
+            $ret = '';
         }
 
         return $ret;
