@@ -239,8 +239,8 @@ class Synful
             sf_sql(
                 'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
                 '`name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
-                '`salt` VARCHAR(255) NOT NULL , `whitelist_only` INT NOT NULL , `security_level` INT NOT NULL, '.
-                '`enabled` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = MyISAM;'
+                '`whitelist_only` INT NOT NULL , `security_level` INT NOT NULL, `enabled` INT NOT NULL , '.
+                'PRIMARY KEY (`id`)) ENGINE = MyISAM;'
             )
 
             && sf_sql(
