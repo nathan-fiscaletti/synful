@@ -25,7 +25,7 @@ class TestAuth extends Command
                 exit;
             }
 
-            if (! $api_key->authenticate($key, 0)) {
+            if ($api_key->authenticate($key, 0) !== 1) {
                 sf_info(
                     'Authentication for APIKey with auth \''.sf_color($auth, 'light_blue').
                     '\' has '.sf_color('failed', 'light_red').'.',

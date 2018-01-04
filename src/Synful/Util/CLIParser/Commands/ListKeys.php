@@ -33,12 +33,6 @@ class ListKeys extends Command
                     false
                 );
                 sf_info(
-                    '    Salt           : '.sf_color($row['salt'], 'yellow'),
-                    true,
-                    false,
-                    false
-                );
-                sf_info(
                     '    Whitelist-Only : '.
                     (($row['whitelist_only'])
                         ? sf_color(
