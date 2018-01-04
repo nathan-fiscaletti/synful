@@ -8,9 +8,9 @@ namespace Synful\Util\Framework;
 interface RequestHandler
 {
     /**
-     * Function for handling request and returning data as a Response object.
+     * Function for handling request and returning a response.
      *
-     * @param  Response $response
+     * @param Request $request
      */
-    public function handleRequest(Response &$response);
+    public function handleRequest(Request $request);
 }

@@ -48,3 +48,20 @@ if (! function_exists('sf_is_json')) {
         return json_last_error() == JSON_ERROR_NONE;
     }
 }
+
+if (! function_exists('sf_response')) {
+    /**
+     * Generate a response.
+     *
+     * @param  int         $code
+     * @param  array       $response
+     * @return \Synful\Util\Framework\Response
+     */
+    function sf_response(int $code = 200, $response = null)
+    {
+        return new \Synful\Util\Framework\Response([
+            'code' => $code,
+            'response' => $response,
+        ]);
+    }
+}

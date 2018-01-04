@@ -2,7 +2,7 @@
 
 namespace Synful\RequestHandlers;
 
-use Synful\Util\Framework\Response;
+use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
@@ -27,17 +27,15 @@ class SecurityLevelExample implements RequestHandler
     public $security_level = 4;
 
     /**
-     * Function for handling request and returning data as a Response object.
+     * Function for handling request and returning a response.
      *
-     * @param  Response $response
+     * @param Request $request
+     * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Response &$response)
+    public function handleRequest(Request $request)
     {
-        $request_data = &$response->request;
-
-        $response->setResponse(
-            'message',
-            'This API key has a security level equal to or greater than 4.'
-        );
+        return [
+            'message' => 'This API key has a security level equal to or greater than 4.',
+        ];
     }
 }

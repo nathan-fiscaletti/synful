@@ -4,6 +4,7 @@ namespace Synful;
 
 use Synful\Util\ASCII\Colors;
 use Synful\Util\IO\IOFunctions;
+use Synful\Util\Framework\Request;
 use Synful\Util\Framework\Response;
 use Synful\Util\Framework\Validator;
 use Synful\Util\CLIParser\CommandLine;
@@ -154,17 +155,25 @@ class Synful
     ) {
         $data = (array) json_decode($request);
 
-        $response = new Response([
-            'requesting_ip' => $ip,
-            'request_headers' => apache_request_headers(),
-            'request' => $data,
+        $request = new Request([
+            'ip' => $ip,
+            'headers' => apache_request_headers(),
+            'data' => $data,
         ]);
 
         try {
             $handler = &self::$request_handlers[$handler];
             $api_key = null;
-            if (self::$validator->validateAuthentication($response, $api_key, $handler, $ip)) {
-                $handler->handleRequest($response);
+            if (self::$validator->validateAuthentication($request, $api_key, $handler, $ip)) {
+                $response = $handler->handleRequest($request);
+
+                if (is_array($response)) {
+                    $response = sf_response(200, $response);
+                }
+
+                if (! ($response instanceof Response)) {
+                    throw new SynfulException(null, 500, 1016);
+                }
             }
         } catch (SynfulException $synfulException) {
             $response = $synfulException->response;

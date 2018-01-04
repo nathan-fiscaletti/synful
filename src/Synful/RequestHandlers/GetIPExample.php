@@ -2,7 +2,7 @@
 
 namespace Synful\RequestHandlers;
 
-use Synful\Util\Framework\Response;
+use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
@@ -32,18 +32,15 @@ class GetIPExample implements RequestHandler
     public $is_public = true;
 
     /**
-     * Function for handling request and returning data as a Response object.
+     * Function for handling request and returning a response.
      *
-     * @param  Response $response
+     * @param Request $request
+     * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Response &$response)
+    public function handleRequest(Request $request)
     {
-        $request_data = &$response->request;
-
-        // Set the response code
-        $response->code = 200;
-
-        // Add the 'ip' field to the request data using the client's requesting_ip
-        $response->setResponse('ip', $response->requesting_ip);
+        return [
+            'ip' => $request->ip,
+        ];
     }
 }
