@@ -158,7 +158,6 @@ class Synful
                 }
 
                 foreach ($handler->middleware as $middleware) {
-                    if (! $middleware instanceof )
                     $middleware = new $middleware;
                     $middleware->action($request, $handler);
                 }

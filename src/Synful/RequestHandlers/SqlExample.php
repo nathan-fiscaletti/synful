@@ -27,7 +27,7 @@ class SqlExample implements RequestHandler
      * @var array
      */
     public $middleware = [
-        APIKeyValidation::class
+        APIKeyValidation::class,
     ];
 
     /**

@@ -26,7 +26,7 @@ class SecurityLevelExample implements RequestHandler
      * @var array
      */
     public $middleware = [
-        APIKeyValidation::class
+        APIKeyValidation::class,
     ];
 
     /**
