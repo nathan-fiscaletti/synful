@@ -47,7 +47,7 @@ class Validator
 
             // Assign the user and key to the values of the request headers.
             $user = $request->headers['Synful-User'];
-            $key = $request->headers['Synful-Key'];            
+            $key = $request->headers['Synful-Key'];
 
             // Validate the the API key exists.
             if (! APIKey::keyExists($user)) {
