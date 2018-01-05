@@ -2,7 +2,7 @@
 
 namespace Synful\RequestHandlers;
 
-use Synful\Util\Framework\Response;
+use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 use Synful\Util\DataManagement\Models\APIKey;
 
@@ -29,22 +29,23 @@ class PrivateHandlerExample implements RequestHandler
     ];
 
     /**
-     * Function for handling request and returning data as a Response object.
+     * Function for handling request and returning a response.
      *
-     * @param  Response $response
+     * @param Request $request
+     * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Response &$response)
+    public function handleRequest(Request $request)
     {
-        $request_data = &$response->request;
+        $api_key = APIKey::getKey($request->email);
 
-        $api_key = APIKey::getKey($response->requesting_email);
-        $response->code = 200;
-        $response->setResponse('user_information', [
-            'name' => $api_key->name,
-            'email' => $api_key->email,
-            'enabled' => $api_key->enabled,
-            'whitelist_only' => $api_key->whitelist_only,
-            'firewall' => $api_key->ip_firewall,
-        ]);
+        return [
+            'user-information' => [
+                'name' => $api_key->name,
+                'email' => $api_key->email,
+                'enabled' => $api_key->enabled,
+                'whitelist_only' => $api_key->whitelist_only,
+                'firewall' => $api_key->ip_firewall,
+            ],
+        ];
     }
 }

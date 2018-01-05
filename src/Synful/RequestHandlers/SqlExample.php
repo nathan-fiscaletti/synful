@@ -3,7 +3,7 @@
 namespace Synful\RequestHandlers;
 
 use Synful\Synful;
-use Synful\Util\Framework\Response;
+use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
@@ -19,15 +19,13 @@ class SqlExample implements RequestHandler
     public $endpoint = 'example/sql';
 
     /**
-     * Function for handling request and returning data as a Response object.
+     * Function for handling request and returning a response.
      *
-     * @param  Response $response
+     * @param Request $request
+     * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Response &$response)
+    public function handleRequest(Request $request)
     {
-
-        // Create a reference to our request object
-        $request = &$response->request;
 
         // Define SQL Databases and Servers in 'SqlServers.php'
         // Create a reference to the SQL Database Connection
@@ -35,8 +33,12 @@ class SqlExample implements RequestHandler
 
         // Validate the request
         if (! isset($request['id']) || ! is_int($request['id'])) {
-            $response->code = 400;
-            $response->setResponse('error', 'Bad Request: Invalid ID supplied');
+            return sf_response(
+                400,
+                [
+                    'error' => 'Bad Request: Invalid ID supplied',
+                ]
+            );
         } else {
             // Do not use $sql_con->openSql();
             // The connection has already been opened by Synful and will be closed as needed.
@@ -49,16 +51,8 @@ class SqlExample implements RequestHandler
             // Convert the data from SQL to an array
             $db_row = mysqli_fetch_assoc($result);
 
-            // Set the response code
-            $response->code = 200;
-
-            // Overload the response with the data stored in the database row
-            $response->overloadResponse($db_row);
-
-            // Alternately, you can set each response field manually
-            $response->setResponse('id', $db_row['id']);
-            $response->setResponse('name', $db_row['name']);
-            $response->setResponse('foo', 'bar');
+            // Return the row in the response.
+            return $db_row;
 
             // Do not use $sql_con->closeSql();
             // The connection will be closed as needed by Synful automatically

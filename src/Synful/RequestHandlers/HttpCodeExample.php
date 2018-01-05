@@ -8,14 +8,14 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class RequestHandlerName implements RequestHandler
+class HttpCodeExample implements RequestHandler
 {
     /**
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
      */
-    public $endpoint = 'EndPoint';
+    public $endpoint = 'example/httpcode';
 
     /**
      * Set the `is_public` property to make this  a public request handler.
@@ -29,40 +29,25 @@ class RequestHandlerName implements RequestHandler
      *
      * @var bool
      */
-    // public $is_public = false;
-
-    /**
-     * Set the security level for the RequestHandler.
-     * Only API keys with this security level or
-     * higher can access this RequestHandler.
-     *
-     * @var int
-     */
-    // public $security_level = 0;
-
-    /**
-     * Assign an array of API Keys to the 'white_list_keys' property to make
-     * this handler only allow connections using those API Keys.
-     *
-     * @var array
-     */
-    // public $white_list_keys = [
-    //     'john@acme.com',
-    // ];
+    public $is_public = true;
 
     /**
      * Function for handling request and returning a response.
      *
      * @param Request $request
-     * @return \Synful\Util\Framework\Response|array
      */
     public function handleRequest(Request $request)
     {
-        // Insert your code here
+        // Return a 401 error code.
         return sf_response(
-            200,
+            401
+        );
+
+        // Alternately, you can return a 401 with a response body.
+        return sf_response(
+            401,
             [
-                'message' => 'Your new Request Handler is working!',
+                'error' => 'You are not authorized to be here.',
             ]
         );
     }
