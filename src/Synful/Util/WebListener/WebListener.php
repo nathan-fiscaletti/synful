@@ -17,7 +17,7 @@ class WebListener
     final public function initialize()
     {
         if (! isset($_GET['_synful_ep_'])) {
-            $response = (new SynfulException(null, 500, 1002))->response;
+            $response = (new SynfulException(500, 1002))->response;
             sf_respond($response->code, $response->serialize());
             exit;
         }
@@ -38,7 +38,7 @@ class WebListener
         }
 
         if (! $found_endpoint) {
-            $response = (new SynfulException(null, 404, 1001))->response;
+            $response = (new SynfulException(404, 1001))->response;
             sf_respond($response->code, $response->serialize());
             exit;
         }
@@ -48,7 +48,7 @@ class WebListener
         }
 
         if (! sf_is_json($json)) {
-            $response = (new SynfulException(null, 400, 1013))->response;
+            $response = (new SynfulException(400, 1013))->response;
             sf_respond($response->code, $response->serialize());
             exit;
         }
