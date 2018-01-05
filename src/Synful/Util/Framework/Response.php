@@ -2,6 +2,7 @@
 
 namespace Synful\Util\Framework;
 
+use Synful\Synful;
 use JsonSerializable;
 
 /**

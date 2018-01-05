@@ -5,6 +5,7 @@ namespace Synful\RequestHandlers;
 use Synful\Synful;
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
+use Synful\Util\MiddleWare\APIKeyValidation;
 
 /**
  * Class used to demonstrate Custom Sql Connections.
@@ -15,8 +16,19 @@ class SqlExample implements RequestHandler
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
+     *
+     * @var string
      */
     public $endpoint = 'example/sql';
+
+    /**
+     * Implement whatever middleware you would like.
+     *
+     * @var array
+     */
+    public $middleware = [
+        APIKeyValidation::class
+    ];
 
     /**
      * Function for handling request and returning a response.

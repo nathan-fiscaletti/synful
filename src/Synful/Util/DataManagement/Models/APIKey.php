@@ -171,7 +171,7 @@ class APIKey
 
         foreach ($this->ip_firewall as $firewall_entry) {
             if ($firewall_entry['ip'] == $ip) {
-                $ret = $firewall_entry['block'];
+                $ret = $firewall_entry['block'] === 1;
                 break;
             }
         }
@@ -187,7 +187,16 @@ class APIKey
      */
     public function isFirewallWhiteListed($ip)
     {
-        return ! $this->isFirewallBlackListed($ip);
+        $ret = false;
+
+        foreach ($this->ip_firewall as $firewall_entry) {
+            if ($firewall_entry['ip'] == $ip) {
+                $ret = $firewall_entry['block'] === 0;
+                break;
+            }
+        }
+
+        return $ret;
     }
 
     /**
