@@ -163,8 +163,7 @@ class Synful
 
         try {
             $handler = &self::$request_handlers[$handler];
-            $api_key = null;
-            if (self::$validator->validateAuthentication($request, $api_key, $handler, $ip)) {
+            if (self::$validator->validateRequest($request, $handler)) {
                 $response = $handler->handleRequest($request);
 
                 if (is_array($response)) {
@@ -172,7 +171,7 @@ class Synful
                 }
 
                 if (! ($response instanceof Response)) {
-                    throw new SynfulException(null, 500, 1016);
+                    throw new SynfulException(500, 1016);
                 }
             }
         } catch (SynfulException $synfulException) {
