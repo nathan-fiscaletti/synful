@@ -10,7 +10,7 @@ use Synful\Util\DataManagement\Models\APIKey;
 class Validator
 {
     /**
-     * Validates a Request
+     * Validates a Request.
      *
      * @param  \Synful\Util\Framwork\Request                       $request
      * @param  \Synful\RequestHandlers\Interfaces\RequestHandler   $handler
@@ -54,7 +54,7 @@ class Validator
                 throw new SynfulException(400, 1006);
             }
 
-            // Assign the API key to a variable and 
+            // Assign the API key to a variable and
             // update the request.
             $api_key = APIKey::getkey($user);
             $request->email = $api_key->email;
