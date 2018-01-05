@@ -14,27 +14,26 @@ class RequestHandlerName implements RequestHandler
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
+     *
+     * @var string
      */
     public $endpoint = 'EndPoint';
 
     /**
-     * Set the `is_public` property to make this  a public request handler.
-     * When a request handler is set to public, it won't require an API key.
+     * Implement MiddleWare.
      *
-     * Note If you disable allow_public_requests in Security.php,
-     * this will not matter and an API key will always be required.
-     *
-     * Note: If you are using only public RequestHandlers, you will not
-     * need any database configuration to run Synful.
-     *
-     * @var bool
+     * @var array
      */
-    // public $is_public = false;
+    // public $middleware = [
+    //    \Synful\Util\MiddleWare\APIKeyValidation::class,
+    // ];
 
     /**
      * Set the security level for the RequestHandler.
      * Only API keys with this security level or
      * higher can access this RequestHandler.
+     *
+     * Note: Must implement the APIKeyValidation middleware.
      *
      * @var int
      */
@@ -43,6 +42,8 @@ class RequestHandlerName implements RequestHandler
     /**
      * Assign an array of API Keys to the 'white_list_keys' property to make
      * this handler only allow connections using those API Keys.
+     *
+     * Note: Must implement the APIKeyValidation middleware.
      *
      * @var array
      */
