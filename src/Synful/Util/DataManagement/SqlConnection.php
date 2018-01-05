@@ -118,7 +118,7 @@ final class SqlConnection
     {
         if (! $this->is_open) {
             if (! $this->openSql()) {
-                throw new SynfulException(null, 500, 1015);
+                throw new SynfulException(500, 1015);
             }
         }
 

@@ -147,7 +147,7 @@ class IOFunctions
             case E_USER_ERROR: {
                 self::out(LogLevel::ERRO, 'Fatal Error: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = (new SynfulException(null, 500, $errno, 'Fatal Error: '.$err))->response;
+                    $response = (new SynfulException(500, $errno, 'Fatal Error: '.$err))->response;
                     sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
@@ -157,7 +157,7 @@ class IOFunctions
             case E_USER_WARNING: {
                 self::out(LogLevel::WARN, 'Warning: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = (new SynfulException(null, 500, $errno, 'Warning: '.$err))->response;
+                    $response = (new SynfulException(500, $errno, 'Warning: '.$err))->response;
                     sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
@@ -167,7 +167,7 @@ class IOFunctions
             case E_USER_NOTICE: {
                 self::out(LogLevel::NOTE, 'Notice: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = (new SynfulException(null, 500, $errno, 'Notice: '.$err))->response;
+                    $response = (new SynfulException(500, $errno, 'Notice: '.$err))->response;
                     sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
@@ -177,7 +177,7 @@ class IOFunctions
             default: {
                 self::out(LogLevel::ERRO, 'Unknown Error: '.$err, false, false, true);
                 if (! Synful::isCommandLineInterface()) {
-                    $response = (new SynfulException(null, 500, $errno, 'Unknown Error: '.$err))->response;
+                    $response = (new SynfulException(500, $errno, 'Unknown Error: '.$err))->response;
                     sf_respond($response->code, $response->serialize(), $to_file = true);
                     exit();
                 }
