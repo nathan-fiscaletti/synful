@@ -4,6 +4,7 @@ namespace Synful\RequestHandlers;
 
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
+use Synful\Util\MiddleWare\APIKeyValidation;
 
 /**
  * New Request Handler Class.
@@ -14,13 +15,26 @@ class SecurityLevelExample implements RequestHandler
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
+     *
+     * @var string
      */
     public $endpoint = 'example/secure';
+
+    /**
+     * Implement whatever middleware you would like.
+     *
+     * @var array
+     */
+    public $middleware = [
+        APIKeyValidation::class,
+    ];
 
     /**
      * Set the security level for the RequestHandler.
      * Only API keys with this security level or
      * higher can access this RequestHandler.
+     *
+     * Note: Must implement the APIKeyValidation middleware.
      *
      * @var int
      */

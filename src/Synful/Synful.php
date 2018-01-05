@@ -6,7 +6,6 @@ use Synful\Util\ASCII\Colors;
 use Synful\Util\IO\IOFunctions;
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\Response;
-use Synful\Util\Framework\Validator;
 use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\SynfulException;
@@ -23,13 +22,6 @@ class Synful
      * @var array
      */
     public static $config;
-
-    /**
-     * The primary validator.
-     *
-     * @var Synful\Util\Framework\Validator
-     */
-    public static $validator;
 
     /**
      * All SqlConnections based off of database definitions in config.
@@ -110,9 +102,6 @@ class Synful
             }
         }
 
-        // Instatiate new validator
-        self::$validator = new Validator();
-
         // Load request handlers
         self::loadRequestHandlers();
 
@@ -163,16 +152,25 @@ class Synful
 
         try {
             $handler = &self::$request_handlers[$handler];
-            if (self::$validator->validateRequest($request, $handler)) {
-                $response = $handler->handleRequest($request);
-
-                if (is_array($response)) {
-                    $response = sf_response(200, $response);
+            if (property_exists($handler, 'middleware')) {
+                if (! is_array($handler->middleware)) {
+                    throw new SynfulException(500, 1017);
                 }
 
-                if (! ($response instanceof Response)) {
-                    throw new SynfulException(500, 1016);
+                foreach ($handler->middleware as $middleware) {
+                    $middleware = new $middleware;
+                    $middleware->action($request, $handler);
                 }
+            }
+
+            $response = $handler->handleRequest($request);
+
+            if (is_array($response)) {
+                $response = sf_response(200, $response);
+            }
+
+            if (! ($response instanceof Response)) {
+                throw new SynfulException(500, 1016);
             }
         } catch (SynfulException $synfulException) {
             $response = $synfulException->response;
@@ -285,7 +283,7 @@ class Synful
     {
         $enabled_request_handler = false;
         foreach (scandir('./src/Synful/RequestHandlers') as $handler) {
-            if (substr($handler, 0, 1) !== '.' && $handler != 'Interfaces') {
+            if (substr($handler, 0, 1) !== '.') {
                 $enabled_request_handler = true;
                 $class_name = explode('.', $handler)[0];
                 eval(
