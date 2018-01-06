@@ -190,23 +190,6 @@ class Synful
     }
 
     /**
-     * Generate a test form for submitting requests.
-     */
-    public static function testForm()
-    {
-        // Load Global Functions
-        self::loadGlobalFunctions();
-
-        // Load the configuration into system
-        if (IOFunctions::loadConfig() && ! sf_conf('system.production')) {
-            readfile('./templates/TestForm.tmpl');
-        } else {
-            header('Location: /');
-            exit;
-        }
-    }
-
-    /**
      * Retreives the client IP Address.
      *
      * @return string The ip of the remote client
