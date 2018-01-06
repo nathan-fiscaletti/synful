@@ -21,7 +21,10 @@ class SecurityLevelExample implements RequestHandler
     public $endpoint = 'example/secure';
 
     /**
-     * Implement whatever middleware you would like.
+     * Implement the APIKeyValidation middleware
+     * in order to require an API key to access
+     * this RequestHandler. This is also used to
+     * parse the security_level property.
      *
      * @var array
      */

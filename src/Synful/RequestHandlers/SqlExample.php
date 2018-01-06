@@ -22,7 +22,9 @@ class SqlExample implements RequestHandler
     public $endpoint = 'example/sql';
 
     /**
-     * Implement whatever middleware you would like.
+     * Implement the APIKeyValidation middleware
+     * in order to require an API key to access
+     * this RequestHandler.
      *
      * @var array
      */
