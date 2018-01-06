@@ -21,14 +21,8 @@ class WhitelistOnly extends Command
             if (! is_numeric($value)) {
                 sf_error('Value must be an integer of either 0 or 1.');
             } else {
-                if (! APIKey::keyExists($email_or_id)) {
-                    sf_error(
-                        'No key found for email/ID \''.$email_or_id.'\'.',
-                        true,
-                        false,
-                        false
-                    );
-                } else {
+                $key = APIKey::getkey($email_or_id);
+                if ($key !== null) {
                     $key = APIKey::getKey($email_or_id);
                     $key->whitelist_only = $value;
                     $key->save();
@@ -45,6 +39,13 @@ class WhitelistOnly extends Command
                                 'light_red'
                             )
                         ).'\'.',
+                        true,
+                        false,
+                        false
+                    );
+                } else {
+                    sf_error(
+                        'No key found for email/ID \''.$email_or_id.'\'.',
                         true,
                         false,
                         false

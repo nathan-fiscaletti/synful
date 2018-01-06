@@ -17,7 +17,7 @@ use Synful\Util\DataManagement\SqlConnection;
 class Synful
 {
     /**
-     * The config for the system pulled from './config/Main.php'.
+     * The config for the system pulled from './config/'.
      *
      * @var array
      */
