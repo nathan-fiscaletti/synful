@@ -34,7 +34,7 @@ class WebListener
                 $handler_endpoint_elements = explode('/', $handler->endpoint);
                 $handler_endpoint_path = [];
                 $handler_endpoint_properties = [];
-                for ($i=0;$i<count($handler_endpoint_elements);$i++) {
+                for ($i = 0; $i < count($handler_endpoint_elements); $i++) {
                     $field = $handler_endpoint_elements[$i];
 
                     if (
@@ -79,8 +79,9 @@ class WebListener
                         exit;
                     }
 
-                    foreach ($handler_endpoint_properties as $key => $property)
-                    {
+                    foreach (
+                        $handler_endpoint_properties as $key => $property
+                    ) {
                         $fields[$property] = $endpoint_elements[$key];
                     }
 

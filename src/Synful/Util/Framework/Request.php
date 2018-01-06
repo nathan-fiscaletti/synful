@@ -85,7 +85,7 @@ class Request
 
         foreach ($keys as $key) {
             if (! array_key_exists($key, $result)) {
-                return null;
+                return;
             }
 
             $result = $result[$key];
@@ -102,7 +102,7 @@ class Request
         }
 
         if (! array_key_exists($final_key, $result)) {
-            return null;
+            return;
         }
 
         return $result[$final_key];
