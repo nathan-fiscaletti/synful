@@ -36,7 +36,7 @@ class CreateKey extends Command
                         false
                     );
                 } else {
-                    $key = APIKey::getKey($email)
+                    $key = APIKey::getKey($email);
                     if ($key !== null) {
                         $response = null;
                         while (
