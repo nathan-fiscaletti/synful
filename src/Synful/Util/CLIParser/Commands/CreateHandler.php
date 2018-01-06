@@ -12,7 +12,7 @@ class CreateHandler extends Command
     public function __construct()
     {
         $this->name = 'ch';
-        $this->description = 'Creates a request handler with the specified name in src/Synful/RequestHandlers.';
+        $this->description = 'Creates a new custom Request Handler implementation.';
         $this->required = false;
         $this->alias = 'create-handler';
 

@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class GetIPExample implements RequestHandler
+class InputExample implements RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -17,7 +17,7 @@ class GetIPExample implements RequestHandler
      *
      * @var string
      */
-    public $endpoint = 'example/getip';
+    public $endpoint = 'example/input';
 
     /**
      * Function for handling request and returning a response.
@@ -27,8 +27,20 @@ class GetIPExample implements RequestHandler
      */
     public function handleRequest(Request $request)
     {
-        return [
-            'ip' => $request->ip,
-        ];
+        // Read input from the data passed in the request.
+        $name = $request->input('name');
+
+        if ($name == null) {
+            return sf_response(
+                500,
+                [
+                    'error' => 'Missing name parameter.',
+                ]
+            );
+        } else {
+            return [
+                'your_name_is' => $name,
+            ];
+        }
     }
 }

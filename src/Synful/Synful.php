@@ -6,7 +6,6 @@ use Synful\Util\ASCII\Colors;
 use Synful\Util\IO\IOFunctions;
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\Response;
-use Synful\Util\Framework\Validator;
 use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\SynfulException;
@@ -23,13 +22,6 @@ class Synful
      * @var array
      */
     public static $config;
-
-    /**
-     * The primary validator.
-     *
-     * @var Synful\Util\Framework\Validator
-     */
-    public static $validator;
 
     /**
      * All SqlConnections based off of database definitions in config.
@@ -110,9 +102,6 @@ class Synful
             }
         }
 
-        // Instatiate new validator
-        self::$validator = new Validator();
-
         // Load request handlers
         self::loadRequestHandlers();
 
@@ -145,34 +134,53 @@ class Synful
      *
      * @param  string                          $handler
      * @param  string                          $request
+     * @param  array                           $fields
      * @param  string                          $ip
      * @return \Synful\Util\Framework\Response
      */
     public static function handleRequest(
         string $handler,
         string $request,
+        array  $fields,
         string $ip
     ) {
-        $data = (array) json_decode($request);
+        $data = (array) json_decode($request, true);
 
         $request = new Request([
             'ip' => $ip,
             'headers' => apache_request_headers(),
             'data' => $data,
+            'fields' => $fields,
         ]);
 
         try {
             $handler = &self::$request_handlers[$handler];
-            if (self::$validator->validateRequest($request, $handler)) {
-                $response = $handler->handleRequest($request);
 
-                if (is_array($response)) {
-                    $response = sf_response(200, $response);
+            $all_middleware = sf_conf(
+                'system.global_middleware'
+            );
+
+            if (property_exists($handler, 'middleware')) {
+                if (! is_array($handler->middleware)) {
+                    throw new SynfulException(500, 1017);
                 }
 
-                if (! ($response instanceof Response)) {
-                    throw new SynfulException(500, 1016);
-                }
+                $all_middleware = $all_middleware + $handler->middleware;
+            }
+
+            foreach ($all_middleware as $middleware) {
+                $middleware = new $middleware;
+                $middleware->before($request, $handler);
+            }
+
+            $response = $handler->handleRequest($request);
+
+            if (is_array($response)) {
+                $response = sf_response(200, $response);
+            }
+
+            if (! ($response instanceof Response)) {
+                throw new SynfulException(500, 1016);
             }
         } catch (SynfulException $synfulException) {
             $response = $synfulException->response;
@@ -285,7 +293,7 @@ class Synful
     {
         $enabled_request_handler = false;
         foreach (scandir('./src/Synful/RequestHandlers') as $handler) {
-            if (substr($handler, 0, 1) !== '.' && $handler != 'Interfaces') {
+            if (substr($handler, 0, 1) !== '.') {
                 $enabled_request_handler = true;
                 $class_name = explode('.', $handler)[0];
                 eval(
@@ -293,41 +301,6 @@ class Synful
                     $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
                     $class_name.'();'
                 );
-                $is_public = false;
-                $is_private = false;
-                if (sf_conf('security.allow_public_requests')) {
-                    if (property_exists(self::$request_handlers[$class_name], 'is_public')) {
-                        $is_public = self::$request_handlers[$class_name]->is_public;
-                    } elseif (property_exists(self::$request_handlers[$class_name], 'white_list_keys')) {
-                        if (is_array(self::$request_handlers[$class_name]->white_list_keys)) {
-                            $is_private = true;
-                        }
-                    }
-                }
-                if (self::isCommandLineInterface()) {
-                    sf_note(
-                        '    Loaded Request Handler: '.$class_name.
-                        (($is_public)
-                            ? sf_color(
-                                ' (Public)',
-                                'light_green'
-                            )
-                            : (($is_private)
-                                ? sf_color(
-                                    ' (Private)',
-                                    'light_red'
-                                )
-                                : sf_color(
-                                    ' (Standard)',
-                                    'light_blue'
-                                )
-                            )
-                        ),
-                        true,
-                        false,
-                        false
-                    );
-                }
             }
         }
         if (! $enabled_request_handler) {
