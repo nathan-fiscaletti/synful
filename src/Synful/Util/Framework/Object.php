@@ -2,8 +2,6 @@
 
 namespace Synful\Util\Framework;
 
-use Exception;
-
 /**
  * Trait used as a base for classes with constructors that match their properties.
  */
@@ -20,7 +18,11 @@ trait Object
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;
             } else {
-                throw new Exception('Unknown property \''.$key.'\' in Object definition.');
+                throw new SynfulException(
+                    500,
+                    -1,
+                    'Unknown property \''.$key.'\' in Object definition.'
+                );
             }
         }
     }
@@ -42,7 +44,11 @@ trait Object
                 $this->{$name} = $arguments[0];
             }
         } else {
-            throw new Exception('Call to undefined function \''.$name.'\'.');
+            throw new SynfulException(
+                500,
+                -2,
+                'Call to undefined function \''.$name.'\'.'
+            );
         }
 
         return $ret;
