@@ -124,6 +124,6 @@ class WebListener
             }
         }
 
-        sf_respond($response->code, $response->serialize());
+        sf_respond($response->code, $response->serialize(), false, $response->headers);
     }
 }
