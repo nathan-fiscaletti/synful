@@ -34,7 +34,7 @@ class InputExample implements RequestHandler
             return sf_response(
                 500,
                 [
-                    'error' => 'Missing name parameter.'
+                    'error' => 'Missing name parameter.',
                 ]
             );
         } else {
