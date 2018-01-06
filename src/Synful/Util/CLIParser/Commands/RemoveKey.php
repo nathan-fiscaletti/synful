@@ -17,8 +17,8 @@ class RemoveKey extends Command
         $this->required = false;
         $this->alias = 'remove-key';
         $this->exec = function ($email_or_id) {
-            if (APIKey::keyExists($email_or_id)) {
-                $key = APIKey::getKey($email_or_id);
+            $key = APIKey::getKey($email_or_id);
+            if ($key !== null) {
                 $key->delete();
                 sf_info(
                     'APIKey for ID \''.sf_color($email_or_id, 'light_blue').
