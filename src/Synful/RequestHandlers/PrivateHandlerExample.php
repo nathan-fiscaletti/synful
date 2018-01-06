@@ -22,7 +22,10 @@ class PrivateHandlerExample implements RequestHandler
     public $endpoint = 'example/private';
 
     /**
-     * Implement whatever middleware you would like.
+     * Implement the APIKeyValidation middleware
+     * in order to require an API key to access
+     * this RequestHandler. This is also used to
+     * parse the white_list_keys property.
      *
      * @var array
      */
