@@ -12,5 +12,13 @@ interface MiddleWare
      * @param  \Synful\Util\Framework\RequestHandler $handler
      * @return bool
      */
-    public function action(Request $request, RequestHandler $handler);
+    public function before(Request $request, RequestHandler $handler);
+
+    /**
+     * Perform the specified action on a Response before
+     * passing it back to the client.
+     *
+     * @param  Response $response
+     */
+    public function after(Response $response);
 }

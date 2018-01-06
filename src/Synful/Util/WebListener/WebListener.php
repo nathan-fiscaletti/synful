@@ -115,6 +115,15 @@ class WebListener
             Synful::getClientIP()
         );
 
+        $handler = Synful::$request_handlers[$selected_handler];
+
+        if (property_exists($handler, 'middleware')) {
+            foreach ($handler->middleware as $middleware) {
+                $middleware = new $middleware;
+                $middleware->after($response);
+            }
+        }
+
         sf_respond($response->code, $response->serialize());
     }
 }

@@ -3,6 +3,7 @@
 namespace Synful\Util\MiddleWare;
 
 use Synful\Util\Framework\Request;
+use Synful\Util\Framework\Response;
 use Synful\Util\Framework\MiddleWare;
 use Synful\Util\Framework\RequestHandler;
 
@@ -19,8 +20,19 @@ class MiddleWareName implements MiddleWare
      * @param  \Synful\Util\Framework\RequestHandler $handler
      * @return bool
      */
-    public function action(Request $request, RequestHandler $handler)
+    public function before(Request $request, RequestHandler $handler)
     {
         // Your code here
+    }
+
+    /**
+     * Perform the specified action on a Response before
+     * passing it back to the client.
+     *
+     * @param  Response $response
+     */
+    public function after(Response $response)
+    {
+        // Do nothing
     }
 }
