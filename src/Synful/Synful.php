@@ -291,41 +291,6 @@ class Synful
                     $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
                     $class_name.'();'
                 );
-                $is_public = false;
-                $is_private = false;
-                if (sf_conf('security.allow_public_requests')) {
-                    if (property_exists(self::$request_handlers[$class_name], 'is_public')) {
-                        $is_public = self::$request_handlers[$class_name]->is_public;
-                    } elseif (property_exists(self::$request_handlers[$class_name], 'white_list_keys')) {
-                        if (is_array(self::$request_handlers[$class_name]->white_list_keys)) {
-                            $is_private = true;
-                        }
-                    }
-                }
-                if (self::isCommandLineInterface()) {
-                    sf_note(
-                        '    Loaded Request Handler: '.$class_name.
-                        (($is_public)
-                            ? sf_color(
-                                ' (Public)',
-                                'light_green'
-                            )
-                            : (($is_private)
-                                ? sf_color(
-                                    ' (Private)',
-                                    'light_red'
-                                )
-                                : sf_color(
-                                    ' (Standard)',
-                                    'light_blue'
-                                )
-                            )
-                        ),
-                        true,
-                        false,
-                        false
-                    );
-                }
             }
         }
         if (! $enabled_request_handler) {
