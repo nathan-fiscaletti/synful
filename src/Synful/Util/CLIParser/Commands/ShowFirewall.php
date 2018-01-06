@@ -18,9 +18,8 @@ class ShowFirewall extends Command
         $this->alias = 'show-firewall';
 
         $this->exec = function ($email_or_id) {
-            if (APIKey::keyExists($email_or_id)) {
-                $key = APIKey::getKey($email_or_id);
-
+            $key = APIKey::getKey($email_or_id);
+            if ($key !== null) {
                 foreach ($key->ip_firewall as $firewall_entry) {
                     sf_info(
                         'IP: '.sf_color($firewall_entry['ip'], 'yellow').' is '.

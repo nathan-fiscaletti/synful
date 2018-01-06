@@ -59,14 +59,16 @@ class APIKeyValidation implements MiddleWare
         $user = $request->headers['Synful-User'];
         $key = $request->headers['Synful-Key'];
 
+        // Load the API Key
+        $api_key = APIKey::getkey($user);
+
         // Validate the the API key exists.
-        if (! APIKey::keyExists($user)) {
+        if ($api_key === null) {
             throw new SynfulException(400, 1006);
         }
 
         // Assign the API key to a variable and
         // update the request.
-        $api_key = APIKey::getkey($user);
         $request->email = $api_key->email;
 
         // Validate that the API key is enabled.

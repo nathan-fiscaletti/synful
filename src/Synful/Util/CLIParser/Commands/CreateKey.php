@@ -36,7 +36,8 @@ class CreateKey extends Command
                         false
                     );
                 } else {
-                    if (APIKey::keyExists($email)) {
+                    $key = APIKey::getKey($email);
+                    if ($key !== null) {
                         $response = null;
                         while (
                             $response != 'yes' && $response != 'no' &&
@@ -51,7 +52,6 @@ class CreateKey extends Command
                         }
 
                         if ($response == 'yes' || $response == 'y') {
-                            $key = APIKey::getKey($email);
                             $key->name = $name;
                             $key->security_level = $security_level;
                             $key->whitelist_only = $whitelist_only;

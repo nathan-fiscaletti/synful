@@ -22,8 +22,8 @@ class FirewallIp extends Command
             if (! is_numeric($block)) {
                 sf_error('Block value must be an integer value of either 1 or 0.', true, false, false);
             } else {
-                if (APIKey::keyExists($id)) {
-                    $key = APIKey::getKey($id);
+                $key = APIKey::getKey($id);
+                if ($key !== null) {
                     $key->firewallIP($ip, $block);
                     $key->save();
                     sf_info(

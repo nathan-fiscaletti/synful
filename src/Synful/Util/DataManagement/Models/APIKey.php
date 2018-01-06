@@ -362,7 +362,8 @@ class APIKey
     ) {
         $ret = null;
 
-        if (! self::keyExists($email)) {
+        $key = self::getKey($email);
+        if ($key === null) {
             $new_key = self::generateNew();
 
             sf_sql(
@@ -421,17 +422,6 @@ class APIKey
         }
 
         return $ret;
-    }
-
-    /**
-     * Check if a key exists in the system.
-     *
-     * @param  mixed $id
-     * @return bool
-     */
-    public static function keyExists($id)
-    {
-        return self::getKey($id) != null;
     }
 
     /**
