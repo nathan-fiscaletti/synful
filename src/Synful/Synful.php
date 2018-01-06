@@ -17,7 +17,7 @@ use Synful\Util\DataManagement\SqlConnection;
 class Synful
 {
     /**
-     * The config for the system pulled from './config/Main.php'.
+     * The config for the system pulled from './config/'.
      *
      * @var array
      */
@@ -187,23 +187,6 @@ class Synful
         }
 
         return $response;
-    }
-
-    /**
-     * Generate a test form for submitting requests.
-     */
-    public static function testForm()
-    {
-        // Load Global Functions
-        self::loadGlobalFunctions();
-
-        // Load the configuration into system
-        if (IOFunctions::loadConfig() && ! sf_conf('system.production')) {
-            readfile('./templates/TestForm.tmpl');
-        } else {
-            header('Location: /');
-            exit;
-        }
     }
 
     /**

@@ -17,8 +17,8 @@ class EnableKey extends Command
         $this->required = false;
         $this->alias = 'enable-key';
         $this->exec = function ($email_or_id) {
-            if (APIKey::keyExists($email_or_id)) {
-                $key = APIKey::getKey($email_or_id);
+            $key = APIKey::getKey($email_or_id);
+            if ($key !== null) {
                 $key->enabled = true;
                 $key->save();
                 sf_info(
