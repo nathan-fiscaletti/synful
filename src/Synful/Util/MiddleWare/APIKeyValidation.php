@@ -22,7 +22,7 @@ class APIKeyValidation implements MiddleWare
      * @param  \Synful\Util\Framework\RequestHandler $handler
      * @return bool
      */
-    public function action(Request $request, RequestHandler $handler)
+    public function before(Request $request, RequestHandler $handler)
     {
         $this->validateRequest($request, $handler);
     }
