@@ -47,6 +47,8 @@ class SynfulException extends Exception
         1015 => 'Unable to connect to MySql server. Check \'SqlServers.php\'.',
         1016 => 'Invalid response type returned from Request Handler.',
         1017 => 'Invalid middleware definition.',
+        1018 => 'Invalid field count in request path.',
+        1019 => 'Invalid path element.',
     ];
 
     /**

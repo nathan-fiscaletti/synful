@@ -59,6 +59,10 @@ if (! function_exists('sf_response')) {
      */
     function sf_response(int $code = 200, $response = null)
     {
+        if ($response != null && ! is_array($response)) {
+            throw new \Synful\Util\Framework\SynfulException(500, 1016);
+        }
+
         return new \Synful\Util\Framework\Response([
             'code' => $code,
             'response' => $response,
