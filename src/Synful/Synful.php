@@ -134,20 +134,23 @@ class Synful
      *
      * @param  string                          $handler
      * @param  string                          $request
+     * @param  array                           $fields
      * @param  string                          $ip
      * @return \Synful\Util\Framework\Response
      */
     public static function handleRequest(
         string $handler,
         string $request,
+        array  $fields,
         string $ip
     ) {
-        $data = (array) json_decode($request);
+        $data = (array) json_decode($request, true);
 
         $request = new Request([
             'ip' => $ip,
             'headers' => apache_request_headers(),
             'data' => $data,
+            'fields' => $fields,
         ]);
 
         try {
