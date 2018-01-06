@@ -18,8 +18,8 @@ class DisableKey extends Command
         $this->alias = 'disable-key';
 
         $this->exec = function ($email_or_id) {
-            if (APIKey::keyExists($email_or_id)) {
-                $key = APIKey::getKey($email_or_id);
+            $key = APIKey::getKey($email_or_id);
+            if ($key !== null) {
                 $key->enabled = false;
                 $key->save();
                 sf_info(

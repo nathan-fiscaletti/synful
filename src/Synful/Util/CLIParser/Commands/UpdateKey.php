@@ -18,9 +18,8 @@ class UpdateKey extends Command
         $this->alias = 'update-key';
 
         $this->exec = function ($email_or_id) {
-            if (APIKey::keyExists($email_or_id)) {
-                $key = APIKey::getKey($email_or_id);
-
+            $key = APIKey::getKey($email_or_id);
+            if ($key !== null) {
                 global $__minimal_output;
                 if (! $__minimal_output) {
                     $__minimal_output = false;
