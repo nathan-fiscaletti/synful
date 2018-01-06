@@ -162,7 +162,7 @@ class Synful
 
                 foreach ($handler->middleware as $middleware) {
                     $middleware = new $middleware;
-                    $middleware->action($request, $handler);
+                    $middleware->before($request, $handler);
                 }
             }
 

@@ -3,6 +3,7 @@
 namespace Synful\Util\MiddleWare;
 
 use Synful\Util\Framework\Request;
+use Synful\Util\Framework\Response;
 use Synful\Util\Framework\MiddleWare;
 use Synful\Util\Framework\RequestHandler;
 use Synful\Util\Framework\SynfulException;
@@ -24,6 +25,17 @@ class APIKeyValidation implements MiddleWare
     public function action(Request $request, RequestHandler $handler)
     {
         $this->validateRequest($request, $handler);
+    }
+
+    /**
+     * Perform the specified action on a Response before
+     * passing it back to the client.
+     *
+     * @param  Response $response
+     */
+    public function after(Response $response)
+    {
+        // Don't implement
     }
 
     /**
