@@ -155,15 +155,22 @@ class Synful
 
         try {
             $handler = &self::$request_handlers[$handler];
+
+            $all_middleware = sf_conf(
+                'system.global_middleware'
+            );
+
             if (property_exists($handler, 'middleware')) {
                 if (! is_array($handler->middleware)) {
                     throw new SynfulException(500, 1017);
                 }
 
-                foreach ($handler->middleware as $middleware) {
-                    $middleware = new $middleware;
-                    $middleware->before($request, $handler);
-                }
+                $all_middleware = $all_middleware + $handler->middleware;
+            }
+
+            foreach ($all_middleware as $middleware) {
+                $middleware = new $middleware;
+                $middleware->before($request, $handler);
             }
 
             $response = $handler->handleRequest($request);

@@ -54,4 +54,14 @@ return [
 
     'allow_pretty_responses_on_get' => true,
 
+    /*
+     |--------------------------------------------------------------------------
+     | Global Middleware
+     |--------------------------------------------------------------------------
+     |
+     | The select middleware that will be applied to all RequestHandlers.
+     */
+
+    'global_middleware' => [],
+
 ];

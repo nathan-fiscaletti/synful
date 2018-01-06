@@ -117,11 +117,21 @@ class WebListener
 
         $handler = Synful::$request_handlers[$selected_handler];
 
+        $all_middleware = sf_conf(
+            'system.global_middleware'
+        );
+
         if (property_exists($handler, 'middleware')) {
-            foreach ($handler->middleware as $middleware) {
-                $middleware = new $middleware;
-                $middleware->after($response);
+            if (! is_array($handler->middleware)) {
+                throw new SynfulException(500, 1017);
             }
+
+            $all_middleware = $all_middleware + $handler->middleware;
+        }
+
+        foreach ($all_middleware as $middleware) {
+            $middleware = new $middleware;
+            $middleware->after($response);
         }
 
         sf_respond($response->code, $response->serialize(), false, $response->headers);
