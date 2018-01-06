@@ -362,7 +362,7 @@ class APIKey
     ) {
         $ret = null;
 
-        $key = APIKey::getKey($email);
+        $key = self::getKey($email);
         if ($key === null) {
             $new_key = self::generateNew();
 
