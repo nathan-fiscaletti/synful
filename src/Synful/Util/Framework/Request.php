@@ -5,7 +5,7 @@ namespace Synful\Util\Framework;
 /**
  * Class used to represent an HTTP request.
  */
-class Request implements \ArrayAccess
+class Request
 {
     use Object;
 
@@ -15,6 +15,13 @@ class Request implements \ArrayAccess
      * @var array
      */
     private $data;
+
+    /**
+     * The request fields in the URL.
+     *
+     * @var array
+     */
+    private $fields;
 
     /**
      * The request headers.
@@ -38,95 +45,76 @@ class Request implements \ArrayAccess
     public $ip;
 
     /**
-     * Override for ArrayAccess offsetExists.
-     *
-     * @param  mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->data[$offset]);
-    }
-
-    /**
-     * Override for ArrayAccess offsetGet.
-     *
-     * @param  mixed $offset
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->data[$offset];
-    }
-
-    /**
-     * Override for ArrayAccess offsetSet.
-     *
-     * @param  mixed $offset
-     * @param  mixed $value
-     * @throws \Exception
-     */
-    public function offsetSet($offset, $value)
-    {
-        throw new \Exception('Cannot modify a request object.');
-    }
-
-    /**
-     * Override for ArrayAccess offsetUnset.
-     *
-     * @param  mixed $offset
-     * @throws \Exception
-     */
-    public function offsetUnset($offset)
-    {
-        throw new \Exception('Cannot modify a request object.');
-    }
-
-    /**
-     * Override magic __get function.
+     * Returns a field from the request path.
      *
      * @param  string $name
      * @return mixed
      */
-    public function __get($name)
+    public function field($name)
     {
-        if (array_key_exists($name, $this->data)) {
-            return $this->data[$name];
+        $ret = null;
+
+        if (array_key_exists($name, $this->fields)) {
+            $ret = $this->fields[$name];
         }
 
-        throw new \Exception('Call to undefined property '.$name.'.');
+        return $ret;
     }
 
     /**
-     * Override magic __set function.
+     * Returns a array of all fields for this request.
      *
-     * @param  string $name
-     * @param  string $value
-     * @return mixed
+     * @return array
      */
-    public function __set($name, $value)
+    public function fields()
     {
-        throw new \Exception('Cannot modify a request object.');
+        return $this->fields;
     }
 
     /**
-     * Override magic __call function.
+     * Retrieve input from the request.
      *
-     * @param  string $name
-     * @param  array  $args
+     * @param  string $path
      * @return mixed
-     * @throws \Exception
      */
-    public function __call($name, $args)
+    public function input($path)
     {
-        if (count($args) > 0) {
-            throw new \Exception('Cannot modify a request object.');
+        $keys = explode('.', $path);
+        $final_key = array_pop($keys);
+        $result = $this->data;
+
+        foreach ($keys as $key) {
+            if (! array_key_exists($key, $result)) {
+                return null;
+            }
+
+            $result = $result[$key];
+
+            if (! is_array($result)) {
+                throw new SynfulException(
+                    500,
+                    1019,
+                    'Invalid path element. \''.
+                    substr($path, 0, strpos($path, $key) + strlen($key)).
+                    '\' is not a valid array.'
+                );
+            }
         }
 
-        if (array_key_exists($name, $this->data)) {
-            return $this->data[$name];
+        if (! array_key_exists($final_key, $result)) {
+            return null;
         }
 
-        throw new \Exception('Call to undefined function '.$name.'.');
+        return $result[$final_key];
+    }
+
+    /**
+     * Returns a list of all inputs for this request.
+     *
+     * @return array
+     */
+    public function inputs()
+    {
+        return $this->data;
     }
 }
