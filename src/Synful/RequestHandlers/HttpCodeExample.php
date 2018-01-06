@@ -14,22 +14,10 @@ class HttpCodeExample implements RequestHandler
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
+     *
+     * @var string
      */
     public $endpoint = 'example/httpcode';
-
-    /**
-     * Set the `is_public` property to make this  a public request handler.
-     * When a request handler is set to public, it won't require an API key.
-     *
-     * Note If you disable allow_public_requests in Security.php,
-     * this will not matter and an API key will always be required.
-     *
-     * Note: If you are using only public RequestHandlers, you will not
-     * need any database configuration to run Synful.
-     *
-     * @var bool
-     */
-    public $is_public = true;
 
     /**
      * Function for handling request and returning a response.

@@ -140,9 +140,13 @@ if (! function_exists('sf_respond')) {
      * @param  string  $data
      * @return mixed
      */
-    function sf_respond($code, $data, $to_file = false)
+    function sf_respond($code, $data, $to_file = false, $headers = [])
     {
         http_response_code($code);
+
+        foreach ($headers as $key => $value) {
+            header($key.': '.$value);
+        }
 
         return \Synful\Util\IO\IOFunctions::out(
             \Synful\Util\IO\LogLevel::RESP,

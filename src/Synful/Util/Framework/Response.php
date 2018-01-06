@@ -2,6 +2,7 @@
 
 namespace Synful\Util\Framework;
 
+use Synful\Synful;
 use JsonSerializable;
 
 /**
@@ -10,6 +11,13 @@ use JsonSerializable;
 class Response implements JsonSerializable
 {
     use Object;
+
+    /**
+     * The response headers.
+     *
+     * @var array
+     */
+    public $headers = [];
 
     /**
      * The HTTP Response Code.
@@ -33,6 +41,17 @@ class Response implements JsonSerializable
     public function jsonSerialize()
     {
         return $this->response;
+    }
+
+    /**
+     * Sets a header for the Response.
+     *
+     * @param string $header
+     * @param string $value
+     */
+    public function setHeader(string $header, string $value)
+    {
+        $this->headers[$header] = $value;
     }
 
     /**

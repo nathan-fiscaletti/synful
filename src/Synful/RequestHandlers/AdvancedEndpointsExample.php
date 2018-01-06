@@ -8,16 +8,22 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class GetIPExample implements RequestHandler
+class AdvancedEndpointsExample implements RequestHandler
 {
     /**
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
      *
+     * You can also add fields to the endpoint,
+     * In this example, we add the `id` field.
+     *
+     * You can access these fields using
+     * `$request->field('id')`.
+     *
      * @var string
      */
-    public $endpoint = 'example/getip';
+    public $endpoint = 'example/endpoint/{id}';
 
     /**
      * Function for handling request and returning a response.
@@ -28,7 +34,7 @@ class GetIPExample implements RequestHandler
     public function handleRequest(Request $request)
     {
         return [
-            'ip' => $request->ip,
+            'message' => 'You selected ID: '.$request->field('id'),
         ];
     }
 }
