@@ -15,6 +15,12 @@ class RequestHandlerName implements RequestHandler
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
      *
+     * You can also add fields to the endpoint
+     * by encapsulating them with `{field_name}`.
+     *
+     * You can access these fields using
+     * `$request->field('field_name')`.
+     *
      * @var string
      */
     public $endpoint = 'EndPoint';
