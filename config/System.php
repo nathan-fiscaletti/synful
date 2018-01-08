@@ -64,4 +64,14 @@ return [
 
     'global_middleware' => [],
 
+    /*
+     |--------------------------------------------------------------------------
+     | Serializer
+     |--------------------------------------------------------------------------
+     |
+     | The serializer that will be used for requests.
+     */
+
+    'serializer' => \Synful\Util\Serializers\JSONSerializer::class,
+
 ];

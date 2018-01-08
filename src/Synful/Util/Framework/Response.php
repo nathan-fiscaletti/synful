@@ -2,13 +2,10 @@
 
 namespace Synful\Util\Framework;
 
-use Synful\Synful;
-use JsonSerializable;
-
 /**
  * Class used for response storage.
  */
-class Response implements JsonSerializable
+class Response
 {
     use Object;
 
@@ -34,14 +31,11 @@ class Response implements JsonSerializable
     public $response;
 
     /**
-     * Override serialization for json_encode.
+     * The serializer to use.
      *
-     * @return array
+     * @var \Synful\Util\Framework\Serializer
      */
-    public function jsonSerialize()
-    {
-        return $this->response;
-    }
+    public $serializer;
 
     /**
      * Sets a header for the Response.
@@ -54,6 +48,11 @@ class Response implements JsonSerializable
         $this->headers[$header] = $value;
     }
 
+    public function setSerializer(Serializer $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
     /**
      * Get the serialized version of the response.
      *
@@ -61,15 +60,21 @@ class Response implements JsonSerializable
      */
     public function serialize()
     {
-        $ret = json_encode($this);
+        $serializer = null;
 
-        if (sf_conf('system.pretty_responses') || (isset($_GET['pretty'])
-            && Synful::$config->get('system.allow_pretty_responses_on_get'))) {
-            $ret = json_encode($this, JSON_PRETTY_PRINT);
+        if ($this->serializer != null) {
+            $serializer = $this->serializer;
+        } else {
+            $serializer = sf_conf('system.serializer');
+            $serializer = new $serializer;
         }
 
-        if ($this->response == null) {
-            $ret = '';
+        $ret = null;
+
+        try {
+            $ret = $serializer->serialize($this->response);
+        } catch (\Exception $e) {
+            $ret = $e->getMessage();
         }
 
         return $ret;

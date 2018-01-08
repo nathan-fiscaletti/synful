@@ -31,7 +31,7 @@ class APIKeyValidation implements MiddleWare
      * Perform the specified action on a Response before
      * passing it back to the client.
      *
-     * @param  Response $response
+     * @param \Synful\Util\Framwork\Response $response
      */
     public function after(Response $response)
     {
