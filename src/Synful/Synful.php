@@ -149,12 +149,16 @@ class Synful
             $serializer = new $handler->serializer;
         }
 
-        try {
-            $data = $serializer->deserialize($input);
-        } catch (\Exception $e) {
-            $response = (new SynfulException(500, -1, $e->getMessage()))->response;
-            sf_respond($response->code, $response->serialize());
-            exit;
+        if (! empty($input)) {
+            try {
+                $data = $serializer->deserialize($input);
+            } catch (\Exception $e) {
+                $response = (new SynfulException(500, -1, $e->getMessage()))->response;
+                sf_respond($response->code, $response->serialize());
+                exit;
+            }
+        } else {
+            $data = [];
         }
 
         $request = new Request([
