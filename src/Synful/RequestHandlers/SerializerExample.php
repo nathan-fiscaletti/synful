@@ -28,10 +28,10 @@ class SerializerExample implements RequestHandler
 
     /**
      * Override the serializer used for
-     * this request handler. This will 
-     * override whatever setting is in 
+     * this request handler. This will
+     * override whatever setting is in
      * the System.php configuration.
-     * 
+     *
      * @var string
      */
     public $serializer = CSVSerializer::class;
@@ -46,12 +46,12 @@ class SerializerExample implements RequestHandler
     {
         // This array will be passed through the CSVSerializer
         // before it is returned.
-        // 
+        //
         // Input sent to this RequestHandler should be CSV
-        // formatted. 
-        // 
+        // formatted.
+        //
         // i.e. curl -d 'value1,value2' 127.0.0.1/example/serialize
-        // 
+        //
         return [
             'a first value',
             $request->input('1'),

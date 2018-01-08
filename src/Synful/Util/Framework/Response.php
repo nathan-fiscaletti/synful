@@ -2,9 +2,6 @@
 
 namespace Synful\Util\Framework;
 
-use Synful\Synful;
-use Synful\Util\Framework\Serializer;
-
 /**
  * Class used for response storage.
  */

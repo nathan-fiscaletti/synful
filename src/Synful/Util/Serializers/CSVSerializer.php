@@ -3,7 +3,6 @@
 namespace Synful\Util\Serializers;
 
 use Synful\Util\Framework\Serializer;
-use Synful\Util\Framework\SynfulException;
 
 /**
  * Note: This class is only for demonstrational purposes.
@@ -29,7 +28,7 @@ class CSVSerializer implements Serializer
         $ret = '';
 
         foreach ($data as $field) {
-            $ret .= ((($ret == '') ? '' : ',') . $field); 
+            $ret .= ((($ret == '') ? '' : ',').$field); 
         }
 
         return $ret;

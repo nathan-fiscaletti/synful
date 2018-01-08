@@ -8,9 +8,9 @@ use Synful\Util\Framework\Request;
 use Synful\Util\Framework\Response;
 use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\WebListener\WebListener;
+use Synful\Util\Framework\RequestHandler;
 use Synful\Util\Framework\SynfulException;
 use Synful\Util\DataManagement\SqlConnection;
-use Synful\Util\Framework\RequestHandler;
 
 /**
  * Primary class for framework.
