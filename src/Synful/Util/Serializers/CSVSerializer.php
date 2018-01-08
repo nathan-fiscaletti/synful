@@ -28,7 +28,7 @@ class CSVSerializer implements Serializer
         $ret = '';
 
         foreach ($data as $field) {
-            $ret .= ((($ret == '') ? '' : ',').$field); 
+            $ret .= ((($ret == '') ? '' : ',').$field);
         }
 
         return $ret;
