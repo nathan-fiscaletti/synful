@@ -8,6 +8,7 @@ use Synful\Util\Framework\Request;
 use Synful\Util\Framework\Response;
 use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\WebListener\WebListener;
+use Synful\Util\Framework\RequestHandler;
 use Synful\Util\Framework\SynfulException;
 use Synful\Util\DataManagement\SqlConnection;
 
@@ -44,9 +45,6 @@ class Synful
     {
         // Make sure we aren't using that pesky PHP < 7.0
         0 <=> 0;
-
-        // Set content type
-        header('Content-Type: text/json');
 
         // Load Global Functions
         self::loadGlobalFunctions();
@@ -132,19 +130,32 @@ class Synful
      * Passes a JSON Request through the desired request handlers, validates authentication
      * and request integrity and returns a response.
      *
-     * @param  string                          $handler
-     * @param  string                          $request
-     * @param  array                           $fields
-     * @param  string                          $ip
+     * @param  \Synful\Util\Framework\RequestHandler $handler
+     * @param  string                                $input
+     * @param  array                                 $fields
+     * @param  string                                $ip
      * @return \Synful\Util\Framework\Response
      */
     public static function handleRequest(
-        string $handler,
-        string $request,
+        RequestHandler $handler,
+        string $input,
         array  $fields,
         string $ip
     ) {
-        $data = (array) json_decode($request, true);
+        $serializer = sf_conf('system.serializer');
+        $serializer = new $serializer;
+
+        if (property_exists($handler, 'serializer')) {
+            $serializer = new $handler->serializer;
+        }
+
+        try {
+            $data = $serializer->deserialize($input);
+        } catch (\Exception $e) {
+            $response = (new SynfulException(500, -1, $e->getMessage()))->response;
+            sf_respond($response->code, $response->serialize());
+            exit;
+        }
 
         $request = new Request([
             'ip' => $ip,
@@ -154,8 +165,6 @@ class Synful
         ]);
 
         try {
-            $handler = &self::$request_handlers[$handler];
-
             $all_middleware = sf_conf(
                 'system.global_middleware'
             );

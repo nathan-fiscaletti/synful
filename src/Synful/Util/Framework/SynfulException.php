@@ -49,6 +49,7 @@ class SynfulException extends Exception
         1017 => 'Invalid middleware definition.',
         1018 => 'Invalid field count in request path.',
         1019 => 'Invalid path element.',
+        1020 => 'Invalid input data.',
     ];
 
     /**

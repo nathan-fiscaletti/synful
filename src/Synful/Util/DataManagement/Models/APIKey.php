@@ -2,6 +2,8 @@
 
 namespace Synful\Util\DataManagement\Models;
 
+use Synful\Util\Framework\SynfulException;
+
 /**
  * Class used for managing API Keys.
  */
@@ -73,20 +75,25 @@ class APIKey
     /**
      * Create a new instance of the APIKey with data from the database.
      *
-     * @param int $id
+     * @param mixed $email_or_id
      */
-    public function __construct($id)
+    public function __construct($email_or_id)
     {
-        $result = mysqli_fetch_assoc(
-            sf_sql(
-                'SELECT * FROM `api_keys` WHERE `id` = ?',
-                [
-                 's',
-                 $id,
-                ],
-                true
-            )
+        $sql_result = sf_sql(
+            'SELECT * FROM `api_keys` WHERE `id` = ? OR `email` = ?',
+            [
+             'ss',
+             $email_or_id,
+             $email_or_id,
+            ],
+            true
         );
+
+        if (mysqli_num_rows($sql_result) < 1) {
+            throw new SynfulException(-100, -100, 'Not Found.');
+        }
+
+        $result = mysqli_fetch_assoc($sql_result);
 
         $this->id = $result['id'];
         $this->key = $result['api_key'];
@@ -100,7 +107,7 @@ class APIKey
             'SELECT * FROM `ip_firewall` WHERE `api_key_id` = ?',
             [
              's',
-             $id,
+             $this->id,
             ],
             true
         );
@@ -405,20 +412,12 @@ class APIKey
      */
     public static function getKey($id)
     {
-        $keys = sf_sql(
-            'SELECT `id` FROM `api_keys` WHERE `id` = ? OR `email` = ?',
-            [
-             'ss',
-             $id,
-             $id,
-            ],
-            true
-        );
-
         $ret = null;
 
-        if (mysqli_num_rows($keys) > 0) {
-            $ret = new self(mysqli_fetch_assoc($keys)['id']);
+        try {
+            $ret = new self($id);
+        } catch (SynfulException $e) {
+            $ret = null;
         }
 
         return $ret;

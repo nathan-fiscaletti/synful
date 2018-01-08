@@ -58,6 +58,16 @@ class RequestHandlerName implements RequestHandler
     // ];
 
     /**
+     * Override the serializer used for
+     * this request handler. This will 
+     * override whatever setting is in 
+     * the System.php configuration.
+     * 
+     * @var string
+     */
+    // public $serializer = \Synful\Util\Serializers\JSONSerializer::class;
+
+    /**
      * Function for handling request and returning a response.
      *
      * @param Request $request
