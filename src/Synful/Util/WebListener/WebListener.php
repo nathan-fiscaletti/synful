@@ -22,7 +22,7 @@ class WebListener
             exit;
         }
 
-        $json = file_get_contents('php://input');
+        $input = file_get_contents('php://input');
         $endpoint = $_GET['_synful_ep_'];
         $found_endpoint = false;
         $selected_handler = null;
@@ -98,24 +98,14 @@ class WebListener
             exit;
         }
 
-        if (empty($json)) {
-            $json = '{}';
-        }
-
-        if (! sf_is_json($json)) {
-            $response = (new SynfulException(400, 1013))->response;
-            sf_respond($response->code, $response->serialize());
-            exit;
-        }
+        $handler = Synful::$request_handlers[$selected_handler];
 
         $response = Synful::handleRequest(
-            $selected_handler,
-            $json,
+            $handler,
+            $input,
             $fields,
             Synful::getClientIP()
         );
-
-        $handler = Synful::$request_handlers[$selected_handler];
 
         $all_middleware = sf_conf(
             'system.global_middleware'
@@ -134,6 +124,23 @@ class WebListener
             $middleware->after($response);
         }
 
-        sf_respond($response->code, $response->serialize(), false, $response->headers);
+        if ($response->serializer == null) {
+            $serializer = sf_conf('system.serializer');
+            $serializer = new $serializer;
+
+            if (property_exists($handler, 'serializer')) {
+                $serializer = new $handler->serializer;
+            }
+
+            $response->setSerializer($serializer);
+        }
+
+        header('Content-Type: '.$response->serializer->content_type);
+        sf_respond(
+            $response->code,
+            $response->serialize(),
+            false,
+            $response->headers
+        );
     }
 }
