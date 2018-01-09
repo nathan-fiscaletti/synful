@@ -58,7 +58,13 @@ class WebListener
                 unset($handler_endpoint_path);
 
                 // Check if the requested endpoint matches the request handler.
+                // If the handler endpoint without properties is empty,
+                // we will check the property count.
+                //
+                // A handler with an empty prefix will override all other
+                // handlers in the system.
                 if (
+                    $handler_endpoint_without_properties == '' ||
                     strpos(
                         $endpoint,
                         $handler_endpoint_without_properties
