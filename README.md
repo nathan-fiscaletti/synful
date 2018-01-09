@@ -2,9 +2,12 @@
 > A simple framework for creating your own API
 
 [![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)		
-[![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat)](https://packagist.org/packages/nafisc/synful)		
-[![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable?format=flat)](https://packagist.org/packages/nafisc/synful)		
-[![License](https://poser.pugx.org/nafisc/synful/license?format=flat)](https://packagist.org/packages/nafisc/synful)		 		
+[![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat)](https://packagist.org/packages/nafisc/synful)
+[![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable?format=flat)](https://packagist.org/packages/nafisc/synful)
+[![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/issues)
+[![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/stargazers)
+[![License](https://poser.pugx.org/nafisc/synful/license?format=flat)](https://packagist.org/packages/nafisc/synful)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/nathan-fiscaletti/synful.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20this%20out!:&url=https%3A%2F%2Fgithub.com%2Fnathan-fiscaletti%2Fsynful)
 		
 ### What is it?		
 Synful is a simple PHP framework that will allow you to create a customized API for any project you want. 
