@@ -25,7 +25,7 @@ class JSONSerializer implements Serializer
         $ret = json_encode($data);
 
         if (sf_conf('system.pretty_responses') || (isset($_GET['pretty'])
-            && Synful::$config->get('system.allow_pretty_responses_on_get'))) {
+            && sf_conf('system.allow_pretty_responses_on_get'))) {
             $ret = json_encode($data, JSON_PRETTY_PRINT);
         }
 
