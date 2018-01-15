@@ -7,7 +7,6 @@
 [![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/issues)
 [![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/stargazers)
 [![License](https://poser.pugx.org/nafisc/synful/license?format=flat)](https://packagist.org/packages/nafisc/synful)
-[![Twitter](https://img.shields.io/twitter/url/https/github.com/nathan-fiscaletti/synful.svg?style=social)](https://twitter.com/intent/tweet?text=Check%20this%20out!:&url=https%3A%2F%2Fgithub.com%2Fnathan-fiscaletti%2Fsynful)
 		
 ### What is it?		
 Synful is a simple PHP framework that will allow you to create a customized API for any project you want. 
