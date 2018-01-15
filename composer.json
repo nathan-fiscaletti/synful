@@ -4,6 +4,7 @@
     "homepage":"http://synful.io/",
     "keywords":["api", "synful"],
     "license":"MIT",
+    "type": "Framework",
     "minimum-stability": "dev",
     "authors": [
         {
