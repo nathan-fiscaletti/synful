@@ -10,9 +10,9 @@ class RequestHandler
     /**
      * Handles a POST request type.
      *
-     * @param  Request $request
-     * @return array|Response
-     * @throws SynfulException
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     * @throws \Synful\Util\Framework\SynfulException
      */
     public function post(Request $request)
     {
@@ -65,7 +65,7 @@ class RequestHandler
     public function handleRequest(Request $request)
     {
         switch ($request->method) {
-            case 'POST' : 
+            case 'POST' :
                 return $this->post($request);
             case 'GET' :
                 return $this->get($request);
