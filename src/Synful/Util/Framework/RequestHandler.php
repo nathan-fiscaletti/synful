@@ -65,16 +65,16 @@ class RequestHandler
     public function handleRequest(Request $request)
     {
         switch ($request->method) {
-            case 'POST' :
+            case 'POST':
                 return $this->post($request);
-            case 'GET' :
+            case 'GET':
                 return $this->get($request);
-            case 'PUT' :
+            case 'PUT':
                 return $this->put($request);
-            case 'DELETE' :
+            case 'DELETE':
                 return $this->delete($request);
 
-            default :
+            default:
                 throw new SynfulException(500, 1025);
         }
     }
