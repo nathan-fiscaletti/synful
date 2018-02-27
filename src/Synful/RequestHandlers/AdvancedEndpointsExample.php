@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class AdvancedEndpointsExample implements RequestHandler
+class AdvancedEndpointsExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -26,12 +26,12 @@ class AdvancedEndpointsExample implements RequestHandler
     public $endpoint = 'example/endpoint/{id}';
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a GET request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function get(Request $request)
     {
         return [
             'message' => 'You selected ID: '.$request->field('id'),

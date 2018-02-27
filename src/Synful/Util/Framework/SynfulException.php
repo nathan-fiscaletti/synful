@@ -50,6 +50,11 @@ class SynfulException extends Exception
         1018 => 'Invalid field count in request path.',
         1019 => 'Invalid path element.',
         1020 => 'Invalid input data.',
+        1021 => 'POST handler not defined in selected RequestHandler.',
+        1022 => 'GET handler not defined in selected RequestHandler.',
+        1023 => 'PUT handler not defined in selected RequestHandler.',
+        1024 => 'DELETE handler not defined in selected RequestHandler.',
+        1025 => 'Invalid request type. Supported request types: POST, GET, PUT, DELETE.',
     ];
 
     /**

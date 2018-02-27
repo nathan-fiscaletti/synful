@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class RequestHandlerName implements RequestHandler
+class RequestHandlerName extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -68,12 +68,63 @@ class RequestHandlerName implements RequestHandler
     // public $serializer = \Synful\Util\Serializers\JSONSerializer::class;
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a POST request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function post(Request $request)
+    {
+        // Insert your code here
+        return sf_response(
+            200,
+            [
+                'message' => 'Your new Request Handler is working!',
+            ]
+        );
+    }
+
+    /**
+     * Handles a GET request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     */
+    public function get(Request $request)
+    {
+        // Insert your code here
+        return sf_response(
+            200,
+            [
+                'message' => 'Your new Request Handler is working!',
+            ]
+        );
+    }
+
+    /**
+     * Handles a PUT request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     */
+    public function put(Request $request)
+    {
+        // Insert your code here
+        return sf_response(
+            200,
+            [
+                'message' => 'Your new Request Handler is working!',
+            ]
+        );
+    }
+
+    /**
+     * Handles a DELETE request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     */
+    public function delete(Request $request)
     {
         // Insert your code here
         return sf_response(
