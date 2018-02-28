@@ -9,7 +9,7 @@ use Synful\Util\MiddleWare\APIKeyValidation;
 /**
  * New Request Handler Class.
  */
-class SecurityLevelExample implements RequestHandler
+class SecurityLevelExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -44,12 +44,12 @@ class SecurityLevelExample implements RequestHandler
     public $security_level = 4;
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a GET request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function get(Request $request)
     {
         return [
             'message' => 'This API key has a security level equal to or greater than 4.',

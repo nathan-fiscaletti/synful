@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class HttpCodeExample implements RequestHandler
+class HttpCodeExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -20,11 +20,12 @@ class HttpCodeExample implements RequestHandler
     public $endpoint = 'example/httpcode';
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a GET request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function get(Request $request)
     {
         // Return a 401 error code.
         return sf_response(

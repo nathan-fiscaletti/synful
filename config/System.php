@@ -21,7 +21,7 @@ return [
      | with error messages.
      */
 
-    'production' => true,
+    'production' => false,
 
     /*
      |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ return [
      | If set to true, fatal errors will be displayed.
      */
 
-    'display_errors' => false,
+    'display_errors' => true,
 
     /*
      |--------------------------------------------------------------------------

@@ -10,7 +10,7 @@ use Synful\Util\DataManagement\Models\APIKey;
 /**
  * Class used to demonstrate private request handlers.
  */
-class PrivateHandlerExample implements RequestHandler
+class PrivateHandlerExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -46,12 +46,12 @@ class PrivateHandlerExample implements RequestHandler
     ];
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a GET request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function get(Request $request)
     {
         $api_key = APIKey::getKey($request->email);
 
