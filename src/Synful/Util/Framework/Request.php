@@ -45,6 +45,13 @@ class Request
     public $ip;
 
     /**
+     * The request method used in the HTTP request.
+     *
+     * @var string
+     */
+    public $method;
+
+    /**
      * Returns a field from the request path.
      *
      * @param  string $name

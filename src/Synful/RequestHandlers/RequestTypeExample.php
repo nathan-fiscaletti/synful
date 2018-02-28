@@ -6,9 +6,9 @@ use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
- * New Request Handler Class.
+ * Class used to demonstrate request types.
  */
-class RequestHandlerName extends RequestHandler
+class RequestTypeExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -23,49 +23,7 @@ class RequestHandlerName extends RequestHandler
      *
      * @var string
      */
-    public $endpoint = 'EndPoint';
-
-    /**
-     * Implement MiddleWare.
-     *
-     * @var array
-     */
-    // public $middleware = [
-    //    \Synful\Util\MiddleWare\APIKeyValidation::class,
-    // ];
-
-    /**
-     * Set the security level for the RequestHandler.
-     * Only API keys with this security level or
-     * higher can access this RequestHandler.
-     *
-     * Note: Must implement the APIKeyValidation middleware.
-     *
-     * @var int
-     */
-    // public $security_level = 0;
-
-    /**
-     * Assign an array of API Keys to the 'white_list_keys' property to make
-     * this handler only allow connections using those API Keys.
-     *
-     * Note: Must implement the APIKeyValidation middleware.
-     *
-     * @var array
-     */
-    // public $white_list_keys = [
-    //     'john@acme.com',
-    // ];
-
-    /**
-     * Override the serializer used for
-     * this request handler. This will 
-     * override whatever setting is in 
-     * the System.php configuration.
-     * 
-     * @var string
-     */
-    // public $serializer = \Synful\Util\Serializers\JSONSerializer::class;
+    public $endpoint = 'example/requesttype';
 
     /**
      * Handles a POST request type.
@@ -75,11 +33,10 @@ class RequestHandlerName extends RequestHandler
      */
     public function post(Request $request)
     {
-        // Insert your code here
         return sf_response(
             200,
             [
-                'message' => 'Your new Request Handler is working!',
+                'message' => 'Received POST request!',
             ]
         );
     }
@@ -92,11 +49,10 @@ class RequestHandlerName extends RequestHandler
      */
     public function get(Request $request)
     {
-        // Insert your code here
         return sf_response(
             200,
             [
-                'message' => 'Your new Request Handler is working!',
+                'message' => 'Received GET request!',
             ]
         );
     }
@@ -109,11 +65,10 @@ class RequestHandlerName extends RequestHandler
      */
     public function put(Request $request)
     {
-        // Insert your code here
         return sf_response(
             200,
             [
-                'message' => 'Your new Request Handler is working!',
+                'message' => 'Received PUT request!',
             ]
         );
     }
@@ -126,11 +81,10 @@ class RequestHandlerName extends RequestHandler
      */
     public function delete(Request $request)
     {
-        // Insert your code here
         return sf_response(
             200,
             [
-                'message' => 'Your new Request Handler is working!',
+                'message' => 'Received DELETE request!',
             ]
         );
     }

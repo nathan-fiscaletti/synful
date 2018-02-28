@@ -9,7 +9,7 @@ use Synful\Util\Serializers\CSVSerializer;
 /**
  * New Request Handler Class.
  */
-class SerializerExample implements RequestHandler
+class SerializerExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -37,12 +37,12 @@ class SerializerExample implements RequestHandler
     public $serializer = CSVSerializer::class;
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a POST request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function post(Request $request)
     {
         // This array will be passed through the CSVSerializer
         // before it is returned.

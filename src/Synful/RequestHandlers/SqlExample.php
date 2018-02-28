@@ -10,7 +10,7 @@ use Synful\Util\MiddleWare\APIKeyValidation;
 /**
  * Class used to demonstrate Custom Sql Connections.
  */
-class SqlExample implements RequestHandler
+class SqlExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -33,12 +33,12 @@ class SqlExample implements RequestHandler
     ];
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a GET request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function get(Request $request)
     {
         // Define SQL Databases and Servers in 'SqlServers.php'
         // Create a reference to the SQL Database Connection
