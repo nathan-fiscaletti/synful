@@ -56,6 +56,30 @@ class RequestHandler
     }
 
     /**
+     * Handles a OPTIONS request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     * @throws \Synful\Util\Framework\SynfulException
+     */
+    public function options(Request $request)
+    {
+        throw new SynfulException(500, 1025);
+    }
+
+    /**
+     * Handles a PATCH request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     * @throws \Synful\Util\Framework\SynfulException
+     */
+    public function patch(Request $request)
+    {
+        throw new SynfulException(500, 1026);
+    }
+
+    /**
      * Function for handling request and returning a response.
      *
      * @param  \Synful\Util\Framework\Request $request
@@ -73,9 +97,13 @@ class RequestHandler
                 return $this->put($request);
             case 'DELETE':
                 return $this->delete($request);
+            case 'OPTIONS':
+                return $this->options($request);
+            case 'PATCH':
+                return $this->patch($request);
 
             default:
-                throw new SynfulException(500, 1025);
+                throw new SynfulException(500, 1027);
         }
     }
 }
