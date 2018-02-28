@@ -88,4 +88,36 @@ class RequestTypeExample extends RequestHandler
             ]
         );
     }
+
+    /**
+     * Handles a OPTIONS request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     */
+    public function options(Request $request)
+    {
+        return sf_response(
+            200,
+            [
+                'message' => 'Received OPTIONS request!',
+            ]
+        );
+    }
+
+    /**
+     * Handles a PATCH request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     */
+    public function patch(Request $request)
+    {
+        return sf_response(
+            200,
+            [
+                'message' => 'Received PATCH request!',
+            ]
+        );
+    }
 }
