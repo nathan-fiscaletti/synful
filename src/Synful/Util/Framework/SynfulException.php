@@ -54,7 +54,9 @@ class SynfulException extends Exception
         1022 => 'GET handler not defined in selected RequestHandler.',
         1023 => 'PUT handler not defined in selected RequestHandler.',
         1024 => 'DELETE handler not defined in selected RequestHandler.',
-        1025 => 'Invalid request type. Supported request types: POST, GET, PUT, DELETE.',
+        1025 => 'OPTIONS handler not defined in selected RequestHandler.',
+        1026 => 'PATCH handler not defined in selected RequestHandler.',
+        1027 => 'Invalid request type. Supported request types: POST, GET, PUT, DELETE.',
     ];
 
     /**
