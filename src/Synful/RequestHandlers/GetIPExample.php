@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class GetIPExample implements RequestHandler
+class GetIPExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -20,12 +20,12 @@ class GetIPExample implements RequestHandler
     public $endpoint = 'example/getip';
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a GET request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function get(Request $request)
     {
         return [
             'ip' => $request->ip,
