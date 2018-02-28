@@ -166,6 +166,7 @@ class Synful
             'headers' => apache_request_headers(),
             'data' => $data,
             'fields' => $fields,
+            'method' => $_SERVER['REQUEST_METHOD'],
         ]);
 
         try {

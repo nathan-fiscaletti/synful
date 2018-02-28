@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class InputExample implements RequestHandler
+class InputExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -20,12 +20,12 @@ class InputExample implements RequestHandler
     public $endpoint = 'example/input';
 
     /**
-     * Function for handling request and returning a response.
+     * Handles a POST request type.
      *
-     * @param Request $request
+     * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function handleRequest(Request $request)
+    public function post(Request $request)
     {
         // Read input from the data passed in the request.
         $name = $request->input('name');
