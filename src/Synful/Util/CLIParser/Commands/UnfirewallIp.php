@@ -17,8 +17,8 @@ class UnfirewallIp extends Command
         $this->required = false;
 
         $this->alias = 'unfirewall-ip';
-        $this->exec = function ($email_or_id, $ip) {
-            $id = $email_or_id;
+        $this->exec = function ($auth_or_id, $ip) {
+            $id = $auth_or_id;
             $key = APIKey::getKey($id);
             if ($key !== null) {
                 if ($key->isFirewalled($ip)) {

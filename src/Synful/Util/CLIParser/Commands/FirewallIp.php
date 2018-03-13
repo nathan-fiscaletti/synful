@@ -16,8 +16,8 @@ class FirewallIp extends Command
         $this->description = 'Firewalls an IP Address on the specified key with the specified block value.';
         $this->required = false;
         $this->alias = 'firewall-ip';
-        $this->exec = function ($email_or_id, $ip, $block_value) {
-            $id = $email_or_id;
+        $this->exec = function ($auth_or_id, $ip, $block_value) {
+            $id = $auth_or_id;
             $block = $block_value;
             if (! is_numeric($block)) {
                 sf_error('Block value must be an integer value of either 1 or 0.', true, false, false);

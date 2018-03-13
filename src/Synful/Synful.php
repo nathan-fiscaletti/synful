@@ -251,7 +251,7 @@ class Synful
         return
             sf_sql(
                 'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
-                '`name` VARCHAR(255) NOT NULL , `email` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
+                '`name` VARCHAR(255) NOT NULL , `auth` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
                 '`whitelist_only` INT NOT NULL , `security_level` INT NOT NULL, `enabled` INT NOT NULL , '.
                 'PRIMARY KEY (`id`)) ENGINE = MyISAM;'
             )

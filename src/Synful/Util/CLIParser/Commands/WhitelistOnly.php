@@ -17,17 +17,17 @@ class WhitelistOnly extends Command
         $this->required = false;
         $this->alias = 'white-list-only';
 
-        $this->exec = function ($email_or_id, $value) {
+        $this->exec = function ($auth_or_id, $value) {
             if (! is_numeric($value)) {
                 sf_error('Value must be an integer of either 0 or 1.');
             } else {
-                $key = APIKey::getkey($email_or_id);
+                $key = APIKey::getkey($auth_or_id);
                 if ($key !== null) {
-                    $key = APIKey::getKey($email_or_id);
+                    $key = APIKey::getKey($auth_or_id);
                     $key->whitelist_only = $value;
                     $key->save();
                     sf_info(
-                        'Key \''.sf_color($email_or_id, 'light_green').
+                        'Key \''.sf_color($auth_or_id, 'light_green').
                         '\' updated with new White-List Only value \''.
                         (($value == '1' || $value == 1)
                             ? sf_color(
@@ -45,7 +45,7 @@ class WhitelistOnly extends Command
                     );
                 } else {
                     sf_error(
-                        'No key found for email/ID \''.$email_or_id.'\'.',
+                        'No key found for authentication handle/ID \''.$auth_or_id.'\'.',
                         true,
                         false,
                         false

@@ -47,7 +47,7 @@ class APIKeyValidation implements MiddleWare
     private function validateRequest(Request $request, RequestHandler $handler)
     {
         // Validate the Request Headers.
-        if (empty($request->headers['Synful-User'])) {
+        if (empty($request->headers['Synful-Auth'])) {
             throw new SynfulException(400, 1010);
         }
 
@@ -56,7 +56,7 @@ class APIKeyValidation implements MiddleWare
         }
 
         // Assign the user and key to the values of the request headers.
-        $user = $request->headers['Synful-User'];
+        $user = $request->headers['Synful-Auth'];
         $key = $request->headers['Synful-Key'];
 
         // Load the API Key
@@ -69,7 +69,7 @@ class APIKeyValidation implements MiddleWare
 
         // Assign the API key to a variable and
         // update the request.
-        $request->email = $api_key->email;
+        $request->auth = $api_key->auth;
 
         // Validate that the API key is enabled.
         if (! $api_key->enabled) {
@@ -81,7 +81,7 @@ class APIKeyValidation implements MiddleWare
             property_exists($handler, 'white_list_keys') &&
             is_array($handler->white_list_keys)
         ) {
-            if (! in_array($api_key->email, $handler->white_list_keys)) {
+            if (! in_array($api_key->auth, $handler->white_list_keys)) {
                 throw new SynfulException(400, 1008);
             }
         }
