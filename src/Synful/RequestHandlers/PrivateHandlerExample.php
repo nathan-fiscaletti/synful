@@ -42,7 +42,7 @@ class PrivateHandlerExample extends RequestHandler
      * @var array
      */
     public $white_list_keys = [
-        'n@synful.io',
+        'SYNFUL',
     ];
 
     /**
@@ -53,12 +53,12 @@ class PrivateHandlerExample extends RequestHandler
      */
     public function get(Request $request)
     {
-        $api_key = APIKey::getKey($request->email);
+        $api_key = APIKey::getKey($request->auth);
 
         return [
             'user-information' => [
                 'name' => $api_key->name,
-                'email' => $api_key->email,
+                'auth' => $api_key->auth,
                 'enabled' => $api_key->enabled,
                 'whitelist_only' => $api_key->whitelist_only,
                 'firewall' => $api_key->ip_firewall,

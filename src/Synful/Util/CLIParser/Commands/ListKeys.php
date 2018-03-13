@@ -27,13 +27,13 @@ class ListKeys extends Command
                     false
                 );
                 sf_info(
-                    '    EMail / ID     : '.$row['email'].' / '.$row['id'],
+                    '    Auth Handle / ID : '.$row['auth'].' / '.$row['id'],
                     true,
                     false,
                     false
                 );
                 sf_info(
-                    '    Whitelist-Only : '.
+                    '    Whitelist-Only   : '.
                     (($row['whitelist_only'])
                         ? sf_color(
                             'true',
@@ -49,13 +49,13 @@ class ListKeys extends Command
                     false
                 );
                 sf_info(
-                    '    Security       : '.sf_color('Level '.$row['security_level'], 'light_green'),
+                    '    Security         : '.sf_color('Level '.$row['security_level'], 'light_green'),
                     true,
                     false,
                     false
                 );
                 sf_info(
-                    '    Enabled        : '.
+                    '    Enabled          : '.
                     (($row['enabled'])
                         ? sf_color(
                             'true',
