@@ -31,11 +31,11 @@ class APIKey
     public $name;
 
     /**
-     * The email associated with the key.
+     * The auth handle associated with the key.
      *
      * @var stirng
      */
-    public $email;
+    public $auth;
 
     /**
      * The whitelist_only value for the key.
@@ -75,16 +75,16 @@ class APIKey
     /**
      * Create a new instance of the APIKey with data from the database.
      *
-     * @param mixed $email_or_id
+     * @param mixed $auth_or_id
      */
-    public function __construct($email_or_id)
+    public function __construct($auth_or_id)
     {
         $sql_result = sf_sql(
-            'SELECT * FROM `api_keys` WHERE `id` = ? OR `email` = ?',
+            'SELECT * FROM `api_keys` WHERE `id` = ? OR `auth` = ?',
             [
              'ss',
-             $email_or_id,
-             $email_or_id,
+             $auth_or_id,
+             $auth_or_id,
             ],
             true
         );
@@ -98,7 +98,7 @@ class APIKey
         $this->id = $result['id'];
         $this->key = $result['api_key'];
         $this->name = $result['name'];
-        $this->email = $result['email'];
+        $this->auth = $result['auth'];
         $this->whitelist_only = $result['whitelist_only'];
         $this->enabled = $result['enabled'];
         $this->security_level = $result['security_level'];
@@ -214,13 +214,13 @@ class APIKey
         // Update the API Keys Entry
         sf_sql(
             'UPDATE `api_keys` SET `api_key` = ?, `name` = ?, '.
-            '`email` = ?, `whitelist_only` = ?, '.
+            '`auth` = ?, `whitelist_only` = ?, '.
             '`enabled` = ?, `security_level` = ? WHERE `id` = ?',
             [
              'sssssss',
              $this->key,
              $this->name,
-             $this->email,
+             $this->auth,
              $this->whitelist_only,
              (int) $this->enabled,
              (int) $this->security_level,
@@ -352,7 +352,7 @@ class APIKey
      * Adds a new APIKey to the database.
      *
      * @param  string  $name
-     * @param  string  $email
+     * @param  string  $auth
      * @param  int $whitelist_only
      * @param  int $security_level
      * @param  bool $print_key
@@ -361,7 +361,7 @@ class APIKey
      */
     public static function addNew(
         string $name,
-        string $email,
+        string $auth,
         int    $whitelist_only,
         int    $security_level,
         bool   $print_key = false,
@@ -369,19 +369,19 @@ class APIKey
     ) {
         $ret = null;
 
-        $key = self::getKey($email);
+        $key = self::getKey($auth);
         if ($key === null) {
             $new_key = self::generateNew();
 
             sf_sql(
-                'INSERT INTO `api_keys` (`api_key`, `name`, `email`, '.
+                'INSERT INTO `api_keys` (`api_key`, `name`, `auth`, '.
                 '`whitelist_only`, `enabled`, `security_level`) VALUES '.
                 '(?, ?, ?, ?, ?, ?)',
                 [
                  'ssssss',
                  $new_key['hash'],
                  $name,
-                 $email,
+                 $auth,
                  $whitelist_only,
                  1,
                  $security_level,
@@ -398,7 +398,7 @@ class APIKey
                 }
             }
 
-            $ret = self::getKey($email);
+            $ret = self::getKey($auth);
         }
 
         return $ret;

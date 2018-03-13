@@ -31,11 +31,11 @@ class Request
     public $headers;
 
     /**
-     * The email associated with the key of the client making the request.
+     * The authentication handle associated with the key of the client making the request.
      *
      * @var string
      */
-    public $email;
+    public $auth;
 
     /**
      * The IP address of the client that sent the request.

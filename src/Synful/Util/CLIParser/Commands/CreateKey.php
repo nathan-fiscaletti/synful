@@ -17,7 +17,7 @@ class CreateKey extends Command
         $this->required = false;
         $this->alias = 'create-key';
 
-        $this->exec = function ($email, $name, $security_level, $whitelist_only) {
+        $this->exec = function ($auth, $name, $security_level, $whitelist_only) {
             if (! is_numeric($whitelist_only)) {
                 sf_error('Unable to create new API Key.', true, false, false);
                 sf_error(
@@ -36,14 +36,14 @@ class CreateKey extends Command
                         false
                     );
                 } else {
-                    $key = APIKey::getKey($email);
+                    $key = APIKey::getKey($auth);
                     if ($key !== null) {
                         $response = null;
                         while (
                             $response != 'yes' && $response != 'no' &&
                             $response != 'y' && $response != 'n'
                         ) {
-                            sf_error('A key with that email is already defined.', true, false, false);
+                            sf_error('A key with that authentication handle is already defined.', true, false, false);
                             $response = sf_input(
                                 'Would you like to update it with this information? (yes/no)',
                                 \Synful\Util\IO\LogLevel::INFO
@@ -64,7 +64,7 @@ class CreateKey extends Command
                                 false
                             );
                             sf_info(
-                                '    EMail / ID     : '.$key->email.' / '.$key->id,
+                                '    Auth Handle / ID     : '.$key->auth.' / '.$key->id,
                                 true,
                                 false,
                                 false
@@ -119,14 +119,14 @@ class CreateKey extends Command
                         if (! $__minimal_output) {
                             sf_info('Creating new key with data: ', true, false, false);
                             sf_info('    Name: '.$name, true, false, false);
-                            sf_info('    Email: '.$email, true, false, false);
+                            sf_info('    Auth Handle: '.$auth, true, false, false);
                             sf_info('------------------------------------------------', true, false, false);
                         }
 
                         if (
                             APIKey::addNew(
                                 $name,
-                                $email,
+                                $auth,
                                 $whitelist_only,
                                 $security_level,
                                 true,

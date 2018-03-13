@@ -13,15 +13,15 @@ class RemoveKey extends Command
     public function __construct()
     {
         $this->name = 'rk';
-        $this->description = 'Removes a key from the System based on email or ID.';
+        $this->description = 'Removes a key from the System based on authentication handle or ID.';
         $this->required = false;
         $this->alias = 'remove-key';
-        $this->exec = function ($email_or_id) {
-            $key = APIKey::getKey($email_or_id);
+        $this->exec = function ($auth_or_id) {
+            $key = APIKey::getKey($auth_or_id);
             if ($key !== null) {
                 $key->delete();
                 sf_info(
-                    'APIKey for ID \''.sf_color($email_or_id, 'light_blue').
+                    'APIKey for ID \''.sf_color($auth_or_id, 'light_blue').
                     '\' has been '.sf_color('removed', 'light_red').'.',
                     true,
                     false,

@@ -13,16 +13,16 @@ class EnableKey extends Command
     public function __construct()
     {
         $this->name = 'ek';
-        $this->description = 'Enables a key that has been disabled based on email or ID.';
+        $this->description = 'Enables a key that has been disabled based on authentication handle or ID.';
         $this->required = false;
         $this->alias = 'enable-key';
-        $this->exec = function ($email_or_id) {
-            $key = APIKey::getKey($email_or_id);
+        $this->exec = function ($auth_or_id) {
+            $key = APIKey::getKey($auth_or_id);
             if ($key !== null) {
                 $key->enabled = true;
                 $key->save();
                 sf_info(
-                    'APIKey for ID \''.sf_color($email_or_id, 'light_blue').
+                    'APIKey for ID \''.sf_color($auth_or_id, 'light_blue').
                     '\' has been '.sf_color('enabled', 'light_green').'.',
                     true,
                     false,

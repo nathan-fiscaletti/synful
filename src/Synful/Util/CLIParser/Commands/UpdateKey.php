@@ -17,8 +17,8 @@ class UpdateKey extends Command
         $this->required = false;
         $this->alias = 'update-key';
 
-        $this->exec = function ($email_or_id) {
-            $key = APIKey::getKey($email_or_id);
+        $this->exec = function ($auth_or_id) {
+            $key = APIKey::getKey($auth_or_id);
             if ($key !== null) {
                 global $__minimal_output;
                 if (! $__minimal_output) {
@@ -27,7 +27,12 @@ class UpdateKey extends Command
 
                 $key->regen(true, $__minimal_output);
             } else {
-                sf_error('A key with that email does not exist.', true, false, false);
+                sf_error(
+                    'A key with that authentication handle does not exist.',
+                    true,
+                    false,
+                    false
+                );
             }
 
             exit;
