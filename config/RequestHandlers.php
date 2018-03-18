@@ -9,7 +9,7 @@ return [
      |
      | The RequestHandlers to register in the System.
      */
-    
+
     'registered' => [
         \Synful\RequestHandlers\AdvancedEndpointsExample::class,
         \Synful\RequestHandlers\GetIPExample::class,

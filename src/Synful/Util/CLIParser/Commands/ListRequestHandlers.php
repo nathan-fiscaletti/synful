@@ -2,7 +2,6 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Synful;
 use Synful\Util\CLIParser\Commands\Util\Command;
 
 class ListRequestHandlers extends Command
@@ -20,7 +19,7 @@ class ListRequestHandlers extends Command
         $this->exec = function () {
             sf_info(
                 'You can register more RequestHandlers in '.
-                sf_color('./config/RequestHandlers.php', 'light_green'), 
+                sf_color('./config/RequestHandlers.php', 'light_green'),
                 true
             );
             sf_info('', true);
@@ -33,7 +32,7 @@ class ListRequestHandlers extends Command
                     sf_color('class', 'light_blue'),
                     true
                 );
-            } 
+            }
 
             exit(0);
         };

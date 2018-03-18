@@ -293,7 +293,7 @@ class Synful
             sf_conf('requesthandlers.registered') as $requestHandlerClass
         ) {
             $enabled_request_handler = true;
-            Synful::$request_handlers[$requestHandlerClass] = new $requestHandlerClass();
+            self::$request_handlers[$requestHandlerClass] = new $requestHandlerClass();
         }
         if (! $enabled_request_handler) {
             trigger_error(
