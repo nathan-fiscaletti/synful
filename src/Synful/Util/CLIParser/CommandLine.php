@@ -54,23 +54,17 @@ class CommandLine
     {
         $this->parameters = new ParameterCluster();
 
-        foreach (scandir('./src/Synful/Util/CLIParser/Commands/') as $command) {
-            if (substr($command, 0, 1) !== '.' && $command != 'Util') {
-                $class_name = explode('.', $command)[0];
-                eval(
-                    '$parameter = new \\Synful\\Util\\CLIParser\\Commands\\'.
-                    $class_name.'();'
-                );
-                $pc = parameter(
-                    '-',
-                    $parameter->name,
-                    $parameter->exec,
-                    $parameter->required
-                );
-                $pc->setDescription($parameter->description);
-                $pc->addAlias($parameter->alias, '-');
-                $this->parameters->add($pc);
-            }
+        foreach (sf_conf('commandline.commands') as $commandClass) {
+            $parameter = new $commandClass();
+            $pc = parameter(
+                '-',
+                $parameter->name,
+                $parameter->exec,
+                $parameter->required
+            );
+            $pc->setDescription($parameter->description);
+            $pc->addAlias($parameter->alias, '-');
+            $this->parameters->add($pc);
         }
 
         $this->parameters->setDefault(function ($parameter) {
