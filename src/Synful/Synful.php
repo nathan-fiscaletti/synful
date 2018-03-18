@@ -289,16 +289,11 @@ class Synful
     private static function loadRequestHandlers()
     {
         $enabled_request_handler = false;
-        foreach (scandir('./src/Synful/RequestHandlers') as $handler) {
-            if (substr($handler, 0, 1) !== '.') {
-                $enabled_request_handler = true;
-                $class_name = explode('.', $handler)[0];
-                eval(
-                    '\\Synful\\Synful::$request_handlers[\''.
-                    $class_name.'\'] = new \\Synful\\RequestHandlers\\'.
-                    $class_name.'();'
-                );
-            }
+        foreach (
+            sf_conf('requesthandlers.registered') as $requestHandlerClass
+        ) {
+            $enabled_request_handler = true;
+            Synful::$request_handlers[$requestHandlerClass] = new $requestHandlerClass();
         }
         if (! $enabled_request_handler) {
             trigger_error(
@@ -312,6 +307,7 @@ class Synful
 
     /**
      * Automatically include all function libraries stored in Global Functions.
+     * Note: This must use scandir as it is loaded before the configs.
      */
     private static function loadGlobalFunctions()
     {
