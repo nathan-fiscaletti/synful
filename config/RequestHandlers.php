@@ -19,6 +19,5 @@ return [
         \Synful\App\RequestHandlers\RequestTypeExample::class,
         \Synful\App\RequestHandlers\SecurityLevelExample::class,
         \Synful\App\RequestHandlers\SerializerExample::class,
-        \Synful\App\RequestHandlers\SqlExample::class,
     ],
 ];
