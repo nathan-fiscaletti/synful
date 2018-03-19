@@ -2,9 +2,9 @@
 
 namespace Synful\Util\Data;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-use Illuminate\Container\Container;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Container\Container;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
 {

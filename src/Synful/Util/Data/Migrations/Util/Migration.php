@@ -18,14 +18,14 @@ abstract class Migration
      *
      * @return void
      */
-    public abstract function up();
+    abstract public function up();
 
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public abstract function down();
+    abstract public function down();
 
     /**
      * Retrieve the Schema object fot this Migration.

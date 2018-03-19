@@ -17,7 +17,6 @@ class Migrate extends Command
         $this->alias = 'migrate';
 
         $this->exec = function ($action) {
-
             if ($action != 'up' && $action != 'down') {
                 sf_error('Usage: ./synful migrate [up | down]');
                 exit;
@@ -27,13 +26,13 @@ class Migrate extends Command
                 scandir('./src/Synful/Util/Data/Migrations') as $migration_file
             ) {
                 if (
-                    substr($migration_file, 0, 1) !== '.' && 
+                    substr($migration_file, 0, 1) !== '.' &&
                     $migration_file != 'Util'
                 ) {
                     include_once './src/Synful/Util/Data/Migrations/'.
                                  $migration_file;
                     $className = str_replace('.php', '', $migration_file);
-                    
+
                     $fullClassName = '\\Synful\\Util\\Data\\Migrations\\'.
                                      $className;
                     $migration = new $fullClassName();
@@ -41,7 +40,7 @@ class Migrate extends Command
                     try {
                         if ($action == 'up') {
                             $migration->up();
-                        } else if ($action == 'down') {
+                        } elseif ($action == 'down') {
                             $migration->down();
                         }
                         sf_info(
@@ -68,8 +67,7 @@ class Migrate extends Command
                                  $migration_file;
                     $className = str_replace('.php', '', $migration_file);
                     $className = explode('_', $className)[1];
-                    sf_info('Migrating '.$className.'...');
-                    
+
                     $fullClassName = '\\Synful\\App\\Data\\Migrations\\'.
                                      $className;
                     $migration = new $fullClassName();
@@ -77,7 +75,7 @@ class Migrate extends Command
                     try {
                         if ($action == 'up') {
                             $migration->up();
-                        } else if ($action == 'down') {
+                        } elseif ($action == 'down') {
                             $migration->down();
                         }
                         sf_info(
@@ -93,7 +91,6 @@ class Migrate extends Command
                         );
                         sf_error($e->getMessage());
                     }
-                    
                 }
             }
 

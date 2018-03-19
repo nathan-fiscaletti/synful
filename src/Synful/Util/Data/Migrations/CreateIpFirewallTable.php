@@ -2,8 +2,8 @@
 
 namespace Synful\Util\Data\Migrations;
 
-use Synful\Util\Data\Migrations\Util\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Synful\Util\Data\Migrations\Util\Migration;
 
 class CreateIpFirewallTable extends Migration
 {

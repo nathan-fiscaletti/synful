@@ -20,7 +20,7 @@ class CreateMigration extends Command
         $this->exec = function ($name) {
             $name = str_replace('_', '', $name);
             $name = trim($name);
-            
+
             if (! ctype_alpha($name)) {
                 sf_error(
                     'Error: Migration names must only contain alphabetic characters and no spaces. '.

@@ -3,8 +3,8 @@
 namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
-use Synful\Util\Framework\RequestHandler;
 use Synful\App\Serializers\CSVSerializer;
+use Synful\Util\Framework\RequestHandler;
 
 /**
  * New Request Handler Class.

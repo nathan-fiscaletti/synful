@@ -2,8 +2,8 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\CLIParser\Commands\Util\Command;
 use Synful\Util\Data\Models\APIKey;
+use Synful\Util\CLIParser\Commands\Util\Command;
 
 class ListKeys extends Command
 {

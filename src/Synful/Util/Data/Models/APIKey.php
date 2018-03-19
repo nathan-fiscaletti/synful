@@ -53,8 +53,6 @@ class APIKey extends Model
         return self::where('auth', '=', $auth)->limit(1)->first();
     }
 
-
-
     /**
      * Regenerate the key for this API Key.
      *
@@ -140,7 +138,6 @@ class APIKey extends Model
                 ['api_key_id', '=', $this->id],
                 ['ip', '=', $ip],
             ])->limit(1)->first();
-            
 
         if ($entry != null) {
             $entry->block = $block;
@@ -239,7 +236,7 @@ class APIKey extends Model
         if ($key === null) {
             $new_key = self::generateNew();
 
-            $unsaved = new APIKey();
+            $unsaved = new self();
 
             $unsaved->api_key = $new_key['hash'];
             $unsaved->name = $name;

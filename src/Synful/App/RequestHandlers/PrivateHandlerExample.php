@@ -3,9 +3,9 @@
 namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\Framework\RequestHandler;
 use Synful\Util\MiddleWare\APIKeyValidation;
-use Synful\Util\Data\Models\APIKey;
 
 /**
  * Class used to demonstrate private request handlers.
