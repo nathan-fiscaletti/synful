@@ -9,7 +9,6 @@ Synful is a simple PHP framework that will allow you to create a customized API 
 ### Features
 * Access to multiple databases at once
 * Customized API Endpoints (Request Handlers)
-* Advanced flatfile logging
 * Per-Endpoint API key whitelisting
 * Public Endpoints running along side private endpoints
 * Much, much more!
