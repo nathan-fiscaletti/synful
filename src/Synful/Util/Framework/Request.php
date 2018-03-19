@@ -7,7 +7,7 @@ namespace Synful\Util\Framework;
  */
 class Request
 {
-    use Object;
+    use ParamObject;
 
     /**
      * The request data.
