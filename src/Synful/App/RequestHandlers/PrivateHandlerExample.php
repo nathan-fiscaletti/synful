@@ -1,15 +1,16 @@
 <?php
 
-namespace Synful\RequestHandlers;
+namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\Framework\RequestHandler;
 use Synful\Util\MiddleWare\APIKeyValidation;
 
 /**
- * New Request Handler Class.
+ * Class used to demonstrate private request handlers.
  */
-class SecurityLevelExample extends RequestHandler
+class PrivateHandlerExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -18,13 +19,13 @@ class SecurityLevelExample extends RequestHandler
      *
      * @var string
      */
-    public $endpoint = 'example/secure';
+    public $endpoint = 'example/private';
 
     /**
      * Implement the APIKeyValidation middleware
      * in order to require an API key to access
      * this RequestHandler. This is also used to
-     * parse the security_level property.
+     * parse the white_list_keys property.
      *
      * @var array
      */
@@ -33,15 +34,16 @@ class SecurityLevelExample extends RequestHandler
     ];
 
     /**
-     * Set the security level for the RequestHandler.
-     * Only API keys with this security level or
-     * higher can access this RequestHandler.
+     * Assign an array of API Keys to the 'white_list_keys' property to make
+     * this handler only allow connections using those API Keys.
      *
      * Note: Must implement the APIKeyValidation middleware.
      *
-     * @var int
+     * @var array
      */
-    public $security_level = 4;
+    public $white_list_keys = [
+        'SYNFUL',
+    ];
 
     /**
      * Handles a GET request type.
@@ -51,8 +53,16 @@ class SecurityLevelExample extends RequestHandler
      */
     public function get(Request $request)
     {
+        $api_key = APIKey::getKey($request->auth);
+
         return [
-            'message' => 'This API key has a security level equal to or greater than 4.',
+            'user-information' => [
+                'name' => $api_key->name,
+                'auth' => $api_key->auth,
+                'enabled' => $api_key->enabled,
+                'whitelist_only' => $api_key->whitelist_only,
+                'firewall' => $api_key->ip_firewall,
+            ],
         ];
     }
 }

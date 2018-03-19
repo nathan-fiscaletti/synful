@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\RequestHandlers;
+namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
@@ -8,16 +8,22 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * New Request Handler Class.
  */
-class HttpCodeExample extends RequestHandler
+class AdvancedEndpointsExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
      * Example: http://myapi.net/user/search
      * uses the endpoint `user/search`.
      *
+     * You can also add fields to the endpoint,
+     * In this example, we add the `id` field.
+     *
+     * You can access these fields using
+     * `$request->field('id')`.
+     *
      * @var string
      */
-    public $endpoint = 'example/httpcode';
+    public $endpoint = 'example/endpoint/{id}';
 
     /**
      * Handles a GET request type.
@@ -27,17 +33,8 @@ class HttpCodeExample extends RequestHandler
      */
     public function get(Request $request)
     {
-        // Return a 401 error code.
-        return sf_response(
-            401
-        );
-
-        // Alternately, you can return a 401 with a response body.
-        return sf_response(
-            401,
-            [
-                'error' => 'You are not authorized to be here.',
-            ]
-        );
+        return [
+            'message' => 'You selected ID: '.$request->field('id'),
+        ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\DataManagement\Models\APIKey;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\CLIParser\Commands\Util\Command;
 
 class CreateKey extends Command
@@ -36,7 +36,7 @@ class CreateKey extends Command
                         false
                     );
                 } else {
-                    $key = APIKey::getKey($auth);
+                    $key = APIKey::getApiKey($auth);
                     if ($key !== null) {
                         $response = null;
                         while (
@@ -64,7 +64,7 @@ class CreateKey extends Command
                                 false
                             );
                             sf_info(
-                                '    Auth Handle / ID     : '.$key->auth.' / '.$key->id,
+                                '    Auth Handle    : '.$key->auth.' / '.$key->id,
                                 true,
                                 false,
                                 false

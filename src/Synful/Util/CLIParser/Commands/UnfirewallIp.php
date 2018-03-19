@@ -2,7 +2,7 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\DataManagement\Models\APIKey;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\CLIParser\Commands\Util\Command;
 
 class UnfirewallIp extends Command
@@ -17,9 +17,9 @@ class UnfirewallIp extends Command
         $this->required = false;
 
         $this->alias = 'unfirewall-ip';
-        $this->exec = function ($auth_or_id, $ip) {
-            $id = $auth_or_id;
-            $key = APIKey::getKey($id);
+        $this->exec = function ($auth, $ip) {
+            $id = $auth;
+            $key = APIKey::getApiKey($id);
             if ($key !== null) {
                 if ($key->isFirewalled($ip)) {
                     $key->unfirewallIP($ip);

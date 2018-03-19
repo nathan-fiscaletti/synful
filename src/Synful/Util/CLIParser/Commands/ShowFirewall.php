@@ -2,7 +2,7 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\DataManagement\Models\APIKey;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\CLIParser\Commands\Util\Command;
 
 class ShowFirewall extends Command
@@ -17,13 +17,13 @@ class ShowFirewall extends Command
         $this->required = false;
         $this->alias = 'show-firewall';
 
-        $this->exec = function ($auth_or_id) {
-            $key = APIKey::getKey($auth_or_id);
+        $this->exec = function ($auth) {
+            $key = APIKey::getApiKey($auth);
             if ($key !== null) {
-                foreach ($key->ip_firewall as $firewall_entry) {
+                foreach ($key->firewall()->get() as $firewall_entry) {
                     sf_info(
-                        'IP: '.sf_color($firewall_entry['ip'], 'yellow').' is '.
-                        (($firewall_entry['block'])
+                        'IP: '.sf_color($firewall_entry->ip, 'yellow').' is '.
+                        (($firewall_entry->block)
                             ? sf_color(
                                 'blocked',
                                 'light_red'
@@ -33,7 +33,7 @@ class ShowFirewall extends Command
                                 'light_green'
                             )
                         ).
-                        ' for key '.sf_color($auth_or_id, 'light_cyan'),
+                        ' for key '.sf_color($auth, 'light_cyan'),
                         true,
                         false,
                         false

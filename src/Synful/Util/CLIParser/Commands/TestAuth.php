@@ -2,7 +2,7 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\DataManagement\Models\APIKey;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\CLIParser\Commands\Util\Command;
 
 class TestAuth extends Command
@@ -18,7 +18,7 @@ class TestAuth extends Command
         $this->alias = 'test-auth';
 
         $this->exec = function ($auth, $key) {
-            $api_key = APIKey::getkey($auth);
+            $api_key = APIKey::getApikey($auth);
             if ($api_key == null) {
                 sf_error('Error: No API Key found matching that authentication handle.', true);
 

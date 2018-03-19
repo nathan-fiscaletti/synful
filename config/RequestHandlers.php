@@ -11,14 +11,13 @@ return [
      */
 
     'registered' => [
-        \Synful\RequestHandlers\AdvancedEndpointsExample::class,
-        \Synful\RequestHandlers\GetIPExample::class,
-        \Synful\RequestHandlers\HttpCodeExample::class,
-        \Synful\RequestHandlers\InputExample::class,
-        \Synful\RequestHandlers\PrivateHandlerExample::class,
-        \Synful\RequestHandlers\RequestTypeExample::class,
-        \Synful\RequestHandlers\SecurityLevelExample::class,
-        \Synful\RequestHandlers\SerializerExample::class,
-        \Synful\RequestHandlers\SqlExample::class,
+        \Synful\App\RequestHandlers\AdvancedEndpointsExample::class,
+        \Synful\App\RequestHandlers\GetIPExample::class,
+        \Synful\App\RequestHandlers\HttpCodeExample::class,
+        \Synful\App\RequestHandlers\InputExample::class,
+        \Synful\App\RequestHandlers\PrivateHandlerExample::class,
+        \Synful\App\RequestHandlers\RequestTypeExample::class,
+        \Synful\App\RequestHandlers\SecurityLevelExample::class,
+        \Synful\App\RequestHandlers\SerializerExample::class,
     ],
 ];

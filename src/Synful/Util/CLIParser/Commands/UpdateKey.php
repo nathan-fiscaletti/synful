@@ -2,7 +2,7 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\DataManagement\Models\APIKey;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\CLIParser\Commands\Util\Command;
 
 class UpdateKey extends Command
@@ -17,8 +17,8 @@ class UpdateKey extends Command
         $this->required = false;
         $this->alias = 'update-key';
 
-        $this->exec = function ($auth_or_id) {
-            $key = APIKey::getKey($auth_or_id);
+        $this->exec = function ($auth) {
+            $key = APIKey::getApiKey($auth);
             if ($key !== null) {
                 global $__minimal_output;
                 if (! $__minimal_output) {

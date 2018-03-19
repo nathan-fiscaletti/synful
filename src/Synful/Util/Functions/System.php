@@ -63,6 +63,10 @@ if (! function_exists('sf_response')) {
             throw new \Synful\Util\Framework\SynfulException(500, 1016);
         }
 
+        if ($response == null) {
+            $response = [];
+        }
+
         return new \Synful\Util\Framework\Response([
             'code' => $code,
             'response' => $response,
