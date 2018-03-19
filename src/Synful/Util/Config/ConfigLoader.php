@@ -35,18 +35,6 @@ class ConfigLoader implements LoaderInterface
             }
         }
 
-        foreach ($items['sqlservers'] as $server_name => $server) {
-            foreach ($server['databases'] as $database_name => $database) {
-                if (isset($database['use'])) {
-                    if (array_key_exists($database['use'], $server['databases'])) {
-                        $database = array_merge($server['databases'][$database['use']], $database);
-                        unset($database['use']);
-                        $items['sqlservers'][$server_name]['databases'][$database_name] = $database;
-                    }
-                }
-            }
-        }
-
         return $items;
     }
 }

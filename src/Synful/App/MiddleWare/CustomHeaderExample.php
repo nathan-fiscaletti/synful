@@ -10,7 +10,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * Custom MiddleWare implementation.
  */
-class MiddleWareName implements MiddleWare
+class CustomHeaderExample implements MiddleWare
 {
     /**
      * Perform the specified action on the request before
@@ -22,7 +22,7 @@ class MiddleWareName implements MiddleWare
      */
     public function before(Request $request, RequestHandler $handler)
     {
-        // Your code here
+        $request->headers['CustomHeader'] = 'Custom Input Value';
     }
 
     /**
@@ -33,6 +33,6 @@ class MiddleWareName implements MiddleWare
      */
     public function after(Response $response)
     {
-        // Do nothing
+        $response->headers['CustomHeader'] = 'Custom Output Value';
     }
 }

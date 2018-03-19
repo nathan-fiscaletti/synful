@@ -16,7 +16,7 @@ class CreateSerializer extends Command
         $this->required = false;
         $this->alias = 'create-serializer';
 
-        $this->exec = function ($name) {
+        $this->exec = function ($name, $contentType) {
             $name = str_replace('_', '', $name);
             $name = trim($name);
 
@@ -27,22 +27,26 @@ class CreateSerializer extends Command
                     true
                 );
             } else {
-                if (! file_exists('./src/Synful/Util/Serializers/'.$name.'.php')) {
+                if (! file_exists('./src/Synful/App/Serializers/'.$name.'.php')) {
                     file_put_contents(
-                        './src/Synful/Util/Serializers/'.$name.'.php',
+                        './src/Synful/App/Serializers/'.$name.'.php',
                         str_replace(
-                            'SerializerName',
-                            $name,
-                            file_get_contents('./templates/Serializer.tmpl')
+                            'ContentType',
+                            $contentType,
+                            str_replace(
+                                'SerializerName',
+                                $name,
+                                file_get_contents('./templates/Serializer.tmpl')
+                            )
                         )
                     );
 
                     sf_info(
-                        'Created Serializer in \'src/Synful/Util/Serializers\' with name \''.$name.'\'.',
+                        'Created Serializer in \'src/Synful/App/Serializers\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod('./src/Synful/Util/Serializers/'.$name.'.php', 0700);
-                    exec('chmod +x ./src/Synful/Util/Serializers/'.$name.'.php');
+                    chmod('./src/Synful/App/Serializers/'.$name.'.php', 0700);
+                    exec('chmod +x ./src/Synful/App/Serializers/'.$name.'.php');
                     exec('composer dumpautoload');
                 } else {
                     sf_error('Error: Serializer by that name already exists.', true);

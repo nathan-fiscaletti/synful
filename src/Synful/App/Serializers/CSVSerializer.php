@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\Util\Serializers;
+namespace Synful\App\Serializers;
 
 use Synful\Util\Framework\Serializer;
 

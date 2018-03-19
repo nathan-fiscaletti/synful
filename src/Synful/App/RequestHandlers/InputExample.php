@@ -1,6 +1,6 @@
 <?php
 
-namespace Synful\RequestHandlers;
+namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;

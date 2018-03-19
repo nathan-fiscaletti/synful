@@ -27,9 +27,9 @@ class CreateMiddleWare extends Command
                     true
                 );
             } else {
-                if (! file_exists('./src/Synful/Util/MiddleWare/'.$name.'.php')) {
+                if (! file_exists('./src/Synful/App/MiddleWare/'.$name.'.php')) {
                     file_put_contents(
-                        './src/Synful/Util/MiddleWare/'.$name.'.php',
+                        './src/Synful/App/MiddleWare/'.$name.'.php',
                         str_replace(
                             'MiddleWareName',
                             $name,
@@ -38,11 +38,11 @@ class CreateMiddleWare extends Command
                     );
 
                     sf_info(
-                        'Created MiddleWare in \'src/Synful/Util/MiddleWare\' with name \''.$name.'\'.',
+                        'Created MiddleWare in \'src/Synful/App/MiddleWare\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod('./src/Synful/Util/MiddleWare/'.$name.'.php', 0700);
-                    exec('chmod +x ./src/Synful/Util/MiddleWare/'.$name.'.php');
+                    chmod('./src/Synful/App/MiddleWare/'.$name.'.php', 0700);
+                    exec('chmod +x ./src/Synful/App/MiddleWare/'.$name.'.php');
                     exec('composer dumpautoload');
                 } else {
                     sf_error('Error: MiddleWare by that name already exists.', true);

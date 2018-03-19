@@ -3,6 +3,7 @@
 namespace Synful;
 
 use Synful\Util\ASCII\Colors;
+use Synful\Util\Data\Database;
 use Synful\Util\IO\IOFunctions;
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\Response;
@@ -10,7 +11,6 @@ use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\RequestHandler;
 use Synful\Util\Framework\SynfulException;
-use Synful\Util\DataManagement\SqlConnection;
 
 /**
  * Primary class for framework.
@@ -25,18 +25,18 @@ class Synful
     public static $config;
 
     /**
-     * All SqlConnections based off of database definitions in config.
-     *
-     * @var array
-     */
-    public static $sql_databases = [];
-
-    /**
      * All request handlers registered in the system.
      *
      * @var array
      */
     public static $request_handlers = [];
+
+    /**
+     * The result of the command line parsing.
+     *
+     * @var array
+     */
+    public static $command_results = [];
 
     /**
      * Initialize the Synful API instance.
@@ -70,9 +70,8 @@ class Synful
         set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
         register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
 
-        // Initialize the Sql databases
-        // This does not initialize a connection.
-        self::initializeSql();
+        // Initialize the Database Connections
+        self::initializeDatabases();
 
         // Parse Command Line
         if (self::isCommandLineInterface()) {
@@ -98,6 +97,8 @@ class Synful
                 $commandLine->printUsage();
                 exit(3);
             }
+
+            self::$command_results = $results;
         }
 
         // Load request handlers
@@ -108,17 +109,16 @@ class Synful
     }
 
     /**
-     * Initializes MySQL.
+     * Initializes Database Connection.
      */
-    // TODO - IMPORTANT
-    public static function initializeSql()
+    public static function initializeDatabases()
     {
-        if (sf_conf('sqlservers.main.databases.synful') != null) {
-            self::loadSqlServers(sf_conf('sqlservers'));
+        if (sf_conf('databases.synful') != null) {
+            Database::initialize(sf_conf('databases'));
         } else {
             trigger_error(
                 'Missing Synful database definition. '.
-                'Set \'sqlservers.main.databases.synful\' in \'SqlServers.php\'. '.
+                'Set \'synful\' in \'config/Databases.php\'. '.
                 'Default Synful database is for storing API Keys.',
                 E_USER_WARNING
             );
@@ -239,48 +239,6 @@ class Synful
     public static function isCommandLineInterface()
     {
         return php_sapi_name() === 'cli';
-    }
-
-    /**
-     * Create default Synful tables.
-     *
-     * @return bool
-     */
-    public static function createDefaultTables()
-    {
-        return
-            sf_sql(
-                'CREATE TABLE IF NOT EXISTS `api_keys` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT , '.
-                '`name` VARCHAR(255) NOT NULL , `auth` VARCHAR(255) NOT NULL , `api_key` VARCHAR(255) NOT NULL , '.
-                '`whitelist_only` INT NOT NULL , `security_level` INT NOT NULL, `enabled` INT NOT NULL , '.
-                'PRIMARY KEY (`id`)) ENGINE = MyISAM;'
-            )
-
-            && sf_sql(
-                'CREATE TABLE IF NOT EXISTS `ip_firewall` ( `id` INT UNSIGNED NOT NULL AUTO_INCREMENT '.
-                ', `api_key_id` INT UNSIGNED NOT NULL , `ip` VARCHAR(255) NOT NULL , `block` INT NOT NULL '.
-                ', PRIMARY KEY (`id`) ) ENGINE = MyISAM;'
-            );
-    }
-
-    /**
-     * Loads all MySQL Databases into Synful.
-     */
-    private static function loadSqlServers($sqlservers)
-    {
-        foreach ($sqlservers as $server_name => $server) {
-            foreach ($server['databases'] as $database_name => $database) {
-                $new_sql_connection = new SqlConnection(
-                    $server['host'],
-                    $database['username'],
-                    $database['password'],
-                    $database['database'],
-                    $server['port']
-                );
-
-                self::$sql_databases[$server_name.'.'.$database_name] = $new_sql_connection;
-            }
-        }
     }
 
     /**

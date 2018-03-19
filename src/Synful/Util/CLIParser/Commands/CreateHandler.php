@@ -27,9 +27,9 @@ class CreateHandler extends Command
                     true
                 );
             } else {
-                if (! file_exists('./src/Synful/RequestHandlers/'.$name.'.php')) {
+                if (! file_exists('./src/Synful/App/RequestHandlers/'.$name.'.php')) {
                     file_put_contents(
-                        './src/Synful/RequestHandlers/'.$name.'.php',
+                        './src/Synful/App/RequestHandlers/'.$name.'.php',
                         str_replace(
                             'EndPoint',
                             strtolower($name),
@@ -42,11 +42,11 @@ class CreateHandler extends Command
                     );
 
                     sf_info(
-                        'Created Request Handler in \'src/Synful/RequestHandlers\' with name \''.$name.'\'.',
+                        'Created Request Handler in \'src/Synful/App/RequestHandlers\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod('./src/Synful/RequestHandlers/'.$name.'.php', 0700);
-                    exec('chmod +x ./src/Synful/RequestHandlers/'.$name.'.php');
+                    chmod('./src/Synful/App/RequestHandlers/'.$name.'.php', 0700);
+                    exec('chmod +x ./src/Synful/App/RequestHandlers/'.$name.'.php');
                     exec('composer dumpautoload');
                 } else {
                     sf_error('Error: A request handler by that name already exists.', true);

@@ -1,10 +1,10 @@
 <?php
 
-namespace Synful\RequestHandlers;
+namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
+use Synful\App\Serializers\CSVSerializer;
 use Synful\Util\Framework\RequestHandler;
-use Synful\Util\Serializers\CSVSerializer;
 
 /**
  * New Request Handler Class.

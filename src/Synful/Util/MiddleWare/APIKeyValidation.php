@@ -3,11 +3,11 @@
 namespace Synful\Util\MiddleWare;
 
 use Synful\Util\Framework\Request;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\Framework\Response;
 use Synful\Util\Framework\MiddleWare;
 use Synful\Util\Framework\RequestHandler;
 use Synful\Util\Framework\SynfulException;
-use Synful\Util\DataManagement\Models\APIKey;
 
 /**
  * Custom MiddleWare implementation.
@@ -60,7 +60,7 @@ class APIKeyValidation implements MiddleWare
         $key = $request->headers['Synful-Key'];
 
         // Load the API Key
-        $api_key = APIKey::getkey($user);
+        $api_key = APIKey::getApikey($user);
 
         // Validate the the API key exists.
         if ($api_key === null) {
@@ -135,7 +135,7 @@ class APIKeyValidation implements MiddleWare
     /**
      * Validate the firewall of an APIKey.
      *
-     * @param  \Synful\DataManagement\Models\APIKey $api_key
+     * @param  \Synful\Data\Models\APIKey $api_key
      * @param  string                               $ip
      * @throws \Synful\Util\Framework\SynfulException
      */
