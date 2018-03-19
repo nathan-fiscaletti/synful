@@ -3,12 +3,12 @@
 namespace Synful\Util\Config;
 
 use DirectoryIterator;
-use Synful\Util\Framework\Object;
+use Synful\Util\Framework\ParamObject;
 use Gestalt\Loaders\LoaderInterface;
 
 class ConfigLoader implements LoaderInterface
 {
-    use Object;
+    use ParamObject;
 
     /**
      * The directory to load PHP configuration files from.
