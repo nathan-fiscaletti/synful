@@ -16,7 +16,7 @@ class CreateSerializer extends Command
         $this->required = false;
         $this->alias = 'create-serializer';
 
-        $this->exec = function ($name) {
+        $this->exec = function ($name, $contentType) {
             $name = str_replace('_', '', $name);
             $name = trim($name);
 
@@ -31,9 +31,13 @@ class CreateSerializer extends Command
                     file_put_contents(
                         './src/Synful/App/Serializers/'.$name.'.php',
                         str_replace(
-                            'SerializerName',
-                            $name,
-                            file_get_contents('./templates/Serializer.tmpl')
+                            'ContentType',
+                            $contentType,
+                            str_replace(
+                                'SerializerName',
+                                $name,
+                                file_get_contents('./templates/Serializer.tmpl')
+                            )
                         )
                     );
 

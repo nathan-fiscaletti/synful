@@ -14,7 +14,7 @@ return [
 
     'synful' => [
         'driver'    => 'mysql',
-        'host'      => '192.168.1.85',
+        'host'      => '127.0.0.1',
         'database'  => 'synful',
         'username'  => 'root',
         'password'  => 'password',
