@@ -32,6 +32,13 @@ class Synful
     public static $request_handlers = [];
 
     /**
+     * The result of the command line parsing.
+     *
+     * @var array
+     */
+    public static $command_results = [];
+
+    /**
      * Initialize the Synful API instance.
      */
     public static function initialize()
@@ -90,6 +97,8 @@ class Synful
                 $commandLine->printUsage();
                 exit(3);
             }
+
+            self::$command_results = $results;
         }
 
         // Load request handlers

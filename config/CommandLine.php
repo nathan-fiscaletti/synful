@@ -12,6 +12,7 @@ return [
 
     'commands' => [
         \Synful\Util\CLIParser\Commands\Color::class,
+        \Synful\Util\CLIParser\Commands\CreateCommand::class,
         \Synful\Util\CLIParser\Commands\CreateHandler::class,
         \Synful\Util\CLIParser\Commands\CreateKey::class,
         \Synful\Util\CLIParser\Commands\CreateMiddleWare::class,
