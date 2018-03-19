@@ -7,7 +7,7 @@ namespace Synful\Util\Framework;
  */
 class Response
 {
-    use Object;
+    use ParamObject;
 
     /**
      * The response headers.

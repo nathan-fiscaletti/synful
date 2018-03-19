@@ -5,7 +5,7 @@ namespace Synful\Util\Framework;
 /**
  * Trait used as a base for classes with constructors that match their properties.
  */
-trait Object
+trait ParamObject
 {
     /**
      * Automatically define parameters for object.
