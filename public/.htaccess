@@ -1,2 +1,2 @@
-#RewriteEngine on
-#RewriteRule ^(.*)$ index.php?_synful_ep_=$1 [L,QSA]
+RewriteEngine on
+RewriteRule ^(.*)$ index.php?_synful_ep_=$1 [L,QSA]
