@@ -62,20 +62,6 @@ class IOFunctions
             $head = 'RESP';
         }
 
-        $log_file = sf_conf('files.logfile');
-
-        if (sf_conf('files.log_to_file') && $write_to_file) {
-            if (! file_exists(dirname($log_file))) {
-                try {
-                    mkdir(dirname($log_file), 0700, true);
-                    chown(dirname($log_file), exec('whoami'));
-                    chmod(dirname($log_file), 0700);
-                } catch (Exception $e) {
-                    trigger_error($e->message, E_USER_WARNING);
-                }
-            }
-        }
-
         $output = [];
         global $__minimal_output;
 
@@ -87,40 +73,6 @@ class IOFunctions
                     $out_line = '['.sf_color('SYNFUL', 'white', null, 'reset').'] ';
                     $out_line .= self::parseLogstring($level, $head, $line);
                     $output[] = $out_line;
-                }
-            }
-
-            if (sf_conf('files.log_to_file') && $write_to_file) {
-                if (sf_conf('files.split_log_files')) {
-                    $log_id = 0;
-                    $max_lines = sf_conf('files.max_logfile_lines');
-                    while (file_exists($log_file) && (count(file($log_file)) - 1) > $max_lines) {
-                        $log_id++;
-                        $log_file = sf_conf('files.logfile').'.'.$log_id;
-                    }
-                }
-
-                if (! file_exists($log_file)) {
-                    try {
-                        file_put_contents($log_file, '');
-                        chmod($log_file, 0700);
-                        chown($log_file, exec('whoami'));
-                    } catch (Exception $e) {
-                        trigger_error($e->message, E_USER_WARNING);
-                    }
-                }
-
-                if (is_writable($log_file)) {
-                    $line = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $line);
-                    file_put_contents(
-                        $log_file,
-                        '['.time().'] [SYNFUL] ['.$head.'] '.$line."\r\n",
-                        FILE_APPEND
-                    );
-                } else {
-                    trigger_error('Failled to write to log file. Check permissions? '.
-                                  'Disabling logging for rest of session.', E_USER_WARNING);
-                    Synful::$config->set('files.log_to_file', false);
                 }
             }
         }

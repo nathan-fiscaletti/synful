@@ -26,7 +26,6 @@ return [
         \Synful\Util\CLIParser\Commands\HideConfigChanges::class,
         \Synful\Util\CLIParser\Commands\ListKeys::class,
         \Synful\Util\CLIParser\Commands\ListRequestHandlers::class,
-        \Synful\Util\CLIParser\Commands\ListSql::class,
         \Synful\Util\CLIParser\Commands\Migrate::class,
         \Synful\Util\CLIParser\Commands\Output::class,
         \Synful\Util\CLIParser\Commands\RemoveKey::class,
