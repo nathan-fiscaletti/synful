@@ -15,7 +15,7 @@ else
     if [ ! -z "$1" ]; then
         if [[ "$1" == "install" ]]; then
             composer install --no-scripts --no-dev;
-            run -ct
+            run -migrate up
         elif [[ "$1" == "update" ]]; then
             composer update;
         else
