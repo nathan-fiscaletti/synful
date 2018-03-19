@@ -1,16 +1,15 @@
 <?php
 
-namespace Synful\RequestHandlers;
+namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 use Synful\Util\MiddleWare\APIKeyValidation;
-use Synful\Util\DataManagement\Models\APIKey;
 
 /**
- * Class used to demonstrate private request handlers.
+ * New Request Handler Class.
  */
-class PrivateHandlerExample extends RequestHandler
+class SecurityLevelExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -19,13 +18,13 @@ class PrivateHandlerExample extends RequestHandler
      *
      * @var string
      */
-    public $endpoint = 'example/private';
+    public $endpoint = 'example/secure';
 
     /**
      * Implement the APIKeyValidation middleware
      * in order to require an API key to access
      * this RequestHandler. This is also used to
-     * parse the white_list_keys property.
+     * parse the security_level property.
      *
      * @var array
      */
@@ -34,16 +33,15 @@ class PrivateHandlerExample extends RequestHandler
     ];
 
     /**
-     * Assign an array of API Keys to the 'white_list_keys' property to make
-     * this handler only allow connections using those API Keys.
+     * Set the security level for the RequestHandler.
+     * Only API keys with this security level or
+     * higher can access this RequestHandler.
      *
      * Note: Must implement the APIKeyValidation middleware.
      *
-     * @var array
+     * @var int
      */
-    public $white_list_keys = [
-        'SYNFUL',
-    ];
+    public $security_level = 4;
 
     /**
      * Handles a GET request type.
@@ -53,16 +51,8 @@ class PrivateHandlerExample extends RequestHandler
      */
     public function get(Request $request)
     {
-        $api_key = APIKey::getKey($request->auth);
-
         return [
-            'user-information' => [
-                'name' => $api_key->name,
-                'auth' => $api_key->auth,
-                'enabled' => $api_key->enabled,
-                'whitelist_only' => $api_key->whitelist_only,
-                'firewall' => $api_key->ip_firewall,
-            ],
+            'message' => 'This API key has a security level equal to or greater than 4.',
         ];
     }
 }

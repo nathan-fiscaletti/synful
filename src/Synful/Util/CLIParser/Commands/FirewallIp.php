@@ -2,7 +2,7 @@
 
 namespace Synful\Util\CLIParser\Commands;
 
-use Synful\Util\DataManagement\Models\APIKey;
+use Synful\Util\Data\Models\APIKey;
 use Synful\Util\CLIParser\Commands\Util\Command;
 
 class FirewallIp extends Command
@@ -16,18 +16,17 @@ class FirewallIp extends Command
         $this->description = 'Firewalls an IP Address on the specified key with the specified block value.';
         $this->required = false;
         $this->alias = 'firewall-ip';
-        $this->exec = function ($auth_or_id, $ip, $block_value) {
-            $id = $auth_or_id;
+        $this->exec = function ($auth, $ip, $block_value) {
             $block = $block_value;
             if (! is_numeric($block)) {
                 sf_error('Block value must be an integer value of either 1 or 0.', true, false, false);
             } else {
-                $key = APIKey::getKey($id);
+                $key = APIKey::getApiKey($auth);
                 if ($key !== null) {
                     $key->firewallIP($ip, $block);
                     $key->save();
                     sf_info(
-                        'Set firewall on key \''.sf_color($id, 'light_blue').
+                        'Set firewall on key \''.sf_color($auth, 'light_blue').
                         '\' for ip \''.sf_color($ip, 'light_blue').'\' to \''.
                         (($block)
                             ? sf_color(

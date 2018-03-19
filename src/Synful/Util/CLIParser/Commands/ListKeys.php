@@ -3,6 +3,7 @@
 namespace Synful\Util\CLIParser\Commands;
 
 use Synful\Util\CLIParser\Commands\Util\Command;
+use Synful\Util\Data\Models\APIKey;
 
 class ListKeys extends Command
 {
@@ -18,23 +19,23 @@ class ListKeys extends Command
         $this->exec = function () {
             sf_info('API Key List', true, false, false);
             sf_info('-----------------------------------------------------', true, false, false);
-            $sql_result = sf_sql('SELECT * FROM `api_keys`', [], true);
-            while ($row = mysqli_fetch_assoc($sql_result)) {
+            $keys = APIKey::all();
+            foreach ($keys as $key) {
                 sf_info(
-                    'Belongs To: '.sf_color($row['name'], 'light_blue'),
+                    'Belongs To: '.sf_color($key->name, 'light_blue'),
                     true,
                     false,
                     false
                 );
                 sf_info(
-                    '    Auth Handle / ID : '.$row['auth'].' / '.$row['id'],
+                    '    Auth Handle    : '.$key->auth,
                     true,
                     false,
                     false
                 );
                 sf_info(
-                    '    Whitelist-Only   : '.
-                    (($row['whitelist_only'])
+                    '    Whitelist-Only : '.
+                    (($key->whitelist_only)
                         ? sf_color(
                             'true',
                             'light_green'
@@ -49,14 +50,14 @@ class ListKeys extends Command
                     false
                 );
                 sf_info(
-                    '    Security         : '.sf_color('Level '.$row['security_level'], 'light_green'),
+                    '    Security       : '.sf_color('Level '.$key->security_level, 'light_green'),
                     true,
                     false,
                     false
                 );
                 sf_info(
-                    '    Enabled          : '.
-                    (($row['enabled'])
+                    '    Enabled        : '.
+                    (($key->enabled)
                         ? sf_color(
                             'true',
                             'light_green'
