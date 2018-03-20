@@ -16,8 +16,10 @@ else
         if [[ "$1" == "install" ]]; then
             composer install --no-scripts --no-dev;
             run -migrate up
+            composer dumpautoload -o
         elif [[ "$1" == "update" ]]; then
             composer update;
+            composer dumpautoload -o
         else
             run "$@";
         fi;
