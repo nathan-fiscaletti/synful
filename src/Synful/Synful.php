@@ -248,7 +248,7 @@ class Synful
      */
     public static function version()
     {
-        return "v2.0.3";
+        return 'v2.0.3';
     }
 
     /**
