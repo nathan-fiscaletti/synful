@@ -33,6 +33,7 @@ return [
         \Synful\Util\CLIParser\Commands\TestAuth::class,
         \Synful\Util\CLIParser\Commands\UnfirewallIp::class,
         \Synful\Util\CLIParser\Commands\UpdateKey::class,
+        \Synful\Util\CLIParser\Commands\Version::class,
         \Synful\Util\CLIParser\Commands\WhitelistOnly::class,
     ],
 ];
