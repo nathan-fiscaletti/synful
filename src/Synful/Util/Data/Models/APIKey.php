@@ -281,7 +281,7 @@ class APIKey extends Model
     public static function generateNew()
     {
         $key = bin2hex(openssl_random_pseudo_bytes(32));
-        $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 11]);
+        $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 5]);
 
         return [
             'key' => $key,

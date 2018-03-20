@@ -242,6 +242,16 @@ class Synful
     }
 
     /**
+     * Retrieve the current version of the framework.
+     *
+     * @return string
+     */
+    public static function version()
+    {
+        return 'v2.0.4';
+    }
+
+    /**
      * Loads all request handlers stored in 'system/request_handlers' into system.
      */
     private static function loadRequestHandlers()
