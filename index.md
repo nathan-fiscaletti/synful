@@ -1,6 +1,6 @@
 
 <p align='center'>
-	<img src='https://github.com/nathan-fiscaletti/synful/blob/gh-pages/Logo.jpg?raw=true' />
+	<img src='https://github.com/nathan-fiscaletti/synful/blob/gh-pages/Logo.png?raw=true' />
 </p>
 
 [![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)		
