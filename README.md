@@ -1,16 +1,18 @@
 <p align='center'>
-	<img src='https://github.com/nathan-fiscaletti/synful/blob/master/Logo.jpg?raw=true' />
+	<img src='https://github.com/nathan-fiscaletti/synful/blob/master/Logo.jpg?raw=true' /><br />
+	<a href="https://styleci.io/repos/66602627"><img src="https://styleci.io/repos/66602627/shield?style=flat" alt="StyleCI" /></a>
+<a href="https://packagist.org/packages/nafisc/synful"><img src="https://poser.pugx.org/nafisc/synful/v/stable?format=flat" alt="Latest Stable Version" /></a>
+<a href="https://packagist.org/packages/nafisc/synful"><img src="https://poser.pugx.org/nafisc/synful/v/unstable?format=flat" alt="Latest Unstable Version" /></a>
+<a href="https://github.com/nathan-fiscaletti/synful/issues"><img src="https://img.shields.io/github/issues/nathan-fiscaletti/synful.svg" alt="GitHub issues" /></a>
+<a href="https://github.com/nathan-fiscaletti/synful/stargazers"><img src="https://img.shields.io/github/stars/nathan-fiscaletti/synful.svg" alt="GitHub stars" /></a>
+<a href="https://packagist.org/packages/nafisc/synful"><img src="https://poser.pugx.org/nafisc/synful/license?format=flat" alt="License" /></a>
 </p>
+
+---
 
 # Synful API Framework
 > A simple framework for creating your own API
 
-[![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)		
-[![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat)](https://packagist.org/packages/nafisc/synful)
-[![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable?format=flat)](https://packagist.org/packages/nafisc/synful)
-[![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/issues)
-[![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/stargazers)
-[![License](https://poser.pugx.org/nafisc/synful/license?format=flat)](https://packagist.org/packages/nafisc/synful)
 
 
 ### What is it?		
