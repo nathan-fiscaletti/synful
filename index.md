@@ -1,3 +1,8 @@
+
+<p align='center'>
+	<img src='https://github.com/nathan-fiscaletti/synful/blob/master/Logo.jpg?raw=true' />
+</p>
+
 [![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)		
 [![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat)](https://packagist.org/packages/nafisc/synful)		
 [![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable?format=flat)](https://packagist.org/packages/nafisc/synful)		
