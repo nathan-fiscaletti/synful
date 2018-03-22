@@ -1,3 +1,7 @@
+<p align='center'>
+	<img src='https://github.com/nathan-fiscaletti/synful/blob/master/Logo.jpg?raw=true' />
+</p>
+
 # Synful API Framework
 > A simple framework for creating your own API
 
@@ -7,7 +11,8 @@
 [![GitHub issues](https://img.shields.io/github/issues/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/issues)
 [![GitHub stars](https://img.shields.io/github/stars/nathan-fiscaletti/synful.svg)](https://github.com/nathan-fiscaletti/synful/stargazers)
 [![License](https://poser.pugx.org/nafisc/synful/license?format=flat)](https://packagist.org/packages/nafisc/synful)
-		
+
+
 ### What is it?		
 Synful is a simple PHP framework that will allow you to create a customized API for any project you want. 
 
