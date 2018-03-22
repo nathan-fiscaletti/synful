@@ -3,10 +3,12 @@
 	<img src='https://github.com/nathan-fiscaletti/synful/blob/gh-pages/Logo.png?raw=true' />
 </p>
 
-[![StyleCI](https://styleci.io/repos/66602627/shield?style=flat)](https://styleci.io/repos/66602627)		
-[![Latest Stable Version](https://poser.pugx.org/nafisc/synful/v/stable?format=flat)](https://packagist.org/packages/nafisc/synful)		
-[![Latest Unstable Version](https://poser.pugx.org/nafisc/synful/v/unstable?format=flat)](https://packagist.org/packages/nafisc/synful)		
-[![License](https://poser.pugx.org/nafisc/synful/license?format=flat)](https://packagist.org/packages/nafisc/synful)		 		
+<p align='center'>
+    <a href='https://styleci.io/repos/66602627'><img src='https://styleci.io/repos/66602627/shield?style=flat' /></a>
+    <a href='https://packagist.org/packages/nafisc/synful'><img src='https://poser.pugx.org/nafisc/synful/v/stable?format=flat' /></a>
+    <a href='https://packagist.org/packages/nafisc/synful'><img src='https://poser.pugx.org/nafisc/synful/v/unstable?format=flat' /></a>
+    <a href='https://packagist.org/packages/nafisc/synful'><img src='https://poser.pugx.org/nafisc/synful/license?format=flat' /></a>
+</p>
 		
 ### What is it?		
 Synful is a simple PHP framework that will allow you to create a customized API for any project you want. 
