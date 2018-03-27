@@ -10,7 +10,6 @@
 
 ---
 
-# Synful API Framework
 > A simple framework for creating your own API
 
 
