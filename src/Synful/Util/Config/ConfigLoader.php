@@ -28,10 +28,12 @@ class ConfigLoader implements LoaderInterface
         $directory = new DirectoryIterator(realpath($this->directory));
 
         foreach ($directory as $file) {
-            if ($file->isFile() && $file->getExtension() == 'php') {
+            if ($file->isFile() && $file->getExtension() == 'json') {
                 $filename = $file->getFilename();
                 $config = strtolower(substr($filename, 0, strrpos($filename, '.')));
-                $items[$config] = require $file->getPathname();
+
+                // Using sf_json_decode will remove any comments from the json file
+                $items[$config] = sf_json_decode(file_get_contents($file->getPathname()), true);
             }
         }
 

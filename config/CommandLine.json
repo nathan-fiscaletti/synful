@@ -1,0 +1,37 @@
+{
+    /*
+     |--------------------------------------------------------------------------
+     | Commands
+     |--------------------------------------------------------------------------
+     |
+     | The CLI Commands to register with the System.
+     */
+    
+    "commands": [
+        "Synful\\Util\\CLIParser\\Commands\\Color",
+        "Synful\\Util\\CLIParser\\Commands\\CreateCommand",
+        "Synful\\Util\\CLIParser\\Commands\\CreateHandler",
+        "Synful\\Util\\CLIParser\\Commands\\CreateKey",
+        "Synful\\Util\\CLIParser\\Commands\\CreateMiddleWare",
+        "Synful\\Util\\CLIParser\\Commands\\CreateMigration",
+        "Synful\\Util\\CLIParser\\Commands\\CreateModel",
+        "Synful\\Util\\CLIParser\\Commands\\CreateSerializer",
+        "Synful\\Util\\CLIParser\\Commands\\DisableKey",
+        "Synful\\Util\\CLIParser\\Commands\\EnableKey",
+        "Synful\\Util\\CLIParser\\Commands\\FirewallIp",
+        "Synful\\Util\\CLIParser\\Commands\\Help",
+        "Synful\\Util\\CLIParser\\Commands\\HideConfigChanges",
+        "Synful\\Util\\CLIParser\\Commands\\ListKeys",
+        "Synful\\Util\\CLIParser\\Commands\\ListRequestHandlers",
+        "Synful\\Util\\CLIParser\\Commands\\Migrate",
+        "Synful\\Util\\CLIParser\\Commands\\Output",
+        "Synful\\Util\\CLIParser\\Commands\\Register",
+        "Synful\\Util\\CLIParser\\Commands\\RemoveKey",
+        "Synful\\Util\\CLIParser\\Commands\\ShowFirewall",
+        "Synful\\Util\\CLIParser\\Commands\\TestAuth",
+        "Synful\\Util\\CLIParser\\Commands\\UnfirewallIp",
+        "Synful\\Util\\CLIParser\\Commands\\UpdateKey",
+        "Synful\\Util\\CLIParser\\Commands\\Version",
+        "Synful\\Util\\CLIParser\\Commands\\WhitelistOnly"
+    ]
+}

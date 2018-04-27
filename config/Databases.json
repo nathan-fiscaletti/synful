@@ -1,6 +1,4 @@
-<?php
-
-return [
+{
 
     /*
      |--------------------------------------------------------------------------
@@ -12,14 +10,14 @@ return [
      | migrations `$connection` variable.
      */
 
-    'synful' => [
-        'driver'    => 'mysql',
-        'host'      => '127.0.0.1',
-        'database'  => 'synful',
-        'username'  => 'root',
-        'password'  => 'password',
-        'charset'   => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-        'prefix'    => '',
-    ],
-];
+    "synful": {
+        "driver": "mysql",
+        "host": "127.0.0.1",
+        "database": "synful",
+        "username": "root",
+        "password": "password",
+        "charset": "utf8",
+        "collation": "utf8_unicode_ci",
+        "prefix": ""
+    }
+}

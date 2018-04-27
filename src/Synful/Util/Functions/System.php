@@ -49,6 +49,23 @@ if (! function_exists('sf_is_json')) {
     }
 }
 
+if (! function_exists('sf_json_decode')) {
+    /**
+     * Takes a JSON encoded string removes any comments that might be in it and
+     * converts it into a PHP variable.
+     */
+    function sf_json_decode($json, $assoc)
+    {
+        $json = preg_replace(
+            "#(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|([\s\t]//.*)|(^//.*)#",
+            '',
+            $json
+        );
+
+        return json_decode($json, $assoc);
+    }
+}
+
 if (! function_exists('sf_response')) {
     /**
      * Generate a response.
