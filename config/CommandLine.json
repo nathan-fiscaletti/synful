@@ -1,4 +1,5 @@
 {
+
     /*
      |--------------------------------------------------------------------------
      | Commands
@@ -6,7 +7,7 @@
      |
      | The CLI Commands to register with the System.
      */
-    
+
     "commands": [
         "Synful\\Util\\CLIParser\\Commands\\Color",
         "Synful\\Util\\CLIParser\\Commands\\CreateCommand",
