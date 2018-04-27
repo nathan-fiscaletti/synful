@@ -60,7 +60,7 @@ class Register extends Command
 
                 $data['registered'][] = 'Synful\\App\\RequestHandlers\\'.$name;
                 $data = json_encode($data, JSON_PRETTY_PRINT);
-                $data = str_replace(array("\n\r", "\n", "\r"), "\n", $data);
+                $data = str_replace(["\n\r", "\n", "\r"], "\n", $data);
                 $data = str_replace(
                     "{\n",
                     "{\n\n    /*\n     |---------------------------------------".
@@ -84,7 +84,7 @@ class Register extends Command
      * @param  string $type
      * @param  string $name
      *
-     * @return bool 
+     * @return bool
      */
     private function validate($type, $name)
     {
