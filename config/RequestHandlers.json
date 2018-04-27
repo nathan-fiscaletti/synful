@@ -1,0 +1,21 @@
+{
+
+    /*
+     |--------------------------------------------------------------------------
+     | Registered
+     |--------------------------------------------------------------------------
+     |
+     | The RequestHandlers to register in the System.
+     */
+
+    "registered": [
+        "Synful\\App\\RequestHandlers\\AdvancedEndpointsExample",
+        "Synful\\App\\RequestHandlers\\GetIPExample",
+        "Synful\\App\\RequestHandlers\\HttpCodeExample",
+        "Synful\\App\\RequestHandlers\\InputExample",
+        "Synful\\App\\RequestHandlers\\PrivateHandlerExample",
+        "Synful\\App\\RequestHandlers\\RequestTypeExample",
+        "Synful\\App\\RequestHandlers\\SecurityLevelExample",
+        "Synful\\App\\RequestHandlers\\SerializerExample"
+    ]
+}

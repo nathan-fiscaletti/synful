@@ -1,6 +1,4 @@
-<?php
-
-return [
+{
 
     /*
      |--------------------------------------------------------------------------
@@ -9,8 +7,7 @@ return [
      |
      | If set to true, color codes will be enabled.
      */
-
-    'color' => true,
+    "color": true,
 
     /*
      |--------------------------------------------------------------------------
@@ -21,7 +18,7 @@ return [
      | with error messages.
      */
 
-    'production' => false,
+    "production": false,
 
     /*
      |--------------------------------------------------------------------------
@@ -31,7 +28,7 @@ return [
      | If set to true, fatal errors will be displayed.
      */
 
-    'display_errors' => true,
+    "display_errors": true,
 
     /*
      |--------------------------------------------------------------------------
@@ -41,7 +38,7 @@ return [
      | If set to true, JSON responses will be formatted using JSON_PRETTY_PRINT.
      */
 
-    'pretty_responses' => false,
+    "pretty_responses": false,
 
     /*
      |--------------------------------------------------------------------------
@@ -52,7 +49,7 @@ return [
      | when the `pretty` $_GET parameter is passed.
      */
 
-    'allow_pretty_responses_on_get' => true,
+    "allow_pretty_responses_on_get": true,
 
     /*
      |--------------------------------------------------------------------------
@@ -62,7 +59,7 @@ return [
      | The select middleware that will be applied to all RequestHandlers.
      */
 
-    'global_middleware' => [],
+    "global_middleware": [],
 
     /*
      |--------------------------------------------------------------------------
@@ -71,7 +68,6 @@ return [
      |
      | The serializer that will be used for requests.
      */
-
-    'serializer' => \Synful\Util\Serializers\JSONSerializer::class,
-
-];
+    
+    "serializer": "Synful\\Util\\Serializers\\JSONSerializer"
+}
