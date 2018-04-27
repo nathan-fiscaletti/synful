@@ -36,19 +36,19 @@ class Register extends Command
                 $data['commands'][] = 'Synful\\App\\Commands\\'.$name;
                 $data = json_encode($data, JSON_PRETTY_PRINT);
 
-                $data = str_replace(array("\n\r", "\n", "\r"), "\n", $data);
+                $data = str_replace(["\n\r", "\n", "\r"], "\n", $data);
                 $data = str_replace(
                     "{\n",
                     "{\n\n    /*\n     |--------------------------------------".
                     "------------------------------------\n     | Commands\n  ".
-                    "   |----------------------------------------------------".
+                    '   |----------------------------------------------------'.
                     "----------------------\n     |\n     | The CLI Commands ".
-                    "to register with the System.\n     */\n\n", 
+                    "to register with the System.\n     */\n\n",
                     $data
                 );
 
                 file_put_contents('./config/CommandLine.json', $data);
-                sf_info('Registered: '. $name.' as Command.', true, false, false);
+                sf_info('Registered: '.$name.' as Command.', true, false, false);
                 exit;
             } elseif ($type == 'requesthandler') {
                 $data = sf_json_decode(file_get_contents('./config/RequestHandlers.json'), true);
@@ -65,14 +65,14 @@ class Register extends Command
                     "{\n",
                     "{\n\n    /*\n     |---------------------------------------".
                     "-----------------------------------\n     | Registered\n  ".
-                    "   |----------------------------------------------------".
+                    '   |----------------------------------------------------'.
                     "----------------------\n     |\n     | The ".
-                    "RequestHandlers to register in the System.\n     */\n\n", 
+                    "RequestHandlers to register in the System.\n     */\n\n",
                     $data
                 );
 
                 file_put_contents('./config/RequestHandlers.json', $data);
-                sf_info('Registered: '. $name.' as RequestHandler.', true, false, false);
+                sf_info('Registered: '.$name.' as RequestHandler.', true, false, false);
                 exit;
             }
         };
@@ -103,7 +103,7 @@ class Register extends Command
         if ($type == 'command') {
             if (! file_exists('./src/Synful/App/Commands/'.$name.'.php')) {
                 sf_error(
-                    "Invalid name passed to Register command. File missing.",
+                    'Invalid name passed to Register command. File missing.',
                     true,
                     false,
                     false
@@ -111,10 +111,10 @@ class Register extends Command
 
                 return false;
             }
-        } else if ($type == 'requesthandler') {
+        } elseif ($type == 'requesthandler') {
             if (! file_exists('./src/Synful/App/RequestHandlers/'.$name.'.php')) {
                 sf_error(
-                    "Invalid name passed to Register command. File missing.",
+                    'Invalid name passed to Register command. File missing.',
                     true,
                     false,
                     false
