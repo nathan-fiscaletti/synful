@@ -45,9 +45,8 @@ class CreateHandler extends Command
                         'Created Request Handler in \'src/Synful/App/RequestHandlers\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod('./src/Synful/App/RequestHandlers/'.$name.'.php', 0700);
-                    exec('chmod +x ./src/Synful/App/RequestHandlers/'.$name.'.php');
-                    exec('composer dumpautoload');
+                    chmod('./src/Synful/App/RequestHandlers/'.$name.'.php', 0750);
+                    exec('composer dumpautoload >/dev/null 2>&1');
                 } else {
                     sf_error('Error: A request handler by that name already exists.', true);
                 }

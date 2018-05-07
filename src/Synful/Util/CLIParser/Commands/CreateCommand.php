@@ -43,8 +43,7 @@ class CreateCommand extends Command
                         'Created command in \'src/Synful/App/Commands\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod($fileName, 0700);
-                    exec('chmod +x '.$fileName);
+                    chmod($fileName, 0750);
                 } else {
                     sf_error('Error: A command by that name already exists.', true);
                 }

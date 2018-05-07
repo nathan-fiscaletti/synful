@@ -41,9 +41,8 @@ class CreateMiddleWare extends Command
                         'Created MiddleWare in \'src/Synful/App/MiddleWare\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod('./src/Synful/App/MiddleWare/'.$name.'.php', 0700);
-                    exec('chmod +x ./src/Synful/App/MiddleWare/'.$name.'.php');
-                    exec('composer dumpautoload');
+                    chmod('./src/Synful/App/MiddleWare/'.$name.'.php', 0750);
+                    exec('composer dumpautoload >/dev/null 2>&1');
                 } else {
                     sf_error('Error: MiddleWare by that name already exists.', true);
                 }
