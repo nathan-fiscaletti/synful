@@ -21,7 +21,7 @@ Synful is a simple PHP framework that will allow you to create a customized API 
 * Much, much more!
 		
 ### How can I get it?		
-Head over to [The Wiki Pages](http://github.com/nathan-fiscaletti/synful/wiki) for information on how to get Synful and what the next steps are to get your custom API Framework up and running!
+Head over to [The Wiki Pages](http://github.com/nathan-fiscaletti/synful/wiki) for information on how to get Synful and what the next steps are to get your custom API up and running!
 
 ### Benchmark
 
