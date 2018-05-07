@@ -51,9 +51,8 @@ class CreateModel extends Command
                     'Created database Model in \'src/Synful/App/Data/Models\' with name \''.$name.'\'.',
                     true
                 );
-                chmod('./src/Synful/App/Data/Models/'.$name.'.php', 0700);
-                exec('chmod +x ./src/Synful/App/Data/Models/'.$name.'.php');
-                exec('composer dumpautoload');
+                chmod('./src/Synful/App/Data/Models/'.$name.'.php', 0750);
+                exec('composer dumpautoload >/dev/null 2>&1');
             } else {
                 sf_error('Error: A Model by that name already exists.', true);
             }

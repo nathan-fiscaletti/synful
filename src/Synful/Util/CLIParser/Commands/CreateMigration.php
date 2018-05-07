@@ -44,8 +44,7 @@ class CreateMigration extends Command
                         'Created Migration in \'src/Synful/Data/Migrations\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod($fileName, 0700);
-                    exec('chmod +x '.$fileName);
+                    chmod($fileName, 0750);
                 } else {
                     sf_error('Error: A Migration by that name already exists.', true);
                 }

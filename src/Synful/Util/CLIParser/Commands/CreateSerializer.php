@@ -45,9 +45,8 @@ class CreateSerializer extends Command
                         'Created Serializer in \'src/Synful/App/Serializers\' with name \''.$name.'\'.',
                         true
                     );
-                    chmod('./src/Synful/App/Serializers/'.$name.'.php', 0700);
-                    exec('chmod +x ./src/Synful/App/Serializers/'.$name.'.php');
-                    exec('composer dumpautoload');
+                    chmod('./src/Synful/App/Serializers/'.$name.'.php', 0750);
+                    exec('composer dumpautoload >/dev/null 2>&1');
                 } else {
                     sf_error('Error: Serializer by that name already exists.', true);
                 }
