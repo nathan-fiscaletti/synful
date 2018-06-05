@@ -33,7 +33,7 @@ class DisableKey extends Command
                 sf_error('No key was found with that ID.', true, false, false);
             }
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

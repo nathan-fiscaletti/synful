@@ -19,7 +19,7 @@ class Migrate extends Command
         $this->exec = function ($action) {
             if ($action != 'up' && $action != 'down') {
                 sf_error('Usage: ./synful migrate [up | down]');
-                exit;
+                return parameter_result_halt();
             }
 
             foreach (
@@ -94,7 +94,7 @@ class Migrate extends Command
                 }
             }
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }
