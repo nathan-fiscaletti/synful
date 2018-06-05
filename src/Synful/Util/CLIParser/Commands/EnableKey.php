@@ -33,7 +33,7 @@ class EnableKey extends Command
                 sf_error('No key was found with that Authentication Handle.', true, false, false);
             }
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

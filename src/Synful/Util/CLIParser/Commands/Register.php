@@ -21,7 +21,7 @@ class Register extends Command
 
             // Validate the file
             if (! $this->validate($type, $name)) {
-                exit;
+                return parameter_result_halt();
             }
 
             // Determine register type
@@ -30,7 +30,8 @@ class Register extends Command
 
                 if (in_array('Synful\\App\\Commands\\'.$name, $data['commands'])) {
                     sf_error('That Command is already registered.', true, false, false);
-                    exit;
+
+                    return parameter_result_halt();
                 }
 
                 $data['commands'][] = 'Synful\\App\\Commands\\'.$name;
@@ -49,13 +50,15 @@ class Register extends Command
 
                 file_put_contents('./config/CommandLine.json', $data);
                 sf_info('Registered: '.$name.' as Command.', true, false, false);
-                exit;
+
+                return parameter_result_halt();
             } elseif ($type == 'requesthandler') {
                 $data = sf_json_decode(file_get_contents('./config/RequestHandlers.json'), true);
 
                 if (in_array('Synful\\App\\RequestHandlers\\'.$name, $data['registered'])) {
                     sf_error('That RequestHandler is already registered.', true, false, false);
-                    exit;
+
+                    return parameter_result_halt();
                 }
 
                 $data['registered'][] = 'Synful\\App\\RequestHandlers\\'.$name;
@@ -73,7 +76,8 @@ class Register extends Command
 
                 file_put_contents('./config/RequestHandlers.json', $data);
                 sf_info('Registered: '.$name.' as RequestHandler.', true, false, false);
-                exit;
+
+                return parameter_result_halt();
             }
         };
     }

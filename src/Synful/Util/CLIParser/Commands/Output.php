@@ -20,7 +20,8 @@ class Output extends Command
             if (substr($argv[1], 0, 7) == '-output' || substr($argv[1], 0, 2) == '-o') {
                 if (! is_numeric($level) || (intval($level) != 0 && intval($level) != 1)) {
                     sf_error('Output level must either be 0 or 1.', true, false, false);
-                    exit;
+
+                    return parameter_result_halt();
                 }
 
                 global $__minimal_output;
@@ -37,7 +38,8 @@ class Output extends Command
                     false,
                     false
                 );
-                exit;
+
+                return parameter_result_halt();
             }
 
             return intval($level);
