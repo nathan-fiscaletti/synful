@@ -108,7 +108,7 @@ class CreateKey extends Command
                                 false
                             );
                         } elseif ($response == 'no' || $response == 'n') {
-                            exit;
+                            return parameter_result_halt();
                         }
                     } else {
                         global $__minimal_output;
@@ -144,7 +144,7 @@ class CreateKey extends Command
                 }
             }
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

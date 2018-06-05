@@ -49,7 +49,7 @@ class CreateCommand extends Command
                 }
             }
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

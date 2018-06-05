@@ -22,7 +22,7 @@ class TestAuth extends Command
             if ($api_key == null) {
                 sf_error('Error: No API Key found matching that authentication handle.', true);
 
-                exit;
+                return parameter_result_halt();
             }
 
             if ($api_key->authenticate($key, 0) !== 1) {
@@ -34,7 +34,7 @@ class TestAuth extends Command
                     false
                 );
 
-                exit;
+                return parameter_result_halt();
             }
 
             sf_info(
@@ -53,7 +53,7 @@ class TestAuth extends Command
                 false
             );
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

@@ -38,6 +38,10 @@ class CommandLine
 
         $results = $parameterParser->parse();
 
+        if ($parameterParser->haltedBy() != null) {
+            exit;
+        }
+
         if (! $parameterParser->isValid()) {
             $this->printUsage();
             exit;

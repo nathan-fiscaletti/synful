@@ -20,7 +20,7 @@ class Version extends Command
         $this->exec = function () {
             sf_info('Synful '.Synful::version());
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

@@ -21,7 +21,7 @@ class Help extends Command
             $cl->loadParameters();
             $cl->printUsage();
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

@@ -34,7 +34,7 @@ class ListRequestHandlers extends Command
                 );
             }
 
-            exit(0);
+            return parameter_result_halt();
         };
     }
 }

@@ -74,7 +74,7 @@ class ListKeys extends Command
                 sf_info('', true, false, false);
             }
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }

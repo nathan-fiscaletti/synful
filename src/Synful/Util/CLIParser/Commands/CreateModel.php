@@ -30,7 +30,7 @@ class CreateModel extends Command
                     true
                 );
 
-                exit;
+                return parameter_result_halt();
             }
 
             if (! file_exists('./src/Synful/App/Data/Models/'.$name.'.php')) {
@@ -57,7 +57,7 @@ class CreateModel extends Command
                 sf_error('Error: A Model by that name already exists.', true);
             }
 
-            exit;
+            return parameter_result_halt();
         };
     }
 }
