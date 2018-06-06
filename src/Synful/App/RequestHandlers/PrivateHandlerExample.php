@@ -53,7 +53,7 @@ class PrivateHandlerExample extends RequestHandler
      */
     public function get(Request $request)
     {
-        $api_key = APIKey::getKey($request->auth);
+        $api_key = APIKey::getApiKey($request->auth);
 
         return [
             'user-information' => [
