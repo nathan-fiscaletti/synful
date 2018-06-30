@@ -48,7 +48,7 @@ class Database
      */
     public static function __callstatic($connection, $arguments)
     {
-        $connectionObj = self::$capsule->getConnection($connection)
+        $connectionObj = self::$capsule->getConnection($connection);
 
         if ($connectionObj == null) {
             throw new \Exception('Call to undefined static function '.$connection);
