@@ -39,7 +39,7 @@ class Database
     {
         return self::$capsule;
     }
-    
+
     /**
      * Catch all static function calls and if one matches
      * a connection name, return that connection.
@@ -52,7 +52,7 @@ class Database
 
         if ($connectionObj == null) {
             throw new \Exception('Call to undefined static function '.$connection);
-            return null;
+            return;
         }
 
         return $connectionObj;
