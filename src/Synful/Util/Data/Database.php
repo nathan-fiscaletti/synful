@@ -39,4 +39,22 @@ class Database
     {
         return self::$capsule;
     }
+
+    /**
+     * Catch all static function calls and if one matches
+     * a connection name, return that connection.
+     *
+     * @return \Illuminate\Database\Connection|null
+     */
+    public static function __callstatic($connection, $arguments)
+    {
+        $connectionObj = self::$capsule->getConnection($connection);
+
+        if ($connectionObj == null) {
+            throw new \Exception('Call to undefined static function '.$connection);
+            return;
+        }
+
+        return $connectionObj;
+    }
 }
