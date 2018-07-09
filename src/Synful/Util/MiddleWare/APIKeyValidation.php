@@ -67,6 +67,18 @@ class APIKeyValidation implements MiddleWare
             throw new SynfulException(400, 1006);
         }
 
+        // Check rate limit for API key
+        if (sf_conf('rate.per_key')) {
+            $api_key_rl = $api_key->getRateLimit();
+            if (! $api_key_rl->isUnlimited()) {
+                if ($api_key_rl->isLimited($request->ip)) {
+                    $response = (new SynfulException(500, 1030))->response;
+                    sf_respond($response->code, $response->serialize());
+                    exit;
+                }
+            }
+        }
+
         // Assign the API key to a variable and
         // update the request.
         $request->auth = $api_key->auth;

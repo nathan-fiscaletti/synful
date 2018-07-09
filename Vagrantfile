@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
   add-apt-repository ppa:ondrej/php -y >/dev/null 2>&1
   apt-get -y update >/dev/null 2>&1
   echo "Installing Dependencies..."
-  apt-get install -y php7.2-cli composer php7.2-zip unzip apache2 php7.2 libapache2-mod-php7.2 php7.2-mysql php7.2-mbstring mysql-client apache2-utils >/dev/null 2>&1
+  apt-get install -y php7.2-cli composer php7.2-zip unzip apache2 php7.2 libapache2-mod-php7.2 php7.2-mysql php7.2-mbstring mysql-client apache2-utils php-apcu >/dev/null 2>&1
   echo "Installing MySQL..."
   sudo apt-get install debconf-utils -y > /dev/null 2>&1
   debconf-set-selections <<< "mysql-server mysql-server/root_password password password" > /dev/null 2>&1

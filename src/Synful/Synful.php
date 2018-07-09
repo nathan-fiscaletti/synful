@@ -7,6 +7,7 @@ use Synful\Util\Data\Database;
 use Synful\Util\IO\IOFunctions;
 use Synful\Util\Framework\Request;
 use Synful\Util\Framework\Response;
+use Synful\Util\Framework\RateLimit;
 use Synful\Util\CLIParser\CommandLine;
 use Synful\Util\WebListener\WebListener;
 use Synful\Util\Framework\RequestHandler;
@@ -69,6 +70,17 @@ class Synful
         // Set error handler and shutdown hook
         set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
         register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
+
+        // Check global rate limiter
+        if (sf_conf('rate.global')) {
+            if (! RateLimit::global()->isUnlimited()) {
+                if (RateLimit::global()->isLimited(Synful::getClientIP())) {
+                    $response = (new SynfulException(500, 1028))->response;
+                    sf_respond($response->code, $response->serialize());
+                    exit;
+                }
+            }
+        }
 
         // Initialize the Database Connections
         self::initializeDatabases();
@@ -142,6 +154,31 @@ class Synful
         array  $fields,
         string $ip
     ) {
+        // Check rate limit for RequestHandler
+        if (sf_conf('rate.per_handler')) {
+            if (
+                property_exists($handler, 'rate_limit') &&
+                is_array($handler->rate_limit) &&
+                isset($handler->rate_limit['requests']) &&
+                isset($handler->rate_limit['per_seconds']) &&
+                is_int($handler->rate_limit['requests']) &&
+                is_int($handler->rate_limit['per_seconds'])
+            ) {
+                $rh_rl = new RateLimit(
+                    'handler_'.$handler->endpoint,
+                    $handler->rate_limit['requests'],
+                    $handler->rate_limit['per_seconds']
+                );
+                if (! $rh_rl->isUnlimited()) {
+                    if ($rh_rl->isLimited(Synful::getClientIP())) {
+                        $response = (new SynfulException(500, 1029))->response;
+                        sf_respond($response->code, $response->serialize());
+                        exit;
+                    }
+                }
+            }
+        }
+
         $serializer = sf_conf('system.serializer');
         $serializer = new $serializer;
 

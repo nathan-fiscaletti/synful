@@ -3,6 +3,7 @@
 namespace Synful\Util\Data\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Synful\Util\Framework\RateLimit;
 
 class APIKey extends Model
 {
@@ -200,6 +201,20 @@ class APIKey extends Model
     }
 
     /**
+     * Retrieve the API key's rate limit.
+     *
+     * @return \Synful\Util\Framework\RateLimit
+     */
+    public function getRateLimit()
+    {
+        return new RateLimit(
+            $this->auth,
+            $this->rate_limit,
+            $this->rate_limit_seconds
+        );
+    }
+
+    /**
      * The Model's boot function.
      */
     public static function boot()
@@ -227,6 +242,8 @@ class APIKey extends Model
         string $auth,
         int    $whitelist_only,
         int    $security_level,
+        int    $rate_limit,
+        int    $rate_limit_seconds,
         bool   $print_key = false,
         bool   $minimal = false
     ) {
@@ -244,6 +261,8 @@ class APIKey extends Model
             $unsaved->whitelist_only = $whitelist_only;
             $unsaved->enabled = 1;
             $unsaved->security_level = $security_level;
+            $unsaved->rate_limit = $rate_limit;
+            $unsaved->rate_limit_seconds = $rate_limit_seconds;
 
             $unsaved->save();
             $ret = $unsaved;
