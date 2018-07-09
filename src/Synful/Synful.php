@@ -74,7 +74,7 @@ class Synful
         // Check global rate limiter
         if (sf_conf('rate.global')) {
             if (! RateLimit::global()->isUnlimited()) {
-                if (RateLimit::global()->isLimited(Synful::getClientIP())) {
+                if (RateLimit::global()->isLimited(self::getClientIP())) {
                     $response = (new SynfulException(500, 1028))->response;
                     sf_respond($response->code, $response->serialize());
                     exit;
@@ -170,7 +170,7 @@ class Synful
                     $handler->rate_limit['per_seconds']
                 );
                 if (! $rh_rl->isUnlimited()) {
-                    if ($rh_rl->isLimited(Synful::getClientIP())) {
+                    if ($rh_rl->isLimited(self::getClientIP())) {
                         $response = (new SynfulException(500, 1029))->response;
                         sf_respond($response->code, $response->serialize());
                         exit;

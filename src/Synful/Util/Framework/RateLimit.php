@@ -2,11 +2,11 @@
 
 namespace Synful\Util\Framework;
 
-use \Touhonoob\RateLimit\RateLimit as Limiter;
-use \Touhonoob\RateLimit\Adapter\APC as RateLimitAdapterAPC;
+use Touhonoob\RateLimit\RateLimit as Limiter;
+use Touhonoob\RateLimit\Adapter\APC as RateLimitAdapterAPC;
 
 /**
- * Class used to manage Rate Limits
+ * Class used to manage Rate Limits.
  */
 class RateLimit
 {
@@ -26,14 +26,14 @@ class RateLimit
      * The limit of requests that can be made
      * per $rate seconds.
      *
-     * @var integer
+     * @var int
      */
     private $limit = 0;
 
     /**
      * The rate in seconds.
      *
-     * @var integer
+     * @var int
      */
     private $rate = 0;
 
@@ -57,7 +57,7 @@ class RateLimit
         $this->name = $name;
         $this->limit = $limit;
         $this->rate = $rate;
-        $this->adapter = ($adapter == null) 
+        $this->adapter = ($adapter == null)
             ? self::globalAdapter()
             : $adapter;
     }
@@ -66,7 +66,7 @@ class RateLimit
      * Check if this connection is being rate limited.
      *
      * @param  mixed $id
-     * @return boolean
+     * @return bool
      */
     public function isLimited($id)
     {
@@ -107,10 +107,9 @@ class RateLimit
      */
     public function isUnlimited()
     {
-        return (
+        return
             $this->limit == self::Unlimited &&
-            $this->rate == self::Unlimited
-        );
+            $this->rate == self::Unlimited;
     }
 
     /**

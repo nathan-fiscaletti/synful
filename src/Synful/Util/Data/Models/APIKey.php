@@ -2,8 +2,8 @@
 
 namespace Synful\Util\Data\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Synful\Util\Framework\RateLimit;
+use Illuminate\Database\Eloquent\Model;
 
 class APIKey extends Model
 {
