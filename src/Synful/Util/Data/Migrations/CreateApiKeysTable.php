@@ -22,6 +22,8 @@ class CreateApiKeysTable extends Migration
                 $table->boolean('whitelist_only');
                 $table->boolean('enabled');
                 $table->integer('security_level');
+                $table->integer('rate_limit');
+                $table->integer('rate_limit_seconds');
 
                 $table->timestamps();
             }
