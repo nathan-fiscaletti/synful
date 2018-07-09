@@ -7,7 +7,7 @@
      | If you want rate limiting to be turned on globaly, set this to true.
      */
 
-    "global": true,
+    "global": false,
 
     /*
      |--------------------------------------------------------------------------
@@ -40,7 +40,7 @@
      */
 
     "global_rate_limit": {
-        "requests": 5,
-        "per_seconds": 1
+        "requests": 0,
+        "per_seconds": 0
     }
 }
