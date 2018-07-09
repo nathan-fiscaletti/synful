@@ -56,6 +56,13 @@ class ListKeys extends Command
                     false
                 );
                 sf_info(
+                    '    Rate Limit     : '.
+                    sf_color($key->rate_limit.' Requests / '.$key->rate_limit_seconds.' seconds', 'light_green'),
+                    true,
+                    false,
+                    false
+                );
+                sf_info(
                     '    Enabled        : '.
                     (($key->enabled)
                         ? sf_color(

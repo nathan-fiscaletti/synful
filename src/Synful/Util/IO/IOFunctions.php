@@ -26,7 +26,7 @@ class IOFunctions
                 Synful::$config = Configuration::fromLoader(
                     new ConfigLoader([
                         'directory' => './config/',
-                        ])
+                    ])
                 );
             } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
@@ -43,11 +43,11 @@ class IOFunctions
     /**
      * Prints output to the console and logs.
      *
-     * @param  int $level
+     * @param  int     $level
      * @param  string  $data
-     * @param  bool $force
-     * @param  bool $block_header_on_echo
-     * @param  bool $write_to_file
+     * @param  bool    $force
+     * @param  bool    $block_header_on_echo
+     * @param  bool    $write_to_file
      */
     public static function out($level, $data, $force = false, $block_header_on_echo = false, $write_to_file = true)
     {

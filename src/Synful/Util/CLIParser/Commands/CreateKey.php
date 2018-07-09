@@ -17,7 +17,7 @@ class CreateKey extends Command
         $this->required = false;
         $this->alias = 'create-key';
 
-        $this->exec = function ($auth, $name, $security_level, $whitelist_only) {
+        $this->exec = function ($auth, $name, $security_level, $whitelist_only, $rate_limit, $rate_limit_seconds) {
             if (! is_numeric($whitelist_only)) {
                 sf_error('Unable to create new API Key.', true, false, false);
                 sf_error(
@@ -55,6 +55,8 @@ class CreateKey extends Command
                             $key->name = $name;
                             $key->security_level = $security_level;
                             $key->whitelist_only = $whitelist_only;
+                            $key->rate_limit = $rate_limit;
+                            $key->rate_limit_seconds = $rate_limit_seconds;
                             $key->save();
                             sf_info('API Key Updated', true, false, false);
                             sf_info(
@@ -129,6 +131,8 @@ class CreateKey extends Command
                                 $auth,
                                 $whitelist_only,
                                 $security_level,
+                                $rate_limit,
+                                $rate_limit_seconds,
                                 true,
                                 $__minimal_output
                             ) == null
