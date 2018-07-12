@@ -6,6 +6,10 @@
 <a href="https://packagist.org/packages/nafisc/synful"><img src="https://poser.pugx.org/nafisc/synful/license?format=flat" alt="License" /></a>
 </p>
 
+<p align='center'>
+<i><a href='https://github.com/nathan-fiscaletti/synful/wiki/Credits' _target='top'>Credits</a></i>
+</p>
+
 ---
 
 ### What is it?		
