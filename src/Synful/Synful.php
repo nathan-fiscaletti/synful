@@ -71,6 +71,20 @@ class Synful
         set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
         register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
 
+        // Check Cross Origin Resource Sharing
+        if (sf_conf('system.cors_enabled')) {
+            if (in_array('all', sf_conf('system.cors_domains'))) {
+                header("Access-Control-Allow-Origin: *");
+            } else {
+                foreach (sf_conf('system.cors_domains') as $domain) {
+                    if ($_SERVER['HTTP_ORIGIN'] == $domain) {
+                        header("Access-Control-Allow-Origin: ".$domain);
+                        break;    
+                    }
+                }
+            }
+        }
+
         // Check global rate limiter
         if (sf_conf('rate.global')) {
             if (! RateLimit::global()->isUnlimited()) {
