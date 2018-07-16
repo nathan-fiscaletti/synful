@@ -74,11 +74,11 @@ class Synful
         // Check Cross Origin Resource Sharing
         if (sf_conf('system.cors_enabled')) {
             if (in_array('all', sf_conf('system.cors_domains'))) {
-                header("Access-Control-Allow-Origin: *");
+                header('Access-Control-Allow-Origin: *');
             } else {
                 foreach (sf_conf('system.cors_domains') as $domain) {
                     if ($_SERVER['HTTP_ORIGIN'] == $domain) {
-                        header("Access-Control-Allow-Origin: ".$domain);
+                        header('Access-Control-Allow-Origin: '.$domain);
                         break;    
                     }
                 }
