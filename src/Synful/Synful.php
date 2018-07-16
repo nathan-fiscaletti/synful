@@ -79,7 +79,7 @@ class Synful
                 foreach (sf_conf('system.cors_domains') as $domain) {
                     if ($_SERVER['HTTP_ORIGIN'] == $domain) {
                         header('Access-Control-Allow-Origin: '.$domain);
-                        break;    
+                        break;
                     }
                 }
             }
