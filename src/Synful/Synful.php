@@ -71,6 +71,20 @@ class Synful
         set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
         register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
 
+        // Check Cross Origin Resource Sharing
+        if (sf_conf('system.cors_enabled')) {
+            if (in_array('all', sf_conf('system.cors_domains'))) {
+                header('Access-Control-Allow-Origin: *');
+            } else {
+                foreach (sf_conf('system.cors_domains') as $domain) {
+                    if ($_SERVER['HTTP_ORIGIN'] == $domain) {
+                        header('Access-Control-Allow-Origin: '.$domain);
+                        break;
+                    }
+                }
+            }
+        }
+
         // Check global rate limiter
         if (sf_conf('rate.global')) {
             if (! RateLimit::global()->isUnlimited()) {
@@ -319,6 +333,12 @@ class Synful
         foreach (scandir('./src/Synful/Util/Functions') as $func_lib) {
             if (substr($func_lib, 0, 1) !== '.') {
                 include_once './src/Synful/Util/Functions/'.$func_lib;
+            }
+        }
+
+        foreach (scandir('./src/Synful/App/Functions') as $func_lib) {
+            if (substr($func_lib, 0, 1) !== '.') {
+                include_once './src/Synful/App/Functions/'.$func_lib;
             }
         }
     }
