@@ -70,5 +70,26 @@
      | The serializer that will be used for requests.
      */
     
-    "serializer": "Synful\\Util\\Serializers\\JSONSerializer"
+    "serializer": "Synful\\Util\\Serializers\\JSONSerializer",
+
+    /*
+     |--------------------------------------------------------------------------
+     | CORS Enabled
+     |--------------------------------------------------------------------------
+     |
+     | If set to true, cross origin resources sharing will be enabled.
+     */
+    
+    "cors_enabled": false,
+
+    /*
+     |--------------------------------------------------------------------------
+     | CORS Domains
+     |--------------------------------------------------------------------------
+     |
+     | The domains allowed to use cross origin resource sharing.
+     | Note: Use 'all' for wildcard.
+     */
+
+    "cors_domains": []
 }
