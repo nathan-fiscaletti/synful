@@ -321,5 +321,11 @@ class Synful
                 include_once './src/Synful/Util/Functions/'.$func_lib;
             }
         }
+
+        foreach (scandir('./src/Synful/App/Functions') as $func_lib) {
+            if (substr($func_lib, 0, 1) !== '.') {
+                include_once './src/Synful/App/Functions/'.$func_lib;
+            }
+        }
     }
 }
