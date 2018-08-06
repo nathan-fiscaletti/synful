@@ -37,10 +37,13 @@ Synful has a full wiki set up with instructions and documentation on the framewo
 ```php
 namespace Synful\App\RequestHandlers;
 
+use \Synful\Util\Framework\RequestHandler;
+use \Synful\Util\Framework\Request;
+
 /**
  * Example RequestHandler.
  */
-class GetIPExample extends \Synful\Util\Framework\RequestHandler
+class GetIPExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -57,7 +60,7 @@ class GetIPExample extends \Synful\Util\Framework\RequestHandler
      * @param  \Synful\Util\Framework\Request $request
      * @return \Synful\Util\Framework\Response|array
      */
-    public function get(\Synful\Util\Framework\Request $request)
+    public function get(Request $request)
     {
         return [
             'ip' => $request->ip,
