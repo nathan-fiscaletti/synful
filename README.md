@@ -27,3 +27,41 @@ $ sudo ab -t 60 -c 5 http://127.0.0.1/example/getip
 ...
 Requests per second:    6545.17 [#/sec] (mean)
 ```
+
+### WiKi
+
+Synful has a full wiki set up with instructions and documentation on the framework available here: [http://github.com/nathan-fiscaletti/synful/wiki](http://github.com/nathan-fiscaletti/synful/wiki)
+
+#### Preview (RequestHandler)
+
+```php
+namespace Synful\App\RequestHandlers;
+
+/**
+ * Example RequestHandler.
+ */
+class GetIPExample extends \Synful\Util\Framework\RequestHandler
+{
+    /**
+     * Override the handler endpoint
+     * Example: http://myapi.net/user/search
+     * uses the endpoint `user/search`.
+     *
+     * @var string
+     */
+    public $endpoint = 'example/getip';
+
+    /**
+     * Handles a GET request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     */
+    public function get(\Synful\Util\Framework\Request $request)
+    {
+        return [
+            'ip' => $request->ip,
+        ];
+    }
+}
+```
