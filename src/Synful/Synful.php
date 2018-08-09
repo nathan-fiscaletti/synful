@@ -99,6 +99,9 @@ class Synful
         // Initialize the Database Connections
         self::initializeDatabases();
 
+        // Load request handlers
+        self::loadRequestHandlers();
+
         // Parse Command Line
         if (self::isCommandLineInterface()) {
             global $argv;
@@ -126,9 +129,6 @@ class Synful
 
             self::$command_results = $results;
         }
-
-        // Load request handlers
-        self::loadRequestHandlers();
 
         // Initialize WebListener
         (new WebListener())->initialize();

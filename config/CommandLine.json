@@ -33,6 +33,7 @@
         "Synful\\Util\\CLIParser\\Commands\\UnfirewallIp",
         "Synful\\Util\\CLIParser\\Commands\\UpdateKey",
         "Synful\\Util\\CLIParser\\Commands\\Version",
-        "Synful\\Util\\CLIParser\\Commands\\WhitelistOnly"
+        "Synful\\Util\\CLIParser\\Commands\\WhitelistOnly",
+        "Synful\\Util\\CLIParser\\Commands\\EndPointManage"
     ]
 }

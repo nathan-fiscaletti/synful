@@ -24,25 +24,12 @@ class PrivateHandlerExample extends RequestHandler
     /**
      * Implement the APIKeyValidation middleware
      * in order to require an API key to access
-     * this RequestHandler. This is also used to
-     * parse the white_list_keys property.
+     * this RequestHandler.
      *
      * @var array
      */
     public $middleware = [
         APIKeyValidation::class,
-    ];
-
-    /**
-     * Assign an array of API Keys to the 'white_list_keys' property to make
-     * this handler only allow connections using those API Keys.
-     *
-     * Note: Must implement the APIKeyValidation middleware.
-     *
-     * @var array
-     */
-    public $white_list_keys = [
-        'SYNFUL',
     ];
 
     /**
