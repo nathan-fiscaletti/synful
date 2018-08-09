@@ -225,17 +225,16 @@ class APIKey extends Model
     public function addRequestHandler($endpoint)
     {
         $selected_request_handler = null;
-        foreach (Synful::$request_handlers as $request_handler)
-        {
-            if ($request_handler->endpoint == $endpoint)
-            {
+        foreach (Synful::$request_handlers as $request_handler) {
+            if ($request_handler->endpoint == $endpoint) {
                 $selected_request_handler = $request_handler;
                 break;
             }
         }
 
-        if ($selected_request_handler == null && $endpoint != '*')
+        if ($selected_request_handler == null && $endpoint != '*') {
             return false;
+        }
 
         $associated_rh = $this->allowed_request_handlers;
         $current_rh = null;
@@ -246,8 +245,9 @@ class APIKey extends Model
             $current_rh = [];
         }
 
-        if ($current_rh === null)
+        if ($current_rh === null) {
             return false;
+        }
 
         $current_rh[] = $endpoint;
 
@@ -272,10 +272,11 @@ class APIKey extends Model
             $current_rh = [];
         }
 
-        if ($current_rh === null)
+        if ($current_rh === null) {
             return [];
-        else
+        } else {
             return $current_rh;
+        }
     }
 
     /**
@@ -294,8 +295,9 @@ class APIKey extends Model
             $current_rh = [];
         }
 
-        if ($current_rh == null || ! in_array($endpoint, $current_rh))
+        if ($current_rh == null || ! in_array($endpoint, $current_rh)) {
             return false;
+        }
 
         unset($current_rh[array_search($endpoint, $current_rh)]);
 

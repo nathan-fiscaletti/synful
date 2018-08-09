@@ -42,8 +42,7 @@ class EndPointManage extends Command
             }
 
             if ($action == 'add') {
-                if ($key->addRequestHandler($endpoint) && $key->save())
-                {
+                if ($key->addRequestHandler($endpoint) && $key->save()) {
                     sf_info(
                         'Endpoint '.sf_color($endpoint, 'light_blue').
                         ' '.sf_color('added', 'light_green').
@@ -69,9 +68,8 @@ class EndPointManage extends Command
                 }
 
                 return parameter_result_halt();
-            } else if ($action == 'remove') {
-                if ($key->removeRequestHandler($endpoint) && $key->save())
-                {
+            } elseif ($action == 'remove') {
+                if ($key->removeRequestHandler($endpoint) && $key->save()) {
                     sf_info(
                         'Endpoint '.sf_color($endpoint, 'light_blue').
                         ' '.sf_color('removed', 'light_red').

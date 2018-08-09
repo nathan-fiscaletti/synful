@@ -90,8 +90,7 @@ class ListKeys extends Command
                 } else {
                     $ep_access = json_decode($key->allowed_request_handlers, true);
                     $ep_str = '';
-                    foreach ($ep_access as $ep)
-                    {
+                    foreach ($ep_access as $ep) {
                         $ep_str .= sf_color($ep, 'light_green').', ';
                     }
                     $ep_str = sf_color('[ ', 'light_cyan').$ep_str.sf_color(']', 'light_cyan');
