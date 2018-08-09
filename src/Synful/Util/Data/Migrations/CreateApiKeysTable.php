@@ -24,6 +24,7 @@ class CreateApiKeysTable extends Migration
                 $table->integer('security_level');
                 $table->integer('rate_limit');
                 $table->integer('rate_limit_seconds');
+                $table->string('allowed_request_handlers');
 
                 $table->timestamps();
             }

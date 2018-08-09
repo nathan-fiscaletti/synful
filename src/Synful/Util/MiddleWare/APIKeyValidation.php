@@ -88,14 +88,20 @@ class APIKeyValidation implements MiddleWare
             throw new SynfulException(400, 1007);
         }
 
-        // Validate the whitelist.
+        // Validate API Key endpoint access array.
         if (
-            property_exists($handler, 'white_list_keys') &&
-            is_array($handler->white_list_keys)
+            ! in_array(
+                $handler->endpoint,
+                $api_key->getRequestHandlersParsed()
+            ) &&
+
+            // Check for wildcard access
+            ! in_array(
+                '*',
+                $api_key->getRequestHandlersParsed()
+            )
         ) {
-            if (! in_array($api_key->auth, $handler->white_list_keys)) {
-                throw new SynfulException(400, 1008);
-            }
+            throw new SynfulException(400, 1032);
         }
 
         // Validate the API Key Security.

@@ -61,6 +61,7 @@ class SynfulException extends Exception
         1029 => 'Endpoint rate limit exceeded.',
         1030 => 'API Key rate limit exceeded.',
         1031 => 'Attempting to load APCu for RateLimit but php-apcu extension not installed.',
+        1032 => 'Endpoint is not allowed for this API Key',
     ];
 
     /**
