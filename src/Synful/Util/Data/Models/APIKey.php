@@ -2,6 +2,7 @@
 
 namespace Synful\Util\Data\Models;
 
+use Synful\Synful;
 use Synful\Util\Framework\RateLimit;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,6 +34,7 @@ class APIKey extends Model
         'whitelist_only',
         'enabled',
         'security_level',
+        'allowed_request_handlers',
     ];
 
     /**
@@ -215,6 +217,96 @@ class APIKey extends Model
     }
 
     /**
+     * Add a new request handler to this API keys access array.
+     *
+     * @param string $endpoint
+     * @return bool
+     */
+    public function addRequestHandler($endpoint)
+    {
+        $selected_request_handler = null;
+        foreach (Synful::$request_handlers as $request_handler) {
+            if ($request_handler->endpoint == $endpoint) {
+                $selected_request_handler = $request_handler;
+                break;
+            }
+        }
+
+        if ($selected_request_handler == null && $endpoint != '*') {
+            return false;
+        }
+
+        $associated_rh = $this->allowed_request_handlers;
+        $current_rh = null;
+        try {
+            $current_rh = json_decode($associated_rh, true);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            $current_rh = [];
+        }
+
+        if ($current_rh === null) {
+            return false;
+        }
+
+        $current_rh[] = $endpoint;
+
+        $this->allowed_request_handlers = json_encode($current_rh);
+
+        return true;
+    }
+
+    /**
+     * Retrieve the current request handlers  from this API keys access array.
+     *
+     * @return array
+     */
+    public function getRequestHandlersParsed()
+    {
+        $associated_rh = $this->allowed_request_handlers;
+        $current_rh = null;
+        try {
+            $current_rh = json_decode($associated_rh, true);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+            $current_rh = [];
+        }
+
+        if ($current_rh === null) {
+            return [];
+        } else {
+            return $current_rh;
+        }
+    }
+
+    /**
+     * Removes a request handler to this API keys access array.
+     *
+     * @param  string $endpoint
+     * @return bool
+     */
+    public function removeRequestHandler($endpoint)
+    {
+        $associated_rh = $this->allowed_request_handlers;
+        $current_rh = null;
+        try {
+            $current_rh = json_decode($associated_rh, true);
+        } catch (\Exception $e) {
+            $current_rh = [];
+        }
+
+        if ($current_rh == null || ! in_array($endpoint, $current_rh)) {
+            return false;
+        }
+
+        unset($current_rh[array_search($endpoint, $current_rh)]);
+
+        $this->allowed_request_handlers = json_encode($current_rh);
+
+        return true;
+    }
+
+    /**
      * The Model's boot function.
      */
     public static function boot()
@@ -263,6 +355,7 @@ class APIKey extends Model
             $unsaved->security_level = $security_level;
             $unsaved->rate_limit = $rate_limit;
             $unsaved->rate_limit_seconds = $rate_limit_seconds;
+            $unsaved->allowed_request_handlers = json_encode([]);
 
             $unsaved->save();
             $ret = $unsaved;
