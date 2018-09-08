@@ -157,7 +157,7 @@ class WebListener
             $response->code,
             $response->serialize(),
             false,
-            $response->headers
+            $response->headers()
         );
     }
 }

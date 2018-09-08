@@ -14,7 +14,7 @@ class Response
      *
      * @var array
      */
-    public $headers = [];
+    private $headers = [];
 
     /**
      * The HTTP Response Code.
@@ -45,9 +45,36 @@ class Response
      */
     public function setHeader(string $header, string $value)
     {
-        $this->headers[$header] = $value;
+        $this->headers[str_replace('-', '_', str_replace(' ', '_', strtolower($header)))] = $value;
     }
 
+    /**
+     * Retrieve the value for a header.
+     *
+     * @param string $header
+     *
+     * @return string
+     */
+    public function header(string $header)
+    {
+        return $this->headers[str_replace('-', '_', str_replace(' ', '_', strtolower($header)))];
+    }
+
+    /**
+     * Retrieve all headers for this Response.
+     * 
+     * @return array
+     */
+    public function headers()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Sets the Serializer class to use with this Response.
+     * 
+     * @param \Synful\Util\Framework\Serializer $serializer
+     */
     public function setSerializer(Serializer $serializer)
     {
         $this->serializer = $serializer;
