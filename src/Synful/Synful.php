@@ -218,7 +218,7 @@ class Synful
 
         $request = new Request([
             'ip' => $ip,
-            'headers' => apache_request_headers(),
+            'headers' => sf_headers(),
             'data' => $data,
             'fields' => $fields,
             'method' => $_SERVER['REQUEST_METHOD'],

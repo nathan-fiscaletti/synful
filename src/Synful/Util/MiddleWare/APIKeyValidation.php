@@ -47,17 +47,17 @@ class APIKeyValidation implements MiddleWare
     private function validateRequest(Request $request, RequestHandler $handler)
     {
         // Validate the Request Headers.
-        if (empty($request->headers['Synful-Auth'])) {
+        if (empty($request->header('Synful-Auth'))) {
             throw new SynfulException(400, 1010);
         }
 
-        if (empty($request->headers['Synful-Key'])) {
+        if (empty($request->header('Synful-Key'))) {
             throw new SynfulException(400, 1009);
         }
 
         // Assign the user and key to the values of the request headers.
-        $user = $request->headers['Synful-Auth'];
-        $key = $request->headers['Synful-Key'];
+        $user = $request->header('Synful-Auth');
+        $key = $request->header('Synful-Key');
 
         // Load the API Key
         $api_key = APIKey::getApikey($user);
