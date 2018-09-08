@@ -6,7 +6,7 @@ use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
- * New Request Handler Class.
+ * Class used to demonstrate URL fields.
  */
 class AdvancedEndpointsExample extends RequestHandler
 {

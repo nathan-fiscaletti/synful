@@ -28,7 +28,7 @@ class Request
      *
      * @var array
      */
-    public $headers;
+    private $headers;
 
     /**
      * The authentication handle associated with the key of the client making the request.
@@ -123,5 +123,38 @@ class Request
     public function inputs()
     {
         return $this->data;
+    }
+
+    /**
+     * Retrieve the value for a header.
+     *
+     * @param string $header
+     *
+     * @return string
+     */
+    public function header(string $header)
+    {
+        return $this->headers[str_replace('-', '_', str_replace(' ', '_', strtolower($header)))];
+    }
+
+    /**
+     * Retrieve all headers for this Request.
+     *
+     * @return array
+     */
+    public function headers()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * Sets a header in the Request.
+     *
+     * @param string $header
+     * @param mixed $value
+     */
+    public function setHeader(string $header, $value)
+    {
+        $this->headers[str_replace('-', '_', str_replace(' ', '_', strtolower($header)))] = $value;
     }
 }

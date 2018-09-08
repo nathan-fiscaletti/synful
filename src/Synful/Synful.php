@@ -202,7 +202,11 @@ class Synful
 
         if (! empty($input)) {
             try {
-                $data = $serializer->deserialize($input);
+                if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                    $data = (new \Synful\Util\Serializers\URLSerializer)->deserialize($input);
+                } else {
+                    $data = $serializer->deserialize($input);
+                }
             } catch (\Exception $e) {
                 $response = (new SynfulException(500, -1, $e->getMessage()))->response;
                 sf_respond($response->code, $response->serialize());
@@ -214,7 +218,7 @@ class Synful
 
         $request = new Request([
             'ip' => $ip,
-            'headers' => apache_request_headers(),
+            'headers' => sf_headers(),
             'data' => $data,
             'fields' => $fields,
             'method' => $_SERVER['REQUEST_METHOD'],
@@ -293,13 +297,17 @@ class Synful
     }
 
     /**
-     * Retrieve the current version of the framework.
+     * Retrieve the current version of the framework from git.
      *
      * @return string
      */
     public static function version()
     {
-        return 'v2.1.3';
+        if (! file_exists('.git')) {
+            return '*no-git* (dirty)';
+        }
+
+        return preg_replace('/\s+/', '', shell_exec('git describe --tag'));
     }
 
     /**

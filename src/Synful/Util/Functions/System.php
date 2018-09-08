@@ -90,3 +90,22 @@ if (! function_exists('sf_response')) {
         ]);
     }
 }
+
+if (! function_exists('sf_headers')) {
+    /**
+     * Retrieve all headers from the System.
+     *
+     * @return array
+     */
+    function sf_headers()
+    {
+        $headers = [];
+        foreach ($_SERVER as $k => $v) {
+            if (substr($k, 0, 5) == 'HTTP_') {
+                $headers[str_replace('-', '_', str_replace(' ', '_', strtolower(substr($k, 5))))] = $v;
+            }
+        }
+
+        return $headers;
+    }
+}

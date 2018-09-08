@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * Class used to demonstrate retrieving an IP address from a Request.
  */
-class GetIPExample extends RequestHandler
+class HeaderExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -17,7 +17,7 @@ class GetIPExample extends RequestHandler
      *
      * @var string
      */
-    public $endpoint = 'example/getip';
+    public $endpoint = 'example/header';
 
     /**
      * Handles a GET request type.
@@ -27,8 +27,9 @@ class GetIPExample extends RequestHandler
      */
     public function get(Request $request)
     {
-        return [
-            'ip' => $request->ip,
-        ];
+        $response = sf_response(200, ['success' => true]);
+        $response->setHeader('Test', 'It Worked!');
+
+        return $response;
     }
 }

@@ -6,9 +6,9 @@ use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
- * Class used to demonstrate retrieving an IP address from a Request.
+ * Class used to demonstrate retrieving input from a GET request.
  */
-class GetIPExample extends RequestHandler
+class GetInputExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -17,7 +17,7 @@ class GetIPExample extends RequestHandler
      *
      * @var string
      */
-    public $endpoint = 'example/getip';
+    public $endpoint = 'example/getinput';
 
     /**
      * Handles a GET request type.
@@ -28,7 +28,7 @@ class GetIPExample extends RequestHandler
     public function get(Request $request)
     {
         return [
-            'ip' => $request->ip,
+            'inputs' => $request->inputs(),
         ];
     }
 }

@@ -22,7 +22,6 @@ class WebListener
             exit;
         }
 
-        $input = file_get_contents('php://input');
         $endpoint = $_GET['_synful_ep_'];
         $found_endpoint = false;
         $selected_handler = null;
@@ -104,6 +103,18 @@ class WebListener
             exit;
         }
 
+        $input = file_get_contents('php://input');
+
+        // Ger parameters are stored in a different location.
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $params = $_GET;
+
+            // Remove System variables
+            unset($params['_synful_ep_']);
+
+            $input = (new \Synful\Util\Serializers\URLSerializer)->serialize($params);
+        }
+
         $handler = Synful::$request_handlers[$selected_handler];
 
         $response = Synful::handleRequest(
@@ -146,7 +157,7 @@ class WebListener
             $response->code,
             $response->serialize(),
             false,
-            $response->headers
+            $response->headers()
         );
     }
 }

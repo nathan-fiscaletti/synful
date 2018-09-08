@@ -22,7 +22,7 @@ class CustomHeaderExample implements MiddleWare
      */
     public function before(Request $request, RequestHandler $handler)
     {
-        $request->headers['CustomHeader'] = 'Custom Input Value';
+        $request->setHeader('Custom-Header', 'Custom Input Value');
     }
 
     /**
@@ -33,6 +33,6 @@ class CustomHeaderExample implements MiddleWare
      */
     public function after(Response $response)
     {
-        $response->headers['CustomHeader'] = 'Custom Output Value';
+        $response->setHeader('Custom-Header', 'Custom Output Value');
     }
 }
