@@ -7,7 +7,7 @@ use Synful\Util\Framework\RequestHandler;
 use Synful\Util\MiddleWare\APIKeyValidation;
 
 /**
- * New Request Handler Class.
+ * Class used to demonsrate security level.
  */
 class SecurityLevelExample extends RequestHandler
 {

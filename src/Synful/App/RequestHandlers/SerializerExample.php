@@ -7,7 +7,7 @@ use Synful\App\Serializers\CSVSerializer;
 use Synful\Util\Framework\RequestHandler;
 
 /**
- * New Request Handler Class.
+ * Class used to demonstrate custom serializers.
  */
 class SerializerExample extends RequestHandler
 {
