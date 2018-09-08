@@ -293,13 +293,17 @@ class Synful
     }
 
     /**
-     * Retrieve the current version of the framework.
+     * Retrieve the current version of the framework from git.
      *
      * @return string
      */
     public static function version()
     {
-        return 'v2.1.3';
+        if (! file_exists('.git')) {
+            return '*no-git* (dirty)';
+        }
+
+        return preg_replace('/\s+/', '', shell_exec('git describe --tag'));
     }
 
     /**
