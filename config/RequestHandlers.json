@@ -16,6 +16,7 @@
         "Synful\\App\\RequestHandlers\\PrivateHandlerExample",
         "Synful\\App\\RequestHandlers\\RequestTypeExample",
         "Synful\\App\\RequestHandlers\\SecurityLevelExample",
-        "Synful\\App\\RequestHandlers\\SerializerExample"
+        "Synful\\App\\RequestHandlers\\SerializerExample",
+        "Synful\\App\\RequestHandlers\\GetInputExample"
     ]
 }
