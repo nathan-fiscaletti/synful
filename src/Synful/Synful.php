@@ -202,7 +202,11 @@ class Synful
 
         if (! empty($input)) {
             try {
-                $data = $serializer->deserialize($input);
+                if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                    $data = (new \Synful\Util\Serializers\URLSerializer)->deserialize($input);
+                } else {
+                    $data = $serializer->deserialize($input);
+                }
             } catch (\Exception $e) {
                 $response = (new SynfulException(500, -1, $e->getMessage()))->response;
                 sf_respond($response->code, $response->serialize());
