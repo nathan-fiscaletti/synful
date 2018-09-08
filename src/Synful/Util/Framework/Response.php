@@ -62,7 +62,7 @@ class Response
 
     /**
      * Retrieve all headers for this Response.
-     * 
+     *
      * @return array
      */
     public function headers()
@@ -72,7 +72,7 @@ class Response
 
     /**
      * Sets the Serializer class to use with this Response.
-     * 
+     *
      * @param \Synful\Util\Framework\Serializer $serializer
      */
     public function setSerializer(Serializer $serializer)

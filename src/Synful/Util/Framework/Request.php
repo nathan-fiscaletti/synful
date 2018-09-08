@@ -139,7 +139,7 @@ class Request
 
     /**
      * Retrieve all headers for this Request.
-     * 
+     *
      * @return array
      */
     public function headers()
@@ -149,7 +149,7 @@ class Request
 
     /**
      * Sets a header in the Request.
-     * 
+     *
      * @param string $header
      * @param mixed $value
      */
