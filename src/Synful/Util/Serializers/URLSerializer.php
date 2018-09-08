@@ -3,7 +3,6 @@
 namespace Synful\Util\Serializers;
 
 use Synful\Util\Framework\Serializer;
-use Synful\Util\Framework\SynfulException;
 
 class URLSerializer implements Serializer
 {
@@ -35,6 +34,7 @@ class URLSerializer implements Serializer
     {
         $out = [];
         parse_str($data, $out);
+
         return $out;
     }
 }
