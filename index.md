@@ -13,3 +13,42 @@ $ sudo ab -t 60 -c 5 http://127.0.0.1/example/getip
 ...
 Requests per second:    6545.17 [#/sec] (mean)
 ```
+
+---
+
+#### Preview (RequestHandler)
+
+```php
+namespace Synful\App\RequestHandlers;
+
+use \Synful\Util\Framework\RequestHandler;
+use \Synful\Util\Framework\Request;
+
+/**
+ * Example RequestHandler.
+ */
+class GetIPExample extends RequestHandler
+{
+    /**
+     * Override the handler endpoint
+     * Example: http://myapi.net/user/search
+     * uses the endpoint `user/search`.
+     *
+     * @var string
+     */
+    public $endpoint = 'example/getip';
+
+    /**
+     * Handles a GET request type.
+     *
+     * @param  \Synful\Util\Framework\Request $request
+     * @return \Synful\Util\Framework\Response|array
+     */
+    public function get(Request $request)
+    {
+        return [
+            'ip' => $request->ip,
+        ];
+    }
+}
+```
