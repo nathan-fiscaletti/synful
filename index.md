@@ -1,9 +1,5 @@
 
 <p align='center'>
-	<img src='https://github.com/nathan-fiscaletti/synful/blob/gh-pages/Logo.png?raw=true' />
-</p>
-
-<p align='center'>
     <a href='https://styleci.io/repos/66602627'><img src='https://styleci.io/repos/66602627/shield?style=flat' /></a>
     <a href='https://packagist.org/packages/nafisc/synful'><img src='https://poser.pugx.org/nafisc/synful/v/stable?format=flat' /></a>
     <a href='https://packagist.org/packages/nafisc/synful'><img src='https://poser.pugx.org/nafisc/synful/v/unstable?format=flat' /></a>
