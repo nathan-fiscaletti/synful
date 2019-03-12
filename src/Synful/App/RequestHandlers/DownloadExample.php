@@ -8,7 +8,7 @@ use Synful\Util\Framework\RequestHandler;
 /**
  * Class used to demonstrate retrieving an IP address from a Request.
  */
-class HeaderExample extends RequestHandler
+class DownloadExample extends RequestHandler
 {
     /**
      * Override the handler endpoint
@@ -17,7 +17,7 @@ class HeaderExample extends RequestHandler
      *
      * @var string
      */
-    public $endpoint = 'example/header';
+    public $endpoint = 'example/download';
 
     /**
      * Handles a GET request type.
@@ -28,10 +28,10 @@ class HeaderExample extends RequestHandler
     public function get(Request $request)
     {
         return sf_response(
-            200,
+            200, 
             [
-                'success' => true
+                'data' => 'This is the content of the downloaded file.'
             ]
-        )->setHeader('Test', 'It Worked!');
+        )->downloadableAs('text.txt');
     }
 }

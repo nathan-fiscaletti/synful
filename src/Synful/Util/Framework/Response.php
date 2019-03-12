@@ -42,10 +42,14 @@ class Response
      *
      * @param string $header
      * @param string $value
+     *
+     * @return \Synful\Util\Framework\Response
      */
     public function setHeader(string $header, string $value)
     {
-        $this->headers[str_replace('-', '_', str_replace(' ', '_', strtolower($header)))] = $value;
+        $this->headers[$header] = $value;
+
+        return $this;
     }
 
     /**
@@ -57,7 +61,7 @@ class Response
      */
     public function header(string $header)
     {
-        return $this->headers[str_replace('-', '_', str_replace(' ', '_', strtolower($header)))];
+        return $this->headers[$header];
     }
 
     /**
@@ -74,10 +78,29 @@ class Response
      * Sets the Serializer class to use with this Response.
      *
      * @param \Synful\Util\Framework\Serializer $serializer
+     *
+     * @return \Synful\Util\Framework\Response
      */
     public function setSerializer(Serializer $serializer)
     {
         $this->serializer = $serializer;
+
+        return $this;
+    }
+
+    /**
+     * Makes this response a download.
+     * 
+     * @param string $filename
+     *
+     * @return \Synful\Util\Framework\Response
+     */
+    public function downloadableAs(string $filename)
+    {
+        $this->setSerializer(new \Synful\Util\Serializers\DownloadSerializer);
+        $this->setHeader('Content-disposition', 'attachment; filename='.$filename);
+
+        return $this;
     }
 
     /**

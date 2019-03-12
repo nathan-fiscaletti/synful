@@ -51,16 +51,8 @@ class SerializerExample extends RequestHandler
         // i.e. curl -d $'name,age\n"Nathan Fisc",18\nJim,23' 127.0.0.1/example/serializer
         //
         // Output will be returned as JSON instead of CSV.
-
-        // Generate output array
-        $response = sf_response(200, [
+        return sf_response(200, [
             'received' => $request->inputs(),
-        ]);
-
-        // Set the output serializer to JSONSerializer
-        $response->setSerializer(new JSONSerializer);
-
-        // Return the response.
-        return $response;
+        ])->setSerializer(new JSONSerializer);;
     }
 }
