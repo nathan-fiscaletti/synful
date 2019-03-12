@@ -1,13 +1,9 @@
 <?php
 
-namespace Synful\App\Serializers;
+namespace Synful\Util\Serializers;
 
 use Synful\Util\Framework\Serializer;
 
-/**
- * Note: This class is only for demonstrational purposes.
- *       It is not advised that you use it in production.
- */
 class CSVSerializer implements Serializer
 {
     /**
@@ -25,13 +21,16 @@ class CSVSerializer implements Serializer
      */
     public function serialize(array $data) : string
     {
-        $ret = '';
-
-        foreach ($data as $field) {
-            $ret .= ((($ret == '') ? '' : ',').$field);
+        $fh = fopen('php://temp', 'rw');
+        fputcsv($fh, array_keys(current($data)));
+        foreach ($data as $row) {
+            fputcsv($fh, $row);
         }
+        rewind($fh);
+        $csv = stream_get_contents($fh);
+        fclose($fh);
 
-        return $ret;
+        return $csv;
     }
 
     /**
@@ -42,6 +41,17 @@ class CSVSerializer implements Serializer
      */
     public function deserialize(string $data) : array
     {
-        return str_getcsv($data);
+        $csv = str_getcsv($data, "\n");
+        foreach ($csv as &$row) {
+            $row = str_getcsv($row);
+        }
+
+        array_walk($csv, function (&$value) use ($csv) {
+            $value = array_combine($csv[0], $value);
+        });
+
+        array_shift($csv);
+
+        return $csv;
     }
 }
