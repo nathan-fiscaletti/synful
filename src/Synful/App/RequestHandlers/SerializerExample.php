@@ -3,9 +3,9 @@
 namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
+use Synful\Util\Framework\RequestHandler;
 use Synful\Util\Serializers\CSVSerializer;
 use Synful\Util\Serializers\JSONSerializer;
-use Synful\Util\Framework\RequestHandler;
 
 /**
  * Class used to demonstrate custom serializers.
@@ -54,7 +54,7 @@ class SerializerExample extends RequestHandler
 
         // Generate output array
         $response = sf_response(200, [
-            'received' => $request->inputs()
+            'received' => $request->inputs(),
         ]);
 
         // Set the output serializer to JSONSerializer
