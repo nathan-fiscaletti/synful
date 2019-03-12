@@ -90,7 +90,7 @@ class Response
 
     /**
      * Makes this response a download.
-     * 
+     *
      * @param string $filename
      *
      * @return \Synful\Util\Framework\Response
