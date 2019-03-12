@@ -3,7 +3,8 @@
 namespace Synful\App\RequestHandlers;
 
 use Synful\Util\Framework\Request;
-use Synful\App\Serializers\CSVSerializer;
+use Synful\Util\Serializers\CSVSerializer;
+use Synful\Util\Serializers\JSONSerializer;
 use Synful\Util\Framework\RequestHandler;
 
 /**
@@ -44,17 +45,22 @@ class SerializerExample extends RequestHandler
      */
     public function post(Request $request)
     {
-        // This array will be passed through the CSVSerializer
-        // before it is returned.
-        //
         // Input sent to this RequestHandler should be CSV
         // formatted.
         //
-        // i.e. curl -d 'value1,value2' 127.0.0.1/example/serialize
+        // i.e. curl -d $'name,age\n"Nathan Fisc",18\nJim,23' 127.0.0.1/example/serializer
         //
-        return [
-            'a first value',
-            $request->input('1'),
-        ];
+        // Output will be returned as JSON instead of CSV.
+
+        // Generate output array
+        $response = sf_response(200, [
+            'received' => $request->inputs()
+        ]);
+
+        // Set the output serializer to JSONSerializer
+        $response->setSerializer(new JSONSerializer);
+
+        // Return the response.
+        return $response;
     }
 }

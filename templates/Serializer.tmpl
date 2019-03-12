@@ -14,7 +14,7 @@ class SerializerName implements Serializer
      *
      * @var string
      */
-    public $content_type = 'ContentType';
+    public $content_type = 'text/plain';
 
     /**
      * Serialize the data to be sent back to the client.
@@ -36,7 +36,7 @@ class SerializerName implements Serializer
      */
     public function deserialize(string $data) : array
     {
-        // Your serialization code
+        // Your de-serialization code
         return [];
     }
 }

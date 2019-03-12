@@ -21,23 +21,14 @@ class CSVSerializer implements Serializer
      */
     public function serialize(array $data) : string
     {
-        $escapedKeys = array_keys($data[0]);
-        array_walk($escapedKeys, function (&$value, $key) {
-            if (strpos($value, ' ') !== false) {
-                $value = '"'.$value.'"';
-            }
-        });
-        $csv .= implode(',', $escapedKeys).PHP_EOL;
-
+        $fh = fopen('php://temp', 'rw');
+        fputcsv($fh, array_keys(current($data)));
         foreach ($data as $row) {
-            array_walk($row, function (&$value, $key) {
-                if (strpos($value, ' ') !== false) {
-                    $value = '"'.$value.'"';
-                }
-            });
-
-            $csv .= implode(',', $row).PHP_EOL;
+            fputcsv($fh, $row);
         }
+        rewind($fh);
+        $csv = stream_get_contents($fh);
+        fclose($fh);
 
         return $csv;
     }
@@ -51,7 +42,6 @@ class CSVSerializer implements Serializer
     public function deserialize(string $data) : array
     {
         $csv = str_getcsv($data, "\n");
-
         foreach ($csv as &$row) {
             $row = str_getcsv($row);
         }
@@ -62,6 +52,6 @@ class CSVSerializer implements Serializer
 
         array_shift($csv);
 
-        return $data;
+        return $csv;
     }
 }
