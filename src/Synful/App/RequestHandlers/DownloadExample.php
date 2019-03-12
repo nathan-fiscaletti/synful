@@ -28,9 +28,9 @@ class DownloadExample extends RequestHandler
     public function get(Request $request)
     {
         return sf_response(
-            200, 
+            200,
             [
-                'data' => 'This is the content of the downloaded file.'
+                'data' => 'This is the content of the downloaded file.',
             ]
         )->downloadableAs('text.txt');
     }

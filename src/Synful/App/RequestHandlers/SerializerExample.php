@@ -53,6 +53,6 @@ class SerializerExample extends RequestHandler
         // Output will be returned as JSON instead of CSV.
         return sf_response(200, [
             'received' => $request->inputs(),
-        ])->setSerializer(new JSONSerializer);;
+        ])->setSerializer(new JSONSerializer);
     }
 }

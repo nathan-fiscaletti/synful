@@ -30,7 +30,7 @@ class HeaderExample extends RequestHandler
         return sf_response(
             200,
             [
-                'success' => true
+                'success' => true,
             ]
         )->setHeader('Test', 'It Worked!');
     }
