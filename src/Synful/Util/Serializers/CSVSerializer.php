@@ -3,7 +3,6 @@
 namespace Synful\Util\Serializers;
 
 use Synful\Util\Framework\Serializer;
-use Synful\Util\Framework\SynfulException;
 
 class CSVSerializer implements Serializer
 {
@@ -23,7 +22,7 @@ class CSVSerializer implements Serializer
     public function serialize(array $data) : string
     {
         $escapedKeys = array_keys($data[0]);
-        array_walk($escapedKeys, function(&$value, $key) {
+        array_walk($escapedKeys, function (&$value, $key) {
             if (strpos($value, ' ') !== false) {
                 $value = '"'.$value.'"';
             }
@@ -31,7 +30,7 @@ class CSVSerializer implements Serializer
         $csv .= implode(',', $escapedKeys).PHP_EOL;
 
         foreach ($data as $row) {
-            array_walk($row, function(&$value, $key) {
+            array_walk($row, function (&$value, $key) {
                 if (strpos($value, ' ') !== false) {
                     $value = '"'.$value.'"';
                 }
@@ -39,7 +38,7 @@ class CSVSerializer implements Serializer
 
             $csv .= implode(',', $row).PHP_EOL;
         }
-        
+
         return $csv;
     }
 
@@ -53,11 +52,11 @@ class CSVSerializer implements Serializer
     {
         $csv = str_getcsv($data, "\n");
 
-        foreach($csv as &$row) {
+        foreach ($csv as &$row) {
             $row = str_getcsv($row);
         }
 
-        array_walk($csv, function(&$value) use ($csv) {
+        array_walk($csv, function (&$value) use ($csv) {
             $value = array_combine($csv[0], $value);
         });
 
