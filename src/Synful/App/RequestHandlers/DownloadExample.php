@@ -6,7 +6,7 @@ use Synful\Util\Framework\Request;
 use Synful\Util\Framework\RequestHandler;
 
 /**
- * Class used to demonstrate retrieving an IP address from a Request.
+ * Class used to demonstrate using a Response as a Download.
  */
 class DownloadExample extends RequestHandler
 {
