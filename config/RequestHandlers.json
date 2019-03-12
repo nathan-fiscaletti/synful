@@ -19,6 +19,7 @@
         "Synful\\App\\RequestHandlers\\SerializerExample",
         "Synful\\App\\RequestHandlers\\GetInputExample",
         "Synful\\App\\RequestHandlers\\MiddlewareExample",
-        "Synful\\App\\RequestHandlers\\HeaderExample"
+        "Synful\\App\\RequestHandlers\\HeaderExample",
+        "Synful\\App\\RequestHandlers\\DownloadExample"
     ]
 }
