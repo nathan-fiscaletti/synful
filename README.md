@@ -31,10 +31,10 @@ Requests per second:    6545.17 [#/sec] (mean)
 ## Preview (RequestHandler)
 
 ```php
-namespace Synful\App\RequestHandlers;
+namespace App\RequestHandlers;
 
-use \Synful\Util\Framework\RequestHandler;
-use \Synful\Util\Framework\Request;
+use \Synful\Framework\RequestHandler;
+use \Synful\Framework\Request;
 
 /**
  * Example RequestHandler.
@@ -53,8 +53,8 @@ class GetIPExample extends RequestHandler
     /**
      * Handles a GET request type.
      *
-     * @param  \Synful\Util\Framework\Request $request
-     * @return \Synful\Util\Framework\Response|array
+     * @param  \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
      */
     public function get(Request $request)
     {

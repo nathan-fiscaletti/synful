@@ -15,7 +15,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Synful\\": "src/Synful"
+            "Synful\\": "src/Synful",
+            "App\\": "src/App"
         }
     },
     "require": {
