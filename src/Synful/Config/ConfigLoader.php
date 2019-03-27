@@ -3,8 +3,8 @@
 namespace Synful\Config;
 
 use DirectoryIterator;
-use Gestalt\Loaders\LoaderInterface;
 use Synful\Framework\ParamObject;
+use Gestalt\Loaders\LoaderInterface;
 
 class ConfigLoader implements LoaderInterface
 {

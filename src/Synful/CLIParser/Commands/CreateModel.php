@@ -2,7 +2,6 @@
 
 namespace Synful\CLIParser\Commands;
 
-use Synful\Synful;
 use Synful\CLIParser\Commands\Util\Command;
 
 class CreateModel extends Command
