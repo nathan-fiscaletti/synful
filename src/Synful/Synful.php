@@ -2,16 +2,16 @@
 
 namespace Synful;
 
-use Synful\Util\ASCII\Colors;
-use Synful\Util\Data\Database;
-use Synful\Util\IO\IOFunctions;
-use Synful\Util\Framework\Request;
-use Synful\Util\Framework\Response;
-use Synful\Util\Framework\RateLimit;
-use Synful\Util\CLIParser\CommandLine;
-use Synful\Util\WebListener\WebListener;
-use Synful\Util\Framework\RequestHandler;
-use Synful\Util\Framework\SynfulException;
+use Synful\ASCII\Colors;
+use Synful\Data\Database;
+use Synful\IO\IOFunctions;
+use Synful\Framework\Request;
+use Synful\Framework\Response;
+use Synful\Framework\RateLimit;
+use Synful\CLIParser\CommandLine;
+use Synful\WebListener\WebListener;
+use Synful\Framework\RequestHandler;
+use Synful\Framework\SynfulException;
 
 /**
  * Primary class for framework.
@@ -68,8 +68,8 @@ class Synful
         }
 
         // Set error handler and shutdown hook
-        set_error_handler('\\Synful\\Util\\IO\\IOFunctions::catchError', E_ALL);
-        register_shutdown_function('\\Synful\\Util\\IO\\IOFunctions::onShutDown');
+        set_error_handler('\\Synful\\IO\\IOFunctions::catchError', E_ALL);
+        register_shutdown_function('\\Synful\\IO\\IOFunctions::onShutDown');
 
         // Check Cross Origin Resource Sharing
         if (sf_conf('system.cors_enabled')) {
@@ -156,11 +156,11 @@ class Synful
      * Passes a JSON Request through the desired request handlers, validates authentication
      * and request integrity and returns a response.
      *
-     * @param  \Synful\Util\Framework\RequestHandler $handler
+     * @param  \Synful\Framework\RequestHandler $handler
      * @param  string                                $input
      * @param  array                                 $fields
      * @param  string                                $ip
-     * @return \Synful\Util\Framework\Response
+     * @return \Synful\Framework\Response
      */
     public static function handleRequest(
         RequestHandler $handler,
@@ -203,7 +203,7 @@ class Synful
         if (! empty($input)) {
             try {
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-                    $data = (new \Synful\Util\Serializers\URLSerializer)->deserialize($input);
+                    $data = (new \Synful\Serializers\URLSerializer)->deserialize($input);
                 } else {
                     $data = $serializer->deserialize($input);
                 }
@@ -338,15 +338,15 @@ class Synful
      */
     private static function loadGlobalFunctions()
     {
-        foreach (scandir('./src/Synful/Util/Functions') as $func_lib) {
+        foreach (scandir('./src/Synful/Functions') as $func_lib) {
             if (substr($func_lib, 0, 1) !== '.') {
-                include_once './src/Synful/Util/Functions/'.$func_lib;
+                include_once './src/Synful/Functions/'.$func_lib;
             }
         }
 
-        foreach (scandir('./src/Synful/App/Functions') as $func_lib) {
+        foreach (scandir('./src/App/Functions') as $func_lib) {
             if (substr($func_lib, 0, 1) !== '.') {
-                include_once './src/Synful/App/Functions/'.$func_lib;
+                include_once './src/App/Functions/'.$func_lib;
             }
         }
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace Synful\App\RequestHandlers;
+namespace App\RequestHandlers;
 
-use Synful\Util\Framework\Request;
-use Synful\Util\Framework\RequestHandler;
+use Synful\Framework\Request;
+use Synful\Framework\RequestHandler;
 
 /**
  * New Request Handler Class.
@@ -39,7 +39,7 @@ class RequestHandlerName extends RequestHandler
      * @var array
      */
     // public $middleware = [
-    //    \Synful\Util\MiddleWare\APIKeyValidation::class,
+    //    \Synful\MiddleWare\APIKeyValidation::class,
     // ];
 
     /**
@@ -61,13 +61,13 @@ class RequestHandlerName extends RequestHandler
      * 
      * @var string
      */
-    // public $serializer = \Synful\Util\Serializers\JSONSerializer::class;
+    // public $serializer = \Synful\Serializers\JSONSerializer::class;
 
     /**
      * Handles a POST request type.
      *
-     * @param  \Synful\Util\Framework\Request $request
-     * @return \Synful\Util\Framework\Response|array
+     * @param  \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
      */
     public function post(Request $request)
     {
@@ -83,8 +83,8 @@ class RequestHandlerName extends RequestHandler
     /**
      * Handles a GET request type.
      *
-     * @param  \Synful\Util\Framework\Request $request
-     * @return \Synful\Util\Framework\Response|array
+     * @param  \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
      */
     public function get(Request $request)
     {
@@ -100,8 +100,8 @@ class RequestHandlerName extends RequestHandler
     /**
      * Handles a PUT request type.
      *
-     * @param  \Synful\Util\Framework\Request $request
-     * @return \Synful\Util\Framework\Response|array
+     * @param  \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
      */
     public function put(Request $request)
     {
@@ -117,8 +117,8 @@ class RequestHandlerName extends RequestHandler
     /**
      * Handles a DELETE request type.
      *
-     * @param  \Synful\Util\Framework\Request $request
-     * @return \Synful\Util\Framework\Response|array
+     * @param  \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
      */
     public function delete(Request $request)
     {
@@ -134,8 +134,8 @@ class RequestHandlerName extends RequestHandler
     /**
      * Handles a OPTIONS request type.
      *
-     * @param  \Synful\Util\Framework\Request $request
-     * @return \Synful\Util\Framework\Response|array
+     * @param  \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
      */
     public function options(Request $request)
     {
@@ -151,8 +151,8 @@ class RequestHandlerName extends RequestHandler
     /**
      * Handles a PATCH request type.
      *
-     * @param  \Synful\Util\Framework\Request $request
-     * @return \Synful\Util\Framework\Response|array
+     * @param  \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
      */
     public function patch(Request $request)
     {
