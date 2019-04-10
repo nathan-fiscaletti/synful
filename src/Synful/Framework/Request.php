@@ -52,6 +52,13 @@ class Request
     public $method;
 
     /**
+     * The Route associated with this Request.
+     * 
+     * @var \Synful\Framework\Route
+     */
+    public $route;
+
+    /**
      * Returns a field from the request path.
      *
      * @param  string $name

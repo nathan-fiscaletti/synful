@@ -1,0 +1,33 @@
+# --------------------------------------------------------------------------
+#  Commands
+# --------------------------------------------------------------------------
+#
+#  The CLI Commands to register with the System.
+
+commands:
+  - "Synful\\CLIParser\\Commands\\Color"
+  - "Synful\\CLIParser\\Commands\\CreateCommand"
+  - "Synful\\CLIParser\\Commands\\CreateHandler"
+  - "Synful\\CLIParser\\Commands\\CreateKey"
+  - "Synful\\CLIParser\\Commands\\CreateMiddleWare"
+  - "Synful\\CLIParser\\Commands\\CreateMigration"
+  - "Synful\\CLIParser\\Commands\\CreateModel"
+  - "Synful\\CLIParser\\Commands\\CreateSerializer"
+  - "Synful\\CLIParser\\Commands\\DisableKey"
+  - "Synful\\CLIParser\\Commands\\EnableKey"
+  - "Synful\\CLIParser\\Commands\\FirewallIp"
+  - "Synful\\CLIParser\\Commands\\Help"
+  - "Synful\\CLIParser\\Commands\\HideConfigChanges"
+  - "Synful\\CLIParser\\Commands\\ListKeys"
+  - "Synful\\CLIParser\\Commands\\ListRequestHandlers"
+  - "Synful\\CLIParser\\Commands\\Migrate"
+  - "Synful\\CLIParser\\Commands\\Output"
+  - "Synful\\CLIParser\\Commands\\Register"
+  - "Synful\\CLIParser\\Commands\\RemoveKey"
+  - "Synful\\CLIParser\\Commands\\ShowFirewall"
+  - "Synful\\CLIParser\\Commands\\TestAuth"
+  - "Synful\\CLIParser\\Commands\\UnfirewallIp"
+  - "Synful\\CLIParser\\Commands\\UpdateKey"
+  - "Synful\\CLIParser\\Commands\\Version"
+  - "Synful\\CLIParser\\Commands\\WhitelistOnly"
+  - "Synful\\CLIParser\\Commands\\EndPointManage"

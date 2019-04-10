@@ -15,6 +15,14 @@ use Synful\Framework\SynfulException;
 class APIKeyValidation implements MiddleWare
 {
     /**
+     * The property key used to associate the
+     * Middleware Route properties.
+     * 
+     * @var string
+     */
+    public $property_key = 'api_key';
+
+    /**
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *

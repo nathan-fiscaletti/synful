@@ -1,0 +1,65 @@
+# --------------------------------------------------------------------------
+#  Production Mode
+# --------------------------------------------------------------------------
+#
+#  If set to true, line numbers and file names will not be output
+#  with error messages.
+production: false
+
+# --------------------------------------------------------------------------
+#  Console Colors
+# --------------------------------------------------------------------------
+#
+#  If set to true, color codes will be enabled.
+color: true
+
+# --------------------------------------------------------------------------
+#  Display Errors
+# --------------------------------------------------------------------------
+#
+#  If set to true, fatal errors will be displayed.
+display_errors: true
+
+# --------------------------------------------------------------------------
+#  Pretty Responses
+# --------------------------------------------------------------------------
+#
+#  If set to true, JSON responses will be formatted using JSON_PRETTY_PRINT.
+pretty_responses: false
+
+# --------------------------------------------------------------------------
+#  Allow Get Pretty Responses
+# --------------------------------------------------------------------------
+#
+#  If set to true, JSON responses will be formatted using JSON_PRETTY_PRINT
+#  when the `pretty` $_GET parameter is passed.
+allow_pretty_responses_on_get: true
+
+# --------------------------------------------------------------------------
+#  Serializer
+# --------------------------------------------------------------------------
+#
+#  The default serializer that will be used for requests.
+serializer: "Synful\\Serializers\\JSONSerializer"
+
+# --------------------------------------------------------------------------
+#  Global Middleware
+# --------------------------------------------------------------------------
+#
+# The select middleware that will be applied to all Routes.
+global_middleware: []
+
+# --------------------------------------------------------------------------
+#  CORS Enabled
+# --------------------------------------------------------------------------
+#
+#  If set to true, cross origin resources sharing will be enabled.
+cors_enabled: false
+
+# --------------------------------------------------------------------------
+#  CORS Domains
+# --------------------------------------------------------------------------
+#
+#  The domains allowed to use cross origin resource sharing.
+#  Note: Use 'all' for wildcard.
+cors_domains: []

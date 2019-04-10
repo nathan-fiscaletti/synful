@@ -2,17 +2,17 @@
 
 namespace Synful\Framework;
 
-interface MiddleWare
+interface Middleware
 {
     /**
      * Perform the specified action on the request before
-     * passing it to the RequestHandler.
+     * passing it to the Route.
      *
      * @param  \Synful\Framework\Request        $request
-     * @param  \Synful\Framework\RequestHandler $handler
+     * @param  \Synful\Framework\Route          $route
      * @return bool
      */
-    public function before(Request $request, RequestHandler $handler);
+    public function before(Request $request, Route $route);
 
     /**
      * Perform the specified action on a Response before

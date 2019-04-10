@@ -2,11 +2,14 @@
 
 namespace Synful\Config;
 
-use DirectoryIterator;
 use Synful\Framework\ParamObject;
-use Gestalt\Loaders\LoaderInterface;
 
-class ConfigLoader implements LoaderInterface
+use Gestalt\Loaders\JsonDirectoryLoader;
+use Gestalt\Loaders\YamlDirectoryLoader;
+use Gestalt\Loaders\PhpDirectoryLoader;
+use Gestalt\Loaders\IniDirectoryLoader;
+
+class ConfigLoader
 {
     use ParamObject;
 
@@ -24,19 +27,16 @@ class ConfigLoader implements LoaderInterface
      */
     public function load()
     {
-        $items = [];
-        $directory = new DirectoryIterator(realpath($this->directory));
+        $results = [];
 
-        foreach ($directory as $file) {
-            if ($file->isFile() && $file->getExtension() == 'json') {
-                $filename = $file->getFilename();
-                $config = strtolower(substr($filename, 0, strrpos($filename, '.')));
-
-                // Using sf_json_decode will remove any comments from the json file
-                $items[$config] = sf_json_decode(file_get_contents($file->getPathname()), true);
-            }
+        if (function_exists('yaml_parse_file')) {
+            $result = (new YamlDirectoryLoader($this->directory))->load();
         }
 
-        return $items;
+        $result = array_merge($result, (new JsonDirectoryLoader($this->directory))->load());
+        $result = array_merge($result, (new IniDirectoryLoader($this->directory))->load());
+        $result = array_merge($result, (new PhpDirectoryLoader($this->directory))->load()); 
+
+        return $result;
     }
 }

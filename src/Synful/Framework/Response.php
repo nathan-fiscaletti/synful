@@ -112,11 +112,15 @@ class Response
     {
         $serializer = null;
 
-        if ($this->serializer != null) {
+        if (! is_null($this->serializer)) {
             $serializer = $this->serializer;
         } else {
             $serializer = sf_conf('system.serializer');
-            $serializer = new $serializer;
+            if (! is_null($serializer)) {
+                $serializer = new $serializer;
+            } else {
+                $serializer = new \Synful\Serializers\TextSerializer;
+            }
         }
 
         $ret = null;
