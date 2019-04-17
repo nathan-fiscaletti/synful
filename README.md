@@ -1,5 +1,5 @@
 <p align='center'>
-	<img src='https://github.com/nathan-fiscaletti/synful/blob/master/Logo.jpg?raw=true' /><br />
+	<img src='./Logo.png' /><br />
 	<a href="https://styleci.io/repos/66602627"><img src="https://styleci.io/repos/66602627/shield?style=flat" alt="StyleCI" /></a>
 <a href="https://packagist.org/packages/nafisc/synful"><img src="https://poser.pugx.org/nafisc/synful/v/stable?format=flat" alt="Latest Stable Version" /></a>
 <a href="https://packagist.org/packages/nafisc/synful"><img src="https://poser.pugx.org/nafisc/synful/v/unstable?format=flat" alt="Latest Unstable Version" /></a>
