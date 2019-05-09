@@ -80,7 +80,7 @@ example/input:
 #             localhost/example/serializer
 #
 example/serializer:
-  method: "GET"
+  method: "POST"
   controller: "App\\Controllers\\Example@serializer"
   serializer: "Synful\\Serializers\\CSVSerializer"
 
@@ -102,6 +102,15 @@ example/download:
   method: "GET"
   controller: "App\\Controllers\\Example@download"
 
+# A simple route that demonstrates how you can 
+# display an HTML template.
+#
+# Usage: open localhost/example/template?name=YOUR_NAME in browser
+#
+example/template:
+  method: "GET"
+  controller: "App\\Controllers\\Example@template"
+
 # --------------------------------------------------------------------------
 ## API Key Examples
 # --------------------------------------------------------------------------
@@ -118,7 +127,7 @@ example/apikey/securitylevel:
   method: GET
   controller: "App\\Controllers\\Example@keySecurityLevel"
   middleware:
-    - "\\Synful\Middleware\\APIKeyValidation"
+    - "\\Synful\\Middleware\\APIKeyValidation"
   api_key:
     security_level: 3
 

@@ -28,17 +28,10 @@ class CreateSerializer extends Command
                 );
             } else {
                 if (! file_exists('./src/App/Serializers/'.$name.'.php')) {
+                    $template = new Template('Serializer.tmpl', ['name' => $name, 'mimetype' => $contentType], true);
                     file_put_contents(
                         './src/App/Serializers/'.$name.'.php',
-                        str_replace(
-                            'ContentType',
-                            $contentType,
-                            str_replace(
-                                'SerializerName',
-                                $name,
-                                file_get_contents('./templates/Serializer.tmpl')
-                            )
-                        )
+                        $template->parse()
                     );
 
                     sf_info(

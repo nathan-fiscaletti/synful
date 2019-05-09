@@ -30,13 +30,15 @@ class ConfigLoader
         $results = [];
 
         if (function_exists('yaml_parse_file')) {
-            $result = (new YamlDirectoryLoader($this->directory))->load();
+            $results = (new YamlDirectoryLoader($this->directory))->load();
+        } else {
+            throw new \Exception('Synful requires the yaml extension to run.');
         }
 
-        $result = array_merge($result, (new JsonDirectoryLoader($this->directory))->load());
-        $result = array_merge($result, (new IniDirectoryLoader($this->directory))->load());
-        $result = array_merge($result, (new PhpDirectoryLoader($this->directory))->load()); 
+        $results = array_merge($results, (new JsonDirectoryLoader($this->directory))->load());
+        $results = array_merge($results, (new IniDirectoryLoader($this->directory))->load());
+        $results = array_merge($results, (new PhpDirectoryLoader($this->directory))->load()); 
 
-        return $result;
+        return $results;
     }
 }

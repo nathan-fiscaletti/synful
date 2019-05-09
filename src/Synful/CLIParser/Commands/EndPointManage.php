@@ -8,6 +8,8 @@ use Synful\CLIParser\Commands\Util\Command;
 class EndPointManage extends Command
 {
     /**
+     * TODO
+     * 
      * Command for handing adding and removing endpoints to an API Key.
      */
     public function __construct()

@@ -1,18 +1,18 @@
 <?php
 
-namespace Synful\MiddleWare;
+namespace Synful\Middleware;
 
+use Synful\Framework\Route;
 use Synful\Framework\Request;
 use Synful\Data\Models\APIKey;
 use Synful\Framework\Response;
-use Synful\Framework\MiddleWare;
-use Synful\Framework\RequestHandler;
+use Synful\Framework\Middleware;
 use Synful\Framework\SynfulException;
 
 /**
- * Custom MiddleWare implementation.
+ * Custom Middleware implementation.
  */
-class APIKeyValidation implements MiddleWare
+class APIKeyValidation implements Middleware
 {
     /**
      * The property key used to associate the
@@ -26,13 +26,13 @@ class APIKeyValidation implements MiddleWare
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
-     * @param  \Synful\Framework\Request        $request
-     * @param  \Synful\Framework\RequestHandler $handler
+     * @param  \Synful\Framework\Request $request
+     * @param  \Synful\Framework\Route   $route
      * @return bool
      */
-    public function before(Request $request, RequestHandler $handler)
+    public function before(Request $request, Route $route)
     {
-        $this->validateRequest($request, $handler);
+        $this->validateRequest($request, $route);
     }
 
     /**
@@ -49,11 +49,12 @@ class APIKeyValidation implements MiddleWare
     /**
      * Validate the request.
      *
-     * @param  Request        $request
-     * @param  RequestHandler $handler
+     * @param  \Synful\Framework\Request $request
+     * @param  \Synful\Framework\Route   $route
      */
-    private function validateRequest(Request $request, RequestHandler $handler)
+    private function validateRequest(Request $request, Route $route)
     {
+        /*
         // Validate the Request Headers.
         if (empty($request->header('Synful-Auth'))) {
             throw new SynfulException(400, 1010);
@@ -119,6 +120,7 @@ class APIKeyValidation implements MiddleWare
             $key,
             $request->ip
         );
+        */
     }
 
     /**

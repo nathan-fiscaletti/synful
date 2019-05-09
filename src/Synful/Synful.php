@@ -12,6 +12,9 @@ use Synful\Framework\RateLimit;
 use Synful\CLIParser\CommandLine;
 use Synful\WebListener\WebListener;
 use Synful\Framework\SynfulException;
+use Synful\Serializers\HtmlSerializer;
+
+use Spackle\TemplateParser as Template;
 
 /**
  * Primary class for framework.
@@ -272,6 +275,19 @@ class Synful
                 $response = sf_response(200, $response);
             }
 
+            if ($response instanceof Template)
+            {
+                self::loadTemplatePlugins();
+                return sf_response(
+                    200,
+                    [
+                        'html' => $response->parse()
+                    ]
+                )->setSerializer(
+                    new HtmlSerializer()
+                );
+            }
+
             if (! ($response instanceof Response)) {
                 throw new SynfulException(500, 1016);
             }
@@ -280,6 +296,20 @@ class Synful
         }
 
         return $response;
+    }
+
+    /**
+     * Load Template Plugins.
+     */
+    public static function loadTemplatePlugins()
+    {
+        \Spackle\Plugin::add(
+            new \Synful\Templating\Plugins\URLParser()
+        );
+
+        \Spackle\Plugin::add(
+            new \Synful\Templating\Plugins\ConfigParser()
+        );
     }
 
     /**

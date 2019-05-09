@@ -1,16 +1,16 @@
 <?php
 
-namespace App\MiddleWare;
+namespace App\Middleware;
 
 use Synful\Framework\Request;
 use Synful\Framework\Response;
-use Synful\Framework\MiddleWare;
+use Synful\Framework\Middleware;
 use Synful\Framework\Route;
 
 /**
  * Custom MiddleWare implementation.
  */
-class CustomHeaderExample implements MiddleWare
+class CustomHeaderExample implements Middleware
 {
     /**
      * Perform the specified action on the request before

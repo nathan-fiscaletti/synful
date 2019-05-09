@@ -3,6 +3,7 @@
 namespace Synful\CLIParser\Commands;
 
 use Synful\CLIParser\Commands\Util\Command;
+use Synful\Templating\Template;
 
 class CreateCommand extends Command
 {
@@ -30,15 +31,12 @@ class CreateCommand extends Command
                 $fileName = './src/App/Commands/'.$name.'.php';
 
                 if (! file_exists($fileName)) {
+                    $template = new Template('Command.tmpl', ['name' => $name], true);
+
                     file_put_contents(
                         $fileName,
-                        str_replace(
-                            '{command}',
-                            $name,
-                            file_get_contents('./templates/Command.tmpl')
-                        )
+                        $template->parse()
                     );
-
                     sf_info(
                         'Created command in \'src/App/Commands\' with name \''.$name.'\'.',
                         true

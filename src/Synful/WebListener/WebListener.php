@@ -100,9 +100,26 @@ class WebListener
         }
 
         if (! $found_endpoint) {
-            $response = (new SynfulException(404, 1001))->response;
-            sf_respond($response->code, $response->serialize());
-            exit;
+            if (
+                file_exists('./public/'.$endpoint) &&
+                is_readable('./public/'.$endpoint) &&
+                strpos($endpoint, '..') === false
+            ) {
+                $file_location = './public/'.$endpoint;
+                $mimetype = mime_content_type($file_location);
+                if ($mimetype === false) {
+                    $mimetype = 'text/plain';
+                }
+
+                header('Content-Type: '.$mimetype);
+                http_response_code(200);
+                echo file_get_contents($file_location);
+                exit;
+            } else {
+                $response = (new SynfulException(404, 1001))->response;
+                sf_respond($response->code, $response->serialize());
+                exit;
+            }
         }
 
         $input = file_get_contents('php://input');

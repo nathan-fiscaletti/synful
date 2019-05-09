@@ -1,0 +1,22 @@
+# --------------------------------------------------------------------------
+#  CORS Enabled
+# --------------------------------------------------------------------------
+#
+#  If set to true, cross origin resources sharing will be enabled.
+cors_enabled: false
+
+# --------------------------------------------------------------------------
+#  CORS Domains
+# --------------------------------------------------------------------------
+#
+#  The domains allowed to use cross origin resource sharing.
+#  Note: Use 'all' for wildcard.
+cors_domains: []
+
+
+# --------------------------------------------------------------------------
+#  API Key Cost
+# --------------------------------------------------------------------------
+#
+#  The cost to pass the BCRYPT function used for generating new API keys.
+api_key_cost: 4

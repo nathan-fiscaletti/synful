@@ -3,6 +3,7 @@
 namespace Synful\CLIParser\Commands;
 
 use Synful\CLIParser\Commands\Util\Command;
+use Synful\Templating\Template;
 
 class CreateModel extends Command
 {
@@ -33,17 +34,10 @@ class CreateModel extends Command
             }
 
             if (! file_exists('./src/App/Data/Models/'.$name.'.php')) {
+                $template = new Template('Model.tmpl', ['name' => $name, 'table' => $table], true);
                 file_put_contents(
                     './src/App/Data/Models/'.$name.'.php',
-                    str_replace(
-                        '{table}',
-                        $table,
-                        str_replace(
-                            '{name}',
-                            $name,
-                            file_get_contents('./templates/Model.tmpl')
-                        )
-                    )
+                    $template->parse()
                 );
 
                 sf_info(

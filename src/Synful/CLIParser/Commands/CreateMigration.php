@@ -4,6 +4,7 @@ namespace Synful\CLIParser\Commands;
 
 use Synful\Synful;
 use Synful\CLIParser\Commands\Util\Command;
+use Synful\Templating\Template;
 
 class CreateMigration extends Command
 {
@@ -31,13 +32,10 @@ class CreateMigration extends Command
                 $fileName = './src/App/Data/Migrations/'.time().'_'.$name.'.php';
 
                 if (! file_exists($fileName)) {
+                    $template = new Template('Migration.tmpl', ['name' => $name], true);
                     file_put_contents(
                         $fileName,
-                        str_replace(
-                            'MigrationName',
-                            $name,
-                            file_get_contents('./templates/Migration.tmpl')
-                        )
+                        $template->parse()
                     );
 
                     sf_info(

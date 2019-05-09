@@ -393,7 +393,7 @@ class APIKey extends Model
     public static function generateNew()
     {
         $key = bin2hex(openssl_random_pseudo_bytes(32));
-        $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => 5]);
+        $hash = password_hash($key, PASSWORD_BCRYPT, ['cost' => sf_conf('security.api_key_cost')]);
 
         return [
             'key' => $key,

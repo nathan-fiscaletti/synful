@@ -7,6 +7,13 @@
 production: false
 
 # --------------------------------------------------------------------------
+#  Site Proto / Domain
+# --------------------------------------------------------------------------
+#
+#  The protocol and domain at which this site is hosted.
+domain: 'http://localhost'
+
+# --------------------------------------------------------------------------
 #  Console Colors
 # --------------------------------------------------------------------------
 #
@@ -48,18 +55,3 @@ serializer: "Synful\\Serializers\\JSONSerializer"
 #
 # The select middleware that will be applied to all Routes.
 global_middleware: []
-
-# --------------------------------------------------------------------------
-#  CORS Enabled
-# --------------------------------------------------------------------------
-#
-#  If set to true, cross origin resources sharing will be enabled.
-cors_enabled: false
-
-# --------------------------------------------------------------------------
-#  CORS Domains
-# --------------------------------------------------------------------------
-#
-#  The domains allowed to use cross origin resource sharing.
-#  Note: Use 'all' for wildcard.
-cors_domains: []

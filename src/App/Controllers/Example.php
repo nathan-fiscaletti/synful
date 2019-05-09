@@ -161,4 +161,26 @@ final class Example implements Controller
             ]
         )->downloadableAs('text.txt');
     }
+
+    /**
+     * Example: Display an HTML template.
+     * 
+     * @see routes.yaml - /example/template
+     *
+     * @param \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
+     */
+    public function template(\Synful\Framework\Request $request)
+    {
+        $name = $request->input('name') == null
+                    ? 'John Doe'
+                    : $request->input('name');
+
+        return new \Synful\Templating\Template(
+            'Example.html',
+            [
+                'name' => $name // cannot be null
+            ]
+        );
+    }
 }

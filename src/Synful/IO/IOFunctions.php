@@ -33,7 +33,7 @@ class IOFunctions
                 $return = false;
             }
         } else {
-            trigger_error('Failed to load config: File not found.', E_USER_WARNING);
+            trigger_error('Failed to load config: \'./config\' missing.', E_USER_WARNING);
             $return = false;
         }
 

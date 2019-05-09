@@ -1,20 +1,17 @@
 <?php
 
-namespace App\Serializers;
+namespace Synful\Serializers;
 
 use Synful\Framework\Serializer;
 
-/**
- * A custom Serialization implementation.
- */
-class SerializerName implements Serializer
+class HtmlSerializer implements Serializer
 {
     /**
      * The content type for the serialized data.
      *
      * @var string
      */
-    public $content_type = 'text/plain';
+    public $content_type = 'text/html';
 
     /**
      * Serialize the data to be sent back to the client.
@@ -24,8 +21,7 @@ class SerializerName implements Serializer
      */
     public function serialize(array $data) : string
     {
-        // Your serialization code
-        return '';
+        return isset($data['html']) ? $data['html'] : '';
     }
 
     /**
@@ -36,7 +32,6 @@ class SerializerName implements Serializer
      */
     public function deserialize(string $data) : array
     {
-        // Your de-serialization code
-        return [];
+        return ['html' => $data];
     }
 }
