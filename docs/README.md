@@ -1,7 +1,7 @@
 # Index
 
-||Section&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Description|
-|---|---|---|
+|   |Section              |Description|
+|---|---------------------|-----------|
 |1|[Start Here](./Getting%20Started.md)|Get started with a basic installation of Synful.|
 |2|[Configuration](./Configuration.md)|Learn how to configure Synful, how to create your own configurations and how to use them within your application.|
 |3|[Routing & Controllers](./Routing%20%26%20Controllers.md)|Learn how to configure routes.|
