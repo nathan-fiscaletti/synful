@@ -4,7 +4,7 @@
     <tr>
         <th width="37">
         </th>
-        <th width="300">
+        <th width="250">
             Section
         </th>
         <th>
