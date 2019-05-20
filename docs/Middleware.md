@@ -11,3 +11,6 @@ my/route:
 ```
 
 When you apply middleware to a route, you need to also fill in the properties for that middleware using 
+
+---
+Next: [Serializers](./Serializers.md) - ([Back to Index](./README.md))

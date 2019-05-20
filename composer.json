@@ -31,5 +31,8 @@
     },
     "suggest": {
         "ext-apcu": "^4.0"
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
     }
 }

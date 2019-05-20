@@ -69,7 +69,7 @@ class Response
      *
      * @return array
      */
-    public function headers()
+    public function headers() : array
     {
         return $this->headers;
     }
