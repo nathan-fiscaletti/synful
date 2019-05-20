@@ -80,4 +80,4 @@ You can also access this configuration value from within a Template file.
 * `databases.yaml` (See [Database Management](./Database%20Management.md))
 
 ---
-Next: [Routing & Controllers](./Routing%20%26%20Controllers.md)
+Next: [Routing & Controllers](./Routing%20%26%20Controllers.md) - ([Back to Index](./readme.md))

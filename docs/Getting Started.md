@@ -49,4 +49,4 @@ mv ./synful/** /var/www/html/
 ```
 
 ---
-Next: [Configuration](./Configuration.md)
+Next: [Configuration](./Configuration.md) - ([Back to Index](./readme.md))
