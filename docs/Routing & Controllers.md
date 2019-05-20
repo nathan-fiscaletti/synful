@@ -10,11 +10,11 @@ my/route:
   controller: "App\\Controllers\\Example@someController"
 ```
 
-### Middleware
+## Middleware
 
 You can apply middleware on a per route basis when configuring your routes. See [Middleware](./Middleware.md) for more information.
 
-### Route Parameters
+## Route Parameters
 
 Of course, sometimes you will need to capture segments of the URI within your route. For example, you may need to capture a user's ID from the URL. You may do so by defining route parameters:
 
@@ -38,7 +38,7 @@ To retrieve the route parameters, you can use the `->field($key)` method of the 
 $post_id = $request->field('post_id');
 ```
 
-### Serializers
+## Serializers
 
 Each route can be configured to accept data only of a specific format. You do this by configuring a serializer.
 
@@ -91,7 +91,7 @@ ip/get:
   controller: "App\\Controllers\\Example@getIp"
 ```
 
-### Using the `Request` object
+## Using the `Request` object
 
 Each controller action is passed an instance of `\Synful\Framework\Request` with information regarding the current request.
 
@@ -117,7 +117,7 @@ $name = $request->input('document.people.0.name');
 
 > Note: You can also use the `->inputs()` method to retrieve all inputs as an array.
 
-### Responding 
+## Responding 
 
 Each action on your controller should either return an array or an instance of `\Synful\Framework\Response`. These responses can be created using the helper function `sf_response(code, data)`.
 
