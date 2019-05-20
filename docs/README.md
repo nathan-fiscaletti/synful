@@ -33,7 +33,7 @@
     </tr>
     <tr>
         <td>5</td>
-        <td><a href="./Middleware.md">Middleware</a></td>
+        <td><a href="./Serializers.md">Serializers</a></td>
         <td>Learn how to serialize responses and use controller actions that only accept data of a specific format.</td>
     </tr>
 </table>
