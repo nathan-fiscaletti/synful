@@ -26,4 +26,14 @@
         <td><a href="./Routing%20%26%20Controllers.md">Routing & Controllers</a></td>
         <td>Learn how to configure routes.</td>
     </tr>
+    <tr>
+        <td>4</td>
+        <td><a href="./Middleware.md">Middleware</a></td>
+        <td>Learn how to implement Middleware on a per route or per API key basis.</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td><a href="./Middleware.md">Middleware</a></td>
+        <td>Learn how to serialize responses and use controller actions that only accept data of a specific format.</td>
+    </tr>
 </table>
