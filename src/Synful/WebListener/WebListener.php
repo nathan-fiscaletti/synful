@@ -143,9 +143,7 @@ class WebListener
             Synful::getClientIP()
         );
 
-        $all_middleware = sf_conf(
-            'system.global_middleware'
-        );
+        $all_middleware = [];
 
         if (property_exists($route, 'middleware')) {
             if (! is_array($route->middleware)) {
@@ -174,7 +172,7 @@ class WebListener
             $response->setSerializer($serializer);
         }
 
-        header('Content-Type: '.$response->serializer->content_type);
+        header('Content-Type: '.$response->serializer->mime_type);
         sf_respond(
             $response->code,
             $response->serialize(),

@@ -11,7 +11,7 @@ class CSVSerializer implements Serializer
      *
      * @var string
      */
-    public $content_type = 'text/csv';
+    public $mime_type = 'text/csv';
 
     /**
      * Serialize the data to be sent back to the client.

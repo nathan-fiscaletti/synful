@@ -1,0 +1,18 @@
+# --------------------------------------------------------------------------
+#  Enable / Disable Templating System
+# --------------------------------------------------------------------------
+#
+#  When set to true, controllers can return instances of the
+#  \Synful\Templating\Template class which will be parsed by 
+#  the templating system, including any configured Plugins
+#  that you have configured below.
+enabled: true
+
+# --------------------------------------------------------------------------
+#  Template Plugins
+# --------------------------------------------------------------------------
+#
+#  Plugins to apply to Template Parsing.
+plugins:
+  - "\\Synful\\Templating\\Plugins\\ConfigParser"
+  - "\\Synful\\Templating\\Plugins\\URLParser"

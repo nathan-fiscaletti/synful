@@ -5,7 +5,6 @@ namespace App\Middleware;
 use Synful\Framework\Request;
 use Synful\Framework\Response;
 use Synful\Framework\Middleware;
-use Synful\Framework\RequestHandler;
 
 /**
  * Custom Middleware implementation.
@@ -16,11 +15,9 @@ final class {{name}} implements Middleware
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
-     * @param  \Synful\Framework\Request        $request
-     * @param  \Synful\Framework\RequestHandler $handler
-     * @return bool
+     * @param  \Synful\Framework\Request $request
      */
-    public function before(Request $request, RequestHandler $handler)
+    public function before(Request $request)
     {
         // Your code here
     }

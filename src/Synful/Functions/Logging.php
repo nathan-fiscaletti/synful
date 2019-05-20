@@ -109,7 +109,7 @@ if (! function_exists('sf_input')) {
             true,
             false
         );
-        $out_line = '['.sf_color('SYNFUL', 'white', null, 'reset').'] ';
+        $out_line = '['.sf_color('SYNFUL', \Ansi\Color::FG_LIGHT_WHITE).'] ';
         $out_line .= \Synful\IO\IOFunctions::parseLogstring(
             $level,
             'INFO',

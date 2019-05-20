@@ -79,15 +79,27 @@ class Route
      */
     public function middlewareProperty($middleware, $property)
     {
-        if (property_exists($middleware, 'property_key')) {
-            if (array_key_exists($middleware->property_key, $this->middleware_props)) {
-                if (array_key_exists($property, $this->middleware_props[$middleware->property_key])) {
-                    return $this->middleware_props[$middleware->property_key][$property];
+        if (property_exists($middleware, 'key')) {
+            if (array_key_exists($middleware->key, $this->middleware_props)) {
+                if (array_key_exists($property, $this->middleware_props[$middleware->key])) {
+                    return $this->middleware_props[$middleware->key][$property];
                 }
             }
         }
 
         return null;
+    }
+
+    /**
+     * Check if this Route has a specific Middelware.
+     * 
+     * @param string $middleware
+     * 
+     * @return bool
+     */
+    public function hasMiddleware($middleware)
+    {
+        return in_array($middleware, $this->middleware);
     }
 
     /**
@@ -128,8 +140,8 @@ class Route
         ) {
             foreach ($route_data['middleware'] as $middlewareClass) {
                 if (class_exists($middlewareClass)) {
-                    if (property_exists($middlewareClass, 'property_key')) {
-                        $property_key = (new $middlewareClass)->property_key;
+                    if (property_exists($middlewareClass, 'key')) {
+                        $property_key = (new $middlewareClass)->key;
                         if (array_key_exists($property_key, $route_data)) {
                             $route->middleware_props[$property_key] 
                                 = $route_data[$property_key];

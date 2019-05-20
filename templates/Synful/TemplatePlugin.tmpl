@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Templating\Plugins;
+
+use Spackle\Plugin;
+
+class {{name}} extends Plugin
+{
+    /**
+     * The key notating the beginning of the element.
+     *
+     * @var string
+     */
+    public $key = '{{key}}';
+
+    /**
+     * Parse the value for the element matching this plugin.
+     *
+     * @param string $data
+     *
+     * @return string
+     */
+    public function parse($data)
+    {
+        // Return the parsed data.
+        {{math 3+4 <}}
+    }
+}

@@ -58,10 +58,12 @@ class SynfulException extends Exception
         1026 => 'PATCH handler not defined in selected RequestHandler.',
         1027 => 'Invalid request type. Supported request types: POST, GET, PUT, DELETE.',
         1028 => 'Global rate limit exceeded.',
-        1029 => 'Endpoint rate limit exceeded.',
-        1030 => 'API Key rate limit exceeded.',
         1031 => 'Attempting to load APCu for RateLimit but php-apcu extension not installed.',
         1032 => 'Endpoint is not allowed for this API Key',
+        1033 => 'Valid methods for the RateLimit Middleware are \'ip\' and \'api_key\'.',
+        1034 => 'When configured with the \'api_key\' method, the RateLimit Middleware requires that the APIKeyValidation middleware also be applied to the route.',
+        1035 => 'Missing properties for the RateLimit Middleware',
+        1036 => 'Rate limit exceeded.',
     ];
 
     /**

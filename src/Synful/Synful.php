@@ -9,7 +9,7 @@ use Synful\Framework\Route;
 use Synful\Framework\Request;
 use Synful\Framework\Response;
 use Synful\Framework\RateLimit;
-use Synful\CLIParser\CommandLine;
+use Synful\Command\CommandLine;
 use Synful\WebListener\WebListener;
 use Synful\Framework\SynfulException;
 use Synful\Serializers\HtmlSerializer;
@@ -53,9 +53,6 @@ class Synful
         // Load Global Functions
         self::loadGlobalFunctions();
 
-        // Load console color codes
-        Colors::loadColors();
-
         // Load the configuration into system
         if (! IOFunctions::loadConfig()) {
             exit();
@@ -97,6 +94,11 @@ class Synful
                     exit;
                 }
             }
+        }
+
+        // Load Template Plugins
+        if (sf_conf('templating.enabled')) {
+            self::loadTemplatePlugins();
         }
 
         // Initialize the Database Connections
@@ -228,12 +230,11 @@ class Synful
             'data' => $data,
             'fields' => $fields,
             'method' => $_SERVER['REQUEST_METHOD'],
+            'route' => $route,
         ]);
 
         try {
-            $all_middleware = sf_conf(
-                'system.global_middleware'
-            );
+            $middlewares = [];
 
             if (! class_exists($route->controller)) {
                 trigger_error(
@@ -258,10 +259,10 @@ class Synful
                     throw new SynfulException(500, 1017);
                 }
 
-                $all_middleware = $all_middleware + $route->middleware;
+                $middlewares = $route->middleware;
             }
 
-            foreach ($all_middleware as $middleware) {
+            foreach ($middlewares as $middleware) {
                 $middleware = new $middleware;
                 $middleware->before($request, $route);
             }
@@ -275,17 +276,18 @@ class Synful
                 $response = sf_response(200, $response);
             }
 
-            if ($response instanceof Template)
-            {
-                self::loadTemplatePlugins();
-                return sf_response(
-                    200,
-                    [
-                        'html' => $response->parse()
-                    ]
-                )->setSerializer(
-                    new HtmlSerializer()
-                );
+            if (sf_conf('templating.enabled')) {
+                if ($response instanceof Template)
+                {
+                    return sf_response(
+                        200,
+                        [
+                            'html' => $response->parse()
+                        ]
+                    )->setSerializer(
+                        new HtmlSerializer()
+                    );
+                }
             }
 
             if (! ($response instanceof Response)) {
@@ -303,13 +305,11 @@ class Synful
      */
     public static function loadTemplatePlugins()
     {
-        \Spackle\Plugin::add(
-            new \Synful\Templating\Plugins\URLParser()
-        );
-
-        \Spackle\Plugin::add(
-            new \Synful\Templating\Plugins\ConfigParser()
-        );
+        foreach (sf_conf('templating.plugins') as $plugin) {
+            \Spackle\Plugin::add(
+                new $plugin
+            );
+        }
     }
 
     /**

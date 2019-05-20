@@ -11,7 +11,7 @@ class HtmlSerializer implements Serializer
      *
      * @var string
      */
-    public $content_type = 'text/html';
+    public $mime_type = 'text/html';
 
     /**
      * Serialize the data to be sent back to the client.

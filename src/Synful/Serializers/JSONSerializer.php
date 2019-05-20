@@ -12,7 +12,7 @@ class JSONSerializer implements Serializer
      *
      * @var string
      */
-    public $content_type = 'text/json';
+    public $mime_type = 'application/json';
 
     /**
      * Serialize the data to be sent back to the client.

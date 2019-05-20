@@ -22,6 +22,6 @@ class URLParser extends Plugin
      */
     public function parse($data)
     {
-        return sf_conf('system.domain').$data;
+        return sf_conf('system.site').$data;
     }
 }

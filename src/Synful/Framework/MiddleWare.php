@@ -9,10 +9,8 @@ interface Middleware
      * passing it to the Route.
      *
      * @param  \Synful\Framework\Request        $request
-     * @param  \Synful\Framework\Route          $route
-     * @return bool
      */
-    public function before(Request $request, Route $route);
+    public function before(Request $request);
 
     /**
      * Perform the specified action on a Response before

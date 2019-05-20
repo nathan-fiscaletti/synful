@@ -11,7 +11,7 @@ class DownloadSerializer implements Serializer
      *
      * @var string
      */
-    public $content_type = 'application/octet-stream';
+    public $mime_type = 'application/octet-stream';
 
     /**
      * Serialize the data to be sent back to the client.

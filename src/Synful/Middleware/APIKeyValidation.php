@@ -20,19 +20,17 @@ class APIKeyValidation implements Middleware
      * 
      * @var string
      */
-    public $property_key = 'api_key';
+    public $key = 'api_key';
 
     /**
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
      * @param  \Synful\Framework\Request $request
-     * @param  \Synful\Framework\Route   $route
-     * @return bool
      */
-    public function before(Request $request, Route $route)
+    public function before(Request $request)
     {
-        $this->validateRequest($request, $route);
+        $this->validateRequest($request);
     }
 
     /**
@@ -50,11 +48,9 @@ class APIKeyValidation implements Middleware
      * Validate the request.
      *
      * @param  \Synful\Framework\Request $request
-     * @param  \Synful\Framework\Route   $route
      */
-    private function validateRequest(Request $request, Route $route)
+    private function validateRequest(Request $request)
     {
-        /*
         // Validate the Request Headers.
         if (empty($request->header('Synful-Auth'))) {
             throw new SynfulException(400, 1010);
@@ -77,6 +73,7 @@ class APIKeyValidation implements Middleware
         }
 
         // Check rate limit for API key
+        /*
         if (sf_conf('rate.per_key')) {
             $api_key_rl = $api_key->getRateLimit();
             if (! $api_key_rl->isUnlimited()) {
@@ -87,6 +84,7 @@ class APIKeyValidation implements Middleware
                 }
             }
         }
+        */
 
         // Assign the API key to a variable and
         // update the request.
@@ -98,6 +96,7 @@ class APIKeyValidation implements Middleware
         }
 
         // Validate API Key endpoint access array.
+        /*
         if (
             ! in_array(
                 $handler->endpoint,
@@ -112,37 +111,43 @@ class APIKeyValidation implements Middleware
         ) {
             throw new SynfulException(400, 1032);
         }
+        */
 
         // Validate the API Key Security.
         $this->validateApiKeySecurity(
-            $handler,
+            $request->route,
             $api_key,
             $key,
             $request->ip
         );
-        */
     }
 
     /**
      * Validate an API key.
      *
-     * @param  \Synful\RequestHandlers\Interfaces\RequestHandler   $handler
-     * @param  APIKey                                              $api_key
-     * @param  string                                              $key
-     * @param  string                                              $ip
+     * @param  \Synful\Framework\Route           $route
+     * @param  APIKey                            $api_key
+     * @param  string                            $key
+     * @param  string                            $ip
+     *
      * @throws \Synful\Framework\SynfulException
      */
     private function validateApiKeySecurity(
-        $handler,
+        $route,
         APIKey $api_key,
         string $key,
         string $ip
     ) {
+        $security_level = $route->middlewareProperty(
+            $this,
+            'security_level'
+        );
+
+        $security_level = is_null($security_level) ? 0 : $security_level;
+
         $security_result = $api_key->authenticate(
             $key,
-            (property_exists($handler, 'security_level'))
-                ? $handler->security_level
-                : 0
+            $security_level
         );
 
         switch ($security_result) {

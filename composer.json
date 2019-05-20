@@ -26,7 +26,8 @@
         "illuminate/database": "^5.8",
         "illuminate/events": "^5.6",
         "touhonoob/rate-limit": "^1.2",
-        "nafisc/spackle": "dev-master"
+        "nafisc/spackle": "^1.1",
+        "nafisc/ansi-util": ">=1.2"
     },
     "suggest": {
         "ext-apcu": "^4.0"

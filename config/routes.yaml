@@ -112,22 +112,39 @@ example/template:
   controller: "App\\Controllers\\Example@template"
 
 # --------------------------------------------------------------------------
-## API Key Examples
+## Middleware Examples
 # --------------------------------------------------------------------------
 
-# This endpoint will only allow access to a verified
-# API key with a security level of "3" or higher.
+# This endpoint will rate limit you to 
+# 3 requests every 10 seconds.
 #
 # Usage: curl -X GET \
-#             -H'Synful-Auth: ...' \
-#             -H'Synful-Key: ...' \
-#             localhost/example/apikey/securitylevel
+#             localhost/example/middleware/ratelimit
 #
-example/apikey/securitylevel:
+example/middleware/ratelimit:
   method: GET
-  controller: "App\\Controllers\\Example@keySecurityLevel"
+  controller: "App\\Controllers\\Example@ratelimit"
+  middleware:
+    - "\\Synful\\Middleware\\RateLimit"
+  rate_limit:
+    method: "ip"
+    requests: 3
+    seconds: 10
+
+# This endpoint will only allow requests
+# with a valid API key witha security
+# level of 5 or more.
+#
+# Usage: curl -X GET \
+#             localhost/example/middleware/ratelimit
+#
+example/middleware/apikey:
+  method: POST
+  controller: "App\\Controllers\\Example@apikey"
   middleware:
     - "\\Synful\\Middleware\\APIKeyValidation"
   api_key:
-    security_level: 3
+    type: "route"
+
+
 

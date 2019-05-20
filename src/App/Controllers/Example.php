@@ -183,4 +183,18 @@ final class Example implements Controller
             ]
         );
     }
+
+    /**
+     * Example: Return a response after the RateLimit
+     *          middleware has been applied.
+     * 
+     * @see routes.yaml - /example/middleware/ratelimit
+     *
+     * @param \Synful\Framework\Request $request
+     * @return \Synful\Framework\Response|array
+     */
+    public function ratelimit(\Synful\Framework\Request $request)
+    {
+        return ['message' => 'Success'];
+    }
 }
