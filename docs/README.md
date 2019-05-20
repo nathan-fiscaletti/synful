@@ -36,4 +36,9 @@
         <td><a href="./Serializers.md">Serializers</a></td>
         <td>Learn how to serialize responses and use controller actions that only accept data of a specific format.</td>
     </tr>
+    <tr>
+        <td>6</td>
+        <td><a href="./Templating.md">Templating</a></td>
+        <td>Learn how to create use the Spackle Templating engine for web page templates among other things.</td>
+    </tr>
 </table>
