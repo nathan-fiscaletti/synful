@@ -1,6 +1,6 @@
 # Index
 
-||Section&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Description|
+||Section&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;|Description|
 |---|---|---|
 |1|[Start Here](./Getting%20Started.md)|Get started with a basic installation of Synful.|
 |2|[Configuration](./Configuration.md)|Learn how to configure Synful, how to create your own configurations and how to use them within your application.|
