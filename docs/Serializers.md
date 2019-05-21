@@ -14,15 +14,15 @@ A file will be created in `./src/App/Serializers`.
 
 ## Implenting the Serializer interface
 
-Each Serializer has two functions that must be overridden, and one property.
+Each Serializer must implement the [Serializer](../src/Synful/Framework/Serializer.php) interface and has two functions that must be overridden, and one property.
 
-* `$content_type` - This is the content type header that will be set when responding.
+* `$mime_type` - This is the content type header that will be set when responding.
 * `serialize` - The serialize function is used to serialize an array into a string.
 * `deserialize` - The deserialize function is used to de-serialize a string back to an array.
 
 See [JSONSerializer](../src/Synful/Serializers/JSONSerializer.php) for an example of a Serializer implementation.
 
-## Applying a custom serializer.
+## Applying a custom Serializer.
 
 > Note: By default any `GET` request will forcibly use the [URLSerializer](../src/Synful/Serializers/URLSerializer.php) Serializer for *input* deserialization, regardless of what you have configured. This allows us to properly parse the parameters in the URL. -- (See [PR #205](https://github.com/nathan-fiscaletti/synful/pull/205)). The default serializer or whichever you have configured will still be used for output.
 
