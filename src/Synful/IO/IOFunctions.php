@@ -2,7 +2,6 @@
 
 namespace Synful\IO;
 
-use Exception;
 use Synful\Synful;
 use Gestalt\Configuration;
 use Synful\Config\ConfigLoader;
@@ -23,17 +22,17 @@ class IOFunctions
         $return = true;
         if (file_exists('./config/')) {
             try {
-                Synful::$config = Configuration::fromLoader(
-                    new ConfigLoader([
+                Synful::$config = new Configuration(
+                    (new ConfigLoader([
                         'directory' => './config/',
-                    ])
+                    ]))->load()
                 );
-            } catch (Exception $ex) {
-                trigger_error('Failed to load config: '.$ex->message, E_USER_WARNING);
+            } catch (\Exception $ex) {
+                trigger_error('Failed to load config: '.$ex->getMessage(), E_USER_WARNING);
                 $return = false;
             }
         } else {
-            trigger_error('Failed to load config: File not found.', E_USER_WARNING);
+            trigger_error('Failed to load config: \'./config\' missing.', E_USER_WARNING);
             $return = false;
         }
 
@@ -69,7 +68,11 @@ class IOFunctions
                 if ($block_header_on_echo || $__minimal_output) {
                     $output[] = $line;
                 } else {
-                    $out_line = '['.sf_color('SYNFUL', 'white', null, 'reset').'] ';
+                    $sb = new \Synful\Ansi\StringBuilder();
+                    $out_line = $sb->raw('[')->color16(
+                        \Ansi\Color16::FG_WHITE,
+                        'SYNFUL'
+                    )->reset()->raw(']');
                     $out_line .= self::parseLogstring($level, $head, $line);
                     $output[] = $out_line;
                 }
@@ -77,8 +80,9 @@ class IOFunctions
         }
 
         foreach ($output as $line) {
+            $sb = new \Synful\Ansi\StringBuilder();
             echo $line.((! $block_header_on_echo && ! $__minimal_output)
-                ? sf_color('', 'reset', null, 'reset') : '')."\r\n";
+                ? $sb->reset() : '')."\r\n";
         }
     }
 
@@ -159,41 +163,103 @@ class IOFunctions
     {
         $return_string = '';
 
+        $sb = new \Synful\Ansi\StringBuilder();
+
         if (sf_conf('system.color')) {
             switch ($level) {
                 case LogLevel::INFO: {
-                    $return_string = '['.sf_color($head, 'light_green', null, 'reset').'] ';
-                    $return_string .= sf_color($message, 'white');
+                    $return_string = $sb->empty()
+                                        ->raw('[')
+                                        ->color16(
+                                            \Ansi\Color16::FG_LIGHT_GREEN,
+                                            $head
+                                        )
+                                        ->reset()
+                                        ->raw('] ')
+                                        ->color16(
+                                            \ANsi\Color16::FG_WHITE,
+                                            $message
+                                        );
                     break;
                 }
 
                 case LogLevel::WARN: {
-                    $return_string = '['.sf_color($head, 'light_red', null, 'reset').'] ';
-                    $return_string .= sf_color($message, 'yellow', null, 'yellow');
+                    $return_string = $sb->empty()
+                                        ->raw('[')
+                                        ->color16(
+                                            \Ansi\Color16::FG_LIGHT_RED,
+                                            $head
+                                        )
+                                        ->reset()
+                                        ->raw('] ')
+                                        ->color16(
+                                            \ANsi\Color16::FG_YELLOW,
+                                            $message
+                                        );
                     break;
                 }
 
                 case LogLevel::NOTE: {
-                    $return_string = '['.sf_color($head, 'light_blue', null, 'reset').'] ';
-                    $return_string .= sf_color($message, 'white');
+                    $return_string = $sb->empty()
+                                        ->raw('[')
+                                        ->color16(
+                                            \Ansi\Color16::FG_LIGHT_BLUE,
+                                            $head
+                                        )
+                                        ->reset()
+                                        ->raw('] ')
+                                        ->color16(
+                                            \ANsi\Color16::FG_WHITE,
+                                            $message
+                                        );
                     break;
                 }
 
                 case LogLevel::ERRO: {
-                    $return_string = '['.sf_color($head, 'light_red', null, 'reset').'] ';
-                    $return_string .= sf_color($message, 'red', null, 'red');
+                    $return_string = $sb->empty()
+                                        ->raw('[')
+                                        ->color16(
+                                            \Ansi\Color16::FG_LIGHT_RED,
+                                            $head
+                                        )
+                                        ->reset()
+                                        ->raw('] ')
+                                        ->color16(
+                                            \ANsi\Color16::FG_RED,
+                                            $message
+                                        );
                     break;
                 }
 
                 case LogLevel::RESP: {
-                    $return_string = '['.sf_color($head, 'light_cyan', null, 'reset').'] ';
-                    $return_string .= sf_color($message, 'cyan', null, 'cyan');
+                    $return_string = $sb->empty()
+                                        ->raw('[')
+                                        ->color16(
+                                            \Ansi\Color16::FG_LIGHT_CYAN,
+                                            $head
+                                        )
+                                        ->reset()
+                                        ->raw('] ')
+                                        ->color16(
+                                            \ANsi\Color16::FG_CYAN,
+                                            $message
+                                        );
                     break;
                 }
 
                 default: {
-                    $return_string = '['.sf_color($head, 'light_green', null, 'reset').'] ';
-                    $return_string .= sf_color($message, 'white');
+                    $return_string = $sb->empty()
+                                        ->raw('[')
+                                        ->color16(
+                                            \Ansi\Color16::FG_LIGHT_GREEN,
+                                            $head
+                                        )
+                                        ->reset()
+                                        ->raw('] ')
+                                        ->color16(
+                                            \ANsi\Color16::FG_WHITE,
+                                            $message
+                                        );
                 }
             }
         } else {

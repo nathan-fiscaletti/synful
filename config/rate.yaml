@@ -1,0 +1,31 @@
+# --------------------------------------------------------------------------
+#  Global Rate Limiting
+# --------------------------------------------------------------------------
+#
+#  If you want rate limiting to be turned on globaly, set this to true.
+global: false
+
+# --------------------------------------------------------------------------
+#  Per API Key Rate Limiting
+# --------------------------------------------------------------------------
+#
+#  If you want API key specific rate limiting to be turned one,
+#  set this to true.
+per_key: false
+
+# --------------------------------------------------------------------------
+#  Per Route Limiting
+# --------------------------------------------------------------------------
+#
+#  If you want Route specific rate limiting to 
+#  be turned on, set this to true.
+per_route: false
+
+# --------------------------------------------------------------------------
+#  Global Rate Limit
+# --------------------------------------------------------------------------
+#
+#  The global rate limit. (Set both values to 0 for unlimited.)
+global_rate_limit:
+  requests: 0
+  per_second: 0

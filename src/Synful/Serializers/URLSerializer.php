@@ -11,7 +11,7 @@ class URLSerializer implements Serializer
      *
      * @var string
      */
-    public $content_type = 'application/x-www-form-urlencoded';
+    public $mime_type = 'application/x-www-form-urlencoded';
 
     /**
      * Serialize the data to be sent back to the client.

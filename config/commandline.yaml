@@ -1,0 +1,32 @@
+# --------------------------------------------------------------------------
+#  Commands
+# --------------------------------------------------------------------------
+#
+#  The CLI Commands to register with the System.
+
+commands:
+  - "Synful\\Command\\Commands\\Color"
+  - "Synful\\Command\\Commands\\CreateCommand"
+  - "Synful\\Command\\Commands\\CreateController"
+  - "Synful\\Command\\Commands\\CreateKey"
+  - "Synful\\Command\\Commands\\CreateMiddleware"
+  - "Synful\\Command\\Commands\\CreateMigration"
+  - "Synful\\Command\\Commands\\CreateModel"
+  - "Synful\\Command\\Commands\\CreateSerializer"
+  - "Synful\\Command\\Commands\\CreateTemplatePlugin"
+  - "Synful\\Command\\Commands\\DisableKey"
+  - "Synful\\Command\\Commands\\EnableKey"
+  - "Synful\\Command\\Commands\\FirewallIp"
+  - "Synful\\Command\\Commands\\Help"
+  - "Synful\\Command\\Commands\\HideConfigChanges"
+  - "Synful\\Command\\Commands\\ListKeys"
+  - "Synful\\Command\\Commands\\Migrate"
+  - "Synful\\Command\\Commands\\Output"
+  - "Synful\\Command\\Commands\\RemoveKey"
+  - "Synful\\Command\\Commands\\ShowFirewall"
+  - "Synful\\Command\\Commands\\TestAuth"
+  - "Synful\\Command\\Commands\\UnfirewallIp"
+  - "Synful\\Command\\Commands\\UpdateKey"
+  - "Synful\\Command\\Commands\\Version"
+  - "Synful\\Command\\Commands\\WhitelistOnly"
+  - "Synful\\Command\\Commands\\EndPointManage"

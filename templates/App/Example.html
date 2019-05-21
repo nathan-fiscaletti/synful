@@ -1,0 +1,28 @@
+<html>
+    <!-- See src/App/Controllers/Example.php `template` handler. -->
+    <head>
+        <script type="text/javascript" src="/assets/js/script.js"></script>
+    </head>
+    <body>
+        <button onclick="test()">Click me, {{name}}, and I will teach you more about Templates in Synful!</button>
+        <br /><br />
+        <div id="test" style="display: none;">
+            It works!<br /><br />Synful uses <a href="https://github.com/nathan-fiscaletti/spackle" target="_blank">Spackle</a> for Template parsing.
+            <br /><br />
+            In this example, we include a JavaScript file to unhide a div element defined in the Template file,<br />
+            and then replace the substitutions based on the configuration in the template handler within the configured controller.
+            <br /><br />
+            You can also use templating plugins. Find more information at the Spackle repository.
+            <br /><br />
+            As an example we have the URLParser and ConfigParser plugins, here is this pages url: <b>{{url /example/template <}}</b> and 
+            the value of PRODUCTION in System.yaml is <b>{{conf system.production <}}</b>.
+            <br /><br />
+            You can also use substitutions and plugins within code blocks.
+            {{>
+                echo "As you can see, your name is {{name}}";
+                echo "<br />";
+                echo "And the config value for PRODUCTION in System.yaml is <b>{{conf system.production <}}</b>";
+            <}}
+        </div>
+    </body>
+</html>

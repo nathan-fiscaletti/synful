@@ -1,0 +1,155 @@
+# --------------------------------------------------------------------------
+#  Routes
+# --------------------------------------------------------------------------
+#
+#  Define your routes
+#
+#  Example:
+# 
+#   user/{id}:
+#     method: GET
+#     handler: "App\\Controllers\\User@get"
+#     middleware:
+#       - "\\Synful\\Middleware\\APIKeyValidation"
+#       - "\\Synful\\Middleware\\RateLimit"
+#       - "\\Synful\\Middleware\\Cors"
+#     serializer: "\\Synful\\Serializers\\JSONSerializer"
+#     rate_limit:
+#       requests: 1
+#       seconds: 1
+#     api_key:
+#       security_level: 1
+#     cors:
+#       domains:
+#         - "*"
+#
+
+# For all example routes, please see the related
+# 
+
+# A simple route that will return the users IP.
+#
+# Usage: curl localhost/example/getip
+#
+example/getip:
+  method: "GET"
+  controller: "App\\Controllers\\Example@getIp"
+
+# A simple route that will set a custom header
+# before the response is sent back.
+#
+# Usage: curl -v localhost/example/header
+#
+example/header:
+  method: "GET"
+  controller: "App\\Controllers\\Example@header"
+
+# A simple route that will return a custom
+# HTTP response code.
+#
+# Usage: curl -v localhost/example/httpcode
+#
+example/httpcode:
+  method: "GET"
+  controller: "App\\Controllers\\Example@httpCode"
+
+# A simple route that will output all inputs.
+#
+# Usage: curl -X POST \
+#             -H'Content-Type: application/json' \
+#             -d'{"name":"nathan"} \
+#             localhost/example/inputs
+#
+example/inputs:
+  method: "POST"
+  controller: "App\\Controllers\\Example@inputs"
+
+# A simple route that will output a specific input.
+#
+# Usage: curl -X POST \
+#             -H'Content-Type: application/json' \
+#             -d'{"name":"nathan"} \
+#             localhost/example/input
+#
+example/input:
+  method: "POST"
+  controller: "App\\Controllers\\Example@input"
+
+# A route that demonstrates how you can use custom
+# serializers with your responses.
+#
+# This route in particular will take CSV as input
+# and respond with JSON as output.
+#
+# Usage: curl -d $'name,age\n"Nate",18\nJim,23' \
+#             localhost/example/serializer
+#
+example/serializer:
+  method: "POST"
+  controller: "App\\Controllers\\Example@serializer"
+  serializer: "Synful\\Serializers\\CSVSerializer"
+
+# A simple route that demonstrates how you can use
+# url path segments as parameters.
+#
+# Usage: curl localhost/example/parameters/nathan
+#
+example/parameters/{name}:
+  method: "GET"
+  controller: "App\\Controllers\\Example@parameters"
+
+# A simple route that demonstrates how you can 
+# force a response to be handled as a download.
+#
+# Usage: curl localhost/example/download
+#
+example/download:
+  method: "GET"
+  controller: "App\\Controllers\\Example@download"
+
+# A simple route that demonstrates how you can 
+# display an HTML template.
+#
+# Usage: open localhost/example/template?name=YOUR_NAME in browser
+#
+example/template:
+  method: "GET"
+  controller: "App\\Controllers\\Example@template"
+
+# --------------------------------------------------------------------------
+## Middleware Examples
+# --------------------------------------------------------------------------
+
+# This endpoint will rate limit you to 
+# 3 requests every 10 seconds.
+#
+# Usage: curl -X GET \
+#             localhost/example/middleware/ratelimit
+#
+example/middleware/ratelimit:
+  method: GET
+  controller: "App\\Controllers\\Example@ratelimit"
+  middleware:
+    - "\\Synful\\Middleware\\RateLimit"
+  rate_limit:
+    method: "ip"
+    requests: 3
+    seconds: 10
+
+# This endpoint will only allow requests
+# with a valid API key witha security
+# level of 5 or more.
+#
+# Usage: curl -X GET \
+#             localhost/example/middleware/ratelimit
+#
+example/middleware/apikey:
+  method: POST
+  controller: "App\\Controllers\\Example@apikey"
+  middleware:
+    - "\\Synful\\Middleware\\APIKeyValidation"
+  api_key:
+    type: "route"
+
+
+

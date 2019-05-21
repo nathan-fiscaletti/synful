@@ -11,7 +11,7 @@ class TextSerializer implements Serializer
      *
      * @var string
      */
-    public $content_type = 'text/plain';
+    public $mime_type = 'text/plain';
 
     /**
      * Serialize the data to be sent back to the client.

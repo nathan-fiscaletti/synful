@@ -5,13 +5,16 @@ namespace Synful;
 use Synful\ASCII\Colors;
 use Synful\Data\Database;
 use Synful\IO\IOFunctions;
+use Synful\Framework\Route;
 use Synful\Framework\Request;
 use Synful\Framework\Response;
 use Synful\Framework\RateLimit;
-use Synful\CLIParser\CommandLine;
+use Synful\Command\CommandLine;
 use Synful\WebListener\WebListener;
-use Synful\Framework\RequestHandler;
 use Synful\Framework\SynfulException;
+use Synful\Serializers\HtmlSerializer;
+
+use Spackle\TemplateParser as Template;
 
 /**
  * Primary class for framework.
@@ -26,11 +29,11 @@ class Synful
     public static $config;
 
     /**
-     * All request handlers registered in the system.
+     * All Routes registered in the system.
      *
      * @var array
      */
-    public static $request_handlers = [];
+    public static $routes = [];
 
     /**
      * The result of the command line parsing.
@@ -49,9 +52,6 @@ class Synful
 
         // Load Global Functions
         self::loadGlobalFunctions();
-
-        // Load console color codes
-        Colors::loadColors();
 
         // Load the configuration into system
         if (! IOFunctions::loadConfig()) {
@@ -96,11 +96,16 @@ class Synful
             }
         }
 
+        // Load Template Plugins
+        if (sf_conf('templating.enabled')) {
+            self::loadTemplatePlugins();
+        }
+
         // Initialize the Database Connections
         self::initializeDatabases();
 
-        // Load request handlers
-        self::loadRequestHandlers();
+        // Load routes
+        self::loadRoutes();
 
         // Parse Command Line
         if (self::isCommandLineInterface()) {
@@ -153,35 +158,35 @@ class Synful
     }
 
     /**
-     * Passes a JSON Request through the desired request handlers, validates authentication
+     * Passes a JSON Request through the desired route, validates authentication
      * and request integrity and returns a response.
      *
-     * @param  \Synful\Framework\RequestHandler $handler
-     * @param  string                                $input
-     * @param  array                                 $fields
-     * @param  string                                $ip
+     * @param  \Synful\Framework\Route    $route
+     * @param  string                     $input
+     * @param  array                      $fields
+     * @param  string                     $ip
      * @return \Synful\Framework\Response
      */
     public static function handleRequest(
-        RequestHandler $handler,
+        Route  $route,
         string $input,
         array  $fields,
         string $ip
     ) {
-        // Check rate limit for RequestHandler
-        if (sf_conf('rate.per_handler')) {
+        // Check rate limit for Route
+        if (sf_conf('rate.per_route')) {
             if (
-                property_exists($handler, 'rate_limit') &&
-                is_array($handler->rate_limit) &&
-                isset($handler->rate_limit['requests']) &&
-                isset($handler->rate_limit['per_seconds']) &&
-                is_int($handler->rate_limit['requests']) &&
-                is_int($handler->rate_limit['per_seconds'])
+                property_exists($route, 'rate_limit') &&
+                is_array($route->rate_limit) &&
+                isset($route->rate_limit['requests']) &&
+                isset($route->rate_limit['per_seconds']) &&
+                is_int($route->rate_limit['requests']) &&
+                is_int($route->rate_limit['per_seconds'])
             ) {
                 $rh_rl = new RateLimit(
-                    'handler_'.$handler->endpoint,
-                    $handler->rate_limit['requests'],
-                    $handler->rate_limit['per_seconds']
+                    'synful_route_'.$route->endpoint,
+                    $route->rate_limit['requests'],
+                    $route->rate_limit['per_seconds']
                 );
                 if (! $rh_rl->isUnlimited()) {
                     if ($rh_rl->isLimited(self::getClientIP())) {
@@ -196,8 +201,11 @@ class Synful
         $serializer = sf_conf('system.serializer');
         $serializer = new $serializer;
 
-        if (property_exists($handler, 'serializer')) {
-            $serializer = new $handler->serializer;
+        if (
+            property_exists($route, 'serializer') &&
+            class_exists($route->serializer)
+        ) {
+            $serializer = new $route->serializer;
         }
 
         if (! empty($input)) {
@@ -222,30 +230,64 @@ class Synful
             'data' => $data,
             'fields' => $fields,
             'method' => $_SERVER['REQUEST_METHOD'],
+            'route' => $route,
         ]);
 
         try {
-            $all_middleware = sf_conf(
-                'system.global_middleware'
-            );
+            $middlewares = [];
 
-            if (property_exists($handler, 'middleware')) {
-                if (! is_array($handler->middleware)) {
+            if (! class_exists($route->controller)) {
+                trigger_error(
+                    'Unknown controller defined in route: Attempted '.
+                    $route->controller,
+                    E_USER_ERROR
+                );
+                exit;
+            }
+
+            if (! method_exists($route->controller, $route->call)) {
+                trigger_error(
+                    'Unknown controller call defined in route: Attempted '.
+                    $route->controller.'@'.$route->call,
+                    E_USER_ERROR
+                );
+                exit;
+            }
+
+            if (property_exists($route, 'middleware')) {
+                if (! is_array($route->middleware)) {
                     throw new SynfulException(500, 1017);
                 }
 
-                $all_middleware = $all_middleware + $handler->middleware;
+                $middlewares = $route->middleware;
             }
 
-            foreach ($all_middleware as $middleware) {
+            foreach ($middlewares as $middleware) {
                 $middleware = new $middleware;
-                $middleware->before($request, $handler);
+                $middleware->before($request, $route);
             }
 
-            $response = $handler->handleRequest($request);
+            $request->route = $route;
+            $controller = $route->controller;
+            $call = $route->call;
+            $response = (new $controller)->{$call}($request);
 
             if (is_array($response)) {
                 $response = sf_response(200, $response);
+            }
+
+            if (sf_conf('templating.enabled')) {
+                if ($response instanceof Template)
+                {
+                    return sf_response(
+                        200,
+                        [
+                            'html' => $response->parse()
+                        ]
+                    )->setSerializer(
+                        new HtmlSerializer()
+                    );
+                }
             }
 
             if (! ($response instanceof Response)) {
@@ -255,7 +297,20 @@ class Synful
             $response = $synfulException->response;
         }
 
+        $response->request = $request;
         return $response;
+    }
+
+    /**
+     * Load Template Plugins.
+     */
+    public static function loadTemplatePlugins()
+    {
+        foreach (sf_conf('templating.plugins') as $plugin) {
+            \Spackle\Plugin::add(
+                new $plugin
+            );
+        }
     }
 
     /**
@@ -311,20 +366,21 @@ class Synful
     }
 
     /**
-     * Loads all request handlers stored in 'system/request_handlers' into system.
+     * Load all routes configured in routes.yaml.
      */
-    private static function loadRequestHandlers()
+    private static function loadRoutes()
     {
-        $enabled_request_handler = false;
+        $route_found = false;
         foreach (
-            sf_conf('requesthandlers.registered') as $requestHandlerClass
+            sf_conf('routes') as $path => $route_data
         ) {
-            $enabled_request_handler = true;
-            self::$request_handlers[$requestHandlerClass] = new $requestHandlerClass();
+            $route_found = true;
+            self::$routes[$path] = \Synful\Framework\Route::buildRoute($path, $route_data);
         }
-        if (! $enabled_request_handler) {
+
+        if (! $route_found) {
             trigger_error(
-                'No request handlers found.',
+                'No routes have been configured. Check routes.yaml.',
                 E_USER_ERROR
             );
 

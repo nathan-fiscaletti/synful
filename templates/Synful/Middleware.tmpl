@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Middleware;
+
+use Synful\Framework\Request;
+use Synful\Framework\Response;
+use Synful\Framework\Middleware;
+
+/**
+ * Custom Middleware implementation.
+ */
+final class {{name}} implements Middleware
+{
+    /**
+     * The property key used to associate the
+     * Middleware Route properties.
+     *
+     * Remove this if you do not plan to configure
+     * this Middleware implementation from the 
+     * routes.yaml configuration.
+     * 
+     * @var string
+     */
+    public $key = '';
+
+    /**
+     * Perform the specified action on the request before
+     * passing it to the RequestHandler.
+     *
+     * @param  \Synful\Framework\Request $request
+     */
+    public function before(Request $request)
+    {
+        // Your code here
+    }
+
+    /**
+     * Perform the specified action on a Response before
+     * passing it back to the client.
+     *
+     * @param \Synful\Framwork\Response $response
+     */
+    public function after(Response $response)
+    {
+        // Do nothing
+    }
+}

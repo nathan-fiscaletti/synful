@@ -24,83 +24,102 @@ class WebListener
 
         $endpoint = $_GET['_synful_ep_'];
         $found_endpoint = false;
-        $selected_handler = null;
+        $selected_route = null;
         $fields = [];
 
-        foreach (Synful::$request_handlers as $handler_name => $handler) {
-            if (property_exists($handler, 'endpoint')) {
-                // Separate the parameters from the endpoint.
-                $handler_endpoint_elements = explode('/', $handler->endpoint);
-                $handler_endpoint_path = [];
-                $handler_endpoint_properties = [];
-                for ($i = 0; $i < count($handler_endpoint_elements); $i++) {
-                    $field = $handler_endpoint_elements[$i];
+        foreach (Synful::$routes as $route) {
+            if (strtolower($route->method) != strtolower($_SERVER['REQUEST_METHOD'])) {
+                continue;
+            }
 
-                    if (
-                        strpos($field, '{') === 0 &&
-                        strpos($field, '}') === (strlen($field) - 1)
-                    ) {
-                        $field = str_replace('{', '', $field);
-                        $field = str_replace('}', '', $field);
+            // Separate the parameters from the endpoint.
+            $route_endpoint_elements = explode('/', $route->path);
+            $route_endpoint_path = [];
+            $route_endpoint_properties = [];
+            for ($i = 0; $i < count($route_endpoint_elements); $i++) {
+                $field = $route_endpoint_elements[$i];
 
-                        $handler_endpoint_properties[$i] = $field;
-                    } else {
-                        $handler_endpoint_path[$i] = $field;
-                    }
-                }
-
-                $handler_endpoint_without_properties = implode(
-                    $handler_endpoint_path,
-                    '/'
-                );
-
-                unset($handler_endpoint_path);
-
-                // Check if the requested endpoint matches the request handler.
-                // If the handler endpoint without properties is empty,
-                // we will check the property count.
-                //
-                // A handler with an empty prefix will override all other
-                // handlers in the system.
                 if (
-                    $handler_endpoint_without_properties == '' ||
-                    strpos(
-                        $endpoint,
-                        $handler_endpoint_without_properties
-                    ) !== false
+                    strpos($field, '{') === 0 &&
+                    strpos($field, '}') === (strlen($field) - 1)
                 ) {
-                    // Match the fields in the endpoint with the properties
-                    // in the handler's endpoint definition.
-                    $endpoint_elements = explode('/', $endpoint);
-                    if (
-                        count(
-                            $endpoint_elements
-                        ) != count(
-                            $handler_endpoint_elements
-                        )
-                    ) {
-                        $response = (new SynfulException(500, 1018))->response;
-                        sf_respond($response->code, $response->serialize());
-                        exit;
-                    }
+                    $field = str_replace('{', '', $field);
+                    $field = str_replace('}', '', $field);
 
-                    foreach (
-                        $handler_endpoint_properties as $key => $property
-                    ) {
-                        $fields[$property] = $endpoint_elements[$key];
-                    }
-
-                    $found_endpoint = true;
-                    $selected_handler = $handler_name;
-                    break;
+                    $route_endpoint_properties[$i] = $field;
+                } else {
+                    $route_endpoint_path[$i] = $field;
                 }
+            }
+
+            $route_endpoint_without_properties = implode(
+                $route_endpoint_path,
+                '/'
+            );
+
+            unset($route_endpoint_path);
+
+            // Check if the requested endpoint matches the route.
+            // If the route endpoint without properties is empty,
+            // we will check the property count.
+            //
+            // A route with an empty prefix will override all other
+            // routes in the system.
+            if (
+                $route_endpoint_without_properties == '' ||
+                strpos(
+                    $endpoint,
+                    $route_endpoint_without_properties
+                ) !== false
+            ) {
+                // Match the fields in the endpoint with the properties
+                // in the route's endpoint definition.
+                $endpoint_elements = explode('/', $endpoint);
+                if (
+                    count(
+                        $endpoint_elements
+                    ) != count(
+                        $route_endpoint_elements
+                    )
+                ) {
+                    $response = (new SynfulException(500, 1018))->response;
+                    sf_respond($response->code, $response->serialize());
+                    exit;
+                }
+
+                foreach (
+                    $route_endpoint_properties as $key => $property
+                ) {
+                    $fields[$property] = $endpoint_elements[$key];
+                }
+
+                $found_endpoint = true;
+                $selected_route = $route->path;
+                break;
             }
         }
 
         if (! $found_endpoint) {
-            $response = (new SynfulException(404, 1001))->response;
-            sf_respond($response->code, $response->serialize());
-            exit;
+            if (
+                file_exists('./public/'.$endpoint) &&
+                is_readable('./public/'.$endpoint) &&
+                strpos($endpoint, '..') === false
+            ) {
+                $file_location = './public/'.$endpoint;
+                $mimetype = mime_content_type($file_location);
+                if ($mimetype === false) {
+                    $mimetype = 'text/plain';
+                }
+
+                header('Content-Type: '.$mimetype);
+                http_response_code(200);
+                echo file_get_contents($file_location);
+                exit;
+            } else {
+                $response = (new SynfulException(404, 1001))->response;
+                sf_respond($response->code, $response->serialize());
+                exit;
+            }
         }
 
         $input = file_get_contents('php://input');
@@ -115,25 +134,23 @@ class WebListener
             $input = (new \Synful\Serializers\URLSerializer)->serialize($params);
         }
 
-        $handler = Synful::$request_handlers[$selected_handler];
+        $route = Synful::$routes[$selected_route];
 
         $response = Synful::handleRequest(
-            $handler,
+            $route,
             $input,
             $fields,
             Synful::getClientIP()
         );
 
-        $all_middleware = sf_conf(
-            'system.global_middleware'
-        );
+        $all_middleware = [];
 
-        if (property_exists($handler, 'middleware')) {
-            if (! is_array($handler->middleware)) {
+        if (property_exists($route, 'middleware')) {
+            if (! is_array($route->middleware)) {
                 throw new SynfulException(500, 1017);
             }
 
-            $all_middleware = $all_middleware + $handler->middleware;
+            $all_middleware = $all_middleware + $route->middleware;
         }
 
         foreach ($all_middleware as $middleware) {
@@ -145,14 +162,17 @@ class WebListener
             $serializer = sf_conf('system.serializer');
             $serializer = new $serializer;
 
-            if (property_exists($handler, 'serializer')) {
-                $serializer = new $handler->serializer;
+            if (
+                property_exists($route, 'serializer') &&
+                class_exists($route->serializer)
+            ) {
+                $serializer = new $route->serializer;
             }
 
             $response->setSerializer($serializer);
         }
 
-        header('Content-Type: '.$response->serializer->content_type);
+        header('Content-Type: '.$response->serializer->mime_type);
         sf_respond(
             $response->code,
             $response->serialize(),

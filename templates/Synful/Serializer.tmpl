@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Serializers;
+
+use Synful\Framework\Serializer;
+
+/**
+ * A custom Serialization implementation.
+ */
+final class {{name}} implements Serializer
+{
+    /**
+     * The content type for the serialized data.
+     *
+     * @var string
+     */
+    public $mime_type = '{{mimetype}}';
+
+    /**
+     * Serialize the data to be sent back to the client.
+     *
+     * @param  array  $data
+     * @return string
+     */
+    public function serialize(array $data) : string
+    {
+        // Your serialization code
+        return '';
+    }
+
+    /**
+     * Deserialize the data coming from the request.
+     *
+     * @param  string $data
+     * @return array
+     */
+    public function deserialize(string $data) : array
+    {
+        // Your de-serialization code
+        return [];
+    }
+}

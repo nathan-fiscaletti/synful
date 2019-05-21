@@ -38,6 +38,13 @@ class Response
     public $serializer;
 
     /**
+     * The request associated with this response.
+     * 
+     * @var \Synful\Framework\Serializer
+     */
+    public $request;
+
+    /**
      * Sets a header for the Response.
      *
      * @param string $header
@@ -69,7 +76,7 @@ class Response
      *
      * @return array
      */
-    public function headers()
+    public function headers() : array
     {
         return $this->headers;
     }
@@ -112,11 +119,15 @@ class Response
     {
         $serializer = null;
 
-        if ($this->serializer != null) {
+        if (! is_null($this->serializer)) {
             $serializer = $this->serializer;
         } else {
             $serializer = sf_conf('system.serializer');
-            $serializer = new $serializer;
+            if (! is_null($serializer)) {
+                $serializer = new $serializer;
+            } else {
+                $serializer = new \Synful\Serializers\TextSerializer;
+            }
         }
 
         $ret = null;

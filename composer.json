@@ -23,11 +23,16 @@
         "php": ">=7.1",
         "samrap/gestalt": ">=0.1.2",
         "nafisc/parameterparser": "^0.2.1",
-        "illuminate/database": "^5.6",
+        "illuminate/database": "^5.8",
         "illuminate/events": "^5.6",
-        "touhonoob/rate-limit": "^1.2"
+        "touhonoob/rate-limit": "^1.2",
+        "nafisc/spackle": "^1.1",
+        "nafisc/ansi-util": ">=1.2"
     },
     "suggest": {
         "ext-apcu": "^4.0"
+    },
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
     }
 }

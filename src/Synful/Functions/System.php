@@ -109,3 +109,16 @@ if (! function_exists('sf_headers')) {
         return $headers;
     }
 }
+
+if (! function_exists('sf_color')) {
+    /**
+     * Colors a string and returns it.
+     *
+     * @param  string $string
+     * @param  int    $color
+     */
+    function sf_color($string, int $color)
+    {
+        return (new \Synful\Ansi\StringBuilder())->color16($string, $color);
+    }
+}
