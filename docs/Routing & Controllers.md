@@ -7,7 +7,7 @@ You will define all of the routes for your application in the `config/routes.yam
 ```yaml
 my/route:
   method: GET
-  controller: "App\\Controllers\\Example@someController"
+  controller: "App\\Controllers\\ExampleController@someAction"
 ```
 
 ## Middleware
@@ -21,7 +21,7 @@ Of course, sometimes you will need to capture segments of the URI within your ro
 ```yaml
 user/{id}:
   method: GET
-  controller: "App\\Controllers\\Example@getUser"
+  controller: "App\\Controllers\\ExampleController@getUser"
 ```
 
 You may define as many route parameters as required by your route:
@@ -29,7 +29,7 @@ You may define as many route parameters as required by your route:
 ```yaml
 posts/{post_id}/comments/{comment_id}:
   method: GET
-  controller: "App\\Controllers\\Example@getComment"
+  controller: "App\\Controllers\\ExampleController@getComment"
 ```
 
 To retrieve the route parameters, you can use the `->field($key)` method of the `\Synful\Framework\Request` class.
@@ -45,7 +45,7 @@ Each route can be configured to accept data only of a specific format. You do th
 ```yaml
 my/route:
   method: GET
-  controller: "App\\Controllers\\Example@someController"
+  controller: "App\\Controllers\\ExampleController@someAction"
   serializer: "Synful\\Serializers\\CSVSerializer"
 ```
 
@@ -53,7 +53,14 @@ my/route:
 
 ## Controllers
 
-Controllers can group related HTTP request handling logic into a class. Controllers are stored in the `App/Controllers` directory.
+Controllers can group related HTTP request handling logic into a class. Controllers are stored in the `./src/App/Controllers` directory.
+
+You can create a Controller using the following command:
+```bash
+./synful --create-controller ExampleController
+```
+
+> Alternately, you can create a PHP file yourself manually in `./src/App/Controllers` directory using the template in `./templates/Synful/Controller.tmpl` as an example.
 
 Here is an example of a basic controller class. All Synful controllers should implement the base Controller interface included with the default Synful installation.
 
@@ -64,7 +71,7 @@ namespace App\Controllers;
 
 use Synful\Framework\Controller;
 
-final class Example implements Controller
+final class ExampleController implements Controller
 {
     /**
      * Example: Retrieve a clients IP address.
@@ -88,7 +95,7 @@ You can point a route at this controller action like so:
 ```yaml
 ip/get:
   method: GET
-  controller: "App\\Controllers\\Example@getIp"
+  controller: "App\\Controllers\\ExampleController@getIp"
 ```
 
 ## Using the `Request` object

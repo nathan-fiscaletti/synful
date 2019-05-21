@@ -12,6 +12,18 @@ use Synful\Framework\Middleware;
 final class {{name}} implements Middleware
 {
     /**
+     * The property key used to associate the
+     * Middleware Route properties.
+     *
+     * Remove this if you do not plan to configure
+     * this Middleware implementation from the 
+     * routes.yaml configuration.
+     * 
+     * @var string
+     */
+    public $key = '';
+
+    /**
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
