@@ -16,8 +16,8 @@ You can configure what sections have rate limiting applied under the `./config/r
 |Area|Application|Effect|
 |---|---|---|
 |Global|`rate.yaml`|All requests from a specific IP|
-|Route|[RateLimit Middlware](../src/Synful/Middleware/RateLimit.php)|All requests from a specific IP to a specific Route.|
-|API Key|[RateLimit Middlware](../src/Synful/Middleware/RateLimit.php)|All requests from a specific IP using a specific API key directed at a specific route.|
+|Per-Route|[RateLimit Middlware](../src/Synful/Middleware/RateLimit.php)|All requests from a specific IP to a specific Route.|
+|Per-API-Key|[RateLimit Middlware](../src/Synful/Middleware/RateLimit.php)|All requests from a specific IP using a specific API key directed at a specific route.|
 
 * You can configure the `Global` rate limit from within the `./config/rate.yaml` configuration file.
 * To configure `API Key` and `Route` rate limits, use the route definitions in `./config/routes.yaml` to add the [RateLimit Middlware](../src/Synful/Middleware/RateLimit.php).
