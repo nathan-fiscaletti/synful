@@ -47,7 +47,7 @@ my/route:
 
 > Note: This will override the default serializer stored in System.php.
 
-### Overriding Response Serializer
+## Overriding Response Serializer
 
 You can override the Serializer of a `\Synful\Framework\Response` object before returning it to the user.
 This way, you can use the Serializer configured for the Route for Request input, and a different Serializer for Response Output. 
