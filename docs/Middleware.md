@@ -7,21 +7,21 @@ Of course, additional middleware can be written to perform a variety of tasks be
 ## Creating a Middleware
 
 To create a new Middleware class, run the following command:
-```bash
-./synful -cmw MyMiddlewareName
+```shell
+$ ./synful -create-middleware MyMiddlewareName
 ```
 
 This will create a new file in `src/App/Middleware` that implements the Middleware interface.
 
-Alternately, you can create a PHP file yourself in the `./src/App/Middleware` directory using the template in `./templates/Synful/Middleware.tmpl` as an example.
+Alternately, you can create a PHP file yourself in the `./src/App/Middleware` directory using the template in [./templates/Synful/Middleware.tmpl](../templates/Synful/Middleware.tmpl) as an example.
 
 ### Implementing the MiddleWare interface
 
 Each MiddleWare implementation should override the `before` and `after` functions. 
 
-* `before` - The before function is called before any Request touches it's Controller. This will give you access to the `\Synful\Framework\Request` object associated with this request.
+* `before` - The before function is called before any Request touches it's Controller. This will give you access to the [\Synful\Framework\Request](../src/Synful/Framework/Request.php) object associated with this request.
 
-* `after` - The after function is called after a Controller has supplied a response to Synful. This will be called directly prior to the Response being sent to the user. It will have access to the `\Synful\Framework\Response` object. This can be useful for modifying headers on a response, or doing anything else to a response.
+* `after` - The after function is called after a Controller has supplied a response to Synful. This will be called directly prior to the Response being sent to the user. It will have access to the [\Synful\Framework\Response](../src/Synful/Framework/Response.php) object. This can be useful for modifying headers on a response, or doing anything else to a response.
 
 > Optionally, you can also provide the `public $key` property if you plan to allow this Middleware to be configured through the `routes.yaml` file. 
 

@@ -94,7 +94,13 @@ You can also retrieve information from Synful's configuration files using `{{con
 
 You can also create custom plugins for spackle to parse data in anyway you want.
 
-To create a plugin, run the following command: `./synful -ctp MyTemplatePluginName somekey`. Alternately, you can manually create the plugin. Create a new PHP file in the `./src/App/Templating/Plugins` directory using the template stored in `./templates/Synful/TemplatPlugin.tmpl` as an example.
+To create a template plugin, run the following command:
+
+```
+$ ./synful -create-template-plugin MyTemplatePluginName somekey
+```
+
+> Alternately, you can manually create the plugin. Create a new PHP file in the `./src/App/Templating/Plugins` directory using the template stored in `./templates/Synful/TemplatPlugin.tmpl` as an example.
 
 **Properties / Methods**
 

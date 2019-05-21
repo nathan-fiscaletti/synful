@@ -56,8 +56,8 @@ my/route:
 Controllers can group related HTTP request handling logic into a class. Controllers are stored in the `./src/App/Controllers` directory.
 
 You can create a Controller using the following command:
-```bash
-./synful --create-controller ExampleController
+```shell
+$ ./synful -create-controller ExampleController
 ```
 
 > Alternately, you can create a PHP file yourself manually in `./src/App/Controllers` directory using the template in `./templates/Synful/Controller.tmpl` as an example.
