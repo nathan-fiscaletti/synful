@@ -1,4 +1,6 @@
-# Index
+![Logo](../Logo.png?raw=true)
+
+# Documentation Index
 
 <table>
     <tr>
@@ -62,3 +64,12 @@
         <td>Learn how to implement downloads into your application.</td>
     </tr>
 </table>
+
+## Credits
+
+<a href='https://github.com/nathan-fiscaletti/synful'>Synful</a> by <a href='https://github.com/nathan-fiscaletti'>Nathan Fiscaletti</a><br /><br />
+Special thanks to the following developers and their<br />libraries that have contributed to the development of Synful<br /><br />
+<a href='https://github.com/nathan-fiscaletti/parameterparser'>Parameter Parser</a> by <a href='https://github.com/nathan-fiscaletti'>Nathan Fiscaletti</a><br />
+<a href='https://github.com/illuminate/database'>Eloquent ORM</a> by <a href='https://github.com/taylorotwell'>Taylor Otwell</a><br />
+<a href='https://github.com/touhonoob/RateLimit'>RateLimit</a> by <a href='https://github.com/touhonoob'>Peter Chung</a><br />
+<a href='https://github.com/samrap/gestalt'>Gestalt</a> by <a href='https://github.com/samrap'>Sam Rapaport</a>
