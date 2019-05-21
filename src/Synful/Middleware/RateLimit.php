@@ -31,7 +31,7 @@ class RateLimit implements Middleware
     public function before(Request $request)
     {
         $method = $request->route->middlewareProperty($this, 'method');
-        if ($method != 'api_key' && $method != 'ip') {
+        if ($method != 'api_key' && $method != 'ip' && $method != 'route') {
             throw new SynfulException(500, 1033);
         }
 
