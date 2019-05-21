@@ -10,14 +10,19 @@
 #     method: GET
 #     handler: "App\\Controllers\\User@get"
 #     middleware:
-#       - "\\Synful\Middleware\\APIKeyValidation"
+#       - "\\Synful\\Middleware\\APIKeyValidation"
+#       - "\\Synful\\Middleware\\RateLimit"
+#       - "\\Synful\\Middleware\\Cors"
 #     serializer: "\\Synful\\Serializers\\JSONSerializer"
 #     rate_limit:
 #       requests: 1
 #       seconds: 1
 #     api_key:
 #       security_level: 1
-#       
+#     cors:
+#       domains:
+#         - "*"
+#
 
 # For all example routes, please see the related
 # 
