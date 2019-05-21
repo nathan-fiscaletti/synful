@@ -43,7 +43,7 @@
     </tr>
     <tr>
         <td>7</td>
-        <td><a href="./Rate%20Limits.md">Templating</a></td>
+        <td><a href="./Rate%20Limits.md">Rate Limits</a></td>
         <td>Learn how to apply rate limits to incoming requests to your Application.</td>
     </tr>
 </table>
