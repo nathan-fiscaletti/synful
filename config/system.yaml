@@ -1,0 +1,50 @@
+# --------------------------------------------------------------------------
+#  Production Mode
+# --------------------------------------------------------------------------
+#
+#  If set to true, line numbers and file names will not be output
+#  with error messages.
+production: false
+
+# --------------------------------------------------------------------------
+#  Site Proto / Domain
+# --------------------------------------------------------------------------
+#
+#  The protocol and domain at which this site is hosted.
+site: 'http://localhost'
+
+# --------------------------------------------------------------------------
+#  Console Colors
+# --------------------------------------------------------------------------
+#
+#  If set to true, color codes will be enabled.
+color: true
+
+# --------------------------------------------------------------------------
+#  Display Errors
+# --------------------------------------------------------------------------
+#
+#  If set to true, fatal errors will be displayed.
+display_errors: true
+
+# --------------------------------------------------------------------------
+#  Pretty Responses
+# --------------------------------------------------------------------------
+#
+#  If set to true, JSON responses will be formatted using JSON_PRETTY_PRINT.
+pretty_responses: false
+
+# --------------------------------------------------------------------------
+#  Allow Get Pretty Responses
+# --------------------------------------------------------------------------
+#
+#  If set to true, JSON responses will be formatted using JSON_PRETTY_PRINT
+#  when the `pretty` $_GET parameter is passed.
+allow_pretty_responses_on_get: true
+
+# --------------------------------------------------------------------------
+#  Serializer
+# --------------------------------------------------------------------------
+#
+#  The default serializer that will be used for requests.
+serializer: "Synful\\Serializers\\JSONSerializer"

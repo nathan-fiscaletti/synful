@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Commands;
+
+use Synful\Command\Commands\Util\Command;
+
+final class {{name}} extends Command
+{
+    /**
+     * Construct the new command.
+     */
+    public function __construct()
+    {
+        $this->name = 'cmd';
+        $this->description = 'My Command.';
+        $this->required = false;
+        $this->alias = 'command';
+
+        $this->exec = function ($value) {
+            sf_info('Command executed: value = '.$value);
+            return parameter_result_halt();
+        };
+    }
+}
