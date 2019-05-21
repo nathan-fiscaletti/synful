@@ -19,12 +19,12 @@
     <tr>
         <td>2</td>
         <td><a href="./Configuration.md">Configuration</a></td>
-        <td>Learn how to configure Synful, how to create your own configurations and how to use them within your application.</td>
+        <td>Learn how to configure Synful, how to create your own configurations and how to use them within your Application.</td>
     </tr>
     <tr>
         <td>3</td>
         <td><a href="./Routing%20%26%20Controllers.md">Routing & Controllers</a></td>
-        <td>Learn how to configure routes.</td>
+        <td>Learn how to configure the routes in your Application.</td>
     </tr>
     <tr>
         <td>4</td>
@@ -39,7 +39,7 @@
     <tr>
         <td>6</td>
         <td><a href="./Templating.md">Templating</a></td>
-        <td>Learn how to create use the Spackle Templating engine for web page templates among other things.</td>
+        <td>Learn how to use the Spackle Templating engine to create web page templates among other things.</td>
     </tr>
     <tr>
         <td>7</td>

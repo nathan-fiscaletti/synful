@@ -297,6 +297,7 @@ class Synful
             $response = $synfulException->response;
         }
 
+        $response->request = $request;
         return $response;
     }
 

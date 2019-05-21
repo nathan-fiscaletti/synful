@@ -38,6 +38,13 @@ class Response
     public $serializer;
 
     /**
+     * The request associated with this response.
+     * 
+     * @var \Synful\Framework\Serializer
+     */
+    public $request;
+
+    /**
      * Sets a header for the Response.
      *
      * @param string $header

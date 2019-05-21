@@ -69,3 +69,6 @@ my/route:
 |`1029`|Route rate limit exceeded.|
 |`1030`|API Key rate limit exceeded.|
 |`1031`|Attempting to load APCu for RateLimit but `php-apcu` extension not installed.|
+
+---
+Next: [Function Libraries](./Function%20Libraries.md) - ([Back to Index](./README.md))
