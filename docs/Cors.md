@@ -22,6 +22,6 @@ my/route:
 > The `domains` property under the `cors` Middleware property header should contain a list of domains allowed to use CORS on this Route. Alternately, you can provide `*` to allow any domain to access it.
 
 ---
-Next: [](./Downloads.md) - ([Back to Index](./README.md))
+Next: [Downloads](./Downloads.md) - ([Back to Index](./README.md))
 
 

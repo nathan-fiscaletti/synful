@@ -46,4 +46,19 @@
         <td><a href="./Rate%20Limits.md">Rate Limits</a></td>
         <td>Learn how to apply rate limits to incoming requests to your Application.</td>
     </tr>
+    <tr>
+        <td>8</td>
+        <td><a href="./Function%20Libraries.md">Function Libraries</a></td>
+        <td>Learn how to create custom function libraries for use within your application.</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td><a href="./Cors.md">CORS</a></td>
+        <td>Learn how to implement Cross Origin Resource Sharing into your application.</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td><a href="./Downloads.md">Downloads</a></td>
+        <td>Learn how to implement downloads into your application.</td>
+    </tr>
 </table>
