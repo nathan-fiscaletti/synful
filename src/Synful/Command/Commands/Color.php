@@ -19,7 +19,6 @@ class Color extends Command
 
         $this->exec = function ($bool) {
             Synful::$config->set('system.color', $bool);
-
             return ($bool) ? 1 : 0;
         };
     }

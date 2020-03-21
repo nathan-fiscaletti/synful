@@ -37,6 +37,7 @@ class CSVSerializer implements Serializer
      * Deserialize the data coming from the request.
      *
      * @param  string $data
+     *
      * @return array
      */
     public function deserialize(string $data) : array

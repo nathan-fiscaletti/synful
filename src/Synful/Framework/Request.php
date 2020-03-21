@@ -54,7 +54,7 @@ class Request
     /**
      * The Route associated with this Request.
      * 
-     * @var \Synful\Framework\Route
+     * @var Route
      */
     public $route;
 
@@ -88,8 +88,9 @@ class Request
     /**
      * Retrieve input from the request.
      *
-     * @param  string $path
+     * @param string $path
      * @return mixed
+     * @throws SynfulException
      */
     public function input($path)
     {
@@ -99,7 +100,7 @@ class Request
 
         foreach ($keys as $key) {
             if (! array_key_exists($key, $result)) {
-                return;
+                return null;
             }
 
             $result = $result[$key];
@@ -116,7 +117,7 @@ class Request
         }
 
         if (! array_key_exists($final_key, $result)) {
-            return;
+            return null;
         }
 
         return $result[$final_key];

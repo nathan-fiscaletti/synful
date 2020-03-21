@@ -16,9 +16,8 @@ class CustomHeaderExample implements Middleware
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
-     * @param  \Synful\Framework\Request $request
-     * @param  \Synful\Framework\Route   $route
-     * @return bool
+     * @param Request $request
+     * @param Route $route
      */
     public function before(Request $request, Route $route)
     {
@@ -29,7 +28,7 @@ class CustomHeaderExample implements Middleware
      * Perform the specified action on a Response before
      * passing it back to the client.
      *
-     * @param \Synful\Framwork\Response $response
+     * @param Response $response
      */
     public function after(Response $response)
     {

@@ -37,6 +37,8 @@ class JSONSerializer implements Serializer
      *
      * @param  string $data
      * @return array
+     *
+     * @throws SynfulException
      */
     public function deserialize(string $data) : array
     {

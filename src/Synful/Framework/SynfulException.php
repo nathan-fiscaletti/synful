@@ -61,7 +61,8 @@ class SynfulException extends Exception
         1031 => 'Attempting to load APCu for RateLimit but php-apcu extension not installed.',
         1032 => 'Endpoint is not allowed for this API Key',
         1033 => 'Valid methods for the RateLimit Middleware are \'ip\' and \'api_key\'.',
-        1034 => 'When configured with the \'api_key\' method, the RateLimit Middleware requires that the APIKeyValidation middleware also be applied to the route.',
+        1034 => 'When configured with the \'api_key\' method, the RateLimit Middleware requires that the '.
+                'APIKeyValidation middleware also be applied to the route.',
         1035 => 'Missing properties for the RateLimit Middleware',
         1036 => 'Rate limit exceeded.',
     ];

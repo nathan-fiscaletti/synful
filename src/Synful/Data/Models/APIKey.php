@@ -6,6 +6,11 @@ use Synful\Synful;
 use Synful\Framework\RateLimit;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed whitelist_only
+ * @property mixed enabled
+ * @property mixed auth
+ */
 class APIKey extends Model
 {
     /**

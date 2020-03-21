@@ -2,6 +2,7 @@
 
 namespace Synful\WebListener;
 
+use Synful\Serializers\URLSerializer;
 use Synful\Synful;
 use Synful\Framework\SynfulException;
 
@@ -13,6 +14,8 @@ class WebListener
     /**
      * Runs the API thread on the local web server
      * and outputs it's response in JSON format.
+     *
+     * @throws SynfulException
      */
     final public function initialize()
     {
@@ -106,12 +109,12 @@ class WebListener
                 strpos($endpoint, '..') === false
             ) {
                 $file_location = './public/'.$endpoint;
-                $mimetype = mime_content_type($file_location);
-                if ($mimetype === false) {
-                    $mimetype = 'text/plain';
+                $mime_type = mime_content_type($file_location);
+                if ($mime_type === false) {
+                    $mime_type = 'text/plain';
                 }
 
-                header('Content-Type: '.$mimetype);
+                header('Content-Type: '.$mime_type);
                 http_response_code(200);
                 echo file_get_contents($file_location);
                 exit;
@@ -131,7 +134,7 @@ class WebListener
             // Remove System variables
             unset($params['_synful_ep_']);
 
-            $input = (new \Synful\Serializers\URLSerializer)->serialize($params);
+            $input = (new URLSerializer)->serialize($params);
         }
 
         $route = Synful::$routes[$selected_route];
@@ -155,6 +158,7 @@ class WebListener
 
         foreach ($all_middleware as $middleware) {
             $middleware = new $middleware;
+            /** @noinspection PhpUndefinedMethodInspection */
             $middleware->after($response);
         }
 
@@ -172,6 +176,7 @@ class WebListener
             $response->setSerializer($serializer);
         }
 
+        /** @noinspection PhpUndefinedFieldInspection */
         header('Content-Type: '.$response->serializer->mime_type);
         sf_respond(
             $response->code,

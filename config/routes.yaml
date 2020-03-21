@@ -128,7 +128,7 @@ example/template:
 #
 example/middleware/ratelimit:
   method: GET
-  controller: "App\\Controllers\\Example@ratelimit"
+  controller: "App\\Controllers\\Example@rateLimit"
   middleware:
     - "\\Synful\\Middleware\\RateLimit"
   rate_limit:
@@ -137,7 +137,7 @@ example/middleware/ratelimit:
     seconds: 10
 
 # This endpoint will only allow requests
-# with a valid API key witha security
+# with a valid API key with a security
 # level of 5 or more.
 #
 # Usage: curl -X GET \

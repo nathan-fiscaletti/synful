@@ -2,6 +2,10 @@
 
 namespace Synful\Framework;
 
+use Exception;
+use Synful\Serializers\DownloadSerializer;
+use Synful\Serializers\TextSerializer;
+
 /**
  * Class used for response storage.
  */
@@ -33,14 +37,14 @@ class Response
     /**
      * The serializer to use.
      *
-     * @var \Synful\Framework\Serializer
+     * @var Serializer
      */
     public $serializer;
 
     /**
      * The request associated with this response.
      * 
-     * @var \Synful\Framework\Serializer
+     * @var Request
      */
     public $request;
 
@@ -50,7 +54,7 @@ class Response
      * @param string $header
      * @param string $value
      *
-     * @return \Synful\Framework\Response
+     * @return Response
      */
     public function setHeader(string $header, string $value)
     {
@@ -84,9 +88,9 @@ class Response
     /**
      * Sets the Serializer class to use with this Response.
      *
-     * @param \Synful\Framework\Serializer $serializer
+     * @param Serializer $serializer
      *
-     * @return \Synful\Framework\Response
+     * @return Response
      */
     public function setSerializer(Serializer $serializer)
     {
@@ -100,11 +104,11 @@ class Response
      *
      * @param string $filename
      *
-     * @return \Synful\Framework\Response
+     * @return Response
      */
     public function downloadableAs(string $filename)
     {
-        $this->setSerializer(new \Synful\Serializers\DownloadSerializer);
+        $this->setSerializer(new DownloadSerializer);
         $this->setHeader('Content-disposition', 'attachment; filename='.$filename);
 
         return $this;
@@ -126,7 +130,7 @@ class Response
             if (! is_null($serializer)) {
                 $serializer = new $serializer;
             } else {
-                $serializer = new \Synful\Serializers\TextSerializer;
+                $serializer = new TextSerializer;
             }
         }
 
@@ -134,7 +138,7 @@ class Response
 
         try {
             $ret = $serializer->serialize($this->response);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $ret = $e->getMessage();
         }
 

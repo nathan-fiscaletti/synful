@@ -3,6 +3,7 @@
 namespace Synful\Middleware;
 
 use Synful\Framework\Request;
+use Synful\Framework\Route;
 use Synful\Framework\Response;
 use Synful\Framework\Middleware;
 
@@ -23,9 +24,10 @@ class Cors implements Middleware
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
-     * @param  \Synful\Framework\Request $request
+     * @param Request $request
+     * @param Route   $route
      */
-    public function before(Request $request)
+    public function before(Request $request, Route $route)
     {
         /* Not implemented */
     }
@@ -34,7 +36,7 @@ class Cors implements Middleware
      * Perform the specified action on a Response before
      * passing it back to the client.
      *
-     * @param \Synful\Framwork\Response $response
+     * @param Response $response
      */
     public function after(Response $response)
     {
@@ -43,7 +45,7 @@ class Cors implements Middleware
             if (in_array('*', $domains)) {
                 header('Access-Control-Allow-Origin: *');
             } else if (in_array($_SERVER['HTTP_ORIGIN'], $domains)) {
-                header('Access-Control-Allow-Origin: '.$domain);
+                header('Access-Control-Allow-Origin: '.$_SERVER['HTTP_ORIGIN']);
             }
         }
     }

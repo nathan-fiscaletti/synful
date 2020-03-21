@@ -2,9 +2,11 @@
 
 namespace Synful\Command;
 
+use Ansi\Color16;
 use ParameterParser\ParameterParser;
 use ParameterParser\ParameterClosure;
 use ParameterParser\ParameterCluster;
+use Synful\Ansi\StringBuilder;
 
 /**
  * Class used for parsing command line.
@@ -30,8 +32,8 @@ class CommandLine
         $parameterParser = new ParameterParser($argv, $this->parameters);
 
         $parameterParser->setErrorHandler(function (ParameterClosure $parameter, $errorMessage) {
-            sf_error($errorMessage, true, false, false);
-            sf_error('Usage: '.$parameter->getUsage(), true, false, false);
+            sf_error($errorMessage, true, false);
+            sf_error('Usage: '.$parameter->getUsage(), true, false);
             sf_error('Check `-help` for more information.');
             exit;
         });
@@ -81,30 +83,29 @@ class CommandLine
      */
     public function printUsage()
     {
-        sf_error('Usage: ./synful [OPTION]...', true, false, false);
-        sf_error('', true, false, false);
-        sf_info('Options: ', true, false, false);
-        $sb = new \Synful\Ansi\StringBuilder();
+        sf_error('Usage: ./synful [OPTION]...', true, false);
+        sf_error('', true, false);
+        sf_info('Options: ', true, false);
+        $sb = new StringBuilder();
         foreach ($this->parameters->prefixes['-'] as $parameter) {
             if (! $parameter->isParent()) {
-                sf_info('', true, false, false);
+                sf_info('', true, false);
                 sf_info(
                     $sb->empty()->bold()->underline()->color16(
-                        \Ansi\Color16::FG_LIGHT_BLUE,
+                        Color16::FG_LIGHT_BLUE,
                         $parameter->getUsage()
                     ),
                     true,
-                    false,
                     false
                 );
                 $desc = $sb->empty()->bold()->color16(
-                    \Ansi\Color16::FG_LIGHT_BLUE,
+                    Color16::FG_LIGHT_BLUE,
                     "╘═════ "
                 )->resetBold()->color16(
-                    \Ansi\Color16::FG_WHITE,
+                    Color16::FG_WHITE,
                     $parameter->description
                 );
-                sf_info($desc, true, false, false);
+                sf_info($desc, true, false);
             }
         }
     }

@@ -2,6 +2,7 @@
 
 namespace Synful\Config;
 
+use Exception;
 use Synful\Framework\ParamObject;
 
 use Gestalt\Loaders\JsonDirectoryLoader;
@@ -16,23 +17,22 @@ class ConfigLoader
     /**
      * The directory to load PHP configuration files from.
      *
-     * @var array
+     * @var string
      */
     protected $directory;
 
     /**
      * Load the configuration items and return them as an array.
      *
+     * @throws Exception
      * @return array
      */
     public function load()
     {
-        $results = [];
-
         if (function_exists('yaml_parse_file')) {
             $results = (new YamlDirectoryLoader($this->directory))->load();
         } else {
-            throw new \Exception('Synful requires the yaml extension to run.');
+            throw new Exception('Synful requires the yaml extension to run.');
         }
 
         $results = array_merge($results, (new JsonDirectoryLoader($this->directory))->load());

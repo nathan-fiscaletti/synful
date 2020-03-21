@@ -9,15 +9,18 @@
  | calls to the Primary Synful functions.
  */
 
+use Synful\Ansi\StringBuilder;
+use Synful\Framework\Response;
+use Synful\Framework\SynfulException;
+use Synful\Synful;
+
 if (! function_exists('sf_init')) {
     /**
      * Initialize the Synful API instance.
-     *
-     * @return mixed
      */
     function sf_init()
     {
-        return \Synful\Synful::initialize();
+        Synful::initialize();
     }
 }
 
@@ -30,7 +33,7 @@ if (! function_exists('sf_conf')) {
      */
     function sf_conf($key)
     {
-        return \Synful\Synful::$config->get($key);
+        return Synful::$config->get($key);
     }
 }
 
@@ -39,7 +42,7 @@ if (! function_exists('sf_is_json')) {
      * Check if a string is valid JSON.
      *
      * @param  string
-     * @return boo
+     * @return bool
      */
     function sf_is_json($string)
     {
@@ -53,6 +56,11 @@ if (! function_exists('sf_json_decode')) {
     /**
      * Takes a JSON encoded string removes any comments that might be in it and
      * converts it into a PHP variable.
+     *
+     * @param $json
+     * @param $assoc
+     *
+     * @return array
      */
     function sf_json_decode($json, $assoc)
     {
@@ -72,19 +80,21 @@ if (! function_exists('sf_response')) {
      *
      * @param  int         $code
      * @param  array       $response
-     * @return \Synful\Framework\Response
+     *
+     * @throws SynfulException
+     * @return Response
      */
     function sf_response(int $code = 200, $response = null)
     {
         if ($response != null && ! is_array($response)) {
-            throw new \Synful\Framework\SynfulException(500, 1016);
+            throw new SynfulException(500, 1016);
         }
 
         if ($response == null) {
             $response = [];
         }
 
-        return new \Synful\Framework\Response([
+        return new Response([
             'code' => $code,
             'response' => $response,
         ]);
@@ -102,7 +112,19 @@ if (! function_exists('sf_headers')) {
         $headers = [];
         foreach ($_SERVER as $k => $v) {
             if (substr($k, 0, 5) == 'HTTP_') {
-                $headers[str_replace('-', '_', str_replace(' ', '_', strtolower(substr($k, 5))))] = $v;
+                $headers[
+                    str_replace(
+                        '-',
+                        '_',
+                        str_replace(
+                            ' ',
+                            '_',
+                            strtolower(
+                                substr($k, 5)
+                            )
+                        )
+                    )
+                ] = $v;
             }
         }
 
@@ -116,9 +138,11 @@ if (! function_exists('sf_color')) {
      *
      * @param  string $string
      * @param  int    $color
+     *
+     * @return \Ansi\StringBuilder
      */
     function sf_color($string, int $color)
     {
-        return (new \Synful\Ansi\StringBuilder())->color16($string, $color);
+        return (new StringBuilder())->color16($string, $color);
     }
 }
