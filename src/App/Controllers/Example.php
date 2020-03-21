@@ -1,9 +1,14 @@
-<?php
+<?php /** @noinspection PhpUnusedParameterInspection */
 
 namespace App\Controllers;
 
+use Exception;
 use Synful\Framework\Controller;
+use Synful\Framework\Request;
+use Synful\Framework\Response;
+use Synful\Framework\SynfulException;
 use Synful\Serializers\JSONSerializer;
+use Synful\Templating\Template;
 
 /**
  * This Class houses a handful of examples on how
@@ -19,12 +24,12 @@ final class Example implements Controller
     /**
      * Example: Retrieve a clients IP address.
      *
-     * @see routes.yaml - /example/ip
+     * @see routes.yaml - /example/getip
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
      */
-    public function getIp(\Synful\Framework\Request $request)
+    public function getIp(Request $request)
     {
         return [
             'ip' => $request->ip,
@@ -36,10 +41,11 @@ final class Example implements Controller
      *
      * @see routes.yaml - /example/header
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
+     * @throws SynfulException
      */
-    public function header(\Synful\Framework\Request $request)
+    public function header(Request $request)
     {
         return sf_response(
             200,
@@ -54,10 +60,11 @@ final class Example implements Controller
      *
      * @see routes.yaml - /example/httpcode
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
+     * @throws SynfulException
      */
-    public function httpCode(\Synful\Framework\Request $request)
+    public function httpCode(Request $request)
     {
         return sf_response(
             401,
@@ -72,10 +79,10 @@ final class Example implements Controller
      *
      * @see routes.yaml - /example/inputs
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
      */
-    public function inputs(\Synful\Framework\Request $request)
+    public function inputs(Request $request)
     {
         return [
             'inputs' => $request->inputs(),
@@ -87,10 +94,11 @@ final class Example implements Controller
      *
      * @see routes.yaml - /example/input
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
+     * @throws SynfulException
      */
-    public function input(\Synful\Framework\Request $request)
+    public function input(Request $request)
     {
         $name = $request->input('name');
 
@@ -113,10 +121,11 @@ final class Example implements Controller
      * 
      * @see routes.yaml - /example/serializer
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
+     * @throws SynfulException
      */
-    public function serializer(\Synful\Framework\Request $request)
+    public function serializer(Request $request)
     {
         // Input sent to the Route pointing to this
         // Controller should be in CSV format.
@@ -134,10 +143,10 @@ final class Example implements Controller
      * 
      * @see routes.yaml - /example/parameters/{name}
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
      */
-    public function parameters(\Synful\Framework\Request $request)
+    public function parameters(Request $request)
     {
         return [
             'message' => 'Your name is: '.$request->field('name'),
@@ -149,10 +158,11 @@ final class Example implements Controller
      * 
      * @see routes.yaml - /example/download
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
+     * @throws SynfulException
      */
-    public function download(\Synful\Framework\Request $request)
+    public function download(Request $request)
     {
         return sf_response(
             200,
@@ -164,19 +174,22 @@ final class Example implements Controller
 
     /**
      * Example: Display an HTML template.
-     * 
-     * @see routes.yaml - /example/template
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     *
+     * @return Template
+     *
+     * @throws SynfulException
+     * @throws Exception
+     * @see routes.yaml - /example/template
      */
-    public function template(\Synful\Framework\Request $request)
+    public function template(Request $request)
     {
         $name = $request->input('name') == null
                     ? 'John Doe'
                     : $request->input('name');
 
-        return new \Synful\Templating\Template(
+        return new Template(
             'Example.html',
             [
                 'name' => $name // cannot be null
@@ -190,10 +203,10 @@ final class Example implements Controller
      * 
      * @see routes.yaml - /example/middleware/ratelimit
      *
-     * @param \Synful\Framework\Request $request
-     * @return \Synful\Framework\Response|array
+     * @param Request $request
+     * @return Response|array
      */
-    public function ratelimit(\Synful\Framework\Request $request)
+    public function rateLimit(Request $request)
     {
         return ['message' => 'Success'];
     }

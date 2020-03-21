@@ -2,7 +2,9 @@
 
 namespace Synful;
 
-use Synful\ASCII\Colors;
+use Exception;
+use Gestalt\Configuration;
+use Spackle\Plugin;
 use Synful\Data\Database;
 use Synful\IO\IOFunctions;
 use Synful\Framework\Route;
@@ -10,6 +12,7 @@ use Synful\Framework\Request;
 use Synful\Framework\Response;
 use Synful\Framework\RateLimit;
 use Synful\Command\CommandLine;
+use Synful\Serializers\URLSerializer;
 use Synful\WebListener\WebListener;
 use Synful\Framework\SynfulException;
 use Synful\Serializers\HtmlSerializer;
@@ -24,7 +27,7 @@ class Synful
     /**
      * The config for the system pulled from './config/'.
      *
-     * @var array
+     * @var Configuration
      */
     public static $config;
 
@@ -44,12 +47,11 @@ class Synful
 
     /**
      * Initialize the Synful API instance.
+     * @throws SynfulException
+     * @throws Exception
      */
     public static function initialize()
     {
-        // Make sure we aren't using that pesky PHP < 7.0
-        0 <=> 0;
-
         // Load Global Functions
         self::loadGlobalFunctions();
 
@@ -161,11 +163,13 @@ class Synful
      * Passes a JSON Request through the desired route, validates authentication
      * and request integrity and returns a response.
      *
-     * @param  \Synful\Framework\Route    $route
-     * @param  string                     $input
-     * @param  array                      $fields
-     * @param  string                     $ip
-     * @return \Synful\Framework\Response
+     * @param Route $route
+     * @param string $input
+     * @param array $fields
+     * @param string $ip
+     *
+     * @return Response
+     * @throws SynfulException
      */
     public static function handleRequest(
         Route  $route,
@@ -183,6 +187,7 @@ class Synful
                 is_int($route->rate_limit['requests']) &&
                 is_int($route->rate_limit['per_seconds'])
             ) {
+                /** @noinspection PhpUndefinedFieldInspection */
                 $rh_rl = new RateLimit(
                     'synful_route_'.$route->endpoint,
                     $route->rate_limit['requests'],
@@ -211,11 +216,12 @@ class Synful
         if (! empty($input)) {
             try {
                 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-                    $data = (new \Synful\Serializers\URLSerializer)->deserialize($input);
+                    $data = (new URLSerializer)->deserialize($input);
                 } else {
+                    /** @noinspection PhpUndefinedMethodInspection */
                     $data = $serializer->deserialize($input);
                 }
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response = (new SynfulException(500, -1, $e->getMessage()))->response;
                 sf_respond($response->code, $response->serialize());
                 exit;
@@ -264,6 +270,7 @@ class Synful
 
             foreach ($middlewares as $middleware) {
                 $middleware = new $middleware;
+                /** @noinspection PhpUndefinedMethodInspection */
                 $middleware->before($request, $route);
             }
 
@@ -303,11 +310,12 @@ class Synful
 
     /**
      * Load Template Plugins.
+     * @throws Exception
      */
     public static function loadTemplatePlugins()
     {
         foreach (sf_conf('templating.plugins') as $plugin) {
-            \Spackle\Plugin::add(
+            Plugin::add(
                 new $plugin
             );
         }
@@ -320,25 +328,23 @@ class Synful
      */
     public static function getClientIP()
     {
-        $ipaddress = '';
-
         if (getenv('HTTP_CLIENT_IP')) {
-            $ipaddress = getenv('HTTP_CLIENT_IP');
+            $ip_address = getenv('HTTP_CLIENT_IP');
         } elseif (getenv('HTTP_X_FORWARDED_FOR')) {
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+            $ip_address = getenv('HTTP_X_FORWARDED_FOR');
         } elseif (getenv('HTTP_X_FORWARDED')) {
-            $ipaddress = getenv('HTTP_X_FORWARDED');
+            $ip_address = getenv('HTTP_X_FORWARDED');
         } elseif (getenv('HTTP_FORWARDED_FOR')) {
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+            $ip_address = getenv('HTTP_FORWARDED_FOR');
         } elseif (getenv('HTTP_FORWARDED')) {
-            $ipaddress = getenv('HTTP_FORWARDED');
+            $ip_address = getenv('HTTP_FORWARDED');
         } elseif (getenv('REMOTE_ADDR')) {
-            $ipaddress = getenv('REMOTE_ADDR');
+            $ip_address = getenv('REMOTE_ADDR');
         } else {
-            $ipaddress = 'UNKNOWN';
+            $ip_address = 'UNKNOWN';
         }
 
-        return $ipaddress;
+        return $ip_address;
     }
 
     /**
@@ -367,6 +373,7 @@ class Synful
 
     /**
      * Load all routes configured in routes.yaml.
+     * @throws SynfulException
      */
     private static function loadRoutes()
     {
@@ -375,7 +382,7 @@ class Synful
             sf_conf('routes') as $path => $route_data
         ) {
             $route_found = true;
-            self::$routes[$path] = \Synful\Framework\Route::buildRoute($path, $route_data);
+            self::$routes[$path] = Route::buildRoute($path, $route_data);
         }
 
         if (! $route_found) {
@@ -392,16 +399,18 @@ class Synful
      * Automatically include all function libraries stored in Global Functions.
      * Note: This must use scandir as it is loaded before the configs.
      */
-    private static function loadGlobalFunctions()
+    public static function loadGlobalFunctions()
     {
         foreach (scandir('./src/Synful/Functions') as $func_lib) {
             if (substr($func_lib, 0, 1) !== '.') {
+                /** @noinspection PhpIncludeInspection */
                 include_once './src/Synful/Functions/'.$func_lib;
             }
         }
 
         foreach (scandir('./src/App/Functions') as $func_lib) {
             if (substr($func_lib, 0, 1) !== '.') {
+                /** @noinspection PhpIncludeInspection */
                 include_once './src/App/Functions/'.$func_lib;
             }
         }

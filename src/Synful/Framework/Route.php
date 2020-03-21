@@ -72,16 +72,19 @@ class Route
     /**
      * Retrieve the property for the specified middleware.
      * 
-     * @param \Synful\Framework\Middleware $middleware
-     * @param string                       $property
+     * @param Middleware $middleware
+     * @param string     $property
      * 
      * @return mixed
      */
     public function middlewareProperty($middleware, $property)
     {
         if (property_exists($middleware, 'key')) {
+            /** @noinspection PhpUndefinedFieldInspection */
             if (array_key_exists($middleware->key, $this->middleware_props)) {
+                /** @noinspection PhpUndefinedFieldInspection */
                 if (array_key_exists($property, $this->middleware_props[$middleware->key])) {
+                    /** @noinspection PhpUndefinedFieldInspection */
                     return $this->middleware_props[$middleware->key][$property];
                 }
             }
@@ -104,11 +107,12 @@ class Route
 
     /**
      * Build a new Route from a data array.
-     * 
+     *
      * @param string $path
-     * @param array  $route_data
-     * 
-     * @return \Synful\Framework\Route
+     * @param array $route_data
+     *
+     * @return Route
+     * @throws SynfulException
      */
     public static function buildRoute($path, $route_data)
     {

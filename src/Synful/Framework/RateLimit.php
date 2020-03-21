@@ -115,7 +115,7 @@ class RateLimit
     /**
      * Retrieve the Global RateLimit.
      *
-     * @return \Synful\Framework\RateLimit
+     * @return RateLimit
      */
     public static function global()
     {

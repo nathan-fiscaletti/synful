@@ -27,12 +27,17 @@
         "illuminate/events": "^5.6",
         "touhonoob/rate-limit": "^1.2",
         "nafisc/spackle": "^1.1",
-        "nafisc/ansi-util": ">=1.2"
+        "nafisc/ansi-util": ">=1.2",
+        "ext-readline": "*",
+        "ext-json": "*",
+        "ext-fileinfo": "*"
     },
     "suggest": {
         "ext-apcu": "^4.0"
     },
     "require-dev": {
-        "phpdocumentor/phpdocumentor": "2.*"
+        "phpdocumentor/phpdocumentor": "2.*",
+        "phpunit/phpunit": "^6.5",
+        "php-coveralls/php-coveralls": ">=1.0"
     }
 }

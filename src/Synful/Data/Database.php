@@ -2,6 +2,8 @@
 
 namespace Synful\Data;
 
+use Exception;
+use Illuminate\Database\Connection;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager as Capsule;
@@ -11,7 +13,7 @@ class Database
     /**
      * Used to store the Capsule Manager.
      *
-     * @var \Illuminate\Database\Capsule\Manager
+     * @var Capsule
      */
     private static $capsule;
 
@@ -33,7 +35,7 @@ class Database
     /**
      * Retrieve the currently active Capsule Manager.
      *
-     * @return \Illuminate\Database\Capsule\Manager
+     * @return Capsule
      */
     public static function capsule()
     {
@@ -44,15 +46,18 @@ class Database
      * Catch all static function calls and if one matches
      * a connection name, return that connection.
      *
-     * @return \Illuminate\Database\Connection|null
+     * @param string $connection
+     * @param array $arguments
+     *
+     * @return Connection|null
+     * @throws Exception
      */
     public static function __callstatic($connection, $arguments)
     {
         $connectionObj = self::$capsule->getConnection($connection);
 
         if ($connectionObj == null) {
-            throw new \Exception('Call to undefined static function '.$connection);
-            return;
+            throw new Exception('Call to undefined static function '.$connection);
         }
 
         return $connectionObj;

@@ -1,7 +1,10 @@
-<?php
+<?php /** @noinspection PhpParamsInspection */
 
 namespace Synful\IO;
 
+use Ansi\Color16;
+use Exception;
+use Synful\Ansi\StringBuilder;
 use Synful\Synful;
 use Gestalt\Configuration;
 use Synful\Config\ConfigLoader;
@@ -27,7 +30,7 @@ class IOFunctions
                         'directory' => './config/',
                     ]))->load()
                 );
-            } catch (\Exception $ex) {
+            } catch (Exception $ex) {
                 trigger_error('Failed to load config: '.$ex->getMessage(), E_USER_WARNING);
                 $return = false;
             }
@@ -68,19 +71,19 @@ class IOFunctions
                 if ($block_header_on_echo || $__minimal_output) {
                     $output[] = $line;
                 } else {
-                    $sb = new \Synful\Ansi\StringBuilder();
+                    $sb = new StringBuilder();
                     $out_line = $sb->raw('[')->color16(
-                        \Ansi\Color16::FG_WHITE,
+                        Color16::FG_WHITE,
                         'SYNFUL'
                     )->reset()->raw(']');
-                    $out_line .= self::parseLogstring($level, $head, $line);
+                    $out_line .= self::parseLogString($level, $head, $line);
                     $output[] = $out_line;
                 }
             }
         }
 
         foreach ($output as $line) {
-            $sb = new \Synful\Ansi\StringBuilder();
+            $sb = new StringBuilder();
             echo $line.((! $block_header_on_echo && ! $__minimal_output)
                 ? $sb->reset() : '')."\r\n";
         }
@@ -88,6 +91,13 @@ class IOFunctions
 
     /**
      * Used to catch error output from PHP and forward it to our log file.
+     *
+     * @param $errno
+     * @param $errstr
+     * @param $errfile
+     * @param $errline
+     *
+     * @return bool
      */
     public static function catchError($errno, $errstr, $errfile, $errline)
     {
@@ -100,7 +110,7 @@ class IOFunctions
 
         switch ($errno) {
             case E_USER_ERROR: {
-                self::out(LogLevel::ERRO, 'Fatal Error: '.$err, false, false, true);
+                self::out(LogLevel::ERRO, 'Fatal Error: '.$err, false, false);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(500, $errno, 'Fatal Error: '.$err))->response;
                     sf_respond($response->code, $response->serialize());
@@ -110,7 +120,7 @@ class IOFunctions
             }
 
             case E_USER_WARNING: {
-                self::out(LogLevel::WARN, 'Warning: '.$err, false, false, true);
+                self::out(LogLevel::WARN, 'Warning: '.$err, false, false);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(500, $errno, 'Warning: '.$err))->response;
                     sf_respond($response->code, $response->serialize());
@@ -120,7 +130,7 @@ class IOFunctions
             }
 
             case E_USER_NOTICE: {
-                self::out(LogLevel::NOTE, 'Notice: '.$err, false, false, true);
+                self::out(LogLevel::NOTE, 'Notice: '.$err, false, false);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(500, $errno, 'Notice: '.$err))->response;
                     sf_respond($response->code, $response->serialize());
@@ -130,7 +140,7 @@ class IOFunctions
             }
 
             default: {
-                self::out(LogLevel::ERRO, 'Unknown Error: '.$err, false, false, true);
+                self::out(LogLevel::ERRO, 'Unknown Error: '.$err, false, false);
                 if (! Synful::isCommandLineInterface()) {
                     $response = (new SynfulException(500, $errno, 'Unknown Error: '.$err))->response;
                     sf_respond($response->code, $response->serialize());
@@ -152,18 +162,16 @@ class IOFunctions
     }
 
     /**
-     * Parses a log string with color codes and any other nessecary parsing.
+     * Parses a log string with color codes and any other necessary parsing.
      *
-     * @param  LogLevel $level
+     * @param  int      $level
      * @param  string   $head
      * @param  string   $message
      * @return string
      */
-    public static function parseLogstring($level, $head, $message)
+    public static function parseLogString($level, $head, $message)
     {
-        $return_string = '';
-
-        $sb = new \Synful\Ansi\StringBuilder();
+        $sb = new StringBuilder();
 
         if (sf_conf('system.color')) {
             switch ($level) {
@@ -171,13 +179,13 @@ class IOFunctions
                     $return_string = $sb->empty()
                                         ->raw('[')
                                         ->color16(
-                                            \Ansi\Color16::FG_LIGHT_GREEN,
+                                            Color16::FG_LIGHT_GREEN,
                                             $head
                                         )
                                         ->reset()
                                         ->raw('] ')
                                         ->color16(
-                                            \ANsi\Color16::FG_WHITE,
+                                            Color16::FG_WHITE,
                                             $message
                                         );
                     break;
@@ -187,13 +195,13 @@ class IOFunctions
                     $return_string = $sb->empty()
                                         ->raw('[')
                                         ->color16(
-                                            \Ansi\Color16::FG_LIGHT_RED,
+                                            Color16::FG_LIGHT_RED,
                                             $head
                                         )
                                         ->reset()
                                         ->raw('] ')
                                         ->color16(
-                                            \ANsi\Color16::FG_YELLOW,
+                                            Color16::FG_YELLOW,
                                             $message
                                         );
                     break;
@@ -203,13 +211,13 @@ class IOFunctions
                     $return_string = $sb->empty()
                                         ->raw('[')
                                         ->color16(
-                                            \Ansi\Color16::FG_LIGHT_BLUE,
+                                            Color16::FG_LIGHT_BLUE,
                                             $head
                                         )
                                         ->reset()
                                         ->raw('] ')
                                         ->color16(
-                                            \ANsi\Color16::FG_WHITE,
+                                            Color16::FG_WHITE,
                                             $message
                                         );
                     break;
@@ -219,13 +227,13 @@ class IOFunctions
                     $return_string = $sb->empty()
                                         ->raw('[')
                                         ->color16(
-                                            \Ansi\Color16::FG_LIGHT_RED,
+                                            Color16::FG_LIGHT_RED,
                                             $head
                                         )
                                         ->reset()
                                         ->raw('] ')
                                         ->color16(
-                                            \ANsi\Color16::FG_RED,
+                                            Color16::FG_RED,
                                             $message
                                         );
                     break;
@@ -235,13 +243,13 @@ class IOFunctions
                     $return_string = $sb->empty()
                                         ->raw('[')
                                         ->color16(
-                                            \Ansi\Color16::FG_LIGHT_CYAN,
+                                            Color16::FG_LIGHT_CYAN,
                                             $head
                                         )
                                         ->reset()
                                         ->raw('] ')
                                         ->color16(
-                                            \ANsi\Color16::FG_CYAN,
+                                            Color16::FG_CYAN,
                                             $message
                                         );
                     break;
@@ -251,13 +259,13 @@ class IOFunctions
                     $return_string = $sb->empty()
                                         ->raw('[')
                                         ->color16(
-                                            \Ansi\Color16::FG_LIGHT_GREEN,
+                                            Color16::FG_LIGHT_GREEN,
                                             $head
                                         )
                                         ->reset()
                                         ->raw('] ')
                                         ->color16(
-                                            \ANsi\Color16::FG_WHITE,
+                                            Color16::FG_WHITE,
                                             $message
                                         );
                 }

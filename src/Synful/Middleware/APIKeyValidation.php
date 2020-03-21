@@ -26,9 +26,12 @@ class APIKeyValidation implements Middleware
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
-     * @param  \Synful\Framework\Request $request
+     * @param  Request $request
+     * @param  Route   $route
+     *
+     * @throws SynfulException
      */
-    public function before(Request $request)
+    public function before(Request $request, Route $route)
     {
         $this->validateRequest($request);
     }
@@ -37,7 +40,7 @@ class APIKeyValidation implements Middleware
      * Perform the specified action on a Response before
      * passing it back to the client.
      *
-     * @param \Synful\Framwork\Response $response
+     * @param Response $response
      */
     public function after(Response $response)
     {
@@ -47,7 +50,9 @@ class APIKeyValidation implements Middleware
     /**
      * Validate the request.
      *
-     * @param  \Synful\Framework\Request $request
+     * @param  Request $request
+     *
+     * @throws SynfulException
      */
     private function validateRequest(Request $request)
     {
@@ -125,12 +130,12 @@ class APIKeyValidation implements Middleware
     /**
      * Validate an API key.
      *
-     * @param  \Synful\Framework\Route           $route
-     * @param  APIKey                            $api_key
-     * @param  string                            $key
-     * @param  string                            $ip
+     * @param  Route  $route
+     * @param  APIKey $api_key
+     * @param  string $key
+     * @param  string $ip
      *
-     * @throws \Synful\Framework\SynfulException
+     * @throws SynfulException
      */
     private function validateApiKeySecurity(
         $route,
@@ -168,9 +173,10 @@ class APIKeyValidation implements Middleware
     /**
      * Validate the firewall of an APIKey.
      *
-     * @param  \Synful\Data\Models\APIKey $api_key
-     * @param  string                               $ip
-     * @throws \Synful\Framework\SynfulException
+     * @param  APIKey $api_key
+     * @param  string $ip
+     *
+     * @throws SynfulException
      */
     private function validateFireWall(APIKey &$api_key, string $ip)
     {

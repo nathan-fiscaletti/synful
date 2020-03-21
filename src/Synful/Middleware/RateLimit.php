@@ -2,11 +2,11 @@
 
 namespace Synful\Middleware;
 
+use Synful\Framework\Route;
 use Synful\Framework\Request;
 use Synful\Framework\Response;
 use Synful\Framework\Middleware;
 use Synful\Framework\SynfulException;
-use Synful\Middleware\APIKeyValidation;
 use Synful\Framework\RateLimit as Limit;
 
 /**
@@ -26,9 +26,12 @@ class RateLimit implements Middleware
      * Perform the specified action on the request before
      * passing it to the RequestHandler.
      *
-     * @param  \Synful\Framework\Request $request
+     * @param Request $request
+     * @param Route   $route
+     *
+     * @throws SynfulException
      */
-    public function before(Request $request)
+    public function before(Request $request, Route $route)
     {
         $method = $request->route->middlewareProperty($this, 'method');
         if ($method != 'api_key' && $method != 'ip' && $method != 'route') {
@@ -75,7 +78,7 @@ class RateLimit implements Middleware
      * Perform the specified action on a Response before
      * passing it back to the client.
      *
-     * @param \Synful\Framwork\Response $response
+     * @param Response $response
      */
     public function after(Response $response)
     {

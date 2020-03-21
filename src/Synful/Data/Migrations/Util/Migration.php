@@ -2,6 +2,7 @@
 
 namespace Synful\Data\Migrations\Util;
 
+use Illuminate\Database\Schema\Builder;
 use Synful\Data\Database;
 
 abstract class Migration
@@ -30,7 +31,7 @@ abstract class Migration
     /**
      * Retrieve the Schema object fot this Migration.
      *
-     * @return \Illuminate\Database\Schema\Builder
+     * @return Builder
      */
     public function schema()
     {

@@ -11,6 +11,7 @@ trait ParamObject
      * Automatically define parameters for object.
      *
      * @param array $params
+     * @throws SynfulException
      */
     public function __construct($params = [])
     {
@@ -30,9 +31,10 @@ trait ParamObject
     /**
      * Handle undefined function calls as property access.
      *
-     * @param  string $name
-     * @param  array  $arguments
+     * @param string $name
+     * @param array $arguments
      * @return mixed
+     * @throws SynfulException
      */
     public function __call($name, $arguments)
     {

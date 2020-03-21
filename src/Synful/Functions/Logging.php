@@ -8,6 +8,10 @@
  | This set of functions is used to abstract the calls 'to IOFunctions::out'.
  */
 
+use Ansi\Color16;
+use Synful\IO\IOFunctions;
+use Synful\IO\LogLevel;
+
 if (! function_exists('sf_info')) {
 
     /**
@@ -16,12 +20,11 @@ if (! function_exists('sf_info')) {
      * @param  string $data
      * @param  bool   $force
      * @param  bool   $block_header_on_echo
-     * @return mixed
      */
     function sf_info($data, $force = false, $block_header_on_echo = false)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::INFO,
+        IOFunctions::out(
+            LogLevel::INFO,
             $data,
             $force,
             $block_header_on_echo
@@ -37,12 +40,11 @@ if (! function_exists('sf_warn')) {
      * @param  string  $data
      * @param  bool    $force
      * @param  bool    $block_header_on_echo
-     * @return mixed
      */
     function sf_warn($data, $force = false, $block_header_on_echo = false)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::WARN,
+        IOFunctions::out(
+            LogLevel::WARN,
             $data,
             $force,
             $block_header_on_echo
@@ -58,12 +60,11 @@ if (! function_exists('sf_error')) {
      * @param  string  $data
      * @param  bool    $force
      * @param  bool    $block_header_on_echo
-     * @return mixed
      */
     function sf_error($data, $force = false, $block_header_on_echo = false)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::ERRO,
+        IOFunctions::out(
+            LogLevel::ERRO,
             $data,
             $force,
             $block_header_on_echo
@@ -79,12 +80,11 @@ if (! function_exists('sf_note')) {
      * @param  string  $data
      * @param  bool    $force
      * @param  bool    $block_header_on_echo
-     * @return mixed
      */
     function sf_note($data, $force = false, $block_header_on_echo = false)
     {
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::NOTE,
+        IOFunctions::out(
+            LogLevel::NOTE,
             $data,
             $force,
             $block_header_on_echo
@@ -103,14 +103,14 @@ if (! function_exists('sf_input')) {
      */
     function sf_input($prompt, $level)
     {
-        \Synful\IO\IOFunctions::out(
+        IOFunctions::out(
             $level,
             $prompt,
             true,
             false
         );
-        $out_line = '['.sf_color('SYNFUL', \Ansi\Color::FG_LIGHT_WHITE).'] ';
-        $out_line .= \Synful\IO\IOFunctions::parseLogstring(
+        $out_line = '['.sf_color('SYNFUL', Color16::FG_WHITE).'] ';
+        $out_line .= IOFunctions::parseLogString(
             $level,
             'INFO',
             '> '
@@ -130,8 +130,6 @@ if (! function_exists('sf_respond')) {
      * @param  int     $code
      * @param  string  $data
      * @param  array   $headers
-     *
-     * @return mixed
      */
     function sf_respond($code, $data, $headers = [])
     {
@@ -141,8 +139,8 @@ if (! function_exists('sf_respond')) {
             header($key.': '.$value);
         }
 
-        return \Synful\IO\IOFunctions::out(
-            \Synful\IO\LogLevel::RESP,
+        IOFunctions::out(
+            LogLevel::RESP,
             $data,
             true,
             true
