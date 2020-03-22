@@ -12,6 +12,8 @@
 
 ---
 
+> This repository has been archived.
+
 ## What is it?		
 Synful is a simple PHP framework that gives you the tools to create a custom web API in minutes.
 		
